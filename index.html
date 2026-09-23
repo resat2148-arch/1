@@ -197,7 +197,7 @@ button:focus-visible,.seg input:focus-visible+label{outline:2px solid var(--bras
 .qbar i{display:block;height:100%;width:var(--w,0%);background:var(--brass);border-radius:inherit;transition:width .4s}
 .qnum{font:900 18px/1 var(--display);text-align:right;font-variant-numeric:tabular-nums}
 .quest.done .qnum{color:var(--brass)}
-.badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(74px,1fr));gap:6px;max-height:min(60cqh,320px);overflow:auto;touch-action:pan-y;padding:2px}
+.badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(68px,1fr));gap:6px;max-height:min(60cqh,320px);overflow:auto;touch-action:pan-y;padding:2px}
 .badge{appearance:none;border:1px solid var(--chalk-3);background:rgba(242,233,216,.04);border-radius:13px;padding:7px 3px 6px;display:grid;justify-items:center;align-content:start;gap:4px;cursor:pointer;color:var(--chalk)}
 .badge .bi{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font-size:19px;line-height:1;border:3px solid var(--tc,rgba(242,233,216,.14));background:rgba(0,0,0,.28)}
 .badge.t0 .bi{filter:grayscale(1);opacity:.38}
@@ -231,6 +231,50 @@ button:focus-visible,.seg input:focus-visible+label{outline:2px solid var(--bras
   .quest{padding:7px 10px}
   .card.goalscard{gap:8px;padding-block:13px}
   .gpanel{gap:8px}
+}
+
+/* ——— weekly cup and table ——— */
+.pills{display:inline-flex;gap:6px;align-items:center}
+.goalspill.cuppill{padding-inline:9px}
+#stage.cup #restartBtn{display:none}
+#over .card{width:min(580px,100%)}          /* room for the reward chips in two rows */
+.cuptitle{margin:0;font:600 14px/1.3 var(--ui);color:var(--chalk-2)}
+.cuptitle b{font:900 22px/1 var(--display);letter-spacing:.04em;text-transform:uppercase;color:var(--brass);margin-right:8px}
+.bracket{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+.bracket li{position:relative;display:grid;gap:4px;padding:9px 12px;border-radius:12px;border:1px solid var(--chalk-3);background:rgba(242,233,216,.05)}
+.bracket li:not(:last-child)::after{content:"›";position:absolute;right:-16px;top:50%;translate:0 -50%;color:var(--chalk-2);font:900 22px/1 var(--display)}
+.bracket .rn{font:900 17px/1 var(--display);letter-spacing:.04em;text-transform:uppercase}
+.bracket .ro{font-size:12.5px;color:var(--chalk-2)}
+.bracket .rs{font:700 12.5px/1.1 var(--ui);color:var(--chalk-2)}
+.bracket li.won{border-color:var(--brass);background:rgba(214,165,72,.13)}
+.bracket li.won .rs{color:var(--brass)}
+.bracket li.next{border-color:#f08a2c;background:rgba(240,138,44,.1)}
+.bracket li.next .rs{color:#ffc48a}
+.cuprow{display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px;align-items:center}
+.cuprow .cta{font-size:19px;padding:12px 18px;white-space:nowrap}
+.cuprow .cta:disabled{opacity:.45;cursor:default}
+.cuprow .gnote{line-height:1.3}
+.boardtop{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.seg.mini{padding:3px}
+.seg.mini label{padding:6px 12px;font-size:14px}
+.pname{display:flex;gap:8px;align-items:center;font:600 13px/1 var(--ui);color:var(--chalk-2)}
+.pname input{width:150px;padding:7px 10px;border-radius:10px;border:1px solid var(--chalk-3);background:rgba(242,233,216,.06);color:var(--chalk);font:700 15px/1 var(--ui);-webkit-user-select:text;user-select:text;touch-action:manipulation}
+.pname input:focus-visible{outline:2px solid var(--brass);outline-offset:2px}
+.lboard{list-style:none;margin:0;padding:0;display:grid;gap:5px;max-height:min(44cqh,230px);overflow:auto;touch-action:pan-y}
+.lrow{display:grid;grid-template-columns:2em minmax(0,1fr) auto 7.5em;gap:12px;align-items:center;padding:7px 12px;border-radius:10px;background:rgba(242,233,216,.05);border:1px solid transparent}
+.lrow.me{border-color:var(--brass);background:rgba(214,165,72,.12)}
+.lrow .lr{font:900 18px/1 var(--display);color:var(--chalk-2);text-align:center}
+.lrow.top .lr{color:#e2b457}
+.lrow .ln{font:700 15px/1.15 var(--ui);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lrow .ln small{font-weight:600;font-size:11.5px;color:var(--brass);margin-left:6px}
+.lrow .lv{font:900 20px/1 var(--display);font-variant-numeric:tabular-nums;text-align:right}
+.lrow .lx{font:600 12px/1.1 var(--ui);color:var(--chalk-2);text-align:right}
+.lempty{padding:10px 12px;border-radius:10px;border:1px dashed var(--chalk-3);color:var(--chalk-2);font-size:13px}
+.rw.c{border-color:#f08a2c;background:rgba(240,138,44,.16);animation:rwIn .45s cubic-bezier(.2,.8,.2,1) both}
+@container (max-height:460px){
+  .bracket li{padding:7px 10px}
+  .cuprow .cta{font-size:17px;padding:10px 14px}
+  .lrow{padding:5px 10px}
 }
 
 /* ——— themes ——— */
@@ -406,7 +450,7 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
   <section class="overlay" id="menu">
     <div class="menu">
       <div class="brand">
-        <div class="brandtop"><p class="eyebrow">Kicker · Langırt</p><button type="button" class="goalspill" id="goalsBtn">🎯 <span id="goalsCount">0/3</span><span class="sep" aria-hidden="true">·</span>⭐ <span id="starCount">0</span></button></div>
+        <div class="brandtop"><p class="eyebrow">Kicker · Langırt</p><span class="pills"><button type="button" class="goalspill cuppill" id="cupBtn" aria-label="Haftalık kupa ve liderlik tablosu">🏆</button><button type="button" class="goalspill" id="goalsBtn">🎯 <span id="goalsCount">0/3</span><span class="sep" aria-hidden="true">·</span>⭐ <span id="starCount">0</span></button></span></div>
         <h1><span class="cep">Cep</span><span class="rodline">Langırtı</span></h1>
         <ul class="how">
           <li><b>▲ ▼</b><span>Parlayan çubuğu kaydırır (aktif çubuk kapalıysa hepsini).</span></li>
@@ -537,16 +581,18 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
   <section class="overlay" id="goals" hidden>
     <div class="card goalscard">
       <div class="gtabs" role="tablist" aria-label="Görevler ve rozetler">
-        <button type="button" role="tab" id="tabQuests" aria-selected="true" aria-controls="panelQuests">Günlük görevler</button>
+        <button type="button" role="tab" id="tabQuests" aria-selected="true" aria-controls="panelQuests">Görevler</button>
         <button type="button" role="tab" id="tabBadges" aria-selected="false" aria-controls="panelBadges">Rozetler <span id="badgeCount">0/16</span></button>
         <button type="button" role="tab" id="tabThemes" aria-selected="false" aria-controls="panelThemes">Temalar</button>
+        <button type="button" role="tab" id="tabCup" aria-selected="false" aria-controls="panelCup">Kupa</button>
+        <button type="button" role="tab" id="tabBoard" aria-selected="false" aria-controls="panelBoard">Tablo</button>
         <span class="gstars" id="gStars" aria-live="polite"></span>
         <button type="button" class="gclose" id="goalsClose" aria-label="Kapat"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button>
       </div>
       <div class="gpanel" id="panelQuests" role="tabpanel" aria-labelledby="tabQuests">
         <p class="gmeta" id="questMeta"></p>
         <ol class="quests" id="questList"></ol>
-        <p class="gnote">Bilgisayara karşı ve online maçlar, maç bitince sayılır; 2 kişilik maçlar sayılmaz. İlerlemen bu tarayıcıda saklanır.</p>
+        <p class="gnote">Günlük görevler. Bilgisayara karşı ve online maçlar, maç bitince sayılır; 2 kişilik maçlar sayılmaz. İlerlemen bu tarayıcıda saklanır.</p>
       </div>
       <div class="gpanel" id="panelBadges" role="tabpanel" aria-labelledby="tabBadges" hidden>
         <div class="badges" id="badgeGrid"></div>
@@ -558,6 +604,26 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
         <p class="shelf">Masa</p>
         <div class="themes" id="tableShelf"></div>
         <p class="binfo" id="shopInfo" aria-live="polite">Görevlerden yıldız kazan, tema aç; açtığın tema senin kalır. Sadece görünüş değişir, oyun aynı.</p>
+      </div>
+      <div class="gpanel" id="panelCup" role="tabpanel" aria-labelledby="tabCup" hidden>
+        <p class="cuptitle"><b id="cupName"></b><span id="cupDesc"></span></p>
+        <ol class="bracket" id="cupBracket"></ol>
+        <p class="gmeta" id="cupMeta" aria-live="polite"></p>
+        <div class="cuprow">
+          <button type="button" class="cta" id="cupGo">Kupaya başla</button>
+          <p class="gnote">Kazandığın maç: tur puanı + gol farkı başına 20 (gol yemezsen +50). Kaybedersen koşu biter, puanın kalır; haftanın en iyi koşusu tabloya yazılır. Kupa maçında süper şut ve dev kaleci açıktır; maçı yarıda bırakmak kaybetmek sayılır.</p>
+        </div>
+      </div>
+      <div class="gpanel" id="panelBoard" role="tabpanel" aria-labelledby="tabBoard" hidden>
+        <div class="boardtop">
+          <div class="seg mini" role="radiogroup" aria-label="Tablo görünümü">
+            <input type="radio" name="bview" id="bv-cup" value="cup" checked><label for="bv-cup">Kupa puanı</label>
+            <input type="radio" name="bview" id="bv-online" value="online"><label for="bv-online">Online lig</label>
+          </div>
+          <label class="pname" for="pname">Adın <input id="pname" maxlength="14" autocomplete="nickname" enterkeyhint="done" spellcheck="false"></label>
+        </div>
+        <ol class="lboard" id="lboard"></ol>
+        <p class="gnote">Tabloda sen ve online oynadığın arkadaşların var. Online maç başlayınca telefonlar tablolarını birbirine aktarır; arkadaşının oynadığı kişiler de gelir. Her pazartesi sıfırlanır.</p>
       </div>
     </div>
   </section>
@@ -1552,8 +1618,8 @@ function update(dt) {
   if (n >= 40) acc = 0;
 
   if (state === 'play' && ball.live) for (const t of teams) {
-    if (settings.superShot) t.skill = Math.min(1, t.skill + SUPER.fill * dt);
-    if (settings.giantGoalie && t.giantT <= 0) t.giant = Math.min(1, t.giant + GIANT.fill * dt);
+    if (settings.superShot) t.skill = Math.min(1, t.skill + SUPER.fill * RULES.superFill * dt);
+    if (settings.giantGoalie && t.giantT <= 0) t.giant = Math.min(1, t.giant + GIANT.fill * RULES.giantFill * dt);
   }
   for (const t of teams) {
     if (t.giantT > 0) { t.giantT -= dt; if (t.giantT <= 0) { t.giantT = 0; Sound.shrink(); } }
@@ -2018,6 +2084,7 @@ function applyControls() {
 }
 function attract() {
   if (net.role) leaveOnline();
+  if (cup.active) { if (state === 'play') cupForfeit(); endCupContext(); }
   state = 'menu'; paused = false;
   teams[BLUE].ai = LEVELS.kulup; teams[RED].ai = LEVELS.kulup;
   resetTable(); clearInput(); applyControls();
@@ -2057,8 +2124,10 @@ function showResult(winner) {
   // your own score first, in your colour
   $('finB').textContent = score[me]; $('finR').textContent = score[1 - me];
   $('finB').className = me === BLUE ? 'b' : 'r'; $('finR').className = me === BLUE ? 'r' : 'b';
+  $('againBtn').textContent = 'Rövanş'; $('againBtn').removeAttribute('aria-label');
   prepareCard(winner);
   recordMatch(winner);
+  if (cup.active && mode === 'cpu') cupAfterMatch(winner);
 }
 function endMatch(winner) {
   stats.dur = simT - stats.t0;
@@ -2126,7 +2195,7 @@ function cardStory(winner) {
     tag = b === 0 ? 'Gol yemeden kazandı!' : worst <= -2 ? 'Geriden gelip kazandı!' : margin === 1 ? 'Kıl payı!' : 'Aynı telefonda, kıyasıya.';
   } else if (won) {
     title = 'Kazandım!';
-    tag = b === 0 ? 'Gol yemeden kazandım!' : worst <= -2 ? 'Geriden gelip kazandım!'
+    tag = cup.active && prog.cup.round === CUP_ROUNDS.length - 1 ? 'Haftanın kupası benim!' : b === 0 ? 'Gol yemeden kazandım!' : worst <= -2 ? 'Geriden gelip kazandım!'
       : mode === 'cpu' && settings.level === 'usta' ? 'Usta bilgisayarı devirdim!' : margin === 1 ? 'Kıl payı ama benim!' : 'Sıradaki kim?';
   } else {
     title = 'Kaybettim';
@@ -2137,7 +2206,8 @@ function cardStory(winner) {
   const secs = Math.round(stats.dur), m = Math.floor(secs / 60), sec = secs % 60;
   return {
     winner, left, right: 1 - left, title, tag, a, b,
-    eyebrow: upTR('Maç sonu · ' + (duo ? '2 kişi' : mode === 'online' ? '' : `Bilgisayara karşı · ${lvl}`)) + (mode === 'online' ? 'ONLINE' : ''),   // an English word: no dotted İ
+    eyebrow: cup.active && mode === 'cpu' ? upTR(`${cupRule().name} · ${CUP_ROUNDS[prog.cup.round].name}`)
+      : upTR('Maç sonu · ' + (duo ? '2 kişi' : mode === 'online' ? '' : `Bilgisayara karşı · ${lvl}`)) + (mode === 'online' ? 'ONLINE' : ''),   // an English word: no dotted İ
     labels: [label(BLUE), label(RED)], score: [score[BLUE], score[RED]],
     goals: stats.goals.map(g => ({ ...g })), known: stats.goals.length === score[BLUE] + score[RED],
     chips: [[`${m}:${String(sec).padStart(2, '0')}`, 'Süre'], [`${streak} gol`, 'En uzun seri'],
@@ -2352,14 +2422,16 @@ const BADGES = [
   { id: 'quests', i: '🎯', t: 'Görev avcısı', d: n => `${n} günlük görev tamamla`, at: [5, 50, 200], v: L => L.quests },
   { id: 'streak', i: '🗓️', t: 'Sadık oyuncu', d: n => `${n} gün üst üste bütün görevleri bitir`, at: [3, 7, 30], v: (L, P) => P.best },
   { id: 'perfect', i: '💎', t: 'Kusursuz', d: () => '7 gollük maçı gol yemeden kazan', at: [1], v: L => L.perfect },
+  { id: 'cup', i: '🥇', t: 'Kupa şampiyonu', d: n => `Haftalık kupayı ${n} kez kazan`, at: [1, 5, 20], v: L => L.cups },
   { id: 'collect', i: '🎨', t: 'Koleksiyoncu', d: n => `Yıldızlarla ${n} tema aç`, at: [1, 4, 10], v: (L, P) => P.owned.ball.length + P.owned.table.length - 2 },
 ];
 const ROMAN = ['', 'I', 'II', 'III'];
 const PROG_KEY = 'cep-langirti-ilerleme';
 const blankLife = () => ({ matches: 0, wins: 0, goals: 0, supers: 0, saves: 0, clean: 0, comebacks: 0, bestRun: 0, beat: 0,
-  onlineWins: 0, giantStops: 0, emotes: 0, shares: 0, quests: 0, perfect: 0 });
+  onlineWins: 0, giantStops: 0, emotes: 0, shares: 0, quests: 0, perfect: 0, cups: 0 });
 let prog = { day: '', q: [0, 0, 0], done: [false, false, false], bonus: false, stars: 0, streak: 0, best: 0, lastFull: '', life: blankLife(), badges: {},
-  owned: { ball: ['klasik'], table: ['klasik'] }, ball: 'klasik', table: 'klasik' };
+  owned: { ball: ['klasik'], table: ['klasik'] }, ball: 'klasik', table: 'klasik',
+  cup: null, pid: '', name: '', board: {}, bt: 0 };                 // weekly cup and table (filled in by loadProg)
 let goalsOpen = false, goalsTab = 'quests', overRew = [];
 
 const dayKey = (d = new Date()) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
@@ -2369,10 +2441,15 @@ function loadProg() {
     const p = JSON.parse(localStorage.getItem(PROG_KEY) || 'null');
     if (p && typeof p === 'object') {
       const own = k => [...new Set(['klasik', ...(p.owned && Array.isArray(p.owned[k]) ? p.owned[k] : [])])];
-      prog = { ...prog, ...p, life: { ...blankLife(), ...p.life }, badges: { ...p.badges }, owned: { ball: own('ball'), table: own('table') } };
+      prog = { ...prog, ...p, life: { ...blankLife(), ...p.life }, badges: { ...p.badges }, owned: { ball: own('ball'), table: own('table') },
+        cup: p.cup && typeof p.cup === 'object' ? { ...blankCup(), ...p.cup } : null, board: p.board && typeof p.board === 'object' ? { ...p.board } : {} };
     }
   } catch (e) { /* storage blocked: start fresh */ }
-  rollDay();
+  if (!prog.cup) prog.cup = blankCup();
+  if (!/^[a-z0-9]{6,16}$/.test(prog.pid)) prog.pid = Array.from({ length: 10 }, () => 'abcdefghijkmnpqrstuvwxyz23456789'[Math.floor(Math.random() * 32)]).join('');
+  prog.name = cleanName(prog.name) || `Oyuncu ${100 + Math.floor(Math.random() * 900)}`;
+  if (prog.cup.playing) cupForfeit();          // the page closed during a cup match
+  rollDay(); rollWeek();
 }
 function saveProg() { try { localStorage.setItem(PROG_KEY, JSON.stringify(prog)); } catch (e) { /* storage blocked */ } }
 function rollDay() {
@@ -2418,7 +2495,7 @@ function advance(inc, rew) {
     prog.bonus = true; prog.stars += ALL_BONUS;
     prog.streak = prog.lastFull === yesterdayKey() ? prog.streak + 1 : 1;
     prog.lastFull = prog.day; prog.best = Math.max(prog.best, prog.streak);
-    rew.push({ k: 'a', text: `🔥 Günün bütün görevleri · +${ALL_BONUS}⭐` });
+    rew.push({ k: 'a', text: `🔥 Günün bütün görevleri · +${ALL_BONUS}⭐`, s: ALL_BONUS });
   }
 }
 function checkBadges(rew) {
@@ -2444,6 +2521,7 @@ function recordMatch(winner) {
       if (m.online) L.onlineWins++;
       if (!m.against && m.target === 7) L.perfect++;
     }
+    if (m.online) { rollWeek(); if (m.won) prog.cup.w++; else prog.cup.l++; boardChanged(); }
     advance(q => q.m ? q.m(m) : 0, overRew);
     checkBadges(overRew);
     saveProg();
@@ -2470,11 +2548,14 @@ function renderRewards() {
   el.textContent = '';
   el.hidden = mode === 'duo';
   if (el.hidden) return;
-  const qs = overRew.filter(r => r.k === 'q'), bs = overRew.filter(r => r.k === 'b');
+  // four chips at most, so the buttons stay on screen: the cup, the quests (with the day's bonus), the badges, a theme
+  const qs = overRew.filter(r => r.k === 'q'), all = overRew.find(r => r.k === 'a'), bs = overRew.filter(r => r.k === 'b');
+  const stars = [...qs, ...(all ? [all] : [])].reduce((n, r) => n + (r.s || 0), 0);
   const list = [
-    ...(qs.length > 1 ? [{ k: 'q', text: `✓ ${qs.length} görev tamam · +${qs.reduce((n, r) => n + r.s, 0)}⭐` }] : qs),
-    ...overRew.filter(r => r.k === 'a'),
-    ...(bs.length > 2 ? [{ k: 'b', text: `🏅 ${bs.length} yeni rozet: ${bs.map(r => r.icon).join(' ')}`, title: bs.map(r => r.text).join(', ') }] : bs),
+    ...overRew.filter(r => r.k === 'c'),
+    ...(all ? [{ k: 'a', text: `🔥 Günün bütün görevleri · +${stars}⭐`, title: qs.map(r => r.text).join(', ') }]
+      : qs.length > 1 ? [{ k: 'q', text: `✓ ${qs.length} görev tamam · +${stars}⭐`, title: qs.map(r => r.text).join(', ') }] : qs),
+    ...(bs.length > 1 ? [{ k: 'b', text: `🏅 ${bs.length} yeni rozet: ${bs.map(r => r.icon).join(' ')}`, title: bs.map(r => r.text).join(', ') }] : bs),
   ];
   if (!list.length) list.push({ k: '', text: `🎯 Günün görevleri ${prog.done.filter(Boolean).length}/3 · ⭐ ${prog.stars}` });
   if (overRew.some(r => r.k === 'q' || r.k === 'a') && prog.stars >= cheapestLocked()) list.push({ k: 't', text: '🎨 Yeni tema açabilirsin' });
@@ -2533,8 +2614,13 @@ function renderGoals() {
   $('tabQuests').setAttribute('aria-selected', String(goalsTab === 'quests'));
   $('tabBadges').setAttribute('aria-selected', String(goalsTab === 'badges'));
   $('tabThemes').setAttribute('aria-selected', String(goalsTab === 'themes'));
+  $('tabCup').setAttribute('aria-selected', String(goalsTab === 'cup'));
+  $('tabBoard').setAttribute('aria-selected', String(goalsTab === 'board'));
   $('panelQuests').hidden = goalsTab !== 'quests'; $('panelBadges').hidden = goalsTab !== 'badges'; $('panelThemes').hidden = goalsTab !== 'themes';
+  $('panelCup').hidden = goalsTab !== 'cup'; $('panelBoard').hidden = goalsTab !== 'board';
   if (goalsTab === 'themes') renderShop();
+  if (goalsTab === 'cup') renderCup();
+  if (goalsTab === 'board') renderBoard();
 }
 function badgeInfo(id) {
   const b = BADGES.find(x => x.id === id);
@@ -2548,7 +2634,7 @@ function badgeInfo(id) {
 function openGoals(tab) {
   goalsOpen = true; goalsTab = tab || goalsTab;
   renderGoals(); setUI();
-  $({ badges: 'tabBadges', themes: 'tabThemes' }[goalsTab] || 'tabQuests').focus({ preventScroll: true });
+  $({ badges: 'tabBadges', themes: 'tabThemes', cup: 'tabCup', board: 'tabBoard' }[goalsTab] || 'tabQuests').focus({ preventScroll: true });
 }
 function closeGoals() { goalsOpen = false; setUI(); }
 $('goalsBtn').addEventListener('click', () => { Sound.unlock(); openGoals('quests'); });
@@ -2670,6 +2756,215 @@ function tapTheme(kind, id) {
 }
 $('panelThemes').addEventListener('click', e => { const b = e.target.closest('.theme'); if (b) tapTheme(b.dataset.kind, b.dataset.id); });
 
+/* ——— Weekly cup and table ———
+   The cup is three matches against the computer, Acemi, Kulüp and Usta, under a twist that changes
+   every week (picked from the week, so friends play the same cup). A win scores the round's points plus
+   20 a goal of difference (50 more for a clean sheet); a loss ends the run and scores 10 a goal. The
+   week's best run goes on the table, together with online wins and losses.
+   There is no server: the table holds this phone and the friends it has met online. When two phones
+   connect, each sends its table and keeps the newer copy of every row, so rows travel through the group.
+   Every row is owned by its player and only its owner changes it. Everything resets on Monday. */
+const CUP_RULES = [
+  { id: 'klasik', name: 'Klasik Kupa', desc: '5 gollük maçlar', target: 5 },
+  { id: 'hizli', name: 'Hızlı Kupa', desc: '3 gollük maçlar', target: 3 },
+  { id: 'super', name: 'Süper Kupa', desc: '5 gollük maçlar, süper şut göstergesi iki kat hızlı dolar', target: 5, superFill: 2 },
+  { id: 'dev', name: 'Dev Kupa', desc: '5 gollük maçlar, dev kaleci göstergesi iki kat hızlı dolar', target: 5, giantFill: 2 },
+  { id: 'maraton', name: 'Maraton Kupası', desc: '7 gollük maçlar', target: 7 },
+];
+const CUP_ROUNDS = [
+  { name: 'Çeyrek final', level: 'acemi', base: 100 },
+  { name: 'Yarı final', level: 'kulup', base: 200 },
+  { name: 'Final', level: 'usta', base: 400 },
+];
+const CUP_PRIZE = 5;                               // stars for the week's first title
+const RULES = { superFill: 1, giantFill: 1 };      // the cup's twist on the meters while a cup match runs
+const cup = { active: false, saved: null, last: null };
+const blankCup = () => ({ week: '', best: 0, bestRound: 0, round: 0, pts: 0, inRun: false, playing: false, runs: 0, titles: 0, w: 0, l: 0, rewarded: false, won: [] });
+const board = { v: 0, view: 'cup' };
+// ISO week, Monday first: "2026-H39"
+function weekKey(d = new Date()) {
+  const t = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+  t.setDate(t.getDate() - (t.getDay() + 6) % 7 + 3);                   // this week's Thursday
+  const first = new Date(t.getFullYear(), 0, 4);
+  const wk = 1 + Math.round(((t - first) / 864e5 - 3 + (first.getDay() + 6) % 7) / 7);
+  return `${t.getFullYear()}-H${String(wk).padStart(2, '0')}`;
+}
+function cupRule() {
+  let h = 2166136261;
+  for (const ch of weekKey()) h = Math.imul(h ^ ch.charCodeAt(0), 16777619);
+  return CUP_RULES[(h >>> 0) % CUP_RULES.length];
+}
+const cleanName = v => String(v == null ? '' : v).replace(/[\u0000-\u001f\u007f-\u009f​-‏‪-‮⁦-⁩]/g, '').replace(/\s+/g, ' ').trim().slice(0, 14);
+function rollWeek() {
+  const k = weekKey();
+  if (prog.cup.week === k) return;
+  prog.cup = { ...blankCup(), week: k };
+  for (const id in prog.board) if (prog.board[id].wk !== k) delete prog.board[id];
+  prog.bt = Date.now(); board.v++;
+  saveProg();
+}
+function boardChanged() { prog.bt = Date.now(); board.v++; saveProg(); }
+const myRow = () => ({ id: prog.pid, name: prog.name, wk: prog.cup.week, cup: prog.cup.best, lvl: prog.cup.bestRound, w: prog.cup.w, l: prog.cup.l, t: prog.bt });
+// what goes over the wire: this phone's row first, then the newest rows it knows, 12 at most
+function boardPayload() {
+  rollWeek();
+  const rows = [myRow(), ...Object.values(prog.board).filter(r => r.wk === prog.cup.week).sort((a, b) => b.t - a.t).slice(0, 11)];
+  return rows.map(r => [r.id, r.name, r.wk, r.cup, r.lvl, r.w, r.l, r.t]);
+}
+// rows from another phone are untrusted: checked, clamped, and only newer copies replace what we have
+function mergeBoard(list) {
+  if (!Array.isArray(list)) return;
+  rollWeek();
+  const int = (v, hi) => Math.max(0, Math.min(hi, Math.floor(+v) || 0));
+  let changed = false;
+  for (const e of list.slice(0, 16)) {
+    if (!Array.isArray(e) || e.length < 8) continue;
+    const id = String(e[0]), wk = String(e[2]);
+    if (!/^[a-z0-9]{6,16}$/.test(id) || id === prog.pid || wk !== prog.cup.week) continue;
+    const row = { id, name: cleanName(e[1]) || 'Oyuncu', wk, cup: int(e[3], 2000), lvl: int(e[4], 3), w: int(e[5], 999), l: int(e[6], 999), t: int(e[7], 1e14) };
+    const had = prog.board[id];
+    if (had && had.t >= row.t) continue;
+    prog.board[id] = row; changed = true;
+  }
+  const ids = Object.keys(prog.board);
+  if (ids.length > 40) ids.sort((a, b) => prog.board[a].t - prog.board[b].t).slice(0, ids.length - 40).forEach(id => delete prog.board[id]);
+  if (!changed) return;
+  board.v++; saveProg();
+  if (goalsOpen && goalsTab === 'board') renderBoard();
+}
+
+function startCup() {
+  if (net.role) return;
+  rollWeek();
+  const c = prog.cup;
+  if (!c.inRun) Object.assign(c, { inRun: true, round: 0, pts: 0, won: [], runs: c.runs + 1 });
+  const rule = cupRule(), round = CUP_ROUNDS[c.round];
+  if (!cup.saved) cup.saved = { target: settings.target, superShot: settings.superShot, giantGoalie: settings.giantGoalie, level: settings.level };
+  Object.assign(settings, { target: rule.target, superShot: true, giantGoalie: true, level: round.level });
+  RULES.superFill = rule.superFill || 1; RULES.giantFill = rule.giantFill || 1;
+  cup.active = true; cup.last = null; c.playing = true; saveProg();
+  stage.classList.add('cup'); syncForm();
+  goalsOpen = false;
+  startMatch('cpu');
+  toast(`${rule.name} · ${round.name} · rakip ${LEVEL_NAME[round.level]}`, 2400);
+}
+// leave the cup's rules behind (back to the menu, or a normal match)
+function endCupContext() {
+  if (cup.saved) { Object.assign(settings, cup.saved); cup.saved = null; syncForm(); }
+  RULES.superFill = RULES.giantFill = 1;
+  cup.active = false; cup.last = null;
+  stage.classList.remove('cup');
+}
+// a cup match left before its end counts as lost
+function cupForfeit() {
+  const c = prog.cup;
+  if (!c.playing) return;
+  Object.assign(c, { playing: false, inRun: false, round: 0 });
+  c.best = Math.max(c.best, c.pts);
+  boardChanged();
+}
+function cupAfterMatch(winner) {
+  const c = prog.cup, round = CUP_ROUNDS[c.round], mine = score[me], theirs = score[1 - me], won = winner === me;
+  const pts = won ? round.base + 20 * (mine - theirs) + (theirs ? 0 : 50) : 10 * mine;
+  const wasBest = c.best;
+  c.pts += pts; c.playing = false; c.won[c.round] = won ? pts : -1;
+  const rew = [];
+  c.best = Math.max(c.best, c.pts);
+  c.bestRound = Math.max(c.bestRound, c.round + (won ? 1 : 0));
+  if (won && c.round < CUP_ROUNDS.length - 1) {
+    rew.push({ k: 'c', text: `🏆 ${round.name} kazanıldı · +${pts} puan` });
+    c.round++;
+    cup.last = { next: CUP_ROUNDS[c.round].name };
+  } else {
+    if (won) {
+      c.titles++; prog.life.cups++;
+      const prize = !c.rewarded;
+      if (prize) { c.rewarded = true; prog.stars += CUP_PRIZE; }
+      rew.push({ k: 'c', text: `🥇 ${cupRule().name} şampiyonu! · ${c.pts} puan${prize ? ` · +${CUP_PRIZE}⭐` : ''}` });
+    } else rew.push({ k: 'c', text: `Koşu bitti${pts ? ` · +${pts}` : ''} · ${c.pts} puan${c.pts > wasBest ? ' · haftanın en iyisi!' : ''}` });
+    Object.assign(c, { inRun: false, round: 0 });
+    cup.last = { done: true };
+  }
+  checkBadges(rew);
+  boardChanged();
+  overRew.push(...rew);
+  renderRewards(); renderPill();
+  $('overEyebrow').textContent = `${cupRule().name} · ${round.name}`;
+  $('againBtn').textContent = cup.last.next ? `▶ ${cup.last.next}` : 'Yeni koşu';
+  $('againBtn').setAttribute('aria-label', cup.last.next ? `Sonraki tur: ${cup.last.next}` : 'Kupaya yeniden başla');
+}
+
+function renderCup() {
+  rollWeek();
+  const c = prog.cup, rule = cupRule();
+  const now = new Date(), mon = new Date(now.getFullYear(), now.getMonth(), now.getDate() - (now.getDay() + 6) % 7 + 7);
+  const mins = Math.max(1, Math.round((mon - now) / 6e4)), d = Math.floor(mins / 1440), h = Math.floor(mins % 1440 / 60);
+  $('cupName').textContent = rule.name;
+  $('cupDesc').textContent = `${rule.desc} · ${d ? d + ' gün ' : ''}${h} sa sonra biter`;
+  const ol = $('cupBracket');
+  ol.textContent = '';
+  CUP_ROUNDS.forEach((r, i) => {
+    const li = document.createElement('li'), res = c.inRun ? c.won[i] : undefined;
+    li.className = res > 0 ? 'won' : c.inRun && i === c.round ? 'next' : '';
+    const n = document.createElement('span'); n.className = 'rn'; n.textContent = r.name;
+    const o = document.createElement('span'); o.className = 'ro'; o.textContent = `Rakip: ${LEVEL_NAME[r.level]} · ${r.base} puan`;
+    const st = document.createElement('span'); st.className = 'rs';
+    st.textContent = res > 0 ? `✓ +${res} puan` : c.inRun && i === c.round ? '▶ Sıradaki maç' : c.inRun ? 'Bekliyor' : '—';
+    li.append(n, o, st);
+    ol.appendChild(li);
+  });
+  $('cupMeta').innerHTML = `Bu hafta en iyi: <b>${c.best}</b> puan · Şampiyonluk: <b>${c.titles}</b>` + (c.inRun ? ` · Bu koşu: <b>${c.pts}</b> puan` : '')
+    + (c.rewarded ? '' : ` · İlk şampiyonluk +${CUP_PRIZE}⭐`);
+  $('cupGo').textContent = c.inRun ? `Devam: ${CUP_ROUNDS[c.round].name}` : c.runs ? 'Kupaya yeniden başla' : 'Kupaya başla';
+  $('cupGo').disabled = !!net.role;                 // not in the middle of an online session
+}
+const ROUND_TEXT = ['Başladı', 'Çeyrek ✓', 'Yarı final ✓', '🥇 Şampiyon'];
+function renderBoard() {
+  rollWeek();
+  const me_ = myRow(), rows = [me_, ...Object.values(prog.board).filter(r => r.wk === prog.cup.week)];
+  const onl = board.view === 'online';
+  const list = onl ? rows.filter(r => r.w + r.l > 0 || r === me_).sort((a, b) => b.w - a.w || a.l - b.l || b.t - a.t)
+    : rows.filter(r => r.cup > 0 || r === me_).sort((a, b) => b.cup - a.cup || b.lvl - a.lvl || b.t - a.t);
+  const ol = $('lboard');
+  ol.textContent = '';
+  list.forEach((r, i) => {
+    const li = document.createElement('li');
+    li.className = 'lrow' + (r === me_ ? ' me' : '') + (i === 0 && (onl ? r.w : r.cup) ? ' top' : '');
+    const rk = document.createElement('span'); rk.className = 'lr'; rk.textContent = i + 1;
+    const nm = document.createElement('span'); nm.className = 'ln'; nm.textContent = r.name;          // a friend's name: text only
+    if (r === me_) { const y = document.createElement('small'); y.textContent = 'sen'; nm.appendChild(y); }
+    const v = document.createElement('span'); v.className = 'lv'; v.textContent = onl ? `${r.w * 3}` : r.cup;
+    const x = document.createElement('span'); x.className = 'lx';
+    x.textContent = onl ? `${r.w} G · ${r.l} M` : r.cup ? ROUND_TEXT[r.lvl] : 'Henüz oynamadı';
+    li.append(rk, nm, v, x);
+    ol.appendChild(li);
+  });
+  if (list.length < 2) {
+    const li = document.createElement('li'); li.className = 'lempty';
+    li.textContent = onl ? 'Online maç yaptıkça sen ve arkadaşların burada sıralanırsınız (galibiyet 3 puan).'
+      : 'Arkadaşlarınla online bir maç yapın: tablolarınız birleşir ve kupa puanlarınız burada yan yana görünür.';
+    ol.appendChild(li);
+  }
+  const inp = $('pname');
+  if (document.activeElement !== inp) inp.value = prog.name;
+}
+function setName() {
+  const v = cleanName($('pname').value);
+  if (v && v !== prog.name) { prog.name = v; boardChanged(); }
+  $('pname').value = prog.name;
+  renderBoard();
+}
+$('cupBtn').addEventListener('click', () => { Sound.unlock(); openGoals('cup'); });
+$('cupGo').addEventListener('click', () => { Sound.unlock(); startCup(); });
+$('tabCup').addEventListener('click', () => { goalsTab = 'cup'; renderGoals(); });
+$('tabBoard').addEventListener('click', () => { goalsTab = 'board'; renderGoals(); });
+$('panelBoard').addEventListener('change', e => {
+  if (e.target.name === 'bview') { board.view = e.target.value; renderBoard(); }
+  if (e.target.id === 'pname') setName();
+});
+$('pname').addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); e.target.blur(); } });
+$('pname').addEventListener('blur', setName);
+
 /* ——— Settings ——— */
 const STORE = 'cep-langirti';
 function loadSettings(extra) {
@@ -2689,8 +2984,10 @@ function loadSettings(extra) {
 }
 function saveSettings() {
   // the online guest plays by the host's rules for now: only its own sound and emote choices are kept
+  // (nor are a cup match's rules)
   if (net.saved) Object.assign(net.saved, { sound: settings.sound, emotes: settings.emotes });
-  try { localStorage.setItem(STORE, JSON.stringify(net.saved || settings)); } catch (e) { /* storage blocked */ }
+  const keep = net.saved || (cup.saved ? { ...settings, ...cup.saved } : settings);
+  try { localStorage.setItem(STORE, JSON.stringify(keep)); } catch (e) { /* storage blocked */ }
 }
 function syncForm() {
   $('lv-' + settings.level).checked = true;
@@ -2725,7 +3022,11 @@ $('joinShow').addEventListener('click', () => { $('onChoose').hidden = true; $('
 $('onJoin').addEventListener('submit', e => { e.preventDefault(); joinTable($('joinCode').value); });
 $('onBack').addEventListener('click', closeOnline);
 $('quitBtn').addEventListener('click', attract);
-$('againBtn').addEventListener('click', () => { if (net.role === 'guest') { net.again++; sendGuestInput(true); toast('Rövanş isteği gönderildi'); } else startMatch(); });
+$('againBtn').addEventListener('click', () => {
+  if (net.role === 'guest') { net.again++; sendGuestInput(true); toast('Rövanş isteği gönderildi'); }
+  else if (cup.active) startCup();
+  else startMatch();
+});
 $('menuBtn').addEventListener('click', attract);
 $('shareBtn').addEventListener('click', shareCard);
 $('cardClose').addEventListener('click', closeCardView);
@@ -2755,7 +3056,8 @@ const NET_SEND = 1 / 30;      // s between snapshots
 const NET_TIMEOUT = 6000;     // ms of silence before the match is called off
 const net = { role: null, kind: '', code: '', tr: null, connected: false, lastHeard: 0, joinT: 0, seq: 0, lastN: 0, snaps: [],
   events: [], evId: 0, lastEv: 0, sendAcc: 0, inSeq: 0, inKey: '', inT: 0, cnt: { p: 0, s: 0, g: 0 }, seen: { p: 0, s: 0, g: 0, pending: false },
-  again: 0, lastAgain: 0, saved: null, forced: null, peerOpts: null, sfxT: {}, waitT: 0, emN: 0, emId: 0, seenEm: 0 };
+  again: 0, lastAgain: 0, saved: null, forced: null, peerOpts: null, sfxT: {}, waitT: 0, emN: 0, emId: 0, seenEm: 0,
+  bdGot: -1, bdAck: -1, brdV: -1 };      // table versions: received from the guest / acknowledged by the host / last sent by the host
 let onlineOpen = false;
 const r1 = v => Math.round(v * 10) / 10, r2 = v => Math.round(v * 100) / 100, r3 = v => Math.round(v * 1000) / 1000;
 const lerp = (a, b, q) => a + (b - a) * q;
@@ -2892,7 +3194,7 @@ async function hostTable() {
   const tr = await getTransport();
   if (!tr) { $('onChoose').hidden = false; return setNetStatus(NO_NET, true); }
   Object.assign(net, { tr, role: 'host', kind: tr.kind, code: makeCode(), connected: false, seq: 0, events: [], evId: 0,
-    seen: { p: 0, s: 0, g: 0, pending: false }, lastAgain: 0, seenEm: 0 });
+    seen: { p: 0, s: 0, g: 0, pending: false }, lastAgain: 0, seenEm: 0, bdGot: -1, brdV: -1 });
   $('hostCode').textContent = net.code; $('onHost').hidden = false;
   tr.open('host', net.code, hostOnState, partnerGone, err => {
     if (err === 'unavailable-id') { tr.close(); net.tr = null; hostTable(); }   // someone has this code: pick another
@@ -2908,6 +3210,7 @@ function hostOnState(d) {
   if ((d.ag | 0) > net.lastAgain) { net.lastAgain = d.ag | 0; if (state === 'over') startMatch('online'); }
   applyRemoteInput(teams[RED], d.in);
   if (Array.isArray(d.em) && (d.em[0] | 0) > net.seenEm) { net.seenEm = d.em[0] | 0; remoteEmote(RED, d.em[1] | 0); }
+  if (Array.isArray(d.bd)) { mergeBoard(d.bd); net.bdGot = d.bv | 0; }
 }
 // in: [up, down, shoot held, shoot presses, süper presses, dev presses]; press counters make quick taps survive
 function applyRemoteInput(t, a) {
@@ -2929,7 +3232,7 @@ function makeSnap() {
     b: [r1(ball.x), r1(ball.y), Math.round(ball.vx), Math.round(ball.vy), ball.show ? 1 : 0, r2(ball.alpha), r2(ball.scale), ball.superT > 0 ? 1 : 0, ball.superTeam],
     r,
     tm: teams.map(t => [r2(t.skill), t.armed ? 1 : 0, r2(t.giant), r2(t.giantT), t.active && !t.together ? t.active.i : -1, t.k.phase === 'windup' ? r2(t.k.charge) : 0]),
-    ev: net.events.slice(-12),
+    ev: net.events.slice(-12), ba: net.bdGot,
   };
 }
 
@@ -2941,7 +3244,7 @@ async function joinTable(raw) {
   const tr = await getTransport();
   if (!tr) return setNetStatus(NO_NET, true);
   Object.assign(net, { tr, role: 'guest', kind: tr.kind, code, connected: false, lastN: 0, lastEv: 0, snaps: [], joinT: performance.now(),
-    cnt: { p: 0, s: 0, g: 0 }, again: 0, inKey: '', emN: 0 });
+    cnt: { p: 0, s: 0, g: 0 }, again: 0, inKey: '', emN: 0, bdAck: -1 });
   tr.open('guest', code, guestOnState, partnerGone, err => failJoin(netErrorText(err)));
   sendGuestInput(true);
   setNetStatus('Masa aranıyor…');
@@ -2951,10 +3254,12 @@ function sendGuestInput(force) {
   const i = inputs[BLUE], c = net.cnt;
   // the guest's screen is turned 180°: its ▲ moves the rods towards the bottom of the table
   const a = [i.down ? 1 : 0, i.up ? 1 : 0, i.shoot ? 1 : 0, c.p, c.s, c.g];
-  const key = a.join() + '|' + net.again + '|' + net.emN;
+  const key = a.join() + '|' + net.again + '|' + net.emN + '|' + board.v + '|' + net.bdAck;
   if (!force && key === net.inKey) return;
   net.inKey = key; net.inT = performance.now();
-  net.tr.send({ in: a, ag: net.again, em: [net.emN, net.emId], n: ++net.inSeq });
+  const msg = { in: a, ag: net.again, em: [net.emN, net.emId], n: ++net.inSeq };
+  if (net.bdAck !== board.v) { msg.bd = boardPayload(); msg.bv = board.v; }      // our table, until the host has it
+  net.tr.send(msg);
 }
 function guestOnState(d) {
   if (!d || !d.n || !d.b || d.n <= net.lastN) return;
@@ -2967,6 +3272,7 @@ function guestOnState(d) {
     settings.superShot = !!d.sp; settings.giantGoalie = !!d.gg;
     stage.classList.toggle('nosuper', !settings.superShot); stage.classList.toggle('nogiant', !settings.giantGoalie);
   }
+  if (typeof d.ba === 'number') net.bdAck = d.ba;
   for (const e of d.ev || []) if (e.i > net.lastEv) { net.lastEv = e.i; guestEvent(e); }
   if (d.st !== state) { state = d.st; paused = false; setUI(); }
 }
@@ -2976,7 +3282,8 @@ function enterGuest(d) {
   me = RED; setMode('online'); setFlip(true);
   resetTable();
   for (const t of teams) { t.ai = null; t.keeper = false; t.together = false; }
-  net.lastEv = Math.max(0, ...(d.ev || []).map(e => e.i));      // what happened before we arrived is old news
+  net.lastEv = Math.max(0, ...(d.ev || []).map(e => e.i));      // what happened before we arrived is old news,
+  for (const e of d.ev || []) if (e.k === 'brd') mergeBoard(e.b);  // but the host's table is not news, it is state
   state = d.st; paused = false; clearInput(); renderHud(); setUI();
   Sound.unlock(); enterFullscreen(); requestWake();
 }
@@ -2985,6 +3292,7 @@ function guestEvent(e) {
     case 's': if (typeof Sound[e.n] === 'function') Sound[e.n](e.v); break;
     case 'goal': burst(e.x, e.y, e.s); shake(8); goalBanner(e.s, !!e.o, !!e.u); emoteHint(e.s); vibrate(e.s === me ? [30, 40, 60] : 80); break;
     case 'emo': if (e.t !== me) showEmote(e.t, e.e); break;             // our own was shown when we sent it
+    case 'brd': mergeBoard(e.b); break;
     case 'srv': toast(e.t === me ? 'Servis sende' : 'Servis rakipte'); break;
     case 'dead': toast('Ölü top · yeniden servis'); break;
     case 'sup': shake(7); if (!reduceMotion) flashT = .22; break;
@@ -3020,6 +3328,7 @@ function netTick(dt) {
   const now = performance.now();
   if (net.role === 'host') {
     net.sendAcc += dt;
+    if (net.connected && net.brdV !== board.v) { net.brdV = board.v; pushEvent({ k: 'brd', b: boardPayload() }); }   // our table, whenever it changes
     if (net.connected && net.sendAcc >= NET_SEND) { net.sendAcc = 0; net.tr.send(makeSnap()); }
     if (net.connected && now - net.lastHeard > NET_TIMEOUT) partnerGone();
   } else if (net.role === 'guest') {
@@ -3058,7 +3367,7 @@ function boot(data) {
 }
 
 // handle for experimenting from the console
-window.langirt = { teams, rods, ball, score, settings, update, startMatch, attract, net, hostTable, joinTable, sendEmote, EMOTES, stats, card, cardStory, drawCard, recordMatch, todayQuests, QUESTS, BADGES, tapTheme, BALLS, TABLES, drawStatic, get prog() { return prog; }, get state() { return state; }, get mode() { return mode; }, get me() { return me; } };
+window.langirt = { teams, rods, ball, score, settings, update, startMatch, attract, net, hostTable, joinTable, sendEmote, EMOTES, stats, card, cardStory, drawCard, recordMatch, todayQuests, QUESTS, BADGES, tapTheme, BALLS, TABLES, drawStatic, startCup, cupRule, weekKey, mergeBoard, boardPayload, RULES, cup, get prog() { return prog; }, get state() { return state; }, get mode() { return mode; }, get me() { return me; } };
 
 const hot = window.claude && window.claude.hot;
 if (hot && typeof hot.snapshot === 'function') {

@@ -111,14 +111,14 @@ Maç bitince sonuç ekranındaki **Paylaş** tuşu, maçın görselini telefonun
 
 ### Günlük görevler ve rozetler
 
-Ana menüdeki **🎯 0/3 · ⭐ 0** düğmesi görevler, rozetler ve temalar ekranını açar; sağ üstte kaç yıldızın olduğu yazar. Maç sonu ekranında da o maçta tamamlanan görevler ve kazanılan rozetler görünür; onlara dokununca aynı ekran açılır.
+Ana menüdeki **🎯 0/3 · ⭐ 0** düğmesi görevler, rozetler, temalar, kupa ve tablo ekranını açar (yanındaki **🏆** doğrudan kupaya gider); sağ üstte kaç yıldızın olduğu yazar. Maç sonu ekranında da o maçta tamamlanan görevler ve kazanılan rozetler görünür; onlara dokununca aynı ekran açılır.
 
 - **Günlük görevler:** Her gün üç görev gelir: bir kolay (1⭐), bir orta (2⭐), bir zor (3⭐). Görevler tarihe göre seçilir, yani aynı gün herkes aynı görevleri alır; arkadaşınla yarışabilirsin. Gece yarısı yenilenir.
   - Kolay: bir maç bitir, bir maç kazan, 3 gol at, kalecinle 3 kurtarış yap, rakibine 3 ifade gönder.
   - Orta: 2 maç kazan, 8 gol at, süper şutla gol at, dev kaleciyi 2 kez kullan, Kulüp ya da Usta bilgisayarı yen, bir maçta üst üste 3 gol at, bir sonuç kartı paylaş.
   - Zor: gol yemeden bir maç kazan, Usta bilgisayarı yen, 2 gol geriden gelip kazan, bir maçta 2 süper gol at, bir maçta 3 kurtarış yap, 7 gollük bir maç kazan.
 - **Günün bütün görevleri:** Üçü de bitince +2⭐ bonus gelir ve günlük seri 🔥 bir gün uzar. Bir gün atlanırsa seri sıfırlanır; en iyi seri saklanır.
-- **Rozetler:** 16 rozet var. Çoğu üç seviyelidir: bronz (I), gümüş (II), altın (III). Bir rozete dokununca nasıl kazanıldığı ve ne kadar kaldığı görünür.
+- **Rozetler:** 17 rozet var. Çoğu üç seviyelidir: bronz (I), gümüş (II), altın (III). Bir rozete dokununca nasıl kazanıldığı ve ne kadar kaldığı görünür.
 
   | Rozet | I / II / III |
   | --- | --- |
@@ -137,6 +137,7 @@ Ana menüdeki **🎯 0/3 · ⭐ 0** düğmesi görevler, rozetler ve temalar ekr
   | 🎯 Görev avcısı | 5 / 50 / 200 günlük görev tamamla |
   | 🗓️ Sadık oyuncu | 3 / 7 / 30 gün üst üste bütün görevleri bitir |
   | 💎 Kusursuz | 7 gollük maçı gol yemeden kazan (tek seviye) |
+  | 🥇 Kupa şampiyonu | Haftalık kupayı 1 / 5 / 20 kez kazan |
   | 🎨 Koleksiyoncu | Yıldızlarla 1 / 4 / 10 tema aç |
 
 - **Ne sayılır:**
@@ -165,6 +166,32 @@ Görevlerden kazanılan yıldızlar, görevler ekranının **Temalar** sekmesind
 - **Oyuna etkisi:** Yoktur; yalnızca görünüş değişir. Süper şut hâlâ turuncu parlar; takım renkleri hep mavi ve kırmızıdır.
 - **Ekonomi:** Bir günde görevlerden en çok 8⭐ kazanılır (1 + 2 + 3 + 2 bonus). Böylece ilk temalar birkaç günde, Altın Salon birkaç haftada açılır. Maç sonunda yeni bir temaya yetecek yıldızın olunca "🎨 Yeni tema açabilirsin" yazar.
 - Açılan temalar ve seçimin, görev ilerlemesiyle birlikte bu tarayıcıda saklanır.
+
+### Haftalık kupa ve liderlik tablosu
+
+Menüdeki **🏆** düğmesi (ya da görevler ekranındaki **Kupa** sekmesi) haftanın kupasını açar.
+
+- **Kupa:** Bilgisayara karşı üç tur oynanır: çeyrek final (Acemi, 100 puan), yarı final (Kulüp, 200 puan), final (Usta, 400 puan). Kazanılan maç, turun puanına ek olarak gol farkı başına 20 puan getirir; gol yenmezse 50 puan daha eklenir. Kaybedince koşu biter; o maçta atılan her gol 10 puan sayılır ve toplanan puan kalır.
+- **Haftanın kuralı:** Her hafta beş kupadan biri gelir. Seçim haftaya göre yapıldığı için aynı hafta herkes aynı kupayı oynar.
+  - Klasik Kupa: 5 gollük maçlar.
+  - Hızlı Kupa: 3 gollük maçlar.
+  - Süper Kupa: süper şut göstergesi iki kat hızlı dolar.
+  - Dev Kupa: dev kaleci göstergesi iki kat hızlı dolar.
+  - Maraton Kupası: 7 gollük maçlar.
+
+  Kupa maçlarında süper şut ve dev kaleci her zaman açıktır. Rakip seviyesi turdan gelir. Kupadan çıkınca kendi ayarların geri gelir.
+- **Puan:** Kupa istediğin kadar yeniden oynanabilir; haftanın en iyi koşusu sayılır. Sonuç ekranında "▶ Yarı final" tuşu sonraki tura, "Yeni koşu" yeni bir kupaya başlatır. Kupa maçında "Baştan başlat" yoktur. Maçı yarıda bırakmak ya da uygulamayı kapatmak o maçı kaybetmek sayılır.
+- **Ödül:** Haftanın ilk şampiyonluğu +5⭐ getirir ve 🥇 Kupa şampiyonu rozetine sayılır. Kupa finali kazanılınca paylaşım kartında "Haftanın kupası benim!" yazar.
+- **Tablo:** Tablo sekmesinde haftanın sıralaması iki görünümle gösterilir.
+  - Kupa puanı: haftanın en iyi koşusu ve ulaşılan tur.
+  - Online lig: bu hafta online maçlarda alınan galibiyet ve mağlubiyetler; galibiyet 3 puan.
+  - Adını buradan değiştirebilirsin (en fazla 14 karakter).
+- **Sunucu yok:** Oyun GitHub Pages'te durduğu için herkesin skorunu toplayan bir sunucu yoktur. Tabloda sen ve online oynadığın arkadaşların görünür.
+  - İki telefon online bağlanınca tablolarını birbirine aktarır. Her satır için daha yeni olan kopya kalır, böylece arkadaşının oynadığı kişiler de sana gelir.
+  - Her oyuncunun satırını yalnızca kendi telefonu değiştirir; başka bir telefondan gelen satır seninkinin yerine geçemez.
+  - Gelen satırlar denetlenir: adlar düz yazı olarak gösterilir, sayılar makul sınırlara çekilir, en fazla 40 satır tutulur.
+  - Tablo ve kupa her pazartesi 00:00'da (telefonun saatiyle) sıfırlanır.
+  - Herkesin birbirini görebildiği küresel bir tablo için ayrı bir sunucu (örneğin Firebase ya da Supabase) gerekir.
 
 ### 2 kişi (aynı telefon)
 
