@@ -21,7 +21,10 @@ Her an yalnızca bir çubuğunu kontrol edersin: topa en yakın ve topu önüne 
 
 - Top adamlarının arkasındaysa arkadaki çubuk için ek mesafe sayılır. Bu yüzden kontrol, topu ileri vurabilecek çubukta kalır.
 - Top hızla kendi kalene geliyorsa kontrol, topun henüz geçmediği ilk çubuğa verilir.
-- Vuruş sırasında kontrol başka çubuğa geçmez.
+- Kendi pasın ya da şutun ileri giderken kontrol, topun varacağı sıradaki çubuğuna geçer. Böylece o çubuğu top gelmeden hizalayabilirsin.
+- Kontrol yalnızca güç toplarken ve vuruşun topa değebildiği kısa anda kilitli kalır. Adamlar topun üstüne kalkar kalkmaz kontrol sıradaki çubuğa geçebilir; vuran çubuk kendi kendine dikey konuma döner.
+- Yeni çubuk açıkça daha uygunsa kontrol hemen geçer. Top iki çubuğun tam ortasında duruyorsa, titremesin diye kısa bir süre (0,06 sn) beklenir.
+- Top yavaşlarken kontrolün iki çubuk arasında gidip gelmemesi için hız eşiklerinin açılma ve kapanma değerleri farklıdır: ileri pas 700 mm/s'de başlar, 350 mm/s'de biter.
 - Bilgisayar da aynı kuralla oynar: o da aynı anda tek çubuğunu yönetir.
 
 ### Otomatik kaleci

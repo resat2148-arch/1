@@ -350,6 +350,7 @@ function makeTeam(id) {
   return {
     id, dir: id === BLUE ? 1 : -1, desired: 0, speedMul: 1,
     active: null, kickRod: null, cand: null, candT: 0,   // the rod under the player's hand
+    flow: 0,                                              // ball heading: -1 at our goal, 1 away, 0 loose
     keeper: false,                                        // goalie follows the ball on its own
     k: { phase: 'idle', th: 0, w: 0, charge: 0, wMax: W_MIN },
     pressQ: false, releaseQ: false, ai: null,
@@ -453,27 +454,46 @@ function stepRods(t, h) {
   }
 }
 
-// The rod that should play the ball: the nearest one with the ball in front of it,
-// or, while the ball races towards our goal, the next rod in its way.
+// How well a rod suits the ball right now (lower is better):
+// - racing towards our goal: the next rod still in its way;
+// - our own pass or shot going forwards: the next rod it will reach, so it can be lined up in time;
+// - otherwise: the nearest rod that can play it forwards (a ball behind a rod counts as further away).
+function rodScore(t, rod, b) {
+  const f = (b.x - rod.x) * t.dir;
+  if (t.flow < 0) return f > -12 ? f : 1e6 - f;
+  if (t.flow > 0) return f < 12 ? -f : 1e6 + f;
+  return f >= -15 ? Math.abs(f) : 70 - f;
+}
+// Which way the ball is travelling, with a gap between the on and off speeds so a ball slowing
+// down around one threshold does not flip the rule (and the control) back and forth.
+function updateFlow(t, b) {
+  const vf = b.vx * t.dir;
+  if (vf < -300) t.flow = -1;
+  else if (vf > 700) t.flow = 1;
+  else if ((t.flow < 0 && vf > -120) || (t.flow > 0 && vf < 350)) t.flow = 0;
+}
 function pickRod(t, b) {
-  const incoming = b.vx * t.dir < -250;
   let best = t.rods[0], bs = 1e9;
-  for (const rod of t.rods) {
-    const f = (b.x - rod.x) * t.dir;
-    const s = incoming ? (f > -12 ? f : 1e6 - f) : (f >= -15 ? Math.abs(f) : 70 - f);
-    if (s < bs) { bs = s; best = rod; }
-  }
+  for (const rod of t.rods) { const s = rodScore(t, rod, b); if (s < bs) { bs = s; best = rod; } }
   return best;
 }
 function updateActive(t, b, dt) {
   if (!b.live) return;
+  updateFlow(t, b);
   if (!t.active) { t.active = t.kickRod = pickRod(t, b); return; }
-  if (t.k.phase !== 'idle') { t.candT = 0; return; }        // never swap rods in the middle of a kick
+  const k = t.k;
+  // hold the rod only while it is charging or its feet can still meet the ball
+  if (k.phase === 'windup' || (k.phase === 'strike' && k.th < THETA_C)) { t.candT = 0; return; }
   const c = pickRod(t, b);
   if (c === t.active) { t.candT = 0; return; }
   if (c !== t.cand) { t.cand = c; t.candT = 0; }
   t.candT += dt;
-  if (t.candT >= .06) { t.active = t.kickRod = c; t.candT = 0; }
+  // switch at once when the new rod is clearly the one; wait a moment only on a near tie, so a ball
+  // resting between two rods does not make the control flicker
+  if (rodScore(t, t.active, b) - rodScore(t, c, b) > 20 || t.candT >= .06) {
+    if (k.phase !== 'idle') Object.assign(k, { phase: 'idle', th: 0, w: 0 });   // the old rod settles back on its own
+    t.active = t.kickRod = c; t.candT = 0;
+  }
 }
 function autoKeeper(t) {
   const g = t.rods.find(r => r.n === 1);
@@ -1284,7 +1304,7 @@ function syncShootRing() {
 function resetTable() {
   for (const t of teams) {
     t.desired = 0; t.pressQ = t.releaseQ = false;
-    t.active = t.kickRod = t.cand = null; t.candT = 0;
+    t.active = t.kickRod = t.cand = null; t.candT = 0; t.flow = 0;
     Object.assign(t.k, { phase: 'idle', th: 0, w: 0, charge: 0 });
     Object.assign(t.aiS, { kickT: -1, holdT: -1, cool: 0 });
   }
