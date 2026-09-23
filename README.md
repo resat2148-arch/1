@@ -13,7 +13,7 @@ Telefonda oynanan langırt (kicker) oyunu. Tek bir `index.html` dosyasından olu
 | **ŞUT**, basılı tut | Adamlar geriye yatar ve güç toplar (tuşun çevresindeki halka dolar). Bıraktığında daha sert vurur. |
 | Vururken ▲/▼ | Kayan çubuk sürtünmeyle topa yan hız verir, top çapraz gider. |
 | Ayağın kenarıyla vurmak | Ayak yuvarlak olduğu için top açılı seker. |
-| Topuk | Top adamının arkasında kaldıysa ŞUT'a basılı tut: adam geriye yatarken topu arkaya iter. |
+| Arka | Top aktif çubuğun hemen arkasında (1,2–6 cm) kaldıysa ŞUT'a bas: adamlar öne doğru tam tur döner, ayak topun arkasına iner ve topu ileri sürer. |
 | **SÜPER** (ŞUT'un üstünde) | Göstergen dolunca süper şutu hazırlar; bir sonraki vuruşun süper şut olur (aşağıya bak). |
 
 ### Aktif çubuk
@@ -50,7 +50,7 @@ Açık gelir; kapatmak için menüdeki **Otomatik kaleci** anahtarını ya da mo
 Her takımın bir süper şut göstergesi vardır. Gösterge top oyundayken 40 saniyede dolar; gol yiyen takımın göstergesine ayrıca %30 eklenir.
 
 - **Hazırlama:** Gösterge dolunca **SÜPER** tuşu turuncu parlar ve skor tabelasında takımın yanındaki şimşek yanar. Tuşa basınca süper şut hazırlanır: ŞUT tuşu da turuncu çerçeve alır. Dolmadan basarsan bir şey olmaz.
-- **Ateşleme:** Hazırlanan süper, bir sonraki gerçek ileri vuruşunda ateşlenir. Topuk itişi ya da yana giden vuruş onu harcamaz. Kullanınca gösterge sıfırlanır.
+- **Ateşleme:** Hazırlanan süper, bir sonraki gerçek ileri vuruşunda ateşlenir. Tam tur (arka) vuruşu ya da yana giden vuruş onu harcamaz. Kullanınca gösterge sıfırlanır.
 - **Etkisi:** Top normal şutun yaklaşık 1,5 katı hızla (en az 3,8 m/s) kaymadan gider. Rakibin defans, orta saha ve forvet adamlarının içinden geçer; geçtiği adamlar bir anlığına soluklaşır. Turuncu iz ve parıltı bırakır, gol olursa "Süper gol!" yazar.
 - **Sınırları:** Kaleci süper şutu durdurabilir; kaleci dokunduğu an süper biter. Duvardan sekebilir. Hızı 1,5 m/s'nin altına düşünce ya da 1,6 saniye sonra normal topa döner.
 - **Bilgisayar:** Aynı göstergeyle oynar ve süperini forvetiyle vururken kullanır. İki kişilik modda iki oyuncunun da ayrı göstergesi ve SÜPER tuşu vardır.
@@ -90,8 +90,10 @@ Bütün hesaplar gerçek masa ölçüleriyle, milimetre ve saniye cinsinden yap�
 - **Vuruş:** Çubuk dönüş ekseni etrafında döner. Ayağın topa değdiği noktadaki hız `v = L · ω · cos θ` ile hesaplanır. Çarpışma, çarpma katsayılı ve sürtünmeli bir impuls olarak çözülür; bu da çubuğun kayma hızının topa yan hız olarak geçmesini sağlar. Kavisli ayak topu biraz üstten yakaladığı için topa bir miktar üst dönüş de verir.
 - **Kalkan adamlar:** Adamlar yaklaşık 56°'den fazla döndüğünde ayaklar topun üstünden geçer ve çarpışma olmaz. Kendi pasın arkadan gelip adamlarından birine çarpacaksa o çubuk kalkar ve top altından geçer. Gerçek oyuncular da bunu içgüdüsel olarak yapar. Adamlar topun üstüne inerse top tuzağa düşer.
 - **Duvarlar ve direkler:** Ahşap duvarlar ve yuvarlak kale direkleri farklı çarpma katsayılarına sahiptir.
-- **Eğimli kenarlar:** Kenar rampaları ile köşe eğimleri, duran topu tekrar adamların erişebileceği yere yuvarlar.
-- **Ölü top:** Hiçbir adamın ulaşamayacağı yerde duran top, kurala uygun biçimde orta sahadaki servis deliğinden yeniden oyuna girer.
+- **Eğimli kenarlar:** Kenar rampaları ile köşe eğimleri, duran topu tekrar adamların erişebileceği yere yuvarlar. Kalecinin önündeki köşe eğimleri, kalecinin ulaşamadığı yanlardaki topu onun önüne getirir.
+- **Oluklar:** Çubuk aralığı 15 cm, ayak ise ileriye ancak yaklaşık 8 cm uzanır. Bu yüzden masada duran topa hiçbir adamın vuramadığı şeritler kalır: kaleciyle defans arası ve iki takımın sırt sırta kaldığı iki boşluk. Bu şeritlerde saha hafif eğik (yaklaşık 1,2°, eski ve hafif eğilmiş gerçek masalardaki gibi). Orada duran top, bir çubuk çizgisini geçmesi gerekmeden en yakın oynanabilir noktaya, bir çubuğun önüne ya da hemen arkasına, yarım saniye içinde yuvarlanır. Eğim yuvarlanma direncini yenecek kadar güçlü, ama hızlı topu fark edilir şekilde saptırmayacak kadar hafiftir.
+- **Tam tur vuruş:** Çubuğun hemen arkasındaki top için adamlar öne doğru tam tur döner: ayaklar üstten geçer, topun arkasına iner ve topu ileri sürer (yaklaşık 1,2 m/s).
+- **Ölü top:** Hiçbir adamın ulaşamayacağı yerde duran top, kurala uygun biçimde orta sahadaki servis deliğinden yeniden oyuna girer. Oluklar ve tam tur vuruşla bu nadiren gerekir: simülasyonda 10 dakikalık maçlarda ölü top servisi 21–28'den 3–11'e, topun ulaşılamaz yerde durduğu süre 90–110 saniyeden 4–14 saniyeye indi.
 - **Adım aralığı:** Fizik saniyede 480 sabit adımla hesaplanır. Böylece en sert şut bile bir adımda adamın içinden geçip gitmez.
 
 ## Bilgisayar rakip
@@ -105,7 +107,7 @@ Bütün hesaplar gerçek masa ölçüleriyle, milimetre ve saniye cinsinden yap�
 - şut gücü
 - açılı şut deneme sıklığı
 
-Rakip, aktif çubuğunu topun o çubuğun hizasından geçeceği noktaya getirir. Top ayağının önündeyken kaleye doğru nişan alıp vurur. Arkaya düşen topu defans ya da forvetiyle topuk pasıyla kurtarır.
+Rakip, aktif çubuğunu topun o çubuğun hizasından geçeceği noktaya getirir. Top ayağının önündeyken kaleye doğru nişan alıp vurur. Çubuğunun hemen arkasına düşen topu tam tur vuruşla ileri oynar.
 
 ## Dosyalar
 

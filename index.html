@@ -241,7 +241,7 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
           <li><b>▲ ▼</b><span>Parlayan çubuğu kaydırır (aktif çubuk kapalıysa hepsini).</span></li>
           <li><b>Şut</b><span>Dokun: hızlı vuruş. Basılı tut: güç topla, bırak.</span></li>
           <li><b>Açı</b><span>Ayağın kenarıyla vur ya da vururken çubuğu kaydır.</span></li>
-          <li><b>Topuk</b><span>Top adamın arkasındaysa basılı tut: geri iter.</span></li>
+          <li><b>Arka</b><span>Top adamın hemen arkasındaysa ŞUT: tam tur dönüp ileri vurur.</span></li>
           <li><b>Süper</b><span>Halka dolunca SÜPER'e bas: sonraki şutun çok hızlı gider, kaleci dışında kimse durduramaz.</span></li>
           <li><b>2 kişi</b><span>Mavi sol uçtaki, kırmızı sağ uçtaki tuşlarla oynar.</span></li>
         </ul>
@@ -352,6 +352,7 @@ const VROD = 600, ROD_ACC = 7000, ROD_DEC = 11000;   // hand speed on the active
 const UALL = 4, UALL_ACC = 40, UALL_DEC = 60;        // all rods together: share of each rod's travel per s (and s²)
 const CHARGE_T = 0.45, WIND_MIN = 0.28, WIND_MAX = 0.72, WIND_W = 5.5;
 const W_MIN = 13, W_MAX = 27, W_ACC = 1000, STRIKE_END = 1.3;
+const W_SPIN = 22, SPIN_BACK = 60;          // full forward turn that plays a ball lying just behind the figures
 const LIFT = 1.35, LIFT_W = 20, DROP_W = 7;   // raising a rod so a ball from behind rolls underneath
 
 const BLUE = 0, RED = 1;
@@ -419,6 +420,27 @@ const rods = ROD_SPEC.map(([team, n, s, half], i) => ({
 }));
 for (const t of teams) t.rods = rods.filter(r => r.team === t.id);
 const figY = (rod, j) => CY + rod.offs[j] + rod.p;
+
+// Gentle troughs in the playfield, like a slightly warped real table (about 1.2°): wherever a ball
+// that stopped could not be played by any figure, the surface tilts towards the nearest spot one can,
+// in front of a rod or just behind it, without the ball having to cross a rod's line to get there.
+const TROUGH = 210;
+const troughDir = (() => {
+  const wells = [];
+  for (const r of rods) { const d = teams[r.team].dir; wells.push(r.x + d * 35, r.x - d * 30); }
+  const dir = new Int8Array(W + 1);
+  for (let x = 0; x <= W; x++) {
+    const playable = rods.some(r => { const f = (x - r.x) * teams[r.team].dir; return f > -52 && f < 66; });
+    if (playable) continue;
+    let best = null;
+    for (const w of wells) {
+      if (rods.some(r => (r.x - x) * (r.x - w) < 0)) continue;       // would have to roll through a rod line
+      if (best === null || Math.abs(w - x) < Math.abs(best - x)) best = w;
+    }
+    if (best !== null) dir[x] = Math.sign(best - x);
+  }
+  return dir;
+})();
 
 function makeSpots() {
   const p = (1 + Math.sqrt(5)) / 2, v = [];
@@ -552,7 +574,7 @@ function updateActive(t, b, dt) {
   if (!t.active) { t.active = t.kickRod = pickRod(t, b); return; }
   const k = t.k;
   // hold the rod only while it is charging or its feet can still meet the ball
-  if (k.phase === 'windup' || (k.phase === 'strike' && k.th < THETA_C)) { t.candT = 0; return; }
+  if (k.phase === 'windup' || k.phase === 'spin' || (k.phase === 'strike' && k.th < THETA_C)) { t.candT = 0; return; }
   const c = pickRod(t, b);
   if (c === t.active) { t.candT = 0; return; }
   if (c !== t.cand) { t.cand = c; t.candT = 0; }
@@ -583,7 +605,13 @@ function stepKick(t, h) {
   const k = t.k;
   if (t.pressQ) {
     t.pressQ = false;
-    if (k.phase !== 'strike') { k.phase = 'windup'; k.charge = 0; t.kickRod = t.active; }
+    if (k.phase !== 'strike' && k.phase !== 'spin') {
+      t.kickRod = t.active;
+      const kr = t.together ? pickRod(t, ball) : t.active;
+      const f = kr ? (ball.x - kr.x) * t.dir : 0;
+      if (ball.live && kr && f < -12 && f > -SPIN_BACK) { k.phase = 'spin'; k.spun = false; k.fromSpin = true; k.w = Math.max(k.w, 0); }
+      else { k.phase = 'windup'; k.charge = 0; k.fromSpin = false; }
+    }
   } else if (t.releaseQ) {
     t.releaseQ = false;
     if (k.phase === 'windup') { k.phase = 'strike'; k.wMax = W_MIN + (W_MAX - W_MIN) * k.charge; k.w = Math.max(k.w, 0); }
@@ -596,6 +624,12 @@ function stepKick(t, h) {
       k.th += k.w * h;
       break;
     }
+    case 'spin':            // feet go up and over the top, come down behind the ball and drive through it
+      k.w = Math.min(W_SPIN, k.w + W_ACC * h);
+      k.th += k.w * h;
+      if (k.th > Math.PI) { k.th -= 2 * Math.PI; k.spun = true; }
+      if (k.spun && k.th >= 0) { k.phase = 'strike'; k.wMax = W_SPIN; }
+      break;
     case 'strike':          // wrist flick: angular speed builds up, then follow-through
       k.w = Math.min(k.wMax, k.w + W_ACC * h);
       k.th += k.w * h;
@@ -720,6 +754,7 @@ function stepBall(h) {
     ay -= Math.sign(y - CY) * CORNER_SLOPE * (.4 + .6 * depth);
     ax += (x < CORNER_X ? 1 : -1) * CORNER_SLOPE * .35 * depth;
   }
+  ax += troughDir[clamp(Math.round(x), 0, W)] * TROUGH;
   ball.vx += ax * h; ball.vy += ay * h; ball.rx += ax * h; ball.ry += ay * h;
 
   // skid → roll: kinetic friction acts on the contact slip until the ball rolls (solid sphere: slip decays 3.5× faster than v)
@@ -782,7 +817,7 @@ function launchSuper(t) {
   if (!t.ai) vibrate([20, 30, 40]);
 }
 function contact(t, jn, fvx) {
-  if (t.armed && t.k.phase === 'strike' && fvx * t.dir > 300 && jn > 400) launchSuper(t);
+  if (t.armed && t.k.phase === 'strike' && !t.k.fromSpin && fvx * t.dir > 300 && jn > 400) launchSuper(t);
   if (Math.abs(fvx) > 150) ball.lastShooter = t.id;   // a swinging foot, not a passive block or deflection
   if (Math.abs(fvx) > 300 && jn > 500) {
     Sound.kick(jn / 2600);
@@ -838,7 +873,7 @@ function reachLevel() {
     if (f < -80 || f > 80) continue;
     for (let j = 0; j < rod.n; j++) {
       const c = CY + rod.offs[j];
-      if (ball.y > c - rod.half - FW - R * .8 && ball.y < c + rod.half + FW + R * .8) { lvl = Math.max(lvl, f >= -14 ? 2 : 1); break; }
+      if (ball.y > c - rod.half - FW - R * .8 && ball.y < c + rod.half + FW + R * .8) { lvl = Math.max(lvl, f >= -SPIN_BACK + 4 ? 2 : 1); break; }
     }
   }
   return lvl;
@@ -890,7 +925,7 @@ function aiUpdate(t, dt) {
     if (S.kickT < 0 && b.live && t.active) {
       // commit only if the ball is still where a foot (or, for a heel pass, a heel) can reach it
       const f = (b.x - t.active.x) * t.dir;
-      if (S.heel ? f > -76 && f < -10 : f > -10 && f < 74) { t.pressQ = true; S.holdT = S.holdDur; }
+      if (S.heel ? f > -SPIN_BACK && f < -12 : f > -10 && f < 74) { t.pressQ = true; S.holdT = S.holdDur; }
     }
   } else if (S.holdT >= 0) { S.holdT -= dt; if (S.holdT < 0) { t.releaseQ = true; S.cool = L.cool; } }
 
@@ -928,12 +963,12 @@ function aiUpdate(t, dt) {
       if (settings.superShot && t.skill >= 1 && rod.n === 3) t.armed = true;   // saves the super for its forwards
       S.holdDur = randIn(L.charge) * CHARGE_T + .015;
     }
-  } else if (f > -70 && f < -14 && spd < 250 && (rod.n === 2 || rod.n === 3)) {
-    // stuck behind the 2-bar or 3-bar: lean back and tap it with the heel to the goalie / midfield
+  } else if (f > -SPIN_BACK + 4 && f < -14 && spd < 300) {
+    // lying just behind the figures: line one up and turn it over the ball to hit it forwards
     tp = bestP(rod, by, rod.p);
     let err = 1e9;
     for (let j = 0; j < rod.n; j++) err = Math.min(err, Math.abs(figY(rod, j) - b.y));
-    if (ready && err < 9) { S.kickT = randIn(L.kickDelay) + .1; S.heel = true; S.holdDur = .3; }
+    if (ready && err < 9) { S.kickT = randIn(L.kickDelay) + .05; S.heel = true; S.holdDur = .02; }
   } else {
     // block: line up with where the ball will cross this rod
     const yp = Math.abs(b.vx) > 60 ? predictY(b, rod.x) : b.y;
