@@ -4,7 +4,7 @@ Telefonda oynanan langırt (kicker) oyunu. Tek bir `index.html` dosyasından olu
 
 ## Nasıl oynanır
 
-Mavi takım sensin, kırmızı takımı bilgisayar oynar. Seçtiğin gol sayısına (3, 5 ya da 7) ilk ulaşan maçı kazanır.
+İki mod var: **Bilgisayara karşı** (mavi takım sensin, kırmızıyı bilgisayar oynar) ve **2 kişi** (aynı telefonda arkadaşınla). Seçtiğin gol sayısına (3, 5 ya da 7) ilk ulaşan maçı kazanır.
 
 | Kontrol | Ne yapar |
 | --- | --- |
@@ -33,9 +33,21 @@ Kontrol başka bir çubuktayken kalecin topu kendiliğinden izler. Böylece sert
 - Kale ağzının dışına çıkmaz. Topu yalnızca kısmen izler: top şut menzilindeyken yaklaşık üçte iki oranında, uzaktayken daha az. Bu yüzden köşeler açık kalır.
 - Kontrol kaleciye geçtiği anda kaleciyi yine sen oynarsın.
 
-Açık gelir; kapatmak için menüdeki **Otomatik kaleci** anahtarını ya da moladaki **Oto kaleci** düğmesini kullan. Seçimin hatırlanır. Bu yardım yalnızca senin takımına uygulanır.
+Açık gelir; kapatmak için menüdeki **Otomatik kaleci** anahtarını ya da moladaki **Oto kaleci** düğmesini kullan. Seçimin hatırlanır. Bilgisayara karşı modda yalnızca senin takımına, 2 kişilik modda iki takıma da uygulanır.
 
-Bilgisayarda klavyeyle de oynanır: `↑ ↓` ya da `W S` aktif çubuğu kaydırır, `Boşluk` şut çeker, `P` ya da `Esc` molaya alır.
+### 2 kişi (aynı telefon)
+
+Telefonu yatay olarak ikinizin arasına koyun. Mavi oyuncu sol uçta, kırmızı oyuncu sağ uçta oturur; herkesin kalesi kendi tarafındadır.
+
+- Her uçta o oyuncuya ait bir tuş sütunu vardır: ▲, ŞUT ve ▼. Tuşlar takım renginde, ŞUT yazısı da o oyuncuya dönüktür.
+- Tuşlar ekranın kenarı boyunca dizildiği için, telefonu ister karşılıklı ister yan yana tutun, basılan ok çubuğun kaydığı yönü gösterir.
+- İki oyuncu aynı anda basabilir; ekran birden fazla parmağı ayrı ayrı izler.
+- İki taraf da "topa en yakın çubuk" kuralıyla oynar; her takımın aktif çubuğu kendi renginde parlar.
+- Otomatik kaleci açıksa iki takıma birden uygulanır.
+
+Klavyeyle 2 kişi oynamak için mavi `W S` ve `Boşluk` (ya da `F`), kırmızı `↑ ↓` ve `Enter` (ya da `L`) tuşlarını kullanır.
+
+Bilgisayara karşı modda klavyeyle de oynanır: `↑ ↓` ya da `W S` aktif çubuğu kaydırır, `Boşluk` şut çeker. İki modda da `P` ya da `Esc` molaya alır.
 
 Oyun yatay ekran için tasarlandı. Telefon dik tutulursa sahne kendiliğinden 90° döner; telefonu yan çevirmen yeterli.
 
