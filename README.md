@@ -104,7 +104,8 @@ Maç bitince sonuç ekranındaki **Paylaş** tuşu, maçın görselini telefonun
   - "Sen de oyna" ile oyunun adresi ve tarih.
 - **Kimin açısından:** Bilgisayara karşı ve online maçta senin açından; online'da iki telefon da kendi kartını hazırlar. 2 kişilik modda kazananın açından.
 - **Hikâye alanı:** Önemli yazılar, Instagram'ın üstteki profil satırının ve alttaki mesaj çubuğunun altında kalmayacak şekilde ortada durur.
-- **Paylaşılamayan yerde:** Bilgisayarda ya da claude.ai sayfasında görsel dosya olarak paylaşılamazsa kart ekranda açılır; basılı tutup kaydedebilir ya da **İndir**'e basabilirsin.
+- **claude.ai sayfasında:** Görsel, sayfanın indirme izniyle verilir: Claude iPhone uygulamasında paylaşım menüsü, tarayıcıda indirme onayı açılır.
+- **Paylaşılamayan yerde:** Görsel dosya olarak paylaşılamazsa (örneğin bir bilgisayar tarayıcısında) kart ekranda açılır; basılı tutup kaydedebilir ya da **İndir**'e basabilirsin.
 - **Neden yalnızca görsel:** Yanına yazı eklenince bazı uygulamalar (Instagram gibi) paylaşım menüsünde görünmüyor. Oyunun adresi görselin üstünde yazılı.
 - Görsel maç biter bitmez hazırlanır; bu yüzden tuşa basınca paylaşım menüsü hemen açılır.
 

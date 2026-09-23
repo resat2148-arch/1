@@ -1978,7 +1978,10 @@ const GAME_URL = 'https://resat2148-arch.github.io/1/';
 const CARD_W = 1080, CARD_H = 1920;
 const FONT_D = '"Big Shoulders Display", Impact, "Arial Narrow", sans-serif';
 const FONT_U = '"Barlow Semi Condensed", "Arial Narrow", "Roboto Condensed", sans-serif';
-const card = { file: null, ready: null, n: 0, url: '', open: false };
+const card = { file: null, ready: null, n: 0, url: '', open: false, dl: null };
+// on the claude.ai page files go out through the page's "downloads" capability (the Claude iPhone app
+// opens the share sheet with it); a page there cannot share or download files by itself
+if (window.claude && typeof window.claude.use === 'function') window.claude.use('downloads').then(d => { card.dl = d; }, () => {});
 const upTR = t => t.toLocaleUpperCase('tr');
 const withAlpha = (hex, a) => hex + Math.round(a * 255).toString(16).padStart(2, '0');
 
@@ -2136,6 +2139,15 @@ async function shareCard() {
   let f = card.file;
   if (!f && card.ready) { $('shareBtn').disabled = true; f = await card.ready; $('shareBtn').disabled = false; }
   if (!f) { toast('Görsel hazırlanamadı'); return; }
+  if (card.dl) {
+    try { await card.dl.save({ filename: f.name, data: f }); }
+    catch (e) {
+      const code = e && e.code;
+      if (code === 'rate_limited') toast('Biraz bekle, sonra yeniden dene');
+      else if (code !== 'declined') openCardView(f);
+    }
+    return;
+  }
   let can = false;
   try { can = !!(navigator.share && navigator.canShare && navigator.canShare({ files: [f] })); } catch (e) { can = false; }
   if (can) {
@@ -2150,6 +2162,7 @@ function openCardView(f) {
   card.url = URL.createObjectURL(f);
   $('cardImg').src = card.url;
   $('cardDl').href = card.url; $('cardDl').download = f.name;
+  $('cardDl').hidden = !!window.claude;                 // a link cannot download inside the claude.ai frame
   card.open = true; setUI();
 }
 function closeCardView() {
