@@ -120,6 +120,28 @@ Maç bitince sonuç ekranındaki **Paylaş** tuşu, maçın görselini telefonun
 - **Neden yalnızca görsel:** Yanına yazı eklenince bazı uygulamalar (Instagram gibi) paylaşım menüsünde görünmüyor. Oyunun adresi görselin üstünde yazılı.
 - Görsel maç biter bitmez hazırlanır; bu yüzden tuşa basınca paylaşım menüsü hemen açılır.
 
+### Oyuncu profili ve istatistikler
+
+Menünün sol üstünde avatarın, adın ve seviyen durur; dokununca görevler ekranının **Profil** sekmesi açılır.
+
+- **Kimlik:** 16 emoji arasından avatar seçilir (avatara dokun). Ad buradan ya da Tablo sekmesinden değiştirilir; ikisi aynı addır.
+- **Seviye:** Maçlardan kazanılan deneyimle yükselir.
+  - XP: maç 10, galibiyet 25, gol 3, süper gol 5, gol yemeden galibiyet 15, geri dönüş 20, kupa şampiyonluğu 100, günlük görev 10.
+  - Bir sonraki seviye için gereken XP her seviyede 50 artar (100, 150, 200…). Seviye 2 yaklaşık 3 maçta, seviye 5 yirmi küsur maçta gelir.
+  - Unvanlar: Çaylak (1), Amatör (3), Yetenekli (5), Profesyonel (8), Yıldız (12), Usta (17), Efsane (23).
+  - Seviye atlanınca maç sonunda "⬆️ Seviye 5: Yetenekli!" yazar.
+  - XP, zaten tutulan toplam sayılardan hesaplanır; bu yüzden profilden önce oynayanlar kazandıkları seviyeyle başlar.
+- **Özet:** Rozet, kupa, açılan tema ve en iyi günlük seri.
+- **İstatistikler:**
+  - Maç ve toplam oynama süresi; galibiyet ve kazanma yüzdesi; mağlubiyet.
+  - Atılan ve yenilen gol, maç başı ortalamalarıyla.
+  - Süper gol, kurtarış, gol yemeden galibiyet, geri dönüş, en uzun gol serisi, en farklı galibiyet ve kupa şampiyonlukları.
+- **Rakibe göre:** Acemi, Kulüp, Usta ve online için galibiyet–mağlubiyet, yeşil bir kazanma çubuğuyla.
+- **Son maçlar:** Son 10 maç, "G 3–1" ya da "M 0–3" olarak; bilgisayar seviyesi, online ya da kupa işaretiyle.
+- **Ne sayılır:** Görevlerdeki gibi bilgisayara karşı ve online maçlar, maç bitince, kendi tarafından sayılır; 2 kişilik maçlar sayılmaz.
+  - Profilden önce tutulmayan sayılar profil geldikten sonra başlar: yenilen gol, oynama süresi, rakibe göre kayıt, en farklı galibiyet ve son maçlar.
+  - Yenilen gol ortalaması yalnızca bu maçlar üzerinden hesaplanır.
+
 ### Günlük görevler ve rozetler
 
 Ana menüdeki **🎯 0/3 · ⭐ 0** düğmesi görevler, rozetler, temalar, kupa ve tablo ekranını açar (yanındaki **🏆** doğrudan kupaya gider); sağ üstte kaç yıldızın olduğu yazar. Maç sonu ekranında da o maçta tamamlanan görevler ve kazanılan rozetler görünür; onlara dokununca aynı ekran açılır.

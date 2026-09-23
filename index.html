@@ -234,6 +234,63 @@ button:focus-visible,.seg input:focus-visible+label{outline:2px solid var(--bras
   .gpanel{gap:8px}
 }
 
+/* ——— player profile ——— */
+.profchip{appearance:none;display:inline-flex;align-items:center;gap:7px;min-width:0;padding:3px 11px 3px 3px;border-radius:999px;border:1px solid var(--chalk-3);
+  background:rgba(242,233,216,.06);color:var(--chalk);cursor:pointer;font:700 13px/1 var(--ui)}
+.profchip .pa{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:15px;background:rgba(214,165,72,.2);border:1px solid var(--brass)}
+.profchip .pn{max-width:9em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.profchip .plv{font:900 13px/1 var(--display);letter-spacing:.06em;color:var(--brass)}
+.phead{display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px;align-items:center}
+.avatar{appearance:none;width:62px;height:62px;border-radius:50%;padding:0;cursor:pointer;display:grid;place-items:center;font-size:32px;line-height:1;
+  background:radial-gradient(circle at 40% 35%,rgba(214,165,72,.35),rgba(214,165,72,.08));border:2px solid var(--brass);box-shadow:0 0 18px rgba(214,165,72,.25)}
+.pid{display:grid;gap:5px;min-width:0}
+.pname2{width:min(220px,100%);padding:4px 8px;margin-left:-8px;border-radius:8px;border:1px solid transparent;background:transparent;color:var(--chalk);
+  font:900 24px/1 var(--display);letter-spacing:.03em;-webkit-user-select:text;user-select:text;touch-action:manipulation}
+.pname2:hover,.pname2:focus{border-color:var(--chalk-3);background:rgba(242,233,216,.06);outline:none}
+.plevel{margin:0;display:flex;gap:10px;align-items:baseline;font-size:13px;color:var(--chalk-2)}
+.plevel b{font:700 14px/1 var(--ui);color:var(--brass)}
+.xpbar{height:7px;border-radius:99px;background:rgba(242,233,216,.12);overflow:hidden}
+.xpbar i{display:block;height:100%;width:var(--w,0%);border-radius:inherit;background:linear-gradient(90deg,#b98b3c,#f3dca0);transition:width .5s}
+.pquick{margin:0;display:flex;flex-wrap:wrap;gap:4px 14px;font:600 12.5px/1.2 var(--ui);color:var(--chalk-2)}
+.pquick b{color:var(--chalk);font:900 15px/1 var(--display);margin-left:4px}
+.avpick{display:flex;flex-wrap:wrap;gap:5px;padding:7px;border-radius:12px;background:rgba(242,233,216,.05);border:1px solid var(--chalk-3)}
+.avpick button{appearance:none;width:38px;height:38px;border-radius:50%;border:1px solid transparent;background:rgba(0,0,0,.25);font-size:20px;line-height:1;cursor:pointer;padding:0}
+.avpick button[aria-pressed=true]{border-color:var(--brass);background:rgba(214,165,72,.25)}
+.pstats{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px}
+.pstat{display:grid;gap:3px;padding:7px 8px;border-radius:11px;background:rgba(242,233,216,.05);border:1px solid var(--chalk-3);min-width:0}
+.pstat .v{font:900 21px/1 var(--display);font-variant-numeric:tabular-nums;white-space:nowrap}
+.pstat .k{font:700 10px/1.1 var(--ui);letter-spacing:.08em;text-transform:uppercase;color:var(--chalk-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pstat .s{font:600 10.5px/1 var(--ui);color:var(--brass);white-space:nowrap}
+.pbottom{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:14px;align-items:start}
+.plevels{display:grid;grid-template-columns:auto auto minmax(24px,1fr) auto auto minmax(24px,1fr);gap:6px 9px;align-items:center;font-size:12.5px}
+.plevels .ln{color:var(--chalk-2);font-weight:600}
+.plevels .rec{font:900 15px/1 var(--display);font-variant-numeric:tabular-nums;text-align:right}
+.plevels .bar{height:6px;border-radius:99px;background:rgba(242,134,128,.35);overflow:hidden}
+.plevels .bar i{display:block;height:100%;width:var(--w,0%);background:#6fd3a3}
+.plevels .bar.none{background:rgba(242,233,216,.1)}
+.ptitle{display:block;margin-bottom:5px;font:700 10.5px/1 var(--ui);letter-spacing:.14em;text-transform:uppercase;color:var(--chalk-2)}
+.formrow{display:flex;flex-wrap:wrap;gap:4px}
+.fchip{display:grid;justify-items:center;gap:1px;min-width:38px;padding:4px 5px 3px;border-radius:8px;font:900 13px/1 var(--display);font-variant-numeric:tabular-nums}
+.fchip small{font:700 9px/1 var(--ui);letter-spacing:.04em;opacity:.8}
+.fchip.w{background:rgba(111,211,163,.16);border:1px solid rgba(111,211,163,.6);color:#bff0d8}
+.fchip.l{background:rgba(242,134,128,.12);border:1px solid rgba(242,134,128,.5);color:#ffc8c3}
+.fempty{font-size:12.5px;color:var(--chalk-2)}
+@container (max-height:460px){
+  .profchip{padding:1px 9px 1px 1px;font-size:12px;margin-block:-6px}   /* no taller than the old eyebrow line */
+  .profchip .pa{width:22px;height:22px;font-size:13px}
+  .profchip .plv{font-size:12px}
+  .avatar{width:54px;height:54px;font-size:28px}
+  .pname2{font-size:21px}
+  .pstat{padding:5px 7px}
+  .pstat .v{font-size:19px}
+}
+@container (max-width:760px){
+  .gtabs{gap:4px}
+  .gtabs [role=tab]{padding:7px 10px;font-size:13px}
+  .gtabs [role=tab] span{display:none}           /* the badge count shows inside the tab */
+  .pstat .k{letter-spacing:.03em;font-size:9.5px}
+}
+
 /* ——— weekly cup and table ——— */
 .pills{display:inline-flex;gap:6px;align-items:center}
 .goalspill.cuppill{padding-inline:9px}
@@ -419,6 +476,7 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
   .how .tip-emo{display:none}             /* the 💬 button explains itself on the smallest screens */
   .theme canvas{width:38px;height:38px}
   .theme.table canvas{width:74px;height:46px}
+  .pquick{display:none}                   /* the other tabs say the same */
 }
 @container (max-width:600px){
   .menu{grid-template-columns:1fr;gap:14px}
@@ -472,7 +530,7 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
   <section class="overlay" id="menu">
     <div class="menu">
       <div class="brand">
-        <div class="brandtop"><p class="eyebrow">Kicker · Langırt</p><span class="pills"><button type="button" class="goalspill cuppill" id="cupBtn" aria-label="Haftalık kupa ve liderlik tablosu">🏆</button><button type="button" class="goalspill" id="goalsBtn">🎯 <span id="goalsCount">0/3</span><span class="sep" aria-hidden="true">·</span>⭐ <span id="starCount">0</span></button></span></div>
+        <div class="brandtop"><button type="button" class="profchip" id="profBtn"><span class="pa" id="profAv" aria-hidden="true">⚽</span><span class="pn" id="profName">Oyuncu</span><span class="plv" id="profLv">Sv 1</span></button><span class="pills"><button type="button" class="goalspill cuppill" id="cupBtn" aria-label="Haftalık kupa ve liderlik tablosu">🏆</button><button type="button" class="goalspill" id="goalsBtn">🎯 <span id="goalsCount">0/3</span><span class="sep" aria-hidden="true">·</span>⭐ <span id="starCount">0</span></button></span></div>
         <h1><span class="cep">Cep</span><span class="rodline">Langırtı</span></h1>
         <ul class="how">
           <li><b>▲ ▼</b><span>Parlayan çubuğu kaydırır (aktif çubuk kapalıysa hepsini).</span></li>
@@ -604,6 +662,7 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
   <section class="overlay" id="goals" hidden>
     <div class="card goalscard">
       <div class="gtabs" role="tablist" aria-label="Görevler ve rozetler">
+        <button type="button" role="tab" id="tabProfile" aria-selected="false" aria-controls="panelProfile">Profil</button>
         <button type="button" role="tab" id="tabQuests" aria-selected="true" aria-controls="panelQuests">Görevler</button>
         <button type="button" role="tab" id="tabBadges" aria-selected="false" aria-controls="panelBadges">Rozetler <span id="badgeCount">0/16</span></button>
         <button type="button" role="tab" id="tabThemes" aria-selected="false" aria-controls="panelThemes">Temalar</button>
@@ -611,6 +670,23 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
         <button type="button" role="tab" id="tabBoard" aria-selected="false" aria-controls="panelBoard">Tablo</button>
         <span class="gstars" id="gStars" aria-live="polite"></span>
         <button type="button" class="gclose" id="goalsClose" aria-label="Kapat"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button>
+      </div>
+      <div class="gpanel" id="panelProfile" role="tabpanel" aria-labelledby="tabProfile" hidden>
+        <div class="phead">
+          <button type="button" class="avatar" id="avBtn" aria-label="Avatarı değiştir" aria-expanded="false" aria-controls="avPick"><span id="avBig" aria-hidden="true">⚽</span></button>
+          <div class="pid">
+            <input id="pname2" class="pname2" maxlength="14" aria-label="Adın" autocomplete="nickname" enterkeyhint="done" spellcheck="false">
+            <p class="plevel"><b id="lvName">Seviye 1 · Çaylak</b><span id="lvXp"></span></p>
+            <span class="xpbar" aria-hidden="true"><i id="xpFill"></i></span>
+            <p class="pquick" id="pQuick"></p>
+          </div>
+        </div>
+        <div class="avpick" id="avPick" role="group" aria-label="Avatar seç" hidden></div>
+        <div class="pstats" id="pStats"></div>
+        <div class="pbottom">
+          <div class="plevels" id="pLevels"></div>
+          <div class="pform"><span class="ptitle">Son maçlar</span><div class="formrow" id="pForm"></div></div>
+        </div>
       </div>
       <div class="gpanel" id="panelQuests" role="tabpanel" aria-labelledby="tabQuests">
         <p class="gmeta" id="questMeta"></p>
@@ -1630,6 +1706,125 @@ window.addEventListener('pointerdown', e => {
   for (let i = 0; i < 2; i++) if (emo.openAt[i] && !(k && mode === 'duo' && k.dataset.key[0] !== (i ? 'r' : 'b'))) closeTray(i);
 }, true);
 
+/* ——— Player profile ———
+   Who is playing and how it has gone: an avatar, the table name, a level from experience points, the
+   lifetime numbers, the record against each computer level and online, and the last ten results.
+   Experience is worked out from the lifetime numbers, so it needs no store of its own and players from
+   before the profile start with the level they have earned. Numbers the game did not keep before the
+   profile (goals conceded, playing time, the records, the last matches) count from its arrival. */
+const AVATARS = ['⚽', '🦁', '🐺', '🦅', '🐯', '🦊', '🐉', '🦈', '🔥', '⚡', '👑', '🤖', '🎯', '🚀', '🍀', '💎'];
+const LEVEL_TITLES = [[1, 'Çaylak'], [3, 'Amatör'], [5, 'Yetenekli'], [8, 'Profesyonel'], [12, 'Yıldız'], [17, 'Usta'], [23, 'Efsane']];
+const xpOf = L => L.matches * 10 + L.wins * 25 + L.goals * 3 + L.supers * 5 + L.clean * 15 + L.comebacks * 20 + L.cups * 100 + L.quests * 10;
+// level n → n+1 takes 100 + 50·(n−1) points: about three matches for level 2, twenty-odd for level 5
+function levelOf(xp) {
+  let lv = 1, need = 100, rest = xp;
+  while (rest >= need) { rest -= need; lv++; need += 50; }
+  const title = LEVEL_TITLES.filter(([n]) => lv >= n).pop()[1];
+  return { lv, title, cur: rest, need };
+}
+const fmtNum = (v, d = 1) => v.toFixed(d).replace('.', ',');
+function fmtTime(sec) {
+  const m = Math.round(sec / 60);
+  return m < 1 ? '<1 dk' : m < 60 ? `${m} dk` : `${Math.floor(m / 60)} sa ${m % 60} dk`;
+}
+function renderProfChip() {
+  const { lv } = levelOf(xpOf(prog.life));
+  $('profAv').textContent = prog.avatar; $('profName').textContent = prog.name; $('profLv').textContent = `Sv ${lv}`;
+  $('profBtn').setAttribute('aria-label', `Profil: ${prog.name}, seviye ${lv}`);
+}
+function renderProfile() {
+  const L = prog.life, P = levelOf(xpOf(L)), losses = Math.max(0, L.matches - L.wins);
+  $('avBig').textContent = prog.avatar;
+  const inp = $('pname2');
+  if (document.activeElement !== inp) inp.value = prog.name;
+  $('lvName').textContent = `Seviye ${P.lv} · ${P.title}`;
+  $('lvXp').textContent = `${P.cur} / ${P.need} XP`;
+  $('xpFill').style.setProperty('--w', Math.round(P.cur / P.need * 100) + '%');
+  const q = $('pQuick'); q.textContent = '';
+  const got = BADGES.filter(b => prog.badges[b.id]).length, themes = prog.owned.ball.length + prog.owned.table.length;
+  for (const [k, v] of [['🏅 Rozet', `${got}/${BADGES.length}`], ['🥇 Kupa', L.cups], ['🎨 Tema', `${themes}/${BALLS.length + TABLES.length}`], ['🔥 En iyi seri', `${prog.best} gün`]]) {
+    const sp = document.createElement('span'); sp.textContent = k;
+    const b = document.createElement('b'); b.textContent = v; sp.appendChild(b); q.appendChild(sp);
+  }
+  const rate = L.matches ? `%${Math.round(L.wins / L.matches * 100)}` : '—';
+  const tiles = [
+    ['Maç', L.matches, L.time ? fmtTime(L.time) : ''],
+    ['Galibiyet', L.wins, rate],
+    ['Mağlubiyet', losses, ''],
+    ['Atılan gol', L.goals, L.matches ? `maç başı ${fmtNum(L.goals / L.matches)}` : ''],
+    ['Yenilen gol', L.m2 ? L.against : '—', L.m2 ? `maç başı ${fmtNum(L.against / L.m2)}` : ''],
+    ['Süper gol', L.supers, ''],
+    ['Kurtarış', L.saves, ''],
+    ['Gol yemeden', L.clean, 'galibiyet'],
+    ['Geri dönüş', L.comebacks, '2 gol geriden'],
+    ['En uzun seri', L.bestRun ? `${L.bestRun} gol` : '—', 'üst üste'],
+    ['En farklı', L.big ? `${L.big[0]}–${L.big[1]}` : '—', 'galibiyet'],
+    ['Kupa', L.cups, 'şampiyonluk'],
+  ];
+  const g = $('pStats'); g.textContent = '';
+  for (const [k, v, sub] of tiles) {
+    const d = document.createElement('div'); d.className = 'pstat';
+    d.innerHTML = '<span class="v"></span><span class="k"></span><span class="s"></span>';
+    d.children[0].textContent = v; d.children[1].textContent = k; d.children[2].textContent = sub;
+    g.appendChild(d);
+  }
+  const lv = $('pLevels'); lv.textContent = '';
+  for (const [name, rec] of [['Acemi', L.rec.acemi], ['Kulüp', L.rec.kulup], ['Usta', L.rec.usta], ['Online', L.rec.online]]) {
+    const n = document.createElement('span'); n.className = 'ln'; n.textContent = name;
+    const r = document.createElement('span'); r.className = 'rec'; r.textContent = `${rec[0]}–${rec[1]}`;
+    const bar = document.createElement('span'); bar.className = 'bar' + (rec[0] + rec[1] ? '' : ' none');
+    bar.innerHTML = '<i></i>'; bar.firstChild.style.setProperty('--w', rec[0] + rec[1] ? Math.round(rec[0] / (rec[0] + rec[1]) * 100) + '%' : '0%');
+    bar.title = rec[0] + rec[1] ? `${rec[0]} galibiyet, ${rec[1]} mağlubiyet` : 'Henüz maç yok';
+    lv.append(n, r, bar);
+  }
+  const f = $('pForm'); f.textContent = '';
+  if (!prog.hist.length) { const e = document.createElement('span'); e.className = 'fempty'; e.textContent = 'Maç oynadıkça burada görünür.'; f.appendChild(e); }
+  const KIND = { acemi: '🤖 A', kulup: '🤖 K', usta: '🤖 U', online: '🌐' };
+  for (const h of prog.hist.slice(0, 10)) {
+    const c = document.createElement('span'); c.className = 'fchip ' + (h.w ? 'w' : 'l');
+    c.textContent = `${h.w ? 'G' : 'M'} ${h.a}–${h.b}`;
+    const sm = document.createElement('small'); sm.textContent = (h.c ? '🏆 ' : '') + (KIND[h.k] || ''); c.appendChild(sm);
+    c.title = `${h.w ? 'Galibiyet' : 'Mağlubiyet'} ${h.a}–${h.b} · ${new Date(h.t).toLocaleDateString('tr-TR')}`;
+    f.appendChild(c);
+  }
+  const pick = $('avPick');
+  if (!pick.children.length) AVATARS.forEach(a => {
+    const b = document.createElement('button'); b.type = 'button'; b.textContent = a; b.dataset.av = a; b.setAttribute('aria-label', `Avatar ${a}`);
+    pick.appendChild(b);
+  });
+  for (const b of pick.children) b.setAttribute('aria-pressed', String(b.dataset.av === prog.avatar));
+}
+// the lifetime numbers the profile added, for a match that just ended on this phone
+function recordProfile(winner, m) {
+  const L = prog.life;
+  L.m2++; L.against += m.against; L.time += Math.round(stats.dur || 0);
+  const key = m.online ? 'online' : m.level;
+  if (L.rec[key]) L.rec[key][m.won ? 0 : 1]++;
+  const a = score[me], b = score[1 - me];
+  if (m.won && (!L.big || a - b > L.big[0] - L.big[1] || (a - b === L.big[0] - L.big[1] && a > L.big[0]))) L.big = [a, b];
+  prog.hist.unshift({ w: m.won ? 1 : 0, a, b, k: key || '', c: cup.active && mode === 'cpu' ? 1 : 0, t: Date.now() });
+  prog.hist.length = Math.min(prog.hist.length, 12);
+}
+function setPlayerName(v) {
+  const n = cleanName(v);
+  if (n && n !== prog.name) { prog.name = n; boardChanged(); }
+  renderProfChip();
+}
+$('profBtn').addEventListener('click', () => { Sound.unlock(); openGoals('profile'); });
+$('tabProfile').addEventListener('click', () => { goalsTab = 'profile'; renderGoals(); });
+$('avBtn').addEventListener('click', () => {
+  const p = $('avPick'); p.hidden = !p.hidden; $('avBtn').setAttribute('aria-expanded', String(!p.hidden));
+});
+$('avPick').addEventListener('click', e => {
+  const b = e.target.closest('[data-av]');
+  if (!b) return;
+  prog.avatar = b.dataset.av; saveProg();
+  $('avPick').hidden = true; $('avBtn').setAttribute('aria-expanded', 'false');
+  renderProfile(); renderProfChip();
+});
+$('pname2').addEventListener('change', e => { setPlayerName(e.target.value); renderProfile(); });
+$('pname2').addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); e.target.blur(); } });
+
 /* ——— Commentator ———
    A Turkish voice (the phone's own speech synthesis, nothing to download) calls the big moments:
    kick-off, goals, a süper şut, a big save, the dev kaleci, match point and the final whistle, with a
@@ -2569,11 +2764,13 @@ const BADGES = [
 const ROMAN = ['', 'I', 'II', 'III'];
 const PROG_KEY = 'cep-langirti-ilerleme';
 const blankLife = () => ({ matches: 0, wins: 0, goals: 0, supers: 0, saves: 0, clean: 0, comebacks: 0, bestRun: 0, beat: 0,
-  onlineWins: 0, giantStops: 0, emotes: 0, shares: 0, quests: 0, perfect: 0, cups: 0 });
+  onlineWins: 0, giantStops: 0, emotes: 0, shares: 0, quests: 0, perfect: 0, cups: 0,
+  m2: 0, against: 0, time: 0, big: null, rec: { acemi: [0, 0], kulup: [0, 0], usta: [0, 0], online: [0, 0] } });   // since the profile
 let prog = { day: '', q: [0, 0, 0], done: [false, false, false], bonus: false, stars: 0, streak: 0, best: 0, lastFull: '', life: blankLife(), badges: {},
   owned: { ball: ['klasik'], table: ['klasik'] }, ball: 'klasik', table: 'klasik',
   cup: null, pid: '', name: '', board: {}, bt: 0,                   // weekly cup and table (filled in by loadProg)
-  world: true, fbRefresh: '', fbUid: '', fbSent: '', fbSentWeek: '' }; // the world table: shown there?, account, last row sent
+  world: true, fbRefresh: '', fbUid: '', fbSent: '', fbSentWeek: '',  // the world table: shown there?, account, last row sent
+  avatar: '⚽', hist: [] };                                           // the profile: avatar, last results (newest first)
 let goalsOpen = false, goalsTab = 'quests', overRew = [];
 
 const dayKey = (d = new Date()) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
@@ -2583,7 +2780,10 @@ function loadProg() {
     const p = JSON.parse(localStorage.getItem(PROG_KEY) || 'null');
     if (p && typeof p === 'object') {
       const own = k => [...new Set(['klasik', ...(p.owned && Array.isArray(p.owned[k]) ? p.owned[k] : [])])];
-      prog = { ...prog, ...p, life: { ...blankLife(), ...p.life }, badges: { ...p.badges }, owned: { ball: own('ball'), table: own('table') },
+      const life = { ...blankLife(), ...p.life };
+      life.rec = { ...blankLife().rec, ...(p.life && p.life.rec) };
+      prog = { ...prog, ...p, life, badges: { ...p.badges }, owned: { ball: own('ball'), table: own('table') },
+        hist: Array.isArray(p.hist) ? p.hist.slice(0, 12) : [], avatar: AVATARS.includes(p.avatar) ? p.avatar : '⚽',
         cup: p.cup && typeof p.cup === 'object' ? { ...blankCup(), ...p.cup } : null, board: p.board && typeof p.board === 'object' ? { ...p.board } : {} };
     }
   } catch (e) { /* storage blocked: start fresh */ }
@@ -2652,7 +2852,8 @@ function checkBadges(rew) {
 function recordMatch(winner) {
   overRew = [];
   if (mode !== 'duo') {
-    const m = matchSummary(winner), L = prog.life;
+    const m = matchSummary(winner), L = prog.life, lv0 = levelOf(xpOf(L)).lv;
+    recordProfile(winner, m);
     L.matches++; L.goals += m.goals; L.supers += m.supers; L.saves += m.saves; L.giantStops += m.giantStops;
     L.bestRun = Math.max(L.bestRun, m.run);
     if (m.won) {
@@ -2666,7 +2867,9 @@ function recordMatch(winner) {
     if (m.online) { rollWeek(); if (m.won) prog.cup.w++; else prog.cup.l++; boardChanged(); }
     advance(q => q.m ? q.m(m) : 0, overRew);
     checkBadges(overRew);
-    saveProg();
+    const lv1 = levelOf(xpOf(L));
+    if (lv1.lv > lv0) overRew.push({ k: 'a', text: `⬆️ Seviye ${lv1.lv}: ${lv1.title}!` });
+    saveProg(); renderProfChip();
     if (overRew.length) setTimeout(() => Sound.reward(), 900);   // after the final whistle
   }
   renderRewards(); renderPill();
@@ -2753,6 +2956,9 @@ function renderGoals() {
   }
   $('badgeCount').textContent = `${got}/${BADGES.length}`;
   $('gStars').textContent = `⭐ ${prog.stars}`; $('gStars').setAttribute('aria-label', `${prog.stars} yıldızın var`);
+  $('tabProfile').setAttribute('aria-selected', String(goalsTab === 'profile'));
+  $('panelProfile').hidden = goalsTab !== 'profile';
+  if (goalsTab === 'profile') renderProfile();
   $('tabQuests').setAttribute('aria-selected', String(goalsTab === 'quests'));
   $('tabBadges').setAttribute('aria-selected', String(goalsTab === 'badges'));
   $('tabThemes').setAttribute('aria-selected', String(goalsTab === 'themes'));
@@ -2776,7 +2982,7 @@ function badgeInfo(id) {
 function openGoals(tab) {
   goalsOpen = true; goalsTab = tab || goalsTab;
   renderGoals(); setUI();
-  $({ badges: 'tabBadges', themes: 'tabThemes', cup: 'tabCup', board: 'tabBoard' }[goalsTab] || 'tabQuests').focus({ preventScroll: true });
+  $({ badges: 'tabBadges', themes: 'tabThemes', cup: 'tabCup', board: 'tabBoard', profile: 'tabProfile' }[goalsTab] || 'tabQuests').focus({ preventScroll: true });
 }
 function closeGoals() { goalsOpen = false; setUI(); }
 $('goalsBtn').addEventListener('click', () => { Sound.unlock(); openGoals('quests'); });
@@ -3096,8 +3302,7 @@ function renderBoard() {
     : 'Arkadaşlarınla online bir maç yapın: tablolarınız birleşir ve kupa puanlarınız burada yan yana görünür.');
 }
 function setName() {
-  const v = cleanName($('pname').value);
-  if (v && v !== prog.name) { prog.name = v; boardChanged(); }
+  setPlayerName($('pname').value);
   $('pname').value = prog.name;
   renderBoard();
 }
@@ -3653,6 +3858,7 @@ function boot(data) {
   data = data || {};
   loadSettings(data.settings);
   loadProg();
+  renderProfChip();
   stage.classList.toggle('nofb', !fbOn());
   fbQueue(4000);                                   // a row that changed while offline goes up now
   syncForm(); layout(); attract(); renderPill();
@@ -3666,7 +3872,7 @@ function boot(data) {
 }
 
 // handle for experimenting from the console
-window.langirt = { teams, rods, ball, score, settings, update, startMatch, attract, net, hostTable, joinTable, sendEmote, EMOTES, stats, card, cardStory, drawCard, recordMatch, todayQuests, QUESTS, BADGES, tapTheme, BALLS, TABLES, drawStatic, startCup, cupRule, weekKey, mergeBoard, boardPayload, RULES, cup, FIREBASE, fb, fbPush, fbFetch, fbOn, renderBoard, spk, say, get prog() { return prog; }, get state() { return state; }, get mode() { return mode; }, get me() { return me; } };
+window.langirt = { teams, rods, ball, score, settings, update, startMatch, attract, net, hostTable, joinTable, sendEmote, EMOTES, stats, card, cardStory, drawCard, recordMatch, todayQuests, QUESTS, BADGES, tapTheme, BALLS, TABLES, drawStatic, startCup, cupRule, weekKey, mergeBoard, boardPayload, RULES, cup, FIREBASE, fb, fbPush, fbFetch, fbOn, renderBoard, spk, say, levelOf, xpOf, renderProfile, get prog() { return prog; }, get state() { return state; }, get mode() { return mode; }, get me() { return me; } };
 
 const hot = window.claude && window.claude.hot;
 if (hot && typeof hot.snapshot === 'function') {
