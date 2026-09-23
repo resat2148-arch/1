@@ -142,6 +142,9 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
 .switch input:focus-visible+.sw{outline:2px solid var(--brass);outline-offset:3px}
 .sw-text{display:grid;gap:2px;font:600 15px/1.15 var(--ui)}
 .sw-text small{font-size:12px;font-weight:500;color:var(--chalk-2)}
+.switch.off{opacity:.42;cursor:default}
+.ghost:disabled{opacity:.4;cursor:default}
+.stack .wide{grid-column:1/-1}
 .card{width:min(460px,100%);display:grid;gap:10px;justify-items:center;text-align:center;padding:22px 22px 20px;border-radius:20px;background:rgba(10,7,5,.74);border:1px solid var(--chalk-3);box-shadow:0 20px 60px rgba(0,0,0,.5)}
 .card .eyebrow{margin:0}
 .big{margin:0;font:900 clamp(40px,15cqh,84px)/.9 var(--display);text-transform:uppercase;text-wrap:balance}
@@ -162,6 +165,7 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
   .seg label{padding:6px 4px;font-size:15px}
   .cta{padding:12px 16px;font-size:20px}
   .kb{display:none}
+  .sw-text small{display:none}
   .card{padding:16px;gap:8px}
 }
 @container (max-width:600px){
@@ -206,8 +210,8 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
         <p class="eyebrow">Kicker · Langırt</p>
         <h1><span class="cep">Cep</span><span class="rodline">Langırtı</span></h1>
         <ul class="how">
-          <li><b>▲ ▼</b><span>Topa en yakın çubuğun kayar (parlayan çubuk). Top ilerleyince kontrol sıradaki çubuğa geçer.</span></li>
-          <li><b>Şut</b><span>Parlayan çubuk vurur. Dokun: hızlı vuruş. Basılı tut: güç topla, bırakınca vurur.</span></li>
+          <li><b>▲ ▼</b><span>Aktif çubuk açıkken topa en yakın (parlayan) çubuğun kayar; kapalıyken bütün çubukların birlikte kayar.</span></li>
+          <li><b>Şut</b><span>Dokun: hızlı vuruş. Basılı tut: güç topla, bırakınca vurur.</span></li>
           <li><b>Açı</b><span>Topa ayağın kenarıyla vur ya da vururken çubuğu kaydır; top çapraz gider.</span></li>
           <li><b>Topuk</b><span>Top adamının arkasında kaldıysa basılı tut: adam geriye yatıp topu iter.</span></li>
           <li><b>2 kişi</b><span>Telefonu aranıza koyun: mavi sol uçtaki, kırmızı sağ uçtaki ▲ ŞUT ▼ tuşlarıyla oynar.</span></li>
@@ -230,10 +234,15 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
             <input type="radio" name="target" id="tg-7" value="7"><label for="tg-7">7 gol</label>
           </div>
         </fieldset>
-        <label class="switch" for="autoKeeper">
+        <label class="switch" for="activeRod">
+          <input type="checkbox" id="activeRod" name="activeRod">
+          <span class="sw" aria-hidden="true"></span>
+          <span class="sw-text">Aktif çubuk<small>Açıkken yalnızca topa en yakın çubuk kayar; kapalıyken hepsi birlikte</small></span>
+        </label>
+        <label class="switch" for="autoKeeper" id="keeperSwitch">
           <input type="checkbox" id="autoKeeper" name="autoKeeper">
           <span class="sw" aria-hidden="true"></span>
-          <span class="sw-text">Otomatik kaleci<small>Kontrol başka çubuktayken kaleci topu yavaşça izler</small></span>
+          <span class="sw-text">Otomatik kaleci<small>Aktif çubuk açıkken, kontrol başka çubuktaysa kaleci topu yavaşça izler</small></span>
         </label>
         <div class="starts">
           <button class="cta" type="submit" id="startBtn">Bilgisayara karşı</button>
@@ -252,9 +261,10 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
       <div class="stack">
         <button class="cta" id="resumeBtn">Devam et</button>
         <button class="ghost" id="soundBtn">Ses: açık</button>
+        <button class="ghost" id="activeBtn">Aktif çubuk: açık</button>
         <button class="ghost" id="keeperBtn">Oto kaleci: açık</button>
         <button class="ghost" id="restartBtn">Baştan başlat</button>
-        <button class="ghost" id="quitBtn">Menüye dön</button>
+        <button class="ghost wide" id="quitBtn">Menüye dön</button>
       </div>
     </div>
   </section>
@@ -303,6 +313,7 @@ const SLOPE = 950, CORNER_SLOPE = 520, RAMP = 24, CORNER_X = 115, LANE = 118;
 const VMAX = 3400;
 const STEP = 1 / 480;                     // fixed physics step, small enough that a shot never tunnels
 const VROD = 600, ROD_ACC = 7000, ROD_DEC = 11000;   // hand speed on the active rod, mm/s and mm/s²
+const UALL = 4, UALL_ACC = 40, UALL_DEC = 60;        // all rods together: share of each rod's travel per s (and s²)
 const CHARGE_T = 0.45, WIND_MIN = 0.28, WIND_MAX = 0.72, WIND_W = 5.5;
 const W_MIN = 13, W_MAX = 27, W_ACC = 1000, STRIKE_END = 1.3;
 const LIFT = 1.35, LIFT_W = 20, DROP_W = 7;   // raising a rod so a ball from behind rolls underneath
@@ -352,6 +363,7 @@ function makeTeam(id) {
     active: null, kickRod: null, cand: null, candT: 0,   // the rod under the player's hand
     flow: 0,                                              // ball heading: -1 at our goal, 1 away, 0 loose
     keeper: false,                                        // goalie follows the ball on its own
+    together: false, u: 0, du: 0,                         // all rods on one hand: shared share of travel
     k: { phase: 'idle', th: 0, w: 0, charge: 0, wMax: W_MIN },
     pressQ: false, releaseQ: false, ai: null,
     aiS: { noise: 0, noiseT: 0, aimY: CY, aimOn: false, kickT: -1, holdT: -1, holdDur: 0, cool: 0, heel: false },
@@ -382,7 +394,7 @@ let mode = 'cpu';                   // cpu: you against the computer · duo: two
 const NAMES = { cpu: ['Sen', 'CPU'], duo: ['Mavi', 'Kırmızı'] };
 let paused = false;
 const score = [0, 0];
-const settings = { level: 'kulup', target: 5, sound: true, autoKeeper: true };
+const settings = { level: 'kulup', target: 5, sound: true, autoKeeper: true, activeRod: true };
 let simT = 0, acc = 0, timers = [], lastServer = BLUE;
 const hist = [];
 const particles = [];
@@ -442,8 +454,22 @@ const Sound = {
   },
 };
 
-/* ——— Rods: only the active rod slides with the controls, the others stay where they were left ——— */
+/* ——— Rods: only the active rod slides with the controls, the others stay where they were left.
+   With the active rod switched off, every rod moves by the same share of its own travel. ——— */
 function stepRods(t, h) {
+  if (t.together) {
+    const target = clamp(t.desired, -1, 1) * UALL * t.speedMul;
+    const speeding = Math.abs(target) > Math.abs(t.du) && (t.du === 0 || Math.sign(target) === Math.sign(t.du));
+    t.du = approach(t.du, target, (speeding ? UALL_ACC : UALL_DEC) * h);
+    t.u += t.du * h;
+    if (t.u > 1) { t.u = 1; if (t.du > 0) t.du = 0; } else if (t.u < -1) { t.u = -1; if (t.du < 0) t.du = 0; }
+    for (const rod of t.rods) {
+      // the rods glide into line after the setting is switched mid-game, then move as one
+      rod.v = t.du * rod.half + clamp((t.u * rod.half - rod.p) * 20, -VROD, VROD);
+      rod.p = clamp(rod.p + rod.v * h, -rod.half, rod.half);
+    }
+    return;
+  }
   for (const rod of t.rods) {
     const target = rod === t.active ? clamp(t.desired, -1, 1) * VROD * t.speedMul : (rod.auto || 0) * VROD;
     const speeding = Math.abs(target) > Math.abs(rod.v) && (rod.v === 0 || Math.sign(target) === Math.sign(rod.v));
@@ -541,7 +567,7 @@ function stepKick(t, h) {
   }
   for (const rod of t.rods) {
     rod.prevColl = Math.abs(rod.th) < THETA_C;
-    const kicking = rod === t.kickRod;
+    const kicking = t.together || rod === t.kickRod;
     if (rod.lift) {          // feet swing up forwards, away from the ball coming from behind
       rod.sync = false;
       rod.w = clamp((LIFT - rod.th) * 30, -LIFT_W, LIFT_W);
@@ -934,7 +960,7 @@ function update(dt) {
   if (state === 'play') for (const t of teams) {
     if (t.ai) continue;
     const inp = inputs[t.id];
-    updateActive(t, ball, dt);
+    if (!t.together) updateActive(t, ball, dt);
     t.desired = (inp.down ? 1 : 0) - (inp.up ? 1 : 0); t.speedMul = 1;
   }
   for (const t of teams) { if (t.ai) aiUpdate(t, dt); autoKeeper(t); autoLift(t, dt); }
@@ -1224,7 +1250,7 @@ function render() {
   ctx.setTransform(dpr * scale, 0, 0, dpr * scale, dpr * ox + sx, dpr * oy + sy);
 
   // the rod under each player's hand
-  const acts = state === 'play' ? teams.filter(t => !t.ai && t.active).map(t => t.active) : [];
+  const acts = state === 'play' ? teams.filter(t => !t.ai && !t.together && t.active).map(t => t.active) : [];
   for (const a of acts) {
     ctx.save(); ctx.translate(a.x, 0);
     ctx.fillStyle = GLOW[mode][a.team] || GLOW[mode][0]; ctx.fillRect(-26, -FR - 16, 52, H + 2 * FR + 32);
@@ -1287,7 +1313,9 @@ function setUI() {
   stage.classList.toggle('match', state === 'play');
   stage.classList.toggle('playing', state === 'play' && !paused);
   $('soundBtn').textContent = settings.sound ? 'Ses: açık' : 'Ses: kapalı';
+  $('activeBtn').textContent = settings.activeRod ? 'Aktif çubuk: açık' : 'Aktif çubuk: kapalı';
   $('keeperBtn').textContent = settings.autoKeeper ? 'Oto kaleci: açık' : 'Oto kaleci: kapalı';
+  $('keeperBtn').disabled = !settings.activeRod;
 }
 const lastP = [-1, -1];
 function syncShootRing() {
@@ -1304,7 +1332,7 @@ function syncShootRing() {
 function resetTable() {
   for (const t of teams) {
     t.desired = 0; t.pressQ = t.releaseQ = false;
-    t.active = t.kickRod = t.cand = null; t.candT = 0; t.flow = 0;
+    t.active = t.kickRod = t.cand = null; t.candT = 0; t.flow = 0; t.u = t.du = 0;
     Object.assign(t.k, { phase: 'idle', th: 0, w: 0, charge: 0 });
     Object.assign(t.aiS, { kickT: -1, holdT: -1, cool: 0 });
   }
@@ -1312,11 +1340,23 @@ function resetTable() {
   timers = []; particles.length = 0; hist.length = 0;
   ball.live = false; ball.show = false; ball.inGoal = 0; ball.trail.length = 0;
 }
+// What the player's settings mean for the human teams right now.
+function applyControls() {
+  for (const t of teams) {
+    const human = state === 'play' && !t.ai;
+    const together = human && !settings.activeRod;
+    if (together && !t.together) {           // keep the rod you were using where it is
+      t.u = t.active ? clamp(t.active.p / t.active.half, -1, 1) : 0; t.du = 0;
+    }
+    if (!together && t.together) { t.active = t.kickRod = t.cand = null; t.candT = 0; }
+    t.together = together;
+    t.keeper = human && settings.autoKeeper && settings.activeRod;
+  }
+}
 function attract() {
   state = 'menu'; paused = false;
   teams[BLUE].ai = LEVELS.kulup; teams[RED].ai = LEVELS.kulup;
-  teams[BLUE].keeper = teams[RED].keeper = false;
-  resetTable(); clearInput();
+  resetTable(); clearInput(); applyControls();
   queueServe(Math.random() < .5 ? BLUE : RED, .6);
   setUI();
 }
@@ -1330,8 +1370,7 @@ function startMatch(m) {
   score[BLUE] = score[RED] = 0;
   state = 'play'; paused = false;
   teams[BLUE].ai = null; teams[RED].ai = mode === 'duo' ? null : LEVELS[settings.level];
-  teams[BLUE].keeper = settings.autoKeeper; teams[RED].keeper = mode === 'duo' && settings.autoKeeper;
-  resetTable(); clearInput(); renderHud();
+  resetTable(); clearInput(); applyControls(); renderHud();
   const first = Math.random() < .5 ? BLUE : RED;
   queueServe(first, .9);
   toast(mode === 'duo' ? `Servis: ${NAMES.duo[first]}` : first === BLUE ? 'Servis sende' : 'Servis rakipte');
@@ -1350,7 +1389,8 @@ function endMatch(winner) {
     $('overTitle').textContent = won ? 'Kazandın' : 'Kaybettin';
   }
   $('finB').textContent = score[BLUE]; $('finR').textContent = score[RED];
-  for (const t of teams) { t.ai = LEVELS.kulup; t.keeper = false; }
+  for (const t of teams) t.ai = LEVELS.kulup;
+  applyControls();
   queueServe(Math.random() < .5 ? BLUE : RED, 1);
   setUI();
 }
@@ -1390,19 +1430,24 @@ function loadSettings(extra) {
     if ([3, 5, 7].includes(src.target)) settings.target = src.target;
     if (typeof src.sound === 'boolean') settings.sound = src.sound;
     if (typeof src.autoKeeper === 'boolean') settings.autoKeeper = src.autoKeeper;
+    if (typeof src.activeRod === 'boolean') settings.activeRod = src.activeRod;
   }
 }
 function saveSettings() { try { localStorage.setItem(STORE, JSON.stringify(settings)); } catch (e) { /* storage blocked */ } }
 function syncForm() {
   $('lv-' + settings.level).checked = true;
   $('autoKeeper').checked = settings.autoKeeper;
+  $('activeRod').checked = settings.activeRod;
+  $('autoKeeper').disabled = !settings.activeRod;            // the goalie moves with your hand when all rods move together
+  $('keeperSwitch').classList.toggle('off', !settings.activeRod);
   $('tg-' + settings.target).checked = true;
 }
 $('setup').addEventListener('change', e => {
   if (e.target.name === 'level') settings.level = e.target.value;
   if (e.target.name === 'target') settings.target = +e.target.value;
   if (e.target.name === 'autoKeeper') settings.autoKeeper = e.target.checked;
-  saveSettings();
+  if (e.target.name === 'activeRod') settings.activeRod = e.target.checked;
+  saveSettings(); syncForm();
 });
 $('setup').addEventListener('submit', e => { e.preventDefault(); startMatch('cpu'); });
 $('duoBtn').addEventListener('click', () => startMatch('duo'));
@@ -1415,8 +1460,11 @@ $('menuBtn').addEventListener('click', attract);
 $('soundBtn').addEventListener('click', () => { settings.sound = !settings.sound; saveSettings(); setUI(); if (settings.sound) Sound.unlock(); });
 $('keeperBtn').addEventListener('click', () => {
   settings.autoKeeper = !settings.autoKeeper;
-  if (state === 'play') for (const t of teams) t.keeper = !t.ai && settings.autoKeeper;
-  saveSettings(); syncForm(); setUI();
+  applyControls(); saveSettings(); syncForm(); setUI();
+});
+$('activeBtn').addEventListener('click', () => {
+  settings.activeRod = !settings.activeRod;
+  applyControls(); saveSettings(); syncForm(); setUI();
 });
 
 /* ——— Loop & boot ——— */

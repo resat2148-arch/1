@@ -17,7 +17,13 @@ Telefonda oynanan langırt (kicker) oyunu. Tek bir `index.html` dosyasından olu
 
 ### Aktif çubuk
 
-Her an yalnızca bir çubuğunu kontrol edersin: topa en yakın ve topu önüne alabilecek çubuğu. Top başka bir çubuğun bölgesine geçince kontrol de kendiliğinden o çubuğa geçer. Diğer çubukların, bıraktığın yerde kalır.
+İsteğe bağlı bir özelliktir ve açık gelir. Menüdeki **Aktif çubuk** anahtarından ya da moladaki **Aktif çubuk** düğmesinden kapatabilirsin; seçimin hatırlanır.
+
+- **Açık:** Yalnızca topa en yakın çubuk kayar ve vurur (ayrıntılar aşağıda).
+- **Kapalı:** Bütün çubukların birlikte kayar ve birlikte vurur. Her çubuk kendi yol aralığının aynı oranında kayar, böylece çubuklar birbirinden kopmaz. Maç ortasında kapatırsan çubuklar yumuşakça aynı hizaya gelir. Bu modda kaleci zaten elinle birlikte hareket ettiği için otomatik kaleci devre dışıdır.
+- 2 kişilik modda ayar iki oyuncuya da uygulanır. Bilgisayar her zaman aktif çubukla oynar.
+
+Açıkken her an yalnızca bir çubuğunu kontrol edersin: topa en yakın ve topu önüne alabilecek çubuğu. Top başka bir çubuğun bölgesine geçince kontrol de kendiliğinden o çubuğa geçer. Diğer çubukların, bıraktığın yerde kalır.
 
 - Top adamlarının arkasındaysa arkadaki çubuk için ek mesafe sayılır. Bu yüzden kontrol, topu ileri vurabilecek çubukta kalır.
 - Top hızla kendi kalene geliyorsa kontrol, topun henüz geçmediği ilk çubuğa verilir.
@@ -36,7 +42,7 @@ Kontrol başka bir çubuktayken kalecin topu kendiliğinden izler. Böylece sert
 - Kale ağzının dışına çıkmaz. Topu yalnızca kısmen izler: top şut menzilindeyken yaklaşık üçte iki oranında, uzaktayken daha az. Bu yüzden köşeler açık kalır.
 - Kontrol kaleciye geçtiği anda kaleciyi yine sen oynarsın.
 
-Açık gelir; kapatmak için menüdeki **Otomatik kaleci** anahtarını ya da moladaki **Oto kaleci** düğmesini kullan. Seçimin hatırlanır. Bilgisayara karşı modda yalnızca senin takımına, 2 kişilik modda iki takıma da uygulanır.
+Açık gelir; kapatmak için menüdeki **Otomatik kaleci** anahtarını ya da moladaki **Oto kaleci** düğmesini kullan. Yalnızca aktif çubuk açıkken çalışır. Seçimin hatırlanır. Bilgisayara karşı modda yalnızca senin takımına, 2 kişilik modda iki takıma da uygulanır.
 
 ### 2 kişi (aynı telefon)
 
