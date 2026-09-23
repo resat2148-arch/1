@@ -122,6 +122,51 @@ button:focus-visible,.seg input:focus-visible+label{outline:2px solid var(--bras
 #pauseBtn{top:calc(var(--st) + 8px);right:calc(var(--sr) + 12px);width:40px;height:40px;border-radius:50%;background:var(--glass);border:1px solid var(--chalk-3);display:grid;place-items:center;cursor:pointer;padding:0}
 #pauseBtn svg{width:18px;height:18px}
 
+/* ——— emotes: 💬 opens a tray of taunts, the bubble pops up over the sender's end of the table ——— */
+.emo{--sz:min(44px,calc(var(--cs) * .55));top:calc(var(--st) + 8px);left:calc(var(--sl) + 12px);width:var(--sz);height:var(--sz);border-radius:50%;padding:0;cursor:pointer;
+  display:grid;place-items:center;background:var(--glass);border:1px solid var(--chalk-3);color:var(--chalk-2);touch-action:none}
+.emo svg{width:52%;height:52%;pointer-events:none}
+.emo::before{content:"";position:absolute;inset:-4px;border-radius:50%;pointer-events:none;opacity:0;transition:opacity .2s;
+  background:conic-gradient(var(--brass) calc(var(--c,1) * 1turn),rgba(242,233,216,.1) 0);
+  -webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 3px),#000 calc(100% - 2px));
+          mask:radial-gradient(farthest-side,transparent calc(100% - 3px),#000 calc(100% - 2px))}
+.emo.cool::before{opacity:1}
+.emo.cool{color:rgba(242,233,216,.35)}
+.emo.open{border-color:var(--brass);color:var(--brass)}
+.emo.hot{color:var(--brass);border-color:var(--brass);animation:emoHot .8s ease-in-out infinite}
+@keyframes emoHot{50%{box-shadow:0 0 0 4px rgba(214,165,72,.28),0 0 18px rgba(214,165,72,.6)}}
+.emo.r{left:auto;right:calc(var(--sr) + 12px + 40px + 10px)}
+#stage:not(.duo) .emo.r,#stage.noemo .emo,#stage.noemo .tray{display:none!important}
+.tray{position:absolute;z-index:3;top:calc(var(--st) + 8px);left:calc(var(--sl) + 12px + min(44px,calc(var(--cs) * .55)) + 8px);
+  display:grid;grid-template-columns:repeat(4,60px);gap:5px;padding:7px;border-radius:16px;
+  background:rgba(16,11,8,.93);border:1px solid var(--chalk-3);box-shadow:0 14px 34px rgba(0,0,0,.55);animation:trayIn .14s ease-out}
+.tray.r{left:auto;right:calc(var(--sr) + 12px + 40px + 10px + min(44px,calc(var(--cs) * .55)) + 8px)}
+@keyframes trayIn{from{opacity:0;scale:.92}}
+.tray button,.emostrip button{appearance:none;border:0;margin:0;cursor:pointer;touch-action:none;color:var(--chalk);background:rgba(242,233,216,.07);border-radius:11px;transition:scale .06s,opacity .2s}
+.tray button{display:grid;justify-items:center;gap:3px;padding:6px 2px 5px}
+.tray .e{font-size:25px;line-height:1}
+.tray small{font:600 10.5px/1 var(--ui);color:var(--chalk-2);white-space:nowrap}
+.tray button:active,.emostrip button:active{scale:.93;background:rgba(214,165,72,.28)}
+.tray.cool button,.emostrip.cool button{opacity:.38}
+.emostrip{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-top:2px}
+.emostrip button{width:40px;height:40px;font-size:22px;line-height:1;display:grid;place-items:center;padding:0}
+#bubbles{position:absolute;inset:0;z-index:4;pointer-events:none;overflow:hidden}
+.bubble{position:absolute;top:var(--by,40px);display:flex;align-items:center;gap:8px;padding:5px 15px 5px 8px;border-radius:999px;white-space:nowrap;
+  background:rgba(14,10,7,.9);border:2px solid var(--c);box-shadow:0 10px 24px rgba(0,0,0,.5),0 0 20px var(--g);
+  animation:bubbleIn 2.4s cubic-bezier(.2,.8,.2,1) forwards}
+#stage:not(.match) .bubble{top:calc(var(--st) + 5px)}   /* result screen: above the card */
+.bubble.l{left:var(--bl,90px);transform-origin:0 100%}
+.bubble.r{right:var(--br,90px);transform-origin:100% 100%;flex-direction:row-reverse;padding:5px 8px 5px 15px}
+.bubble::after{content:"";position:absolute;top:100%;width:12px;height:9px;background:var(--c);clip-path:polygon(0 0,100% 0,30% 100%)}
+.bubble.l::after{left:22px}
+.bubble.r::after{right:22px;clip-path:polygon(0 0,100% 0,70% 100%)}
+.bubble .e{font-size:30px;line-height:1;animation:emoWiggle .32s .12s ease-in-out 2}
+.bubble b{font:900 21px/1 var(--display);letter-spacing:.05em;text-transform:uppercase;color:var(--chalk)}
+@keyframes bubbleIn{0%{opacity:0;scale:.35}9%{opacity:1;scale:1.12}16%{scale:1}82%{opacity:1;translate:0 0}100%{opacity:0;translate:0 -12px}}
+@keyframes emoWiggle{25%{rotate:-14deg}75%{rotate:14deg}}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+#stage:not(.online) #quitBtn{grid-column:auto}
+
 /* ——— score board ——— */
 #hud{position:absolute;left:50%;top:var(--hud-top,6px);translate:-50% 0;display:flex;align-items:center;gap:10px;padding:4px 14px;border-radius:999px;background:var(--glass);border:1px solid var(--chalk-3);box-shadow:0 6px 16px rgba(0,0,0,.35);opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap}
 #stage.match #hud{opacity:1}
@@ -210,6 +255,9 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
   .how{gap:4px}
   .card{padding:16px;gap:8px}
 }
+@container (max-height:380px){
+  .how .tip-emo{display:none}             /* the 💬 button explains itself on the smallest screens */
+}
 @container (max-width:600px){
   .menu{grid-template-columns:1fr;gap:14px}
   h1{font-size:clamp(40px,13cqh,64px)}
@@ -218,7 +266,10 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
   #banner.show{animation:none;opacity:1}
   .overlay,.ctl,#hud{transition:none}
   .skill.ready{animation:none}
+  .bubble{animation:bubbleFade 2.4s linear forwards}
+  .bubble .e,.emo.hot,.tray{animation:none}
 }
+@keyframes bubbleFade{0%,85%{opacity:1}100%{opacity:0}}
 </style>
 </head>
 <body>
@@ -247,6 +298,10 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
   <button class="ctl key skill solo" data-key="b-skill" aria-label="Süper şut"><span>Süper</span></button>
   <button class="ctl key skill solo giant" data-key="b-giant" aria-label="Dev kaleci"><span>Dev</span></button>
   <button class="ctl" id="pauseBtn" aria-label="Mola"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1.5" fill="currentColor"/><rect x="14" y="5" width="4" height="14" rx="1.5" fill="currentColor"/></svg></button>
+  <button class="ctl emo b" id="emoB" aria-label="İfade gönder" aria-haspopup="menu" aria-expanded="false" aria-controls="trayB"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5c-5 0-9 3.3-9 7.4 0 2.3 1.2 4.3 3.2 5.7L5.4 20.5l4.5-2.4c.7.1 1.4.2 2.1.2 5 0 9-3.3 9-7.4S17 3.5 12 3.5z" fill="currentColor"/><circle cx="8.2" cy="11" r="1.3" fill="#140f0b"/><circle cx="12" cy="11" r="1.3" fill="#140f0b"/><circle cx="15.8" cy="11" r="1.3" fill="#140f0b"/></svg></button>
+  <button class="ctl emo r" id="emoR" aria-label="Kırmızı: ifade gönder" aria-haspopup="menu" aria-expanded="false" aria-controls="trayR"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5c-5 0-9 3.3-9 7.4 0 2.3 1.2 4.3 3.2 5.7L5.4 20.5l4.5-2.4c.7.1 1.4.2 2.1.2 5 0 9-3.3 9-7.4S17 3.5 12 3.5z" fill="currentColor"/><circle cx="8.2" cy="11" r="1.3" fill="#140f0b"/><circle cx="12" cy="11" r="1.3" fill="#140f0b"/><circle cx="15.8" cy="11" r="1.3" fill="#140f0b"/></svg></button>
+  <div class="tray b" id="trayB" role="menu" aria-label="İfadeler" hidden></div>
+  <div class="tray r" id="trayR" role="menu" aria-label="Kırmızı: ifadeler" hidden></div>
 
   <div id="banner"><h2 id="bannerTitle">Gol!</h2><p id="bannerSub"></p></div>
   <div id="toast" role="status"></div>
@@ -263,6 +318,7 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
           <li><b>Arka</b><span>Top adamın hemen arkasındaysa ŞUT: tam tur dönüp ileri vurur.</span></li>
           <li><b>Güçler</b><span>Halkası dolunca SÜPER: sonraki şutun kaleci dışında kimseye takılmaz. DEV: kalecin 6 sn dev olur.</span></li>
           <li><b>2 kişi</b><span>Mavi sol uçtaki, kırmızı sağ uçtaki tuşlarla oynar.</span></li>
+          <li class="tip-emo"><b>İfade</b><span>💬 ile rakibine laf at, bilgisayar da cevap verir. Moladan kapatılır.</span></li>
         </ul>
       </div>
       <form class="setup" id="setup">
@@ -309,7 +365,7 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
           <button class="cta alt" type="button" id="duoBtn">2 kişi</button>
           <button class="cta alt" type="button" id="onlineBtn" lang="en">Online</button>
         </div>
-        <p class="kb">Klavye: ↑ ↓ / W S · Boşluk = şut · E = süper · R = dev · P = mola. 2 kişi: mavi W S Boşluk E R, kırmızı ↑ ↓ Enter O I</p>
+        <p class="kb">Klavye: ↑ ↓ / W S · Boşluk = şut · E = süper · R = dev · 1–8 = ifade · P = mola. 2 kişi: mavi W S Boşluk E R, kırmızı ↑ ↓ Enter O I</p>
       </form>
     </div>
   </section>
@@ -322,6 +378,7 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
       <div class="stack">
         <button class="cta" id="resumeBtn">Devam et</button>
         <button class="ghost" id="soundBtn">Ses: açık</button>
+        <button class="ghost" id="emoteBtn">İfadeler: açık</button>
         <button class="ghost" id="activeBtn">Aktif çubuk: açık</button>
         <button class="ghost" id="keeperBtn">Oto kaleci: açık</button>
         <button class="ghost" id="restartBtn">Baştan başlat</button>
@@ -357,12 +414,14 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
       <p class="eyebrow" id="overEyebrow">Maç bitti</p>
       <h2 class="big" id="overTitle">Kazandın</h2>
       <p class="final"><span class="b" id="finB">0</span><span class="dash">–</span><span class="r" id="finR">0</span></p>
+      <div class="emostrip" id="overEmo" role="group" aria-label="Rakibine ifade gönder" hidden></div>
       <div class="row">
         <button class="cta" id="againBtn">Rövanş</button>
         <button class="ghost" id="menuBtn">Menü</button>
       </div>
     </div>
   </section>
+  <div id="bubbles" aria-live="polite"></div>
 </div>
 
 <script>
@@ -514,7 +573,7 @@ let flip = false;                   // the online guest sees the table turned 18
 const teamName = id => mode === 'online' ? (id === me ? 'Sen' : 'Rakip') : NAMES[mode][id];
 let paused = false;
 const score = [0, 0];
-const settings = { level: 'kulup', target: 5, sound: true, autoKeeper: true, activeRod: true, superShot: true, giantGoalie: true };
+const settings = { level: 'kulup', target: 5, sound: true, autoKeeper: true, activeRod: true, superShot: true, giantGoalie: true, emotes: true };
 let simT = 0, acc = 0, timers = [], lastServer = BLUE;
 const hist = [];
 const particles = [];
@@ -575,6 +634,21 @@ const Sound = {
   fanfare(good) {
     if (!this.ok('fanfare', 1, true)) return;
     (good ? [523, 659, 784, 1047] : [392, 330, 262]).forEach((n, i) => this.tone(n, n * .995, .24, .22, 'triangle', i * .13));
+  },
+  // a little voice for every emote; it also plays on the result screen
+  emote(v) {
+    if (!this.ok('emote', .12, true)) return;
+    switch (v) {
+      case 'laugh': [0, .1, .2].forEach((w, i) => this.tone(720 - i * 60, 560 - i * 60, .08, .16, 'triangle', w)); break;
+      case 'cool': this.tone(392, 392, .09, .14, 'triangle'); this.tone(587, 587, .18, .14, 'triangle', .1); break;
+      case 'yawn': this.tone(520, 210, .6, .13); this.tone(1040, 420, .6, .03, 'triangle'); break;
+      case 'wall': this.tone(130, 55, .2, .5); this.noise(420, .8, .14, .35, 0, 'lowpass'); break;
+      case 'hype': this.tone(260, 1100, .34, .07, 'sawtooth'); this.tone(520, 2000, .3, .05, 'triangle', .05); break;
+      case 'luck': [1319, 1568, 2093].forEach((n, i) => this.tone(n, n, .1, .08, 'sine', i * .065)); break;
+      case 'clap': [0, .12, .24].forEach(w => this.noise(1500, .9, .05, .4, w)); break;
+      case 'angry': this.tone(170, 125, .15, .09, 'square'); this.tone(155, 110, .17, .08, 'square', .17); break;
+      default: this.tone(600, 900, .08, .12, 'triangle');
+    }
   },
 };
 
@@ -855,10 +929,12 @@ function stepBall(h) {
     for (let j = 0; j < rod.n; j++) {
       const fy = figY(rod, j);
       if (Math.abs(ball.y - fy) > fw + R + 2) continue;
+      const inbound = -ball.vx * t.dir;          // speed towards this team's goal
       const jn = collideFoot(fx, fy, fvx, fvy, landing, fw, ft);
       if (jn > 0) {
         if (ball.superT > 0 && rod.team !== ball.superTeam) ball.superT = 0;   // the goalie stopped it
         contact(t, jn, fvx);
+        if (rod.n === 1 && t.ai && inbound > 1800) cpuReact('save');
       }
     }
   }
@@ -929,6 +1005,8 @@ function scoreGoal(scorer, side) {
   if (settings.superShot) teams[1 - scorer].skill = Math.min(1, teams[1 - scorer].skill + SUPER.concede);
   if (settings.giantGoalie && teams[1 - scorer].giantT <= 0) teams[1 - scorer].giant = Math.min(1, teams[1 - scorer].giant + GIANT.concede);
   goalBanner(scorer, own, superGoal);
+  emoteHint(scorer);
+  if (mode === 'cpu') cpuReact(scorer === RED ? (own ? 'own' : 'scored') : own ? '' : 'conceded');
   pushEvent({ k: 'goal', s: scorer, o: own ? 1 : 0, u: superGoal ? 1 : 0, x: side ? W : 0, y: Math.round(ball.y) });
   vibrate(mode === 'duo' ? 60 : scorer === me ? [30, 40, 60] : 80);
   if (score[scorer] >= settings.target) later(1.7, () => endMatch(scorer));
@@ -1039,7 +1117,7 @@ function aiUpdate(t, dt) {
     const catchable = spd < 650 || b.vx * t.dir < 0;          // slow, or rolling onto the foot
     if (ready && catchable && err < 7 && f > -8 && f < 72) {
       S.kickT = randIn(L.kickDelay); S.heel = false;
-      if (settings.superShot && t.skill >= 1 && rod.n === 3) t.armed = true;   // saves the super for its forwards
+      if (settings.superShot && t.skill >= 1 && rod.n === 3) { if (!t.armed) cpuReact('armed'); t.armed = true; }   // saves the super for its forwards
       S.holdDur = randIn(L.charge) * CHARGE_T + .015;
     }
   } else if (f > -SPIN_BACK + 4 && f < -14 && spd < 300) {
@@ -1154,6 +1232,12 @@ window.addEventListener('keydown', e => {
     if (state === 'play') { e.preventDefault(); paused ? resumeGame() : pauseGame(); }
     return;
   }
+  const dg = /^(Digit|Numpad)([1-8])$/.exec(e.code);
+  if (dg && (state === 'play' || state === 'over') && !(e.target.closest && e.target.closest('input'))) {
+    e.preventDefault();
+    if (!e.repeat) sendEmote(mode === 'duo' && dg[1] === 'Numpad' ? RED : me, +dg[2] - 1);
+    return;
+  }
   const k = KEYMAP[mode][e.code];
   if (!k || state !== 'play' || paused) return;
   e.preventDefault();
@@ -1161,6 +1245,133 @@ window.addEventListener('keydown', e => {
   kbHeld.add(k); syncInput(); Sound.unlock();
 });
 window.addEventListener('keyup', e => { const k = KEYMAP[mode][e.code]; if (!k) return; kbHeld.delete(k); syncInput(); });
+
+/* ——— Emotes: a quick word to the other side ———
+   💬 opens a tray of eight taunts; the bubble pops up over the sender's end of the table with a little
+   voice. There is a short wait between two of them (the online host also drops a guest that sends
+   faster), and switched off nothing is shown or sent. The computer answers in its own style. */
+const EMOTES = [
+  { e: '😂', t: 'Hahaha!', v: 'laugh' },
+  { e: '😎', t: 'Çok kolay', v: 'cool' },
+  { e: '🥱', t: 'Uyuma!', v: 'yawn' },
+  { e: '🧱', t: 'Geçemezsin', v: 'wall' },
+  { e: '🔥', t: 'Geliyor…', v: 'hype' },
+  { e: '🍀', t: 'Şans işte', v: 'luck' },
+  { e: '👏', t: 'İyi gol', v: 'clap' },
+  { e: '😤', t: 'Bekle sen!', v: 'angry' },
+];
+const EMOTE = { cool: 2.5, show: 2.4, tray: 4, hint: 3, cpuGap: 7, netGap: 1 };
+// what the computer says and how often, [chance, emotes], by level: a polite beginner, an even club
+// player and a cocky master
+const CPU_TALK = {
+  acemi: { scored: [.5, [5, 0]], conceded: [.55, [6]], own: [.7, [0]], save: [.35, [3]], armed: [.4, [4]], taunted: [.5, [7, 0]], won: [1, [0, 5]], lost: [1, [6]] },
+  kulup: { scored: [.6, [0, 1]], conceded: [.4, [5, 7]], own: [.8, [0]], save: [.5, [3]], armed: [.5, [4]], taunted: [.6, [7, 0]], won: [1, [1, 0]], lost: [1, [6, 7]] },
+  usta: { scored: [.75, [1, 2, 0]], conceded: [.45, [5]], own: [.9, [0, 2]], save: [.6, [3, 2]], armed: [.6, [4]], taunted: [.7, [2, 1]], won: [1, [1, 2]], lost: [1, [7]] },
+};
+const emo = { sent: [-1e9, -1e9], cpuT: -1e9, openAt: [0, 0], hintT: [0, 0], lastC: ['', ''] };
+const emoBtn = [$('emoB'), $('emoR')], emoTray = [$('trayB'), $('trayR')];
+// the left 💬 belongs to this screen's team; the right one only shows for red in the two-player mode
+const emoSlotTeam = i => i === 1 ? RED : me;
+emoTray.forEach(tr => {
+  tr.innerHTML = EMOTES.map((m, i) => `<button type="button" role="menuitem" data-emo="${i}"><span class="e" aria-hidden="true">${m.e}</span><small>${m.t}</small></button>`).join('');
+});
+$('overEmo').innerHTML = EMOTES.map((m, i) => `<button type="button" data-emo="${i}" aria-label="${m.t}" title="${m.t}">${m.e}</button>`).join('');
+
+function showEmote(team, id) {
+  const m = EMOTES[id];
+  if (!m || !settings.emotes) return;
+  const side = team === me ? 'l' : 'r', layer = $('bubbles');
+  const old = layer.querySelector('.bubble.' + side);
+  if (old) old.remove();
+  const b = document.createElement('div');
+  b.className = 'bubble ' + side;
+  b.style.setProperty('--c', PAL[team].hi); b.style.setProperty('--g', PAL[team].hi + '73');
+  const who = document.createElement('span'); who.className = 'vh'; who.textContent = teamName(team) + ': ';
+  const face = document.createElement('span'); face.className = 'e'; face.setAttribute('aria-hidden', 'true'); face.textContent = m.e;
+  const words = document.createElement('b'); words.textContent = m.t;
+  b.append(who, face, words);
+  layer.appendChild(b);
+  setTimeout(() => b.remove(), EMOTE.show * 1000 + 50);
+  Sound.emote(m.v);
+}
+const canEmote = () => settings.emotes && (state === 'play' && !paused || state === 'over' && mode === 'online' && net.connected);
+function sendEmote(team, id) {
+  const now = performance.now();
+  if (!EMOTES[id] || !canEmote() || now - emo.sent[team] < EMOTE.cool * 1000) { Sound.tock(.12); return false; }
+  emo.sent[team] = now;
+  emoBtn.forEach((b, i) => { if (emoSlotTeam(i) === team) { closeTray(i); b.classList.remove('hot'); emo.hintT[i] = 0; } });
+  showEmote(team, id);
+  if (net.role === 'guest') { net.emN++; net.emId = id; sendGuestInput(true); }
+  else if (net.role === 'host') pushEvent({ k: 'emo', t: team, e: id });
+  else if (mode === 'cpu') cpuReact('taunted');
+  return true;
+}
+// online host: the guest's emotes come with its buttons, counted so none shows twice
+function remoteEmote(team, id) {
+  const now = performance.now();
+  if (!EMOTES[id] || now - emo.sent[team] < EMOTE.netGap * 1000) return;
+  emo.sent[team] = now;
+  showEmote(team, id);
+  pushEvent({ k: 'emo', t: team, e: id });
+}
+function cpuReact(kind) {
+  const talk = mode === 'cpu' && settings.emotes && CPU_TALK[settings.level][kind];
+  if (!talk || Math.random() > talk[0]) return;
+  const end = kind === 'won' || kind === 'lost';
+  if (!end && (state !== 'play' || simT - emo.cpuT < EMOTE.cpuGap)) return;
+  emo.cpuT = simT;
+  const id = talk[1][Math.floor(Math.random() * talk[1].length)];
+  // it takes a moment to "type", except the warning that goes with a loaded süper şut
+  later(kind === 'armed' ? .1 : rand(.6, 1.2), () => { if (mode === 'cpu' && (state === 'play' || state === 'over')) showEmote(RED, id); });
+}
+// after a goal your 💬 glows for a moment: the best time for a word
+function emoteHint(team) {
+  if (!settings.emotes || !mine(teams[team])) return;
+  const i = mode === 'duo' && team === RED ? 1 : 0;
+  emoBtn[i].classList.add('hot'); emo.hintT[i] = performance.now() + EMOTE.hint * 1000;
+}
+function openTray(i) {
+  if (!emoTray[i].hidden) return closeTray(i);
+  if (!canEmote()) return;
+  emoTray[i].hidden = false; emoBtn[i].classList.add('open'); emoBtn[i].setAttribute('aria-expanded', 'true');
+  emoTray[i].style.zIndex = 4; emoTray[1 - i].style.zIndex = 3;          // the newest one on top
+  emo.openAt[i] = performance.now();
+}
+function closeTray(i) {
+  emo.openAt[i] = 0;
+  if (emoTray[i].hidden) return;
+  emoTray[i].hidden = true; emoBtn[i].classList.remove('open'); emoBtn[i].setAttribute('aria-expanded', 'false');
+}
+function closeTrays() { closeTray(0); closeTray(1); }
+function syncEmote() {
+  const now = performance.now();
+  for (let i = 0; i < 2; i++) {
+    if (emo.hintT[i] && now > emo.hintT[i]) { emo.hintT[i] = 0; emoBtn[i].classList.remove('hot'); }
+    const q = Math.round(clamp((now - emo.sent[emoSlotTeam(i)]) / (EMOTE.cool * 1000), 0, 1) * 40) / 40;
+    if (q !== emo.lastC[i]) {
+      emo.lastC[i] = q;
+      emoBtn[i].style.setProperty('--c', q); emoBtn[i].classList.toggle('cool', q < 1); emoTray[i].classList.toggle('cool', q < 1);
+      if (i === 0) $('overEmo').classList.toggle('cool', q < 1);
+    }
+    if (emo.openAt[i] && now - emo.openAt[i] > EMOTE.tray * 1000) closeTray(i);
+  }
+}
+// taps act on touch-down, so a thumb holding ▲ does not delay them; Enter / Space still work
+function onPress(el, fn) {
+  el.addEventListener('pointerdown', e => { if (e.button > 0) return; e.preventDefault(); Sound.unlock(); fn(e); });
+  el.addEventListener('click', e => { if (e.detail === 0) fn(e); });
+}
+const pickedEmote = e => { const b = e.target.closest && e.target.closest('[data-emo]'); return b ? +b.dataset.emo : -1; };
+emoBtn.forEach((b, i) => onPress(b, () => openTray(i)));
+emoTray.forEach((tr, i) => onPress(tr, e => { const id = pickedEmote(e); if (id >= 0) sendEmote(emoSlotTeam(i), id); }));
+onPress($('overEmo'), e => { const id = pickedEmote(e); if (id >= 0) sendEmote(me, id); });
+// a touch anywhere else closes the tray; in the two-player mode the other player's buttons leave it open
+window.addEventListener('pointerdown', e => {
+  const el = e.target && e.target.closest ? e.target : null;
+  if (el && el.closest('.tray, .emo')) return;
+  const k = el && el.closest('[data-key]');
+  for (let i = 0; i < 2; i++) if (emo.openAt[i] && !(k && mode === 'duo' && k.dataset.key[0] !== (i ? 'r' : 'b'))) closeTray(i);
+}, true);
 
 /* ——— Main update ——— */
 function update(dt) {
@@ -1278,6 +1489,9 @@ function layout() {
   ox = resL + (SW - resL - resR - W * scale) / 2;
   oy = FR * scale + Math.max(7, (SH - (H + 2 * FR) * scale) * .55);
   stage.style.setProperty('--hud-top', Math.max(4, oy - FR * scale / 2 - 17) + 'px');
+  stage.style.setProperty('--by', Math.round(oy + Math.max(12, H * scale * .07)) + 'px');
+  stage.style.setProperty('--bl', Math.round(ox + 12) + 'px');
+  stage.style.setProperty('--br', Math.round(SW - ox - W * scale + 12) + 'px');
   drawStatic();
 }
 let layoutQueued = false;
@@ -1571,6 +1785,9 @@ function setUI() {
   stage.classList.toggle('match', state === 'play');
   stage.classList.toggle('playing', state === 'play' && !paused);
   $('soundBtn').textContent = settings.sound ? 'Ses: açık' : 'Ses: kapalı';
+  $('emoteBtn').textContent = settings.emotes ? 'İfadeler: açık' : 'İfadeler: kapalı';
+  $('overEmo').hidden = !(state === 'over' && mode === 'online' && net.connected && settings.emotes);
+  if (!(state === 'play' && !paused)) closeTrays();
   $('activeBtn').textContent = settings.activeRod ? 'Aktif çubuk: açık' : 'Aktif çubuk: kapalı';
   $('keeperBtn').textContent = settings.autoKeeper ? 'Oto kaleci: açık' : 'Oto kaleci: kapalı';
   $('keeperBtn').disabled = !settings.activeRod;
@@ -1675,6 +1892,7 @@ function showResult(winner) {
 }
 function endMatch(winner) {
   showResult(winner);
+  if (mode === 'cpu') cpuReact(winner === RED ? 'won' : 'lost');
   pushEvent({ k: 'end', w: winner });
   state = 'over'; paused = false; clearInput();
   for (const t of teams) t.ai = LEVELS.kulup;
@@ -1723,9 +1941,14 @@ function loadSettings(extra) {
     if (typeof src.activeRod === 'boolean') settings.activeRod = src.activeRod;
     if (typeof src.superShot === 'boolean') settings.superShot = src.superShot;
     if (typeof src.giantGoalie === 'boolean') settings.giantGoalie = src.giantGoalie;
+    if (typeof src.emotes === 'boolean') settings.emotes = src.emotes;
   }
 }
-function saveSettings() { try { localStorage.setItem(STORE, JSON.stringify(settings)); } catch (e) { /* storage blocked */ } }
+function saveSettings() {
+  // the online guest plays by the host's rules for now: only its own sound and emote choices are kept
+  if (net.saved) Object.assign(net.saved, { sound: settings.sound, emotes: settings.emotes });
+  try { localStorage.setItem(STORE, JSON.stringify(net.saved || settings)); } catch (e) { /* storage blocked */ }
+}
 function syncForm() {
   $('lv-' + settings.level).checked = true;
   $('autoKeeper').checked = settings.autoKeeper;
@@ -1734,6 +1957,7 @@ function syncForm() {
   stage.classList.toggle('nosuper', !settings.superShot);
   $('giantGoalie').checked = settings.giantGoalie;
   stage.classList.toggle('nogiant', !settings.giantGoalie);
+  stage.classList.toggle('noemo', !settings.emotes);
   $('autoKeeper').disabled = !settings.activeRod;            // the goalie moves with your hand when all rods move together
   $('keeperSwitch').classList.toggle('off', !settings.activeRod);
   $('tg-' + settings.target).checked = true;
@@ -1761,6 +1985,11 @@ $('quitBtn').addEventListener('click', attract);
 $('againBtn').addEventListener('click', () => { if (net.role === 'guest') { net.again++; sendGuestInput(true); toast('Rövanş isteği gönderildi'); } else startMatch(); });
 $('menuBtn').addEventListener('click', attract);
 $('soundBtn').addEventListener('click', () => { settings.sound = !settings.sound; saveSettings(); setUI(); if (settings.sound) Sound.unlock(); });
+$('emoteBtn').addEventListener('click', () => {
+  settings.emotes = !settings.emotes;
+  if (!settings.emotes) $('bubbles').textContent = '';
+  saveSettings(); syncForm(); setUI();
+});
 $('keeperBtn').addEventListener('click', () => {
   settings.autoKeeper = !settings.autoKeeper;
   applyControls(); saveSettings(); syncForm(); setUI();
@@ -1780,7 +2009,7 @@ const NET_SEND = 1 / 30;      // s between snapshots
 const NET_TIMEOUT = 6000;     // ms of silence before the match is called off
 const net = { role: null, kind: '', code: '', tr: null, connected: false, lastHeard: 0, joinT: 0, seq: 0, lastN: 0, snaps: [],
   events: [], evId: 0, lastEv: 0, sendAcc: 0, inSeq: 0, inKey: '', inT: 0, cnt: { p: 0, s: 0, g: 0 }, seen: { p: 0, s: 0, g: 0, pending: false },
-  again: 0, lastAgain: 0, saved: null, forced: null, peerOpts: null, sfxT: {}, waitT: 0 };
+  again: 0, lastAgain: 0, saved: null, forced: null, peerOpts: null, sfxT: {}, waitT: 0, emN: 0, emId: 0, seenEm: 0 };
 let onlineOpen = false;
 const r1 = v => Math.round(v * 10) / 10, r2 = v => Math.round(v * 100) / 100, r3 = v => Math.round(v * 1000) / 1000;
 const lerp = (a, b, q) => a + (b - a) * q;
@@ -1917,7 +2146,7 @@ async function hostTable() {
   const tr = await getTransport();
   if (!tr) { $('onChoose').hidden = false; return setNetStatus(NO_NET, true); }
   Object.assign(net, { tr, role: 'host', kind: tr.kind, code: makeCode(), connected: false, seq: 0, events: [], evId: 0,
-    seen: { p: 0, s: 0, g: 0, pending: false }, lastAgain: 0 });
+    seen: { p: 0, s: 0, g: 0, pending: false }, lastAgain: 0, seenEm: 0 });
   $('hostCode').textContent = net.code; $('onHost').hidden = false;
   tr.open('host', net.code, hostOnState, partnerGone, err => {
     if (err === 'unavailable-id') { tr.close(); net.tr = null; hostTable(); }   // someone has this code: pick another
@@ -1932,6 +2161,7 @@ function hostOnState(d) {
   if (!net.connected) { net.connected = true; onlineOpen = false; startMatch('online'); }
   if ((d.ag | 0) > net.lastAgain) { net.lastAgain = d.ag | 0; if (state === 'over') startMatch('online'); }
   applyRemoteInput(teams[RED], d.in);
+  if (Array.isArray(d.em) && (d.em[0] | 0) > net.seenEm) { net.seenEm = d.em[0] | 0; remoteEmote(RED, d.em[1] | 0); }
 }
 // in: [up, down, shoot held, shoot presses, süper presses, dev presses]; press counters make quick taps survive
 function applyRemoteInput(t, a) {
@@ -1965,7 +2195,7 @@ async function joinTable(raw) {
   const tr = await getTransport();
   if (!tr) return setNetStatus(NO_NET, true);
   Object.assign(net, { tr, role: 'guest', kind: tr.kind, code, connected: false, lastN: 0, lastEv: 0, snaps: [], joinT: performance.now(),
-    cnt: { p: 0, s: 0, g: 0 }, again: 0, inKey: '' });
+    cnt: { p: 0, s: 0, g: 0 }, again: 0, inKey: '', emN: 0 });
   tr.open('guest', code, guestOnState, partnerGone, err => failJoin(netErrorText(err)));
   sendGuestInput(true);
   setNetStatus('Masa aranıyor…');
@@ -1975,10 +2205,10 @@ function sendGuestInput(force) {
   const i = inputs[BLUE], c = net.cnt;
   // the guest's screen is turned 180°: its ▲ moves the rods towards the bottom of the table
   const a = [i.down ? 1 : 0, i.up ? 1 : 0, i.shoot ? 1 : 0, c.p, c.s, c.g];
-  const key = a.join() + '|' + net.again;
+  const key = a.join() + '|' + net.again + '|' + net.emN;
   if (!force && key === net.inKey) return;
   net.inKey = key; net.inT = performance.now();
-  net.tr.send({ in: a, ag: net.again, n: ++net.inSeq });
+  net.tr.send({ in: a, ag: net.again, em: [net.emN, net.emId], n: ++net.inSeq });
 }
 function guestOnState(d) {
   if (!d || !d.n || !d.b || d.n <= net.lastN) return;
@@ -2007,7 +2237,8 @@ function enterGuest(d) {
 function guestEvent(e) {
   switch (e.k) {
     case 's': if (typeof Sound[e.n] === 'function') Sound[e.n](e.v); break;
-    case 'goal': burst(e.x, e.y, e.s); shake(8); goalBanner(e.s, !!e.o, !!e.u); vibrate(e.s === me ? [30, 40, 60] : 80); break;
+    case 'goal': burst(e.x, e.y, e.s); shake(8); goalBanner(e.s, !!e.o, !!e.u); emoteHint(e.s); vibrate(e.s === me ? [30, 40, 60] : 80); break;
+    case 'emo': if (e.t !== me) showEmote(e.t, e.e); break;             // our own was shown when we sent it
     case 'srv': toast(e.t === me ? 'Servis sende' : 'Servis rakipte'); break;
     case 'dead': toast('Ölü top · yeniden servis'); break;
     case 'sup': shake(7); if (!reduceMotion) flashT = .22; break;
@@ -2059,6 +2290,7 @@ function loop(now) {
   if (net.role) netTick(dt);
   render();
   syncShootRing();
+  syncEmote();
   requestAnimationFrame(loop);
 }
 function boot(data) {
@@ -2075,7 +2307,7 @@ function boot(data) {
 }
 
 // handle for experimenting from the console
-window.langirt = { teams, rods, ball, score, settings, update, startMatch, attract, net, hostTable, joinTable, get state() { return state; }, get mode() { return mode; }, get me() { return me; } };
+window.langirt = { teams, rods, ball, score, settings, update, startMatch, attract, net, hostTable, joinTable, sendEmote, EMOTES, get state() { return state; }, get mode() { return mode; }, get me() { return me; } };
 
 const hot = window.claude && window.claude.hot;
 if (hot && typeof hot.snapshot === 'function') {

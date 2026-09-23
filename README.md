@@ -16,6 +16,7 @@ Telefonda oynanan langırt (kicker) oyunu. Tek bir `index.html` dosyasından olu
 | Arka | Top aktif çubuğun hemen arkasında (1,2–6 cm) kaldıysa ŞUT'a bas: adamlar öne doğru tam tur döner, ayak topun arkasına iner ve topu ileri sürer. |
 | **SÜPER** (ŞUT'un üstünde) | Göstergen dolunca süper şutu hazırlar; bir sonraki vuruşun süper şut olur (aşağıya bak). |
 | **DEV** (ŞUT'un altında) | Kendi göstergesi dolunca kalecin 6 saniyeliğine dev olur (aşağıya bak). |
+| **💬** (sol üst) | Rakibine laf atmak için ifade menüsünü açar (aşağıya bak). |
 
 ### Aktif çubuk
 
@@ -74,6 +75,21 @@ Menüdeki **Dev kaleci** anahtarıyla kapatılabilir; açık gelir ve seçimin h
 
 Simülasyonda dev kaleci açıkken toplam gol yaklaşık %19, süper gol yaklaşık üçte bir azaldı. İlk denenen ayarda (7 saniye, 45 saniyede dolum) goller %35 azalıyordu; bu yüzden süre kısaltıldı, dolum yavaşlatıldı.
 
+### Maç içi ifadeler (psikolojik harp)
+
+Sol üstteki **💬** tuşu sekiz ifadelik bir menü açar. Seçtiğin ifade, masada senin kalenin olduğu uçta, takım renginde bir baloncuk ve kısa bir sesle belirir.
+
+- **İfadeler:** 😂 Hahaha!, 😎 Çok kolay, 🥱 Uyuma!, 🧱 Geçemezsin, 🔥 Geliyor…, 🍀 Şans işte, 👏 İyi gol, 😤 Bekle sen!
+- **Nerede görünür:** Baloncuk masanın üst kenarında 2,4 saniye kalır. Kendi ifaden solda, rakibinki sağda çıkar. Maç sonu ekranında kartın üstünde görünür.
+- **Bekleme:** İki ifade arasında 2,5 saniye beklenir; bu sürede 💬 tuşunun halkası dolar. Menü, 4 saniye içinde seçim yapılmazsa ya da başka bir yere dokunulursa kapanır.
+- **Gol sonrası:** Gol attığında 💬 tuşu 3 saniye parlar: laf atmanın tam zamanı.
+- **Bilgisayar:** Bilgisayar da laf atar ve seviyesine göre konuşur. Acemi kibardır: kendi golüne "Şans işte", seninkine "İyi gol" der. Kulüp dengelidir. Usta kendini beğenmiştir: "Çok kolay", "Uyuma!". Gol atınca, gol yiyince, kalecisi sert bir şutu kurtarınca, süper şutunu hazırlayınca ve senin lafına cevap olarak konuşur, ama en fazla 7 saniyede bir. Maç bitince de kazandıysa ya da kaybettiyse bir şey söyler.
+- **2 kişi:** Her oyuncunun kendi 💬 tuşu vardır: mavininki sol üstte, kırmızınınki sağ üstte mola tuşunun yanında. Bir oyuncunun menüsü, diğerinin tuşlara basmasıyla kapanmaz.
+- **Online:** İfade rakibin telefonunda da görünür. Maç bitince sonuç ekranından da ifade gönderilebilir. Masayı açan telefon, rakipten saniyede birden sık gelen ifadeleri göstermez.
+- **Kapatma:** Mola ekranındaki **İfadeler** tuşuyla kapatılır. Kapalıyken ne ifade gönderirsin ne de rakibinkini görürsün; bilgisayar da susar. Seçim hatırlanır.
+- **Oyuna etkisi:** Yoktur; ifadeler yalnızca görüntü ve sestir.
+- **Klavye:** `1`–`8` tuşları ifadeleri sırasıyla gönderir. 2 kişilik modda kırmızı için sayısal tuş takımındaki `1`–`8` kullanılır.
+
 ### 2 kişi (aynı telefon)
 
 Telefonu yatay olarak ikinizin arasına koyun. Mavi oyuncu sol uçta, kırmızı oyuncu sağ uçta oturur; herkesin kalesi kendi tarafındadır.
@@ -92,27 +108,27 @@ Menüde **Online**'a dokun. Biri **Masa aç** der ve 4 karakterlik bir kod alır
   - **Herkese açık adres (hesap gerekmez):** Telefonlar doğrudan (WebRTC) bağlanır. Eşleştirme için PeerJS'in ücretsiz genel sunucusu kullanılır. Mobil veride doğrudan bağlantı kurulamazsa, PeerJS'in aktarma (TURN) sunucuları devreye girer. PeerJS kütüphanesi oyunun yanında gelir (`peerjs.min.js`).
   - **claude.ai'deki oyun sayfası:** Sayfanın canlı "oda" bağlantısı kullanılır. Bunun için iki oyuncunun da claude.ai hesabı olmalı ve sayfa Paylaş menüsünden paylaşılmalı.
   - İki oyuncu aynı adresi açmalıdır: biri claude.ai sayfasını, öbürü herkese açık adresi açarsa birbirlerini bulamazlar.
-- **Herkese açık adres (GitHub Pages):** Bu depo gizli olduğu için önce herkese açılmalı; GitHub Pages ücretsiz planda yalnızca açık depolarda çalışır.
-  1. GitHub'da depoda **Settings → General** sayfasının en altındaki **Danger Zone** bölümünde **Change repository visibility → Public** seç.
+- **Herkese açık adres (GitHub Pages):** Oyun `https://resat2148-arch.github.io/1/` adresinde yayında. İkiniz de bu adresi Safari'de açın; sonra biri **Online → Masa aç**, diğeri **Online → Masaya katıl** der. Bu dala gönderilen her değişiklik bir iki dakika içinde adrese yansır. Kurulum adımları:
+  1. Depo herkese açık olmalı; GitHub Pages ücretsiz planda yalnızca açık depolarda çalışır (**Settings → General → Danger Zone → Change repository visibility → Public**).
   2. **Settings → Pages** sayfasında **Build and deployment → Source: Deploy from a branch** seç. Dal olarak `claude/telefonda-kicker-oyunu-ik7r65`, klasör olarak `/ (root)` seçip **Save**'e bas.
-  3. Bir iki dakika sonra oyun `https://resat2148-arch.github.io/1/` adresinde açılır. İkiniz de bu adresi Safari'de açın; sonra biri **Online → Masa aç**, diğeri **Online → Masaya katıl** der.
+  3. İlk yayın, dala yeni bir değişiklik gönderilince başlar. Depodaki `.nojekyll` dosyası, GitHub'ın dosyaları işlemeden olduğu gibi sunmasını sağlar.
 - **Nasıl işler:**
   - Masayı açan telefon (mavi) bütün fiziği yürütür ve saniyede 30 kez masanın durumunu gönderir. Paket yaklaşık 700 bayttır.
   - Katılan telefon (kırmızı) tuşlarını gönderir ve gelen durumu 90 milisaniye geriden, yumuşatarak çizer.
   - Kısa dokunuşlar kaybolmasın diye ŞUT, SÜPER ve DEV basışları sayaçla gönderilir.
 - **Katılanın ekranı:** 180° döndürülür. Böylece iki oyuncu da kendi kalesini solda görür, tabela da buna göre "Sen / Rakip" diye aynalanır.
 - **Maç kuralları:** Gol sayısı, aktif çubuk, otomatik kaleci, süper şut ve dev kaleci ayarları masayı açanın ayarlarıdır. Katılanın kendi ayarları maçtan sonra geri gelir.
-- **Mola:** Online maç durdurulamaz; mola ekranı yalnızca ses ayarı ve maçtan çıkış içindir.
+- **Mola:** Online maç durdurulamaz; mola ekranı yalnızca ses ve ifade ayarları ile maçtan çıkış içindir.
 - **Rövanş:** Maç bitince iki telefonda da sonuç kendi açından gösterilir. Rövanş isteğini her iki taraf gönderebilir.
 - **Bağlantı kopması:** Bir taraftan 6 saniye haber gelmezse ya da oyuncu çıkarsa, diğer telefon "Rakibin bağlantısı koptu" diyerek menüye döner.
 - **Sınırlar:**
   - Gecikme iki telefonun bağlantısına bağlıdır. Katılan taraf kendi çubuğunun hareketini gecikmeyle görür.
   - Masayı açan telefonun ekranı açık kalmalıdır; kilitlenirse ya da uygulamadan çıkılırsa oyun iki taraf için de durur.
-  - Bağlantı kodu iki tarayıcı sekmesi arasında denendi: claude.ai odasının taklidiyle ve yerelde çalıştırılan bir PeerJS sunucusu üzerinden gerçek WebRTC ile. PeerJS'in genel sunucusuyla ve gerçek iki telefonla henüz denenmedi.
+  - Bağlantı kodu iki tarayıcı sekmesi arasında denendi: claude.ai odasının taklidiyle ve yerelde çalıştırılan bir PeerJS sunucusu üzerinden gerçek WebRTC ile. Herkese açık adresten, PeerJS'in genel sunucusu üzerinden iki iPhone ile de oynandı.
 
-Klavyeyle 2 kişi oynamak için mavi `W S` ve `Boşluk` (ya da `F`), kırmızı `↑ ↓` ve `Enter` (ya da `L`) tuşlarını kullanır. Süper şut mavi için `E`, kırmızı için `O` ya da sağ `Shift`; dev kaleci mavi için `R`, kırmızı için `I` ya da sağ `Ctrl`.
+Klavyeyle 2 kişi oynamak için mavi `W S` ve `Boşluk` (ya da `F`), kırmızı `↑ ↓` ve `Enter` (ya da `L`) tuşlarını kullanır. Süper şut mavi için `E`, kırmızı için `O` ya da sağ `Shift`; dev kaleci mavi için `R`, kırmızı için `I` ya da sağ `Ctrl`. İfadeler mavi için `1`–`8`, kırmızı için sayısal tuş takımında `1`–`8`.
 
-Bilgisayara karşı modda klavyeyle de oynanır: `↑ ↓` ya da `W S` aktif çubuğu kaydırır, `Boşluk` şut çeker, `E` ya da `Q` süper şutu hazırlar, `R` dev kaleciyi açar. İki modda da `P` ya da `Esc` molaya alır.
+Bilgisayara karşı modda klavyeyle de oynanır: `↑ ↓` ya da `W S` aktif çubuğu kaydırır, `Boşluk` şut çeker, `E` ya da `Q` süper şutu hazırlar, `R` dev kaleciyi açar, `1`–`8` ifade gönderir. İki modda da `P` ya da `Esc` molaya alır.
 
 Oyun yatay ekran için tasarlandı. Telefon dik tutulursa sahne kendiliğinden 90° döner; telefonu yan çevirmen yeterli.
 
@@ -155,3 +171,4 @@ Rakip, aktif çubuğunu topun o çubuğun hizasından geçeceği noktaya getirir
 - `index.html`: oyunun tamamı (HTML, CSS, JavaScript; sesler Web Audio ile üretilir)
 - `manifest.webmanifest`, `icon.svg`: ana ekrana eklemek için
 - `peerjs.min.js`: online oyun için PeerJS 1.5.5 (MIT lisansı, © Michelle Bu ve Eric Zhang)
+- `.nojekyll`: GitHub Pages dosyaları olduğu gibi sunsun diye
