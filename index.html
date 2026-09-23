@@ -237,6 +237,20 @@ button:focus-visible,.seg input:focus-visible+label{outline:2px solid var(--bras
 .pills{display:inline-flex;gap:6px;align-items:center}
 .goalspill.cuppill{padding-inline:9px}
 #stage.cup #restartBtn{display:none}
+#stage.nofb .worldonly{display:none!important}
+.boardfoot{display:flex;gap:14px;align-items:center}
+@container (max-width:760px){
+  .pname .pl{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}   /* the box says it */
+  .pname input{width:118px}
+}
+.boardfoot .gnote{flex:1;line-height:1.3}
+.switch.mini{gap:8px;flex:none}
+.switch.mini .sw{width:40px;height:23px}
+.switch.mini .sw::after{width:17px;height:17px}
+.switch.mini input:checked+.sw::after{translate:17px 0}
+.switch.mini .sw-text{font-size:13px;white-space:nowrap}
+.lrow.gap{padding:0 12px;background:none;color:var(--chalk-2);font:900 16px/1 var(--display);letter-spacing:.3em}
+.lrow.gap span{grid-column:1/-1}
 #over .card{width:min(580px,100%)}          /* room for the reward chips in two rows */
 .cuptitle{margin:0;font:600 14px/1.3 var(--ui);color:var(--chalk-2)}
 .cuptitle b{font:900 22px/1 var(--display);letter-spacing:.04em;text-transform:uppercase;color:var(--brass);margin-right:8px}
@@ -616,14 +630,21 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
       </div>
       <div class="gpanel" id="panelBoard" role="tabpanel" aria-labelledby="tabBoard" hidden>
         <div class="boardtop">
-          <div class="seg mini" role="radiogroup" aria-label="Tablo görünümü">
+          <div class="seg mini worldonly" role="radiogroup" aria-label="Kimler">
+            <input type="radio" name="bscope" id="bs-friends" value="friends" checked><label for="bs-friends">Arkadaşlar</label>
+            <input type="radio" name="bscope" id="bs-world" value="world"><label for="bs-world">🌍 Dünya</label>
+          </div>
+          <div class="seg mini" role="radiogroup" aria-label="Sıralama">
             <input type="radio" name="bview" id="bv-cup" value="cup" checked><label for="bv-cup">Kupa puanı</label>
             <input type="radio" name="bview" id="bv-online" value="online"><label for="bv-online">Online lig</label>
           </div>
-          <label class="pname" for="pname">Adın <input id="pname" maxlength="14" autocomplete="nickname" enterkeyhint="done" spellcheck="false"></label>
+          <label class="pname" for="pname"><span class="pl">Adın</span><input id="pname" maxlength="14" placeholder="Adın" autocomplete="nickname" enterkeyhint="done" spellcheck="false"></label>
         </div>
-        <ol class="lboard" id="lboard"></ol>
-        <p class="gnote">Tabloda sen ve online oynadığın arkadaşların var. Online maç başlayınca telefonlar tablolarını birbirine aktarır; arkadaşının oynadığı kişiler de gelir. Her pazartesi sıfırlanır.</p>
+        <ol class="lboard" id="lboard" aria-live="polite"></ol>
+        <div class="boardfoot">
+          <label class="switch mini worldonly" for="worldOn"><input type="checkbox" id="worldOn" name="worldOn"><span class="sw" aria-hidden="true"></span><span class="sw-text">Dünya tablosunda görün</span></label>
+          <p class="gnote" id="boardNote"></p>
+        </div>
       </div>
     </div>
   </section>
@@ -2431,7 +2452,8 @@ const blankLife = () => ({ matches: 0, wins: 0, goals: 0, supers: 0, saves: 0, c
   onlineWins: 0, giantStops: 0, emotes: 0, shares: 0, quests: 0, perfect: 0, cups: 0 });
 let prog = { day: '', q: [0, 0, 0], done: [false, false, false], bonus: false, stars: 0, streak: 0, best: 0, lastFull: '', life: blankLife(), badges: {},
   owned: { ball: ['klasik'], table: ['klasik'] }, ball: 'klasik', table: 'klasik',
-  cup: null, pid: '', name: '', board: {}, bt: 0 };                 // weekly cup and table (filled in by loadProg)
+  cup: null, pid: '', name: '', board: {}, bt: 0,                   // weekly cup and table (filled in by loadProg)
+  world: true, fbRefresh: '', fbUid: '', fbSent: '', fbSentWeek: '' }; // the world table: shown there?, account, last row sent
 let goalsOpen = false, goalsTab = 'quests', overRew = [];
 
 const dayKey = (d = new Date()) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
@@ -2780,7 +2802,7 @@ const CUP_PRIZE = 5;                               // stars for the week's first
 const RULES = { superFill: 1, giantFill: 1 };      // the cup's twist on the meters while a cup match runs
 const cup = { active: false, saved: null, last: null };
 const blankCup = () => ({ week: '', best: 0, bestRound: 0, round: 0, pts: 0, inRun: false, playing: false, runs: 0, titles: 0, w: 0, l: 0, rewarded: false, won: [] });
-const board = { v: 0, view: 'cup' };
+const board = { v: 0, view: 'cup', scope: 'friends' };
 // ISO week, Monday first: "2026-H39"
 function weekKey(d = new Date()) {
   const t = new Date(d.getFullYear(), d.getMonth(), d.getDate());
@@ -2803,7 +2825,7 @@ function rollWeek() {
   prog.bt = Date.now(); board.v++;
   saveProg();
 }
-function boardChanged() { prog.bt = Date.now(); board.v++; saveProg(); }
+function boardChanged() { prog.bt = Date.now(); board.v++; saveProg(); fbQueue(); }
 const myRow = () => ({ id: prog.pid, name: prog.name, wk: prog.cup.week, cup: prog.cup.best, lvl: prog.cup.bestRound, w: prog.cup.w, l: prog.cup.l, t: prog.bt });
 // what goes over the wire: this phone's row first, then the newest rows it knows, 12 at most
 function boardPayload() {
@@ -2919,34 +2941,39 @@ function renderCup() {
   $('cupGo').disabled = !!net.role;                 // not in the middle of an online session
 }
 const ROUND_TEXT = ['Başladı', 'Çeyrek ✓', 'Yarı final ✓', '🥇 Şampiyon'];
+// one row of a table; names come from other phones or the world table, so they only ever go in as text
+function boardRow(ol, rank, r, mine, onl, top) {
+  const li = document.createElement('li');
+  li.className = 'lrow' + (mine ? ' me' : '') + (top ? ' top' : '');
+  const rk = document.createElement('span'); rk.className = 'lr'; rk.textContent = rank;
+  const nm = document.createElement('span'); nm.className = 'ln'; nm.textContent = r.name;
+  if (mine) { const y = document.createElement('small'); y.textContent = 'sen'; nm.appendChild(y); }
+  const v = document.createElement('span'); v.className = 'lv'; v.textContent = onl ? `${r.w * 3}` : r.cup;
+  const x = document.createElement('span'); x.className = 'lx';
+  x.textContent = onl ? `${r.w} G · ${r.l} M` : r.cup ? ROUND_TEXT[r.lvl] : 'Henüz oynamadı';
+  li.append(rk, nm, v, x);
+  ol.appendChild(li);
+}
+function boardMsg(ol, text, cls = 'lempty') {
+  const li = document.createElement('li'); li.className = cls;
+  if (cls === 'lrow gap') { const sp = document.createElement('span'); sp.textContent = text; li.appendChild(sp); } else li.textContent = text;
+  ol.appendChild(li);
+}
 function renderBoard() {
   rollWeek();
-  const me_ = myRow(), rows = [me_, ...Object.values(prog.board).filter(r => r.wk === prog.cup.week)];
-  const onl = board.view === 'online';
-  const list = onl ? rows.filter(r => r.w + r.l > 0 || r === me_).sort((a, b) => b.w - a.w || a.l - b.l || b.t - a.t)
-    : rows.filter(r => r.cup > 0 || r === me_).sort((a, b) => b.cup - a.cup || b.lvl - a.lvl || b.t - a.t);
-  const ol = $('lboard');
+  const onl = board.view === 'online', world = board.scope === 'world' && fbOn(), ol = $('lboard');
   ol.textContent = '';
-  list.forEach((r, i) => {
-    const li = document.createElement('li');
-    li.className = 'lrow' + (r === me_ ? ' me' : '') + (i === 0 && (onl ? r.w : r.cup) ? ' top' : '');
-    const rk = document.createElement('span'); rk.className = 'lr'; rk.textContent = i + 1;
-    const nm = document.createElement('span'); nm.className = 'ln'; nm.textContent = r.name;          // a friend's name: text only
-    if (r === me_) { const y = document.createElement('small'); y.textContent = 'sen'; nm.appendChild(y); }
-    const v = document.createElement('span'); v.className = 'lv'; v.textContent = onl ? `${r.w * 3}` : r.cup;
-    const x = document.createElement('span'); x.className = 'lx';
-    x.textContent = onl ? `${r.w} G · ${r.l} M` : r.cup ? ROUND_TEXT[r.lvl] : 'Henüz oynamadı';
-    li.append(rk, nm, v, x);
-    ol.appendChild(li);
-  });
-  if (list.length < 2) {
-    const li = document.createElement('li'); li.className = 'lempty';
-    li.textContent = onl ? 'Online maç yaptıkça sen ve arkadaşların burada sıralanırsınız (galibiyet 3 puan).'
-      : 'Arkadaşlarınla online bir maç yapın: tablolarınız birleşir ve kupa puanlarınız burada yan yana görünür.';
-    ol.appendChild(li);
-  }
+  $('worldOn').checked = prog.world;
   const inp = $('pname');
   if (document.activeElement !== inp) inp.value = prog.name;
+  if (world) return renderWorld(ol, onl);
+  $('boardNote').textContent = 'Tabloda sen ve online oynadığın arkadaşların var. Online maç başlayınca telefonlar tablolarını birbirine aktarır; arkadaşının oynadığı kişiler de gelir. Her pazartesi sıfırlanır.';
+  const me_ = myRow(), rows = [me_, ...Object.values(prog.board).filter(r => r.wk === prog.cup.week)];
+  const list = onl ? rows.filter(r => r.w + r.l > 0 || r === me_).sort((a, b) => b.w - a.w || a.l - b.l || b.t - a.t)
+    : rows.filter(r => r.cup > 0 || r === me_).sort((a, b) => b.cup - a.cup || b.lvl - a.lvl || b.t - a.t);
+  list.forEach((r, i) => boardRow(ol, i + 1, r, r === me_, onl, i === 0 && (onl ? r.w : r.cup)));
+  if (list.length < 2) boardMsg(ol, onl ? 'Online maç yaptıkça sen ve arkadaşların burada sıralanırsınız (galibiyet 3 puan).'
+    : 'Arkadaşlarınla online bir maç yapın: tablolarınız birleşir ve kupa puanlarınız burada yan yana görünür.');
 }
 function setName() {
   const v = cleanName($('pname').value);
@@ -2960,10 +2987,147 @@ $('tabCup').addEventListener('click', () => { goalsTab = 'cup'; renderGoals(); }
 $('tabBoard').addEventListener('click', () => { goalsTab = 'board'; renderGoals(); });
 $('panelBoard').addEventListener('change', e => {
   if (e.target.name === 'bview') { board.view = e.target.value; renderBoard(); }
+  if (e.target.name === 'bscope') { board.scope = e.target.value; renderBoard(); }
+  if (e.target.id === 'worldOn') { prog.world = e.target.checked; saveProg(); fbQueue(300); fb.cache = {}; renderBoard(); }
   if (e.target.id === 'pname') setName();
 });
 $('pname').addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); e.target.blur(); } });
 $('pname').addEventListener('blur', setName);
+
+/* ——— World table (Firebase) ———
+   With a Firebase project filled in below, each player's week also goes to a shared Firestore table,
+   through Firestore's plain REST interface (no library to load). Each phone signs in anonymously; the
+   project's rules (firestore.rules in this repository) let it write only its own row, with sane values,
+   never lowering a week's points. Left empty, the world table is off and nothing else changes.
+   These web keys are public by design, every web app ships them; the rules are what guard the data. */
+const FIREBASE = { apiKey: '', projectId: '', emulator: '' };      // emulator: 'http://127.0.0.1' in tests
+const fb = { token: '', uid: '', exp: 0, authing: null, pushT: 0, pushing: false, retry: 0, cache: {}, loading: '', err: '' };
+const fbOn = () => !!(FIREBASE.apiKey && FIREBASE.projectId);
+const fbAuthURL = path => FIREBASE.emulator ? `${FIREBASE.emulator}:9099/${path}` : `https://${path}`;
+const fbDocs = () => `${FIREBASE.emulator ? FIREBASE.emulator + ':8080' : 'https://firestore.googleapis.com'}/v1/projects/${FIREBASE.projectId}/databases/(default)/documents`;
+const fbInt = (f, k) => Math.max(0, Math.floor(+(f && f[k] && f[k].integerValue)) || 0);
+
+// an anonymous account per phone, kept with its refresh token; the id token lasts an hour
+async function fbToken() {
+  if (fb.token && Date.now() < fb.exp - 60e3) return fb.token;
+  if (fb.authing) return fb.authing;
+  fb.authing = (async () => {
+    let j = null;
+    if (prog.fbRefresh) {
+      const r = await fetch(fbAuthURL(`securetoken.googleapis.com/v1/token?key=${FIREBASE.apiKey}`), {
+        method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: 'grant_type=refresh_token&refresh_token=' + encodeURIComponent(prog.fbRefresh) });
+      if (r.ok) { const k = await r.json(); j = { idToken: k.id_token, localId: k.user_id, refreshToken: k.refresh_token, expiresIn: k.expires_in }; }
+    }
+    if (!j) {
+      const r = await fetch(fbAuthURL(`identitytoolkit.googleapis.com/v1/accounts:signUp?key=${FIREBASE.apiKey}`), {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{"returnSecureToken":true}' });
+      if (!r.ok) throw new Error('auth ' + r.status);
+      j = await r.json();
+    }
+    fb.token = j.idToken; fb.uid = j.localId; fb.exp = Date.now() + (+j.expiresIn || 3600) * 1000;
+    if (prog.fbRefresh !== j.refreshToken || prog.fbUid !== j.localId) { prog.fbRefresh = j.refreshToken; prog.fbUid = j.localId; saveProg(); }
+    return fb.token;
+  })().finally(() => { fb.authing = null; });
+  return fb.authing;
+}
+const fbRowKey = r => [r.wk, r.name, r.cup, r.lvl, r.w, r.l, prog.world ? 1 : 0].join('|');
+function fbQueue(delay = 3000) {
+  if (!fbOn()) return;
+  clearTimeout(fb.pushT); fb.pushT = setTimeout(fbPush, delay);
+}
+// send this phone's row when it changed; a player who has not played this week stays off the table
+async function fbPush() {
+  if (!fbOn() || fb.pushing) return;
+  rollWeek();
+  const r = myRow(), key = fbRowKey(r);
+  if (key === prog.fbSent) return;
+  const show = prog.world && (r.cup > 0 || r.w + r.l > 0);
+  fb.pushing = true;
+  try {
+    if (!show && prog.fbSentWeek !== r.wk) { prog.fbSent = key; saveProg(); return; }    // nothing of ours up there this week
+    const tok = await fbToken(), path = `weeks/${r.wk}/players/${fb.uid}`, auth = { Authorization: 'Bearer ' + tok };
+    if (!show) {                                                           // left the world table: take our row down
+      const res = await fetch(`${fbDocs()}/${path}`, { method: 'DELETE', headers: auth });
+      if (!res.ok && res.status !== 404) throw new Error('delete ' + res.status);
+      prog.fbSentWeek = '';
+    } else {
+      const int = v => ({ integerValue: String(v) });
+      const res = await fetch(`${fbDocs()}:commit`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json', ...auth },
+        body: JSON.stringify({ writes: [{
+          update: { name: `projects/${FIREBASE.projectId}/databases/(default)/documents/${path}`,
+            fields: { name: { stringValue: r.name }, cup: int(r.cup), lvl: int(r.lvl), w: int(r.w), l: int(r.l) } },
+          updateTransforms: [{ fieldPath: 't', setToServerValue: 'REQUEST_TIME' }],
+        }] }) });
+      if (!res.ok) throw new Error('write ' + res.status);
+      prog.fbSentWeek = r.wk;
+    }
+    prog.fbSent = key; saveProg();
+    fb.retry = 0; fb.cache = {};
+  } catch (e) {
+    fb.retry = Math.min(fb.retry + 1, 6);
+    fbQueue(12000 * fb.retry);                       // offline, or inside the rules' 10 s spacing: try again later
+  } finally { fb.pushing = false; }
+}
+// the week's top 50 by cup points or online wins, and where this phone stands
+async function fbFetch(view) {
+  const wk = weekKey(), ck = wk + view, hit = fb.cache[ck];
+  if (hit && Date.now() - hit.at < 60e3) return hit;
+  const field = view === 'online' ? 'w' : 'cup';
+  const post = (op, body) => fetch(`${fbDocs()}/weeks/${wk}:${op}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+    .then(r => { if (!r.ok) throw new Error(op + ' ' + r.status); return r.json(); });
+  const gt = v => ({ fieldFilter: { field: { fieldPath: field }, op: 'GREATER_THAN', value: { integerValue: String(v) } } });
+  const count = where => post('runAggregationQuery', { structuredAggregationQuery: {
+    structuredQuery: { from: [{ collectionId: 'players' }], ...(where ? { where } : {}) }, aggregations: [{ alias: 'n', count: {} }] } })
+    .then(a => fbInt(a && a[0] && a[0].result && a[0].result.aggregateFields, 'n'));
+  const mineV = view === 'online' ? prog.cup.w : prog.cup.best;
+  const [top, above, total] = await Promise.all([
+    post('runQuery', { structuredQuery: { from: [{ collectionId: 'players' }], ...(view === 'online' ? {} : { where: gt(0) }),
+      orderBy: [{ field: { fieldPath: field }, direction: 'DESCENDING' }], limit: 50 } }),
+    count(gt(mineV)), count(view === 'online' ? null : gt(0)),
+  ]);
+  const rows = (Array.isArray(top) ? top : []).filter(x => x.document).map(x => {
+    const f = x.document.fields || {};
+    return { id: x.document.name.split('/').pop(), name: cleanName(f.name && f.name.stringValue) || 'Oyuncu',
+      cup: Math.min(1300, fbInt(f, 'cup')), lvl: Math.min(3, fbInt(f, 'lvl')), w: fbInt(f, 'w'), l: fbInt(f, 'l') };
+  }).filter(r => view !== 'online' || r.w + r.l > 0);
+  return (fb.cache[ck] = { at: Date.now(), rows, above, total });
+}
+function renderWorld(ol, onl) {
+  const view = onl ? 'online' : 'cup', ck = weekKey() + view, data = fb.cache[ck];
+  const me_ = myRow(), uid = fb.uid || prog.fbUid;
+  $('boardNote').textContent = prog.world
+    ? 'Bu hafta kupa ya da online maç oynayan herkes. Adın ve puanın herkese görünür. Her pazartesi sıfırlanır.'
+    : 'Dünya tablosunda görünmüyorsun; puanın paylaşılmıyor. Diğerlerini yine görebilirsin.';
+  if (!data || Date.now() - data.at >= 60e3) {
+    if (!data) boardMsg(ol, fb.err === ck ? 'Dünya tablosuna ulaşılamadı. İnternet bağlantını kontrol et.' : 'Yükleniyor…');
+    if (fb.loading !== ck) {
+      fb.loading = ck;
+      // our own latest row first, so the rank below is up to date
+      (fbRowKey(myRow()) !== prog.fbSent ? fbPush() : Promise.resolve()).then(() => fbFetch(view))
+        .then(() => { fb.err = ''; }, () => { fb.err = ck; })
+        .finally(() => { fb.loading = ''; if (goalsOpen && goalsTab === 'board' && board.scope === 'world') renderBoard(); });
+    }
+    if (!data) return;
+  }
+  const iAmIn = prog.world && (onl ? me_.w + me_.l > 0 : me_.cup > 0);
+  let shown = false;
+  data.rows.forEach((r, i) => {
+    const mine = r.id === uid;
+    if (mine) shown = true;
+    boardRow(ol, i + 1, mine ? { ...r, name: me_.name } : r, mine, onl, i === 0);
+  });
+  if (iAmIn && !shown) {
+    if (data.rows.length) boardMsg(ol, '• • •', 'lrow gap');
+    boardRow(ol, data.above + 1, me_, true, onl, false);
+  }
+  if (!data.rows.length && !iAmIn) boardMsg(ol, 'Bu hafta dünya tablosunda henüz kimse yok. İlk sen ol: kupayı oyna!');
+  if (iAmIn) $('boardNote').textContent = `Sıran: ${data.above + 1} / ${Math.max(data.total, data.above + 1)} oyuncu. ` + $('boardNote').textContent;
+  const mine = ol.querySelector('.lrow.me');                 // bring our own row into view
+  if (mine) ol.scrollTop = Math.max(0, mine.offsetTop - ol.offsetTop - (ol.clientHeight - mine.offsetHeight) / 2);
+}
+
 
 /* ——— Settings ——— */
 const STORE = 'cep-langirti';
@@ -3356,6 +3520,8 @@ function boot(data) {
   data = data || {};
   loadSettings(data.settings);
   loadProg();
+  stage.classList.toggle('nofb', !fbOn());
+  fbQueue(4000);                                   // a row that changed while offline goes up now
   syncForm(); layout(); attract(); renderPill();
   if (data.match && Array.isArray(data.match.score)) {
     startMatch(data.match.mode === 'duo' ? 'duo' : 'cpu');
@@ -3367,7 +3533,7 @@ function boot(data) {
 }
 
 // handle for experimenting from the console
-window.langirt = { teams, rods, ball, score, settings, update, startMatch, attract, net, hostTable, joinTable, sendEmote, EMOTES, stats, card, cardStory, drawCard, recordMatch, todayQuests, QUESTS, BADGES, tapTheme, BALLS, TABLES, drawStatic, startCup, cupRule, weekKey, mergeBoard, boardPayload, RULES, cup, get prog() { return prog; }, get state() { return state; }, get mode() { return mode; }, get me() { return me; } };
+window.langirt = { teams, rods, ball, score, settings, update, startMatch, attract, net, hostTable, joinTable, sendEmote, EMOTES, stats, card, cardStory, drawCard, recordMatch, todayQuests, QUESTS, BADGES, tapTheme, BALLS, TABLES, drawStatic, startCup, cupRule, weekKey, mergeBoard, boardPayload, RULES, cup, FIREBASE, fb, fbPush, fbFetch, fbOn, renderBoard, get prog() { return prog; }, get state() { return state; }, get mode() { return mode; }, get me() { return me; } };
 
 const hot = window.claude && window.claude.hot;
 if (hot && typeof hot.snapshot === 'function') {

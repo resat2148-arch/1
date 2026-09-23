@@ -1,0 +1,44 @@
+rules_version = '2';
+
+// Cep Langırtı: the world table.
+// One document per player per week: weeks/{2026-H39}/players/{uid}, uid = the player's anonymous
+// Firebase account. Anyone may read the table; a player may write only their own document, with
+// sane values, at most every 10 seconds, and a week's points only ever go up.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /weeks/{week}/players/{uid} {
+      allow read: if true;
+      allow create: if isOwner(uid) && validWeek(week) && validRow();
+      allow update: if isOwner(uid) && validRow()
+        && request.time > resource.data.t + duration.value(10, 's')
+        && request.resource.data.cup >= resource.data.cup
+        && request.resource.data.lvl >= resource.data.lvl
+        && request.resource.data.w >= resource.data.w
+        && request.resource.data.l >= resource.data.l;
+      allow delete: if isOwner(uid);                 // leaving the world table
+    }
+
+    function isOwner(uid) {
+      return request.auth != null && request.auth.uid == uid;
+    }
+    function validWeek(week) {
+      return week.matches('^20[0-9]{2}-H[0-5][0-9]$');
+    }
+    function validRow() {
+      let d = request.resource.data;
+      // the best possible cup run is 1270 points (three clean 7–0 wins)
+      return d.keys().hasOnly(['name', 'cup', 'lvl', 'w', 'l', 't'])
+        && d.keys().hasAll(['name', 'cup', 'lvl', 'w', 'l', 't'])
+        && d.name is string && d.name.size() >= 1 && d.name.size() <= 14
+        && d.cup is int && d.cup >= 0 && d.cup <= 1300
+        && d.lvl is int && d.lvl >= 0 && d.lvl <= 3
+        && d.w is int && d.w >= 0 && d.w <= 500
+        && d.l is int && d.l >= 0 && d.l <= 500
+        && d.t == request.time;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

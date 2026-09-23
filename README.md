@@ -191,7 +191,31 @@ Menüdeki **🏆** düğmesi (ya da görevler ekranındaki **Kupa** sekmesi) haf
   - Her oyuncunun satırını yalnızca kendi telefonu değiştirir; başka bir telefondan gelen satır seninkinin yerine geçemez.
   - Gelen satırlar denetlenir: adlar düz yazı olarak gösterilir, sayılar makul sınırlara çekilir, en fazla 40 satır tutulur.
   - Tablo ve kupa her pazartesi 00:00'da (telefonun saatiyle) sıfırlanır.
-  - Herkesin birbirini görebildiği küresel bir tablo için ayrı bir sunucu (örneğin Firebase ya da Supabase) gerekir.
+  - Herkesin birbirini görebildiği küresel tablo için aşağıdaki **Dünya tablosu** bölümüne bak.
+
+### Dünya tablosu (Firebase)
+
+Bir Firebase projesi bağlanınca Tablo sekmesinde **Arkadaşlar / 🌍 Dünya** seçimi çıkar. Dünya görünümünde, o hafta kupa ya da online maç oynayan herkes aynı tabloda sıralanır.
+
+- **Ne gösterir:** Haftanın ilk 50 oyuncusu, kupa puanına ya da online galibiyete göre. İlk 50'de değilsen kendi satırın ve sıran altta görünür, örneğin "Sıran: 49 / 56 oyuncu". Liste açılınca kendi satırına kayar.
+- **Ne gönderilir:** Yalnızca adın, haftanın en iyi kupa puanı ve ulaştığın tur, online galibiyet ve mağlubiyetlerin. Bunlar değişince birkaç saniye içinde, internet yoksa sonra gönderilir. O hafta hiç oynamayan oyuncu tabloya girmez.
+- **İstemeyen için:** Tablo sekmesindeki **Dünya tablosunda görün** anahtarı kapatılınca satırın silinir ve bir daha gönderilmez; diğerlerini yine görebilirsin.
+- **Hesap:** Her telefon Firebase'e anonim olarak girer; e-posta ya da şifre yoktur. Hesap tarayıcıda saklanır, tarayıcı verileri silinirse yeni bir hesap açılır.
+- **Güvenlik** ([`firestore.rules`](firestore.rules)):
+  - Herkes tabloyu okuyabilir; herkes yalnızca kendi satırını yazıp silebilir.
+  - Ad 1–14 karakter olmalı. Kupa puanı 0–1300 arasında olmalı; en iyi kupa koşusu 1270 puandır. Galibiyet ve mağlubiyet en çok 500 olabilir. Başka alan eklenemez.
+  - Aynı hafta içinde puan, tur, galibiyet ve mağlubiyet düşürülemez. Bir satır en fazla 10 saniyede bir yazılabilir. Zaman damgasını sunucu koyar.
+  - Oyun telefonda çalıştığı için değiştirilmiş bir oyunla kurallara uyan ama sahte bir puan göndermek yine de mümkündür; bu tür tablolarda bu önlenemez. Adlar denetlenmez, yalnızca düz yazı olarak gösterilir.
+- **Sınırlar:** Firebase'in ücretsiz planı günde 50.000 okuma ve 20.000 yazma verir. Dünya görünümü bir açılışta yaklaşık 50 okuma yapar ve bir dakika önbellekte tutulur; arkadaş ölçeğinde fazlasıyla yeter.
+- **claude.ai sayfası:** Dünya tablosu herkese açık adreste (GitHub Pages) çalışır; claude.ai sayfası dışarıya bağlanamayabilir.
+
+**Kurulum (bir kez, yaklaşık 10 dakika):**
+1. [console.firebase.google.com](https://console.firebase.google.com) adresinde **Proje oluştur**'a bas, projeye bir ad ver (örneğin `cep-langirti`). Google Analytics'i kapatabilirsin.
+2. **Authentication → Başlayın → Sign-in method** bölümünde **Anonim** (Anonymous) girişi aç ve kaydet.
+3. **Firestore Database → Veritabanı oluştur** de; konumu Avrupa seç (örneğin `eur3` ya da `europe-west1`), **production mode** ile başlat.
+4. Firestore'un **Kurallar** (Rules) sekmesine bu depodaki [`firestore.rules`](firestore.rules) dosyasının içeriğini yapıştırıp **Yayınla**'ya bas.
+5. **Proje ayarları** (dişli simgesi) → **Genel → Uygulamalarınız** bölümünde web simgesine (`</>`) basıp bir web uygulaması ekle; hosting gerekmez. Çıkan `firebaseConfig` içindeki **apiKey** ve **projectId** değerleri, `index.html` içindeki `FIREBASE` satırına yazılır. Bu değerler her web uygulamasında herkese açıktır, gizli değildir; verileri koruyan 4. adımdaki kurallardır.
+6. İstersen Google Cloud Console'da **API'ler ve Hizmetler → Kimlik bilgileri** bölümünden bu anahtarı yalnızca `https://resat2148-arch.github.io/*` adresinden kullanılacak şekilde (HTTP referrer) kısıtlayabilirsin.
 
 ### 2 kişi (aynı telefon)
 
@@ -275,3 +299,4 @@ Rakip, aktif çubuğunu topun o çubuğun hizasından geçeceği noktaya getirir
 - `manifest.webmanifest`, `icon.svg`: ana ekrana eklemek için
 - `peerjs.min.js`: online oyun için PeerJS 1.5.5 (MIT lisansı, © Michelle Bu ve Eric Zhang)
 - `.nojekyll`: GitHub Pages dosyaları olduğu gibi sunsun diye
+- `firestore.rules`: dünya tablosu için Firestore güvenlik kuralları
