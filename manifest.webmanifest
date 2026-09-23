@@ -1,0 +1,15 @@
+{
+  "name": "Cep Langırtı",
+  "short_name": "Langırt",
+  "description": "Telefonda oynanan langırt (kicker) oyunu.",
+  "lang": "tr",
+  "start_url": ".",
+  "scope": ".",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "background_color": "#140f0b",
+  "theme_color": "#140f0b",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}
