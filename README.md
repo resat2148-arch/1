@@ -90,6 +90,24 @@ Sol üstteki **💬** tuşu sekiz ifadelik bir menü açar. Seçtiğin ifade, ma
 - **Oyuna etkisi:** Yoktur; ifadeler yalnızca görüntü ve sestir.
 - **Klavye:** `1`–`8` tuşları ifadeleri sırasıyla gönderir. 2 kişilik modda kırmızı için sayısal tuş takımındaki `1`–`8` kullanılır.
 
+### Paylaşım kartı (Instagram / WhatsApp)
+
+Maç bitince sonuç ekranındaki **Paylaş** tuşu, maçın görselini telefonun paylaşım menüsüne verir. Oradan tek dokunuşla Instagram hikâyesine, WhatsApp'a (sohbet ya da durum) veya başka bir uygulamaya gönderilir.
+
+- **Boyut:** 1080 × 1920, hikâyelerin boyutu. JPEG, yaklaşık 200 KB.
+- **İçinde ne var:**
+  - Sonuç ("Kazandım!", "Kaybettim" ya da "Mavi kazandı!") ve maça göre bir alt başlık: "Gol yemeden kazandım!", "Geriden gelip kazandım!", "Usta bilgisayarı devirdim!", "Kıl payı ama benim!", "Rövanş geliyor…" gibi.
+  - Büyük skor; kendi takımın solda.
+  - Gollerin atılış sırası: süper gol turuncu halkalı, kendi kalesine gol içi boş.
+  - Masanın kendisi; son gol kaybedenin kalesinde.
+  - Süre, en uzun gol serisi, kalecinin kurtarışları (kaleye 1,8 m/s'den hızlı gelen şutlar) ve süper gol sayısı.
+  - "Sen de oyna" ile oyunun adresi ve tarih.
+- **Kimin açısından:** Bilgisayara karşı ve online maçta senin açından; online'da iki telefon da kendi kartını hazırlar. 2 kişilik modda kazananın açından.
+- **Hikâye alanı:** Önemli yazılar, Instagram'ın üstteki profil satırının ve alttaki mesaj çubuğunun altında kalmayacak şekilde ortada durur.
+- **Paylaşılamayan yerde:** Bilgisayarda ya da claude.ai sayfasında görsel dosya olarak paylaşılamazsa kart ekranda açılır; basılı tutup kaydedebilir ya da **İndir**'e basabilirsin.
+- **Neden yalnızca görsel:** Yanına yazı eklenince bazı uygulamalar (Instagram gibi) paylaşım menüsünde görünmüyor. Oyunun adresi görselin üstünde yazılı.
+- Görsel maç biter bitmez hazırlanır; bu yüzden tuşa basınca paylaşım menüsü hemen açılır.
+
 ### 2 kişi (aynı telefon)
 
 Telefonu yatay olarak ikinizin arasına koyun. Mavi oyuncu sol uçta, kırmızı oyuncu sağ uçta oturur; herkesin kalesi kendi tarafındadır.
