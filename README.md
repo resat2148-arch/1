@@ -209,6 +209,8 @@ Bir Firebase projesi bağlanınca Tablo sekmesinde **Arkadaşlar / 🌍 Dünya**
 - **Sınırlar:** Firebase'in ücretsiz planı günde 50.000 okuma ve 20.000 yazma verir. Dünya görünümü bir açılışta yaklaşık 50 okuma yapar ve bir dakika önbellekte tutulur; arkadaş ölçeğinde fazlasıyla yeter.
 - **claude.ai sayfası:** Dünya tablosu herkese açık adreste (GitHub Pages) çalışır; claude.ai sayfası dışarıya bağlanamayabilir.
 
+Oyun `ceplangirti` Firebase projesine bağlı; aşağıdaki adımlar bu proje için yapıldı ve başka bir projeye geçmek gerekirse diye duruyor.
+
 **Kurulum (bir kez, yaklaşık 10 dakika):**
 1. [console.firebase.google.com](https://console.firebase.google.com) adresinde **Proje oluştur**'a bas, projeye bir ad ver (örneğin `cep-langirti`). Google Analytics'i kapatabilirsin.
 2. **Authentication → Başlayın → Sign-in method** bölümünde **Anonim** (Anonymous) girişi aç ve kaydet.
