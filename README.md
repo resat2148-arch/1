@@ -4,7 +4,7 @@ Telefonda oynanan langırt (kicker) oyunu. Tek bir `index.html` dosyasından olu
 
 ## Nasıl oynanır
 
-İki mod var: **Bilgisayara karşı** (mavi takım sensin, kırmızıyı bilgisayar oynar) ve **2 kişi** (aynı telefonda arkadaşınla). Seçtiğin gol sayısına (3, 5 ya da 7) ilk ulaşan maçı kazanır.
+Üç mod var: **Bilgisayara karşı** (mavi takım sensin, kırmızıyı bilgisayar oynar), **2 kişi** (aynı telefonda arkadaşınla) ve **Online** (iki ayrı telefonda arkadaşınla). Seçtiğin gol sayısına (3, 5 ya da 7) ilk ulaşan maçı kazanır.
 
 | Kontrol | Ne yapar |
 | --- | --- |
@@ -83,6 +83,27 @@ Telefonu yatay olarak ikinizin arasına koyun. Mavi oyuncu sol uçta, kırmızı
 - İki oyuncu aynı anda basabilir; ekran birden fazla parmağı ayrı ayrı izler.
 - İki taraf da "topa en yakın çubuk" kuralıyla oynar; her takımın aktif çubuğu kendi renginde parlar.
 - Otomatik kaleci açıksa iki takıma birden uygulanır.
+
+### Online (iki telefon)
+
+Menüde **Online**'a dokun. Biri **Masa aç** der ve 4 karakterlik bir kod alır; diğeri **Masaya katıl**'a dokunup bu kodu girer. Bağlantı kurulunca maç kendiliğinden başlar.
+
+- **Nerede çalışır:**
+  - **claude.ai'deki oyun sayfası:** Sayfanın canlı "oda" bağlantısı kullanılır; ek sunucu gerekmez. Arkadaşının bir claude.ai hesabı olmalı ve sayfayı sağ üstteki **Paylaş** menüsünden onunla paylaşmalısın. İkiniz de aynı sayfayı kendi telefonunuzda açarsınız.
+  - **Başka bir yerde yayınlanan sürüm:** Telefonlar doğrudan (WebRTC) bağlanır; eşleştirme için PeerJS'in ücretsiz genel sunucusu kullanılır. Bunun için oyunun herkese açık bir https adresinde olması gerekir. Bu depo gizli olduğu için GitHub Pages ücretsiz planda kullanılamaz; depoyu herkese açmak ya da dosyayı başka bir statik barındırmaya koymak gerekir.
+- **Nasıl işler:**
+  - Masayı açan telefon (mavi) bütün fiziği yürütür ve saniyede 30 kez masanın durumunu gönderir. Paket yaklaşık 700 bayttır.
+  - Katılan telefon (kırmızı) tuşlarını gönderir ve gelen durumu 90 milisaniye geriden, yumuşatarak çizer.
+  - Kısa dokunuşlar kaybolmasın diye ŞUT, SÜPER ve DEV basışları sayaçla gönderilir.
+- **Katılanın ekranı:** 180° döndürülür. Böylece iki oyuncu da kendi kalesini solda görür, tabela da buna göre "Sen / Rakip" diye aynalanır.
+- **Maç kuralları:** Gol sayısı, aktif çubuk, otomatik kaleci, süper şut ve dev kaleci ayarları masayı açanın ayarlarıdır. Katılanın kendi ayarları maçtan sonra geri gelir.
+- **Mola:** Online maç durdurulamaz; mola ekranı yalnızca ses ayarı ve maçtan çıkış içindir.
+- **Rövanş:** Maç bitince iki telefonda da sonuç kendi açından gösterilir. Rövanş isteğini her iki taraf gönderebilir.
+- **Bağlantı kopması:** Bir taraftan 6 saniye haber gelmezse ya da oyuncu çıkarsa, diğer telefon "Rakibin bağlantısı koptu" diyerek menüye döner.
+- **Sınırlar:**
+  - Gecikme iki telefonun bağlantısına bağlıdır. Katılan taraf kendi çubuğunun hareketini gecikmeyle görür.
+  - Masayı açan telefonun ekranı açık kalmalıdır; kilitlenirse ya da uygulamadan çıkılırsa oyun iki taraf için de durur.
+  - Bağlantı kodu yalnızca iki tarayıcı sekmesi arasında ve claude.ai odasının taklidiyle denendi. Gerçek iki telefonda ve PeerJS sunucusuyla denenmedi.
 
 Klavyeyle 2 kişi oynamak için mavi `W S` ve `Boşluk` (ya da `F`), kırmızı `↑ ↓` ve `Enter` (ya da `L`) tuşlarını kullanır. Süper şut mavi için `E`, kırmızı için `O` ya da sağ `Shift`; dev kaleci mavi için `R`, kırmızı için `I` ya da sağ `Ctrl`.
 
