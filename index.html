@@ -165,7 +165,8 @@ button:focus-visible,.seg input:focus-visible+label{outline:2px solid var(--bras
 @keyframes bubbleIn{0%{opacity:0;scale:.35}9%{opacity:1;scale:1.12}16%{scale:1}82%{opacity:1;translate:0 0}100%{opacity:0;translate:0 -12px}}
 @keyframes emoWiggle{25%{rotate:-14deg}75%{rotate:14deg}}
 .vh{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
-#stage:not(.online) #quitBtn{grid-column:auto}
+#pause .card{width:min(580px,100%)}
+#pause .stack{grid-template-columns:repeat(3,minmax(0,1fr))}   /* three toggles to a row */
 
 /* ——— daily quests and badges ——— */
 .brandtop{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 8px}
@@ -342,6 +343,12 @@ a.cta{text-decoration:none;display:inline-block}
 @keyframes bannerIn{0%{opacity:0;scale:1.5}12%{opacity:1;scale:1}80%{opacity:1;scale:1}100%{opacity:0;scale:.96}}
 #toast{position:absolute;left:50%;bottom:10px;translate:-50% 0;padding:6px 14px;border-radius:999px;background:var(--glass);border:1px solid var(--chalk-3);font:600 13px/1.2 var(--ui);letter-spacing:.06em;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap}
 #toast.show{opacity:1}
+/* what the commentator says, as a caption above the toast */
+#caption{position:absolute;left:50%;bottom:46px;translate:-50% 0;max-width:min(600px,72%);padding:5px 13px;border-radius:10px;
+  background:rgba(12,9,7,.74);border:1px solid var(--chalk-3);color:var(--chalk);font:600 13.5px/1.3 var(--ui);text-align:center;
+  opacity:0;transition:opacity .3s;pointer-events:none;text-wrap:balance}
+#caption.show{opacity:1}
+#stage.nospk #caption{display:none}
 
 /* ——— overlays ——— */
 .overlay{position:absolute;inset:0;display:grid;place-items:center;padding-block:14px;padding-inline:calc(var(--sl) + 18px) calc(var(--sr) + 18px);background:radial-gradient(120% 90% at 50% 50%,rgba(20,15,11,.66),rgba(12,9,7,.93));overflow:auto;touch-action:pan-y}
@@ -460,6 +467,7 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
 
   <div id="banner"><h2 id="bannerTitle">Gol!</h2><p id="bannerSub"></p></div>
   <div id="toast" role="status"></div>
+  <div id="caption" aria-hidden="true"></div>
 
   <section class="overlay" id="menu">
     <div class="menu">
@@ -534,6 +542,7 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
         <button class="cta" id="resumeBtn">Devam et</button>
         <button class="ghost" id="soundBtn">Ses: açık</button>
         <button class="ghost" id="emoteBtn">İfadeler: açık</button>
+        <button class="ghost" id="spikerBtn">Spiker: açık</button>
         <button class="ghost" id="activeBtn">Aktif çubuk: açık</button>
         <button class="ghost" id="keeperBtn">Oto kaleci: açık</button>
         <button class="ghost" id="restartBtn">Baştan başlat</button>
@@ -802,7 +811,7 @@ let paused = false;
 const score = [0, 0];
 // for the share card, quests and badges: goals in order, goalie saves, dev kaleci uses, super shots a giant goalie stopped
 const stats = { t0: 0, dur: 0, goals: [], saves: [0, 0], giants: [0, 0], bigSaves: [0, 0] };
-const settings = { level: 'kulup', target: 5, sound: true, autoKeeper: true, activeRod: true, superShot: true, giantGoalie: true, emotes: true };
+const settings = { level: 'kulup', target: 5, sound: true, autoKeeper: true, activeRod: true, superShot: true, giantGoalie: true, emotes: true, spiker: true };
 let simT = 0, acc = 0, timers = [], lastServer = BLUE;
 const hist = [];
 const particles = [];
@@ -813,6 +822,7 @@ const later = (s, fn) => timers.push({ t: simT + s, fn });
 const Sound = {
   ctx: null, out: null, noiseBuf: null, last: {},
   unlock() {
+    spkPrime();
     if (!this.ctx) {
       try {
         const AC = window.AudioContext || window.webkitAudioContext;
@@ -1173,6 +1183,7 @@ function stepBall(h) {
         contact(t, jn, fvx);
         if (rod.n === 1 && inbound > 1800 && state === 'play') {   // the goalie stopped a real shot
           stats.saves[t.id]++;
+          spkSave(t.id); pushEvent({ k: 'sv', t: t.id });
           if (t.ai) cpuReact('save');
         }
       }
@@ -1197,7 +1208,8 @@ function launchSuper(t) {
   t.armed = false; t.skill = 0;
   Sound.superShot(); shake(7);
   if (!reduceMotion) flashT = .22;
-  pushEvent({ k: 'sup' });
+  pushEvent({ k: 'sup', t: t.id });
+  spkSuper(t.id);
   if (mine(t)) vibrate([20, 30, 40]);
 }
 function contact(t, jn, fvx) {
@@ -1246,6 +1258,7 @@ function scoreGoal(scorer, side) {
   if (settings.superShot) teams[1 - scorer].skill = Math.min(1, teams[1 - scorer].skill + SUPER.concede);
   if (settings.giantGoalie && teams[1 - scorer].giantT <= 0) teams[1 - scorer].giant = Math.min(1, teams[1 - scorer].giant + GIANT.concede);
   goalBanner(scorer, own, superGoal);
+  spkGoal(scorer, own, superGoal);
   emoteHint(scorer);
   if (mode === 'cpu') cpuReact(scorer === RED ? (own ? 'own' : 'scored') : own ? '' : 'conceded');
   pushEvent({ k: 'goal', s: scorer, o: own ? 1 : 0, u: superGoal ? 1 : 0, x: side ? W : 0, y: Math.round(ball.y) });
@@ -1275,7 +1288,7 @@ function checkDead(dt) {
   if (Math.hypot(ball.vx, ball.vy) < 20) ball.still += dt; else ball.still = 0;
   if (ball.still > 2.2 && ball.still > [2.2, 4, 12][reachLevel()]) {
     ball.still = 0;
-    if (state === 'play') { toast('Ölü top · yeniden servis'); pushEvent({ k: 'dead' }); }
+    if (state === 'play') { toast('Ölü top · yeniden servis'); pushEvent({ k: 'dead' }); spkDead(); }
     queueServe(lastServer, .8, true);
   }
 }
@@ -1422,7 +1435,7 @@ function clearInput() {
 }
 function startGiant(t) {
   t.giant = 0; t.giantT = GIANT.time;
-  if (state === 'play') stats.giants[t.id]++;
+  if (state === 'play') { stats.giants[t.id]++; spkGiant(t.id); pushEvent({ k: 'gi', t: t.id }); }
   Sound.grow();
   if (mine(t)) vibrate(25);
 }
@@ -1616,6 +1629,108 @@ window.addEventListener('pointerdown', e => {
   const k = el && el.closest('[data-key]');
   for (let i = 0; i < 2; i++) if (emo.openAt[i] && !(k && mode === 'duo' && k.dataset.key[0] !== (i ? 'r' : 'b'))) closeTray(i);
 }, true);
+
+/* ——— Commentator ———
+   A Turkish voice (the phone's own speech synthesis, nothing to download) calls the big moments:
+   kick-off, goals, a süper şut, a big save, the dev kaleci, match point and the final whistle, with a
+   word now and then when nothing happens. The result and goals cut in; smaller moments wait or are
+   dropped, so lines never pile up. Every line also shows as a caption, which helps with the sound off
+   or on a phone without a Turkish voice (then it only captions rather than read Turkish in English). */
+const SPK_NUM = ['sıfır', 'bir', 'iki', 'üç', 'dört', 'beş', 'altı', 'yedi', 'sekiz', 'dokuz'];
+const synth = window.speechSynthesis || null;
+const spk = { voice: null, loaded: false, until: 0, pri: 0, quietT: 0, nextChat: 0, last: {}, capT: 0, primed: false };
+function spkVoices() {
+  if (!synth) return;
+  const vs = synth.getVoices() || [];
+  spk.loaded = vs.length > 0;
+  spk.voice = vs.find(v => /^tr\b|^tr[-_]/i.test(v.lang) && v.localService) || vs.find(v => /^tr\b|^tr[-_]/i.test(v.lang)) || null;
+}
+if (synth) { spkVoices(); if (synth.addEventListener) synth.addEventListener('voiceschanged', spkVoices); }
+// iOS lets a page speak only after it has spoken once from a tap
+function spkPrime() {
+  if (!synth || spk.primed) return;
+  spk.primed = true;
+  try { const u = new SpeechSynthesisUtterance(' '); u.volume = 0; synth.speak(u); } catch (e) { /* no speech here */ }
+}
+function spkHush() {
+  spk.until = 0;
+  try { if (synth) synth.cancel(); } catch (e) { /* ignore */ }
+  $('caption').classList.remove('show');
+}
+const spkPick = (key, lines) => {            // a line, not the one said last time
+  const opts = lines.length > 1 ? lines.filter(l => l !== spk.last[key]) : lines;
+  return (spk.last[key] = opts[Math.floor(Math.random() * opts.length)]);
+};
+// pri: 3 the result, 2 a goal, 1 a moment, 0 small talk
+function say(text, pri) {
+  if (!settings.spiker || !text || (state !== 'play' && pri < 3) || (paused && mode !== 'online')) return;
+  const now = performance.now();
+  if (now < spk.until && pri <= spk.pri) return;                        // someone is still talking
+  spk.until = now + 700 + text.length * 62; spk.pri = pri; spk.quietT = now;
+  const cap = $('caption');
+  cap.textContent = '🎙 ' + text; cap.classList.add('show');
+  clearTimeout(spk.capT); spk.capT = setTimeout(() => cap.classList.remove('show'), spk.until - now + 400);
+  if (!synth || !settings.sound || (spk.loaded && !spk.voice)) return;   // caption only
+  try {
+    synth.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'tr-TR';
+    try { if (spk.voice) u.voice = spk.voice; } catch (e) { /* the language alone picks a voice */ }
+    u.rate = pri >= 2 ? 1.1 : 1.04; u.pitch = pri >= 2 ? 1.12 : 1;
+    u.onend = () => { if (performance.now() < spk.until) spk.until = performance.now() + 150; };
+    synth.speak(u);
+  } catch (e) { /* no speech: the caption stays */ }
+}
+function spkName(team) {
+  if (mode === 'duo') return team === BLUE ? 'Mavi' : 'Kırmızı';
+  if (team === me) return prog.name;
+  return mode === 'online' ? net.oppName || 'Rakip' : `${LEVEL_NAME[settings.level]} bilgisayar`;
+}
+const spkScore = (a, b) => `${SPK_NUM[a] || a} ${SPK_NUM[b] || b}`;
+function spkKickoff() {
+  const n = spkName(me), o = spkName(1 - me), T = SPK_NUM[settings.target];
+  let line;
+  if (cup.active && mode === 'cpu') line = `${cupRule().name}, ${CUP_ROUNDS[prog.cup.round].name}! ${n}, ${LEVEL_NAME[settings.level]} bilgisayara karşı. Başlıyoruz!`;
+  else if (mode === 'duo') line = spkPick('ko', [`Mavi ile Kırmızı karşı karşıya! ${T} golde biten maç başlıyor.`, `Hoş geldiniz! Mavi ve Kırmızı, ${T} gole kadar. Başlıyoruz!`]);
+  else if (mode === 'online') line = spkPick('ko', [`Online maç başlıyor: ${n} ile ${o} karşı karşıya!`, `Hoş geldiniz! ${n} ve ${o}, ${T} gole kadar. Başlıyoruz!`]);
+  else line = spkPick('ko', [`Hoş geldiniz! ${n} ile ${o} karşı karşıya. ${T} golde biten maç başlıyor!`, `Maç başlıyor! Rakip ${o}, hedef ${T} gol.`]);
+  spk.nextChat = performance.now() + 20000 + Math.random() * 12000;
+  say(line, 1);
+}
+function spkGoal(scorer, own, sup) {
+  const n = spkName(scorer), o = spkName(1 - scorer), a = score[scorer], b = score[1 - scorer], T = settings.target;
+  const head = own ? spkPick('own', [`Eyvah, kendi kalesine! ${o} için büyük talihsizlik.`, 'Kendi kalesine gol! Bu hiç hoş olmadı.', 'Talihsizlik! Top kendi ağlarında.'])
+    : sup ? spkPick('supg', ['Süper şut ve gol! Kaleci ne olduğunu anlamadı!', 'Füze gibi bir süper şut, gol!', `İnanılmaz! ${n} süper şutla ağları deliyor!`])
+    : spkPick('goal', [`Gooool! ${n} topu ağlara gönderdi!`, `Ve gol! ${n} affetmedi!`, `Nefis vuruş, gol! ${n} sevinçte!`, `Gol! ${n} kaleciyi avladı!`, `Top ağlarda! ${n} golü buldu!`]);
+  let tail = '';
+  if (a >= T) tail = '';                                                  // the final whistle has its own line
+  else if (a === b) tail = spkPick('eq', [`Eşitlik geldi: ${spkScore(a, b)}.`, `Skor yeniden eşit, ${spkScore(a, b)}.`]);
+  else if (a > b) tail = (a - 1 === b ? `${n} öne geçiyor, ${spkScore(a, b)}.` : `${n} farkı açıyor, ${spkScore(a, b)}.`) + (a === T - 1 ? ' Maç topu!' : '');
+  else tail = `Skor ${spkScore(b, a)}, ${o} hâlâ önde.` + (b === T - 1 ? ' Ama maç topu onda!' : '');
+  say(`${head} ${tail}`.trim(), 2);
+}
+function spkEnd(winner) {
+  const n = spkName(winner), a = score[winner], b = score[1 - winner];
+  if (cup.active && mode === 'cpu' && winner === me && prog.cup.round === CUP_ROUNDS.length - 1) return say(`Son düdük! ${cupRule().name} şampiyonu ${n}! Skor ${spkScore(a, b)}.`, 3);
+  say(b === 0 ? spkPick('end0', [`Son düdük! ${n} gol yemeden kazandı, ${spkScore(a, b)}!`, `Maç bitti! ${n}, rakibine gol izni vermedi: ${spkScore(a, b)}.`])
+    : a - b === 1 ? spkPick('end1', [`Son düdük! Kıl payı bir galibiyet: ${n} ${spkScore(a, b)} kazanıyor!`, `Maç bitti! ${n} nefes kesen maçı ${spkScore(a, b)} aldı!`])
+    : spkPick('end', [`Maç sona erdi! Kazanan ${n}, skor ${spkScore(a, b)}.`, `Son düdük! ${n} ${spkScore(a, b)} kazanıyor!`]), 3);
+}
+const spkSuper = t => say(spkPick('sup', ['Süper şut geliyor!', `${spkName(t)} süper şutu ateşledi!`, 'Dikkat, süper şut!']), 1);
+const spkSave = t => say(spkPick('save', ['Müthiş kurtarış!', `${spkName(t)} kalesinde geçit yok!`, 'Kaleci harika uzandı!', 'Son anda kurtarış!']), 1);
+const spkGiant = t => say(spkPick('giant', [`${spkName(t)} dev kaleciyi sahneye sürdü!`, 'Dev kaleci devrede, kale kapandı!']), 1);
+const spkDead = () => say(spkPick('dead', ['Top ölü bölgede kaldı, yeniden servis.', 'Top kimsenin ulaşamadığı yerde, yeniden servis.']), 0);
+// a word when nothing has been said for a while
+function spkTick() {
+  const now = performance.now();
+  if (state !== 'play' || now < spk.nextChat || now - spk.quietT < 15000) return;
+  spk.nextChat = now + 22000 + Math.random() * 14000;
+  const a = score[me], b = score[1 - me], lead = a > b ? me : 1 - me, d = Math.abs(a - b);
+  say(spkPick('chat', [
+    'Orta sahada kıyasıya bir mücadele var.', 'Top ayakta, heyecan dorukta.', 'İki taraf da golü arıyor.', 'Sabırlı bir oyun izliyoruz.',
+    d === 0 ? `Skor ${spkScore(a, b)}, maç kilitlendi.` : d >= 2 ? `${spkName(lead)} rahat görünüyor.` : `${spkName(1 - lead)} eşitlik için bastırıyor.`,
+  ]), 0);
+}
 
 /* ——— Main update ——— */
 function update(dt) {
@@ -2040,6 +2155,7 @@ function setUI() {
   stage.classList.toggle('playing', state === 'play' && !paused);
   $('soundBtn').textContent = settings.sound ? 'Ses: açık' : 'Ses: kapalı';
   $('emoteBtn').textContent = settings.emotes ? 'İfadeler: açık' : 'İfadeler: kapalı';
+  $('spikerBtn').textContent = settings.spiker ? 'Spiker: açık' : 'Spiker: kapalı';
   $('overEmo').hidden = !(state === 'over' && mode === 'online' && net.connected && settings.emotes);
   if (!(state === 'play' && !paused)) closeTrays();
   $('activeBtn').textContent = settings.activeRod ? 'Aktif çubuk: açık' : 'Aktif çubuk: kapalı';
@@ -2104,6 +2220,7 @@ function applyControls() {
   }
 }
 function attract() {
+  spkHush();
   if (net.role) leaveOnline();
   if (cup.active) { if (state === 'play') cupForfeit(); endCupContext(); }
   state = 'menu'; paused = false;
@@ -2130,6 +2247,7 @@ function startMatch(m) {
   toast(mode === 'duo' ? `Servis: ${NAMES.duo[first]}` : first === me ? 'Servis sende' : 'Servis rakipte');
   pushEvent({ k: 'srv', t: first });
   setUI();
+  spkKickoff();
   Sound.unlock(); enterFullscreen(); requestWake();
 }
 function showResult(winner) {
@@ -2151,6 +2269,7 @@ function showResult(winner) {
   if (cup.active && mode === 'cpu') cupAfterMatch(winner);
 }
 function endMatch(winner) {
+  spkEnd(winner);
   stats.dur = simT - stats.t0;
   showResult(winner);
   if (mode === 'cpu') cpuReact(winner === RED ? 'won' : 'lost');
@@ -2164,6 +2283,7 @@ function endMatch(winner) {
 function pauseGame() {
   if (state !== 'play' || paused) return;
   paused = true; clearInput();
+  if (mode !== 'online') spkHush();
   $('pauseScore').textContent = mode === 'online'
     ? `Sen ${score[me]} – ${score[1 - me]} Rakip · maç sürüyor`             // an online match does not stop
     : `${teamName(BLUE)} ${score[BLUE]} – ${score[RED]} ${teamName(RED)} · ${settings.target} gole kadar`;
@@ -2186,7 +2306,7 @@ async function requestWake() {
     if ('wakeLock' in navigator && !wake) { wake = await navigator.wakeLock.request('screen'); wake.addEventListener('release', () => { wake = null; }); }
   } catch (e) { wake = null; }
 }
-document.addEventListener('visibilitychange', () => { if (document.hidden) pauseGame(); else if (state === 'play') requestWake(); });
+document.addEventListener('visibilitychange', () => { if (document.hidden) { pauseGame(); spkHush(); } else if (state === 'play') requestWake(); });
 
 /* ——— Share card ———
    When a match ends a story-sized picture (1080 × 1920, what Instagram and WhatsApp stories use) is drawn
@@ -3144,12 +3264,13 @@ function loadSettings(extra) {
     if (typeof src.superShot === 'boolean') settings.superShot = src.superShot;
     if (typeof src.giantGoalie === 'boolean') settings.giantGoalie = src.giantGoalie;
     if (typeof src.emotes === 'boolean') settings.emotes = src.emotes;
+    if (typeof src.spiker === 'boolean') settings.spiker = src.spiker;
   }
 }
 function saveSettings() {
   // the online guest plays by the host's rules for now: only its own sound and emote choices are kept
   // (nor are a cup match's rules)
-  if (net.saved) Object.assign(net.saved, { sound: settings.sound, emotes: settings.emotes });
+  if (net.saved) Object.assign(net.saved, { sound: settings.sound, emotes: settings.emotes, spiker: settings.spiker });
   const keep = net.saved || (cup.saved ? { ...settings, ...cup.saved } : settings);
   try { localStorage.setItem(STORE, JSON.stringify(keep)); } catch (e) { /* storage blocked */ }
 }
@@ -3162,6 +3283,7 @@ function syncForm() {
   $('giantGoalie').checked = settings.giantGoalie;
   stage.classList.toggle('nogiant', !settings.giantGoalie);
   stage.classList.toggle('noemo', !settings.emotes);
+  stage.classList.toggle('nospk', !settings.spiker);
   $('autoKeeper').disabled = !settings.activeRod;            // the goalie moves with your hand when all rods move together
   $('keeperSwitch').classList.toggle('off', !settings.activeRod);
   $('tg-' + settings.target).checked = true;
@@ -3196,6 +3318,11 @@ $('shareBtn').addEventListener('click', shareCard);
 $('cardClose').addEventListener('click', closeCardView);
 $('cardDl').addEventListener('click', countShare);
 $('soundBtn').addEventListener('click', () => { settings.sound = !settings.sound; saveSettings(); setUI(); if (settings.sound) Sound.unlock(); });
+$('spikerBtn').addEventListener('click', () => {
+  settings.spiker = !settings.spiker;
+  if (!settings.spiker) spkHush();
+  saveSettings(); syncForm(); setUI();
+});
 $('emoteBtn').addEventListener('click', () => {
   settings.emotes = !settings.emotes;
   if (!settings.emotes) $('bubbles').textContent = '';
@@ -3330,7 +3457,7 @@ function closeOnline() { leaveOnline(); onlineOpen = false; setUI(); }
 function leaveOnline() {
   if (net.tr) { try { net.tr.close(); } catch (e) { /* already closed */ } }
   const wasGuest = net.role === 'guest';
-  Object.assign(net, { tr: null, role: null, connected: false, snaps: [], events: [], again: 0, lastAgain: 0 });
+  Object.assign(net, { tr: null, role: null, connected: false, snaps: [], events: [], again: 0, lastAgain: 0, oppName: '' });
   if (wasGuest && net.saved) { Object.assign(settings, net.saved); net.saved = null; syncForm(); }
   me = BLUE;
   if (flip) setFlip(false);
@@ -3369,6 +3496,7 @@ async function hostTable() {
 }
 function hostOnState(d) {
   if (!d || !Array.isArray(d.in)) return;
+  if (Array.isArray(d.bd) && Array.isArray(d.bd[0])) net.oppName = cleanName(d.bd[0][1]) || net.oppName;   // their own row comes first
   net.lastHeard = performance.now();
   if (!net.connected) { net.connected = true; onlineOpen = false; startMatch('online'); }
   if ((d.ag | 0) > net.lastAgain) { net.lastAgain = d.ag | 0; if (state === 'over') startMatch('online'); }
@@ -3443,28 +3571,32 @@ function guestOnState(d) {
 function enterGuest(d) {
   net.connected = true; onlineOpen = false;
   net.saved = { ...settings };
+  if ([3, 5, 7].includes(d.tg)) settings.target = d.tg;          // the host's rules, before anyone announces them
   me = RED; setMode('online'); setFlip(true);
   resetTable();
   for (const t of teams) { t.ai = null; t.keeper = false; t.together = false; }
   net.lastEv = Math.max(0, ...(d.ev || []).map(e => e.i));      // what happened before we arrived is old news,
-  for (const e of d.ev || []) if (e.k === 'brd') mergeBoard(e.b);  // but the host's table is not news, it is state
+  for (const e of d.ev || []) if (e.k === 'brd') guestEvent(e);   // but the host's table is not news, it is state
   state = d.st; paused = false; clearInput(); renderHud(); setUI();
   Sound.unlock(); enterFullscreen(); requestWake();
+  spkKickoff();                                                   // the match's kick-off came in the snapshot we skipped
 }
 function guestEvent(e) {
   switch (e.k) {
     case 's': if (typeof Sound[e.n] === 'function') Sound[e.n](e.v); break;
-    case 'goal': burst(e.x, e.y, e.s); shake(8); goalBanner(e.s, !!e.o, !!e.u); emoteHint(e.s); vibrate(e.s === me ? [30, 40, 60] : 80); break;
+    case 'goal': burst(e.x, e.y, e.s); shake(8); goalBanner(e.s, !!e.o, !!e.u); spkGoal(e.s, !!e.o, !!e.u); emoteHint(e.s); vibrate(e.s === me ? [30, 40, 60] : 80); break;
     case 'emo': if (e.t !== me) showEmote(e.t, e.e); break;             // our own was shown when we sent it
-    case 'brd': mergeBoard(e.b); break;
-    case 'srv': toast(e.t === me ? 'Servis sende' : 'Servis rakipte'); break;
-    case 'dead': toast('Ölü top · yeniden servis'); break;
-    case 'sup': shake(7); if (!reduceMotion) flashT = .22; break;
+    case 'brd': if (Array.isArray(e.b) && Array.isArray(e.b[0])) net.oppName = cleanName(e.b[0][1]) || net.oppName; mergeBoard(e.b); break;
+    case 'sv': spkSave(e.t); break;
+    case 'gi': spkGiant(e.t); break;
+    case 'srv': toast(e.t === me ? 'Servis sende' : 'Servis rakipte'); spkKickoff(); break;
+    case 'dead': toast('Ölü top · yeniden servis'); spkDead(); break;
+    case 'sup': shake(7); if (!reduceMotion) flashT = .22; spkSuper(e.t); break;
     case 'end':
       // the host's numbers for the share card (an older host sends none: then the card leaves them out)
       Object.assign(stats, e.st ? { dur: e.st.d | 0, goals: (e.st.g || []).map(v => ({ s: v & 1, o: v >> 1 & 1, u: v >> 2 & 1 })), saves: e.st.sv || [0, 0],
         giants: e.st.gi || [0, 0], bigSaves: e.st.bs || [0, 0] } : { dur: 0, goals: [], saves: [0, 0], giants: [0, 0], bigSaves: [0, 0] });
-      showResult(e.w); break;
+      spkEnd(e.w); showResult(e.w); break;
   }
 }
 function guestUpdate(dt) {
@@ -3514,6 +3646,7 @@ function loop(now) {
   render();
   syncShootRing();
   syncEmote();
+  if (state === 'play') spkTick();
   requestAnimationFrame(loop);
 }
 function boot(data) {
@@ -3533,7 +3666,7 @@ function boot(data) {
 }
 
 // handle for experimenting from the console
-window.langirt = { teams, rods, ball, score, settings, update, startMatch, attract, net, hostTable, joinTable, sendEmote, EMOTES, stats, card, cardStory, drawCard, recordMatch, todayQuests, QUESTS, BADGES, tapTheme, BALLS, TABLES, drawStatic, startCup, cupRule, weekKey, mergeBoard, boardPayload, RULES, cup, FIREBASE, fb, fbPush, fbFetch, fbOn, renderBoard, get prog() { return prog; }, get state() { return state; }, get mode() { return mode; }, get me() { return me; } };
+window.langirt = { teams, rods, ball, score, settings, update, startMatch, attract, net, hostTable, joinTable, sendEmote, EMOTES, stats, card, cardStory, drawCard, recordMatch, todayQuests, QUESTS, BADGES, tapTheme, BALLS, TABLES, drawStatic, startCup, cupRule, weekKey, mergeBoard, boardPayload, RULES, cup, FIREBASE, fb, fbPush, fbFetch, fbOn, renderBoard, spk, say, get prog() { return prog; }, get state() { return state; }, get mode() { return mode; }, get me() { return me; } };
 
 const hot = window.claude && window.claude.hot;
 if (hot && typeof hot.snapshot === 'function') {

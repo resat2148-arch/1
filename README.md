@@ -90,6 +90,17 @@ Sol üstteki **💬** tuşu sekiz ifadelik bir menü açar. Seçtiğin ifade, ma
 - **Oyuna etkisi:** Yoktur; ifadeler yalnızca görüntü ve sestir.
 - **Klavye:** `1`–`8` tuşları ifadeleri sırasıyla gönderir. 2 kişilik modda kırmızı için sayısal tuş takımındaki `1`–`8` kullanılır.
 
+### Sesli spiker
+
+Maçı Türkçe bir spiker anlatır. Telefonun kendi konuşma motoru kullanılır (Web Speech API); dosya indirilmez, internet gerekmez. iPhone'da Türkçe ses hazır gelir.
+
+- **Ne zaman konuşur:** Maç başlangıcı, goller (kendi kalesine gol, süper gol, eşitlik, öne geçme, fark açma, maç topu), süper şut, kaleye 1,8 m/s'den hızlı gelen şutun kurtarılması, dev kaleci, ölü top ve son düdük. Uzun süre bir şey olmazsa ara sıra yorum yapar ("Orta sahada kıyasıya bir mücadele var.").
+- **Kimi anar:** Seni Tablo sekmesindeki adınla anar. Rakibi seviyesiyle ("Usta bilgisayar") ya da online'da arkadaşının adıyla anar; 2 kişilik modda "Mavi" ve "Kırmızı" der. Skoru kelimeyle okur ("iki bir"). Kupa finalinde şampiyonu ilan eder.
+- **Sıra:** Gol ve son düdük konuşmayı keser. Küçük anlar, bir cümle sürerken gelirse söylenmez; cümleler üst üste binmez. Aynı cümle arka arkaya tekrarlanmaz.
+- **Altyazı:** Söylenen her cümle ekranın altında altyazı olarak da çıkar. Ses kapalıyken ya da cihazda Türkçe ses yoksa spiker yalnızca altyazı gösterir; Türkçe metni İngilizce sesle okumaz.
+- **Online:** Her telefon maçı kendi açısından anlatır.
+- **Kapatma:** Mola ekranındaki **Spiker** tuşu; seçim hatırlanır. **Ses: kapalı** spikeri de susturur. Molada ve uygulamadan çıkınca susar.
+
 ### Paylaşım kartı (Instagram / WhatsApp)
 
 Maç bitince sonuç ekranındaki **Paylaş** tuşu, maçın görselini telefonun paylaşım menüsüne verir. Oradan tek dokunuşla Instagram hikâyesine, WhatsApp'a (sohbet ya da durum) veya başka bir uygulamaya gönderilir.
@@ -247,7 +258,7 @@ Menüde **Online**'a dokun. Biri **Masa aç** der ve 4 karakterlik bir kod alır
   - Kısa dokunuşlar kaybolmasın diye ŞUT, SÜPER ve DEV basışları sayaçla gönderilir.
 - **Katılanın ekranı:** 180° döndürülür. Böylece iki oyuncu da kendi kalesini solda görür, tabela da buna göre "Sen / Rakip" diye aynalanır.
 - **Maç kuralları:** Gol sayısı, aktif çubuk, otomatik kaleci, süper şut ve dev kaleci ayarları masayı açanın ayarlarıdır. Katılanın kendi ayarları maçtan sonra geri gelir.
-- **Mola:** Online maç durdurulamaz; mola ekranı yalnızca ses ve ifade ayarları ile maçtan çıkış içindir.
+- **Mola:** Online maç durdurulamaz; mola ekranı yalnızca ses, ifade ve spiker ayarları ile maçtan çıkış içindir.
 - **Rövanş:** Maç bitince iki telefonda da sonuç kendi açından gösterilir. Rövanş isteğini her iki taraf gönderebilir.
 - **Bağlantı kopması:** Bir taraftan 6 saniye haber gelmezse ya da oyuncu çıkarsa, diğer telefon "Rakibin bağlantısı koptu" diyerek menüye döner.
 - **Sınırlar:**
