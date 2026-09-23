@@ -111,14 +111,14 @@ Maç bitince sonuç ekranındaki **Paylaş** tuşu, maçın görselini telefonun
 
 ### Günlük görevler ve rozetler
 
-Ana menüdeki **🎯 0/3 · ⭐ 0** düğmesi görevler ve rozetler ekranını açar. Maç sonu ekranında da o maçta tamamlanan görevler ve kazanılan rozetler görünür; onlara dokununca aynı ekran açılır.
+Ana menüdeki **🎯 0/3 · ⭐ 0** düğmesi görevler, rozetler ve temalar ekranını açar; sağ üstte kaç yıldızın olduğu yazar. Maç sonu ekranında da o maçta tamamlanan görevler ve kazanılan rozetler görünür; onlara dokununca aynı ekran açılır.
 
 - **Günlük görevler:** Her gün üç görev gelir: bir kolay (1⭐), bir orta (2⭐), bir zor (3⭐). Görevler tarihe göre seçilir, yani aynı gün herkes aynı görevleri alır; arkadaşınla yarışabilirsin. Gece yarısı yenilenir.
   - Kolay: bir maç bitir, bir maç kazan, 3 gol at, kalecinle 3 kurtarış yap, rakibine 3 ifade gönder.
   - Orta: 2 maç kazan, 8 gol at, süper şutla gol at, dev kaleciyi 2 kez kullan, Kulüp ya da Usta bilgisayarı yen, bir maçta üst üste 3 gol at, bir sonuç kartı paylaş.
   - Zor: gol yemeden bir maç kazan, Usta bilgisayarı yen, 2 gol geriden gelip kazan, bir maçta 2 süper gol at, bir maçta 3 kurtarış yap, 7 gollük bir maç kazan.
 - **Günün bütün görevleri:** Üçü de bitince +2⭐ bonus gelir ve günlük seri 🔥 bir gün uzar. Bir gün atlanırsa seri sıfırlanır; en iyi seri saklanır.
-- **Rozetler:** 15 rozet var. Çoğu üç seviyelidir: bronz (I), gümüş (II), altın (III). Bir rozete dokununca nasıl kazanıldığı ve ne kadar kaldığı görünür.
+- **Rozetler:** 16 rozet var. Çoğu üç seviyelidir: bronz (I), gümüş (II), altın (III). Bir rozete dokununca nasıl kazanıldığı ve ne kadar kaldığı görünür.
 
   | Rozet | I / II / III |
   | --- | --- |
@@ -137,6 +137,7 @@ Ana menüdeki **🎯 0/3 · ⭐ 0** düğmesi görevler ve rozetler ekranını a
   | 🎯 Görev avcısı | 5 / 50 / 200 günlük görev tamamla |
   | 🗓️ Sadık oyuncu | 3 / 7 / 30 gün üst üste bütün görevleri bitir |
   | 💎 Kusursuz | 7 gollük maçı gol yemeden kazan (tek seviye) |
+  | 🎨 Koleksiyoncu | Yıldızlarla 1 / 4 / 10 tema aç |
 
 - **Ne sayılır:**
   - Bilgisayara karşı ve online maçlar, maç bitince kendi tarafından sayılır; online'da iki telefon da kendi ilerlemesini tutar. Yarıda bırakılan maç sayılmaz.
@@ -145,6 +146,25 @@ Ana menüdeki **🎯 0/3 · ⭐ 0** düğmesi görevler ve rozetler ekranını a
   - Kurtarış: kaleye 1,8 m/s'den hızlı gelen bir şutu kalecinin durdurması. Bilgisayarlar arası denemelerde bir maçta genelde 0–3 kurtarış oluyor; görev hedefleri buna göre seçildi.
   - İfade ve paylaşım görevleri anında ilerler. Paylaşım, paylaşım menüsünden bir uygulamaya gönderince ya da **İndir**'e basınca sayılır; her maçın kartı bir kez sayılır.
 - **Saklama:** İlerleme o tarayıcıda saklanır (`localStorage`). Safari'de açılan oyun ile ana ekrana eklenen oyunun depoları ayrıdır; hep aynı yerden oyna. Tarayıcı verileri silinirse ilerleme de silinir.
+
+### Temalar (yıldızla açılır)
+
+Görevlerden kazanılan yıldızlar, görevler ekranının **Temalar** sekmesinde top ve masa temalarına harcanır. Açılan tema kalıcıdır; istediğin zaman başka bir açık temaya geçebilirsin.
+
+| Top | ⭐ | Masa | ⭐ |
+| --- | --- | --- | --- |
+| Klasik (krem, kahve benekli) | ücretsiz | Klasik (yeşil çuha, kayın) | ücretsiz |
+| Turuncu | 5 | Gece (lacivert çuha, ceviz) | 8 |
+| Futbol (siyah beşgenli beyaz top) | 12 | Çim (şeritli çim, beyaz çerçeve) | 15 |
+| Neon (yeşil, parlayan) | 20 | Bordo (bordo kadife, kiraz) | 30 |
+| Altın (parlayan) | 35 | Buz (buz mavisi, gümüş) | 50 |
+| Ateş topu (kızıl, parlayan, uzun iz) | 60 | Altın Salon (siyah çuha, altın çizgiler) | 90 |
+
+- **Satın alma:** Kilitli bir temaya dokununca fiyatı sorulur; bir kez daha dokununca yıldızlar harcanır ve tema seçilir. Yıldızın yetmiyorsa kaç yıldız daha lazım olduğu yazar.
+- **Nerede görünür:** Oyunda, menünün arkasındaki masada ve paylaşım kartında. Online'da her telefon kendi seçtiği temayı görür.
+- **Oyuna etkisi:** Yoktur; yalnızca görünüş değişir. Süper şut hâlâ turuncu parlar; takım renkleri hep mavi ve kırmızıdır.
+- **Ekonomi:** Bir günde görevlerden en çok 8⭐ kazanılır (1 + 2 + 3 + 2 bonus). Böylece ilk temalar birkaç günde, Altın Salon birkaç haftada açılır. Maç sonunda yeni bir temaya yetecek yıldızın olunca "🎨 Yeni tema açabilirsin" yazar.
+- Açılan temalar ve seçimin, görev ilerlemesiyle birlikte bu tarayıcıda saklanır.
 
 ### 2 kişi (aynı telefon)
 

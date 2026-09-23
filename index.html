@@ -179,7 +179,8 @@ button:focus-visible,.seg input:focus-visible+label{outline:2px solid var(--bras
 .gtabs [role=tab]{appearance:none;border:1px solid var(--chalk-3);background:rgba(242,233,216,.05);color:var(--chalk-2);border-radius:999px;padding:8px 14px;font:700 14px/1 var(--ui);letter-spacing:.03em;cursor:pointer}
 .gtabs [role=tab][aria-selected=true]{background:var(--chalk);color:var(--ink);border-color:var(--chalk)}
 .gtabs [role=tab] span{opacity:.7;font-variant-numeric:tabular-nums}
-.gclose{appearance:none;margin-left:auto;width:36px;height:36px;border-radius:50%;border:1px solid var(--chalk-3);background:rgba(242,233,216,.05);color:var(--chalk);display:grid;place-items:center;padding:0;cursor:pointer}
+.gstars{margin-left:auto;font:900 20px/1 var(--display);letter-spacing:.02em;white-space:nowrap;font-variant-numeric:tabular-nums}
+.gclose{appearance:none;width:36px;height:36px;border-radius:50%;border:1px solid var(--chalk-3);background:rgba(242,233,216,.05);color:var(--chalk);display:grid;place-items:center;padding:0;cursor:pointer}
 .gclose svg{width:16px;height:16px}
 .gpanel{display:grid;gap:10px}
 .gmeta{margin:0;color:var(--chalk-2);font-size:14px}
@@ -218,12 +219,37 @@ button:focus-visible,.seg input:focus-visible+label{outline:2px solid var(--bras
 .rw.a{border-color:#f08a2c;background:rgba(240,138,44,.18)}
 @keyframes rwIn{0%{opacity:0;scale:.6}60%{scale:1.08}100%{opacity:1;scale:1}}
 @container (max-height:460px){
+  .shelf{display:none}                    /* the previews say which row is which */
+  .theme{padding:4px 4px 5px;gap:2px}
+  .theme .ts{padding:3px 7px}
+  .theme canvas{width:42px;height:42px}
+  .theme.table canvas{width:82px;height:51px}
+  #panelThemes{gap:6px}
+  #shopInfo,.binfo{min-height:1.35em}
   .brandtop{margin-bottom:8px}
   .goalspill{padding:3px 10px;font-size:12px;margin-block:-5px}   /* no taller than the eyebrow line */
   .quest{padding:7px 10px}
-  .card.goalscard{gap:9px}
+  .card.goalscard{gap:8px;padding-block:13px}
   .gpanel{gap:8px}
 }
+
+/* ——— themes ——— */
+.shelf{margin:2px 0 -4px;font:700 11px/1 var(--ui);letter-spacing:.2em;text-transform:uppercase;color:var(--chalk-2)}
+.themes{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(92px,1fr);gap:7px;overflow-x:auto;touch-action:pan-x;padding:2px 2px 4px;scrollbar-width:thin}
+.theme{appearance:none;border:1px solid var(--chalk-3);background:rgba(242,233,216,.04);border-radius:13px;padding:6px 5px 7px;display:grid;justify-items:center;gap:3px;cursor:pointer;color:var(--chalk);transition:border-color .15s,background .15s}
+.theme canvas{display:block;width:56px;height:56px}
+.theme.table canvas{width:100px;height:62px}
+.theme .tn{font:700 12px/1.1 var(--ui);white-space:nowrap}
+.theme .ts{font:700 11px/1 var(--ui);padding:4px 8px;border-radius:999px;background:rgba(242,233,216,.08);color:var(--chalk-2);white-space:nowrap;font-variant-numeric:tabular-nums}
+.theme:not(.own) canvas{opacity:.55;filter:saturate(.6)}
+.theme.own .ts{background:rgba(242,233,216,.14);color:var(--chalk)}
+.theme.sel{border-color:var(--brass);background:rgba(214,165,72,.12)}
+.theme.sel .ts{background:var(--brass);color:#1b1206}
+.theme:not(.own):not(.poor) .ts{color:#ffe1a8;background:rgba(214,165,72,.22)}
+.theme.armed{border-color:#f08a2c;background:rgba(240,138,44,.14)}
+.theme.armed .ts{background:#f08a2c;color:#1b1206}
+.theme.armed canvas{opacity:1;filter:none}
+.rw.t{border-color:#3cc6a6;background:rgba(60,198,166,.16)}
 
 /* ——— share card ——— */
 .cta.share{display:inline-flex;align-items:center;gap:8px}
@@ -326,6 +352,8 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
 }
 @container (max-height:380px){
   .how .tip-emo{display:none}             /* the 💬 button explains itself on the smallest screens */
+  .theme canvas{width:38px;height:38px}
+  .theme.table canvas{width:74px;height:46px}
 }
 @container (max-width:600px){
   .menu{grid-template-columns:1fr;gap:14px}
@@ -510,7 +538,9 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
     <div class="card goalscard">
       <div class="gtabs" role="tablist" aria-label="Görevler ve rozetler">
         <button type="button" role="tab" id="tabQuests" aria-selected="true" aria-controls="panelQuests">Günlük görevler</button>
-        <button type="button" role="tab" id="tabBadges" aria-selected="false" aria-controls="panelBadges">Rozetler <span id="badgeCount">0/15</span></button>
+        <button type="button" role="tab" id="tabBadges" aria-selected="false" aria-controls="panelBadges">Rozetler <span id="badgeCount">0/16</span></button>
+        <button type="button" role="tab" id="tabThemes" aria-selected="false" aria-controls="panelThemes">Temalar</button>
+        <span class="gstars" id="gStars" aria-live="polite"></span>
         <button type="button" class="gclose" id="goalsClose" aria-label="Kapat"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button>
       </div>
       <div class="gpanel" id="panelQuests" role="tabpanel" aria-labelledby="tabQuests">
@@ -521,6 +551,13 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
       <div class="gpanel" id="panelBadges" role="tabpanel" aria-labelledby="tabBadges" hidden>
         <div class="badges" id="badgeGrid"></div>
         <p class="binfo" id="badgeInfo" aria-live="polite">Bir rozete dokun: nasıl kazanıldığını gör.</p>
+      </div>
+      <div class="gpanel" id="panelThemes" role="tabpanel" aria-labelledby="tabThemes" hidden>
+        <p class="shelf">Top</p>
+        <div class="themes" id="ballShelf"></div>
+        <p class="shelf">Masa</p>
+        <div class="themes" id="tableShelf"></div>
+        <p class="binfo" id="shopInfo" aria-live="polite">Görevlerden yıldız kazan, tema aç; açtığın tema senin kalır. Sadece görünüş değişir, oyun aynı.</p>
       </div>
     </div>
   </section>
@@ -1546,7 +1583,7 @@ function cosmetics(dt, guest) {
   }
   }
   rotateSpots(ball.rollX, ball.rollY); ball.rollX = ball.rollY = 0;
-  if (ball.live && (ball.superT > 0 || Math.hypot(ball.vx, ball.vy) > 900)) { ball.trail.push({ x: ball.x, y: ball.y }); if (ball.trail.length > (ball.superT > 0 ? 12 : 7)) ball.trail.shift(); }
+  if (ball.live && (ball.superT > 0 || Math.hypot(ball.vx, ball.vy) > ballTheme().trailAt)) { ball.trail.push({ x: ball.x, y: ball.y }); if (ball.trail.length > (ball.superT > 0 ? 12 : 7)) ball.trail.shift(); }
   else if (ball.trail.length) ball.trail.shift();
 
   for (let i = particles.length - 1; i >= 0; i--) {
@@ -1622,30 +1659,30 @@ if (window.visualViewport) window.visualViewport.addEventListener('resize', queu
 
 /* ——— Rendering: static table ——— */
 function drawStatic() {
-  const c = sctx;
+  const c = sctx, T = tableTheme();
   c.setTransform(1, 0, 0, 1, 0, 0);
   let g = c.createRadialGradient(cw * .5, ch * .46, 0, cw * .5, ch * .5, Math.hypot(cw, ch) * .62);
-  g.addColorStop(0, '#34281e'); g.addColorStop(.55, '#1c150f'); g.addColorStop(1, '#0c0806');
+  g.addColorStop(0, T.room[0]); g.addColorStop(.55, T.room[1]); g.addColorStop(1, T.room[2]);
   c.fillStyle = g; c.fillRect(0, 0, cw, ch);
   c.setTransform(dpr * scale, 0, 0, dpr * scale, dpr * ox, dpr * oy);
   if (flip) { c.translate(W, H); c.scale(-1, -1); }
-  drawTable(c, dpr * scale, flip);
+  drawTable(c, dpr * scale, flip, T);
 }
-// The wooden table and its playfield in table coordinates; px is the device pixels per mm (for shadows).
-// The share card draws it too.
-function drawTable(c, px, flipped) {
+// The wooden table and its playfield in table coordinates, in the colours of a table theme; px is the
+// device pixels per mm (for shadows). The share card and the theme shop draw it too.
+function drawTable(c, px, flipped, T = tableTheme()) {
   const X0 = -FR, Y0 = -FR, TW = W + 2 * FR, TH = H + 2 * FR, RAD = 26;
   const rnd = mulberry32(1907);
   let g;
 
   c.save();
   c.shadowColor = 'rgba(0,0,0,.65)'; c.shadowBlur = 46 * px; c.shadowOffsetY = 20 * px;
-  c.fillStyle = '#4a2f19'; rr(c, X0, Y0, TW, TH, RAD); c.fill();
+  c.fillStyle = T.base; rr(c, X0, Y0, TW, TH, RAD); c.fill();
   c.restore();
 
   // beech rails, mitred at the corners
   g = c.createLinearGradient(0, Y0, 0, Y0 + TH);
-  g.addColorStop(0, '#cf9860'); g.addColorStop(.5, '#b87e48'); g.addColorStop(1, '#9a6234');
+  g.addColorStop(0, T.wood[0]); g.addColorStop(.5, T.wood[1]); g.addColorStop(1, T.wood[2]);
   c.fillStyle = g; rr(c, X0, Y0, TW, TH, RAD); c.fill();
   const rails = [
     { p: [[X0, Y0], [W + FR, Y0], [W, 0], [0, 0]], hz: true, a: Y0 },
@@ -1659,7 +1696,7 @@ function drawTable(c, px, flipped) {
     c.fillStyle = r.hz ? 'rgba(255,226,180,.05)' : 'rgba(70,35,10,.08)'; c.fill();
     for (let i = 0; i < 30; i++) {
       const base = r.a + rnd() * FR, amp = .6 + rnd() * 2.6, fq = .003 + rnd() * .012, ph = rnd() * 7;
-      c.strokeStyle = rnd() < .6 ? `rgba(92,52,22,${(.07 + rnd() * .12).toFixed(3)})` : `rgba(255,228,185,${(.05 + rnd() * .08).toFixed(3)})`;
+      c.strokeStyle = rnd() < .6 ? `rgba(${T.grain[0]},${(.07 + rnd() * .12).toFixed(3)})` : `rgba(${T.grain[1]},${(.05 + rnd() * .08).toFixed(3)})`;
       c.lineWidth = .7 + rnd() * 2;
       c.beginPath();
       const len = r.hz ? TW : TH, st = r.hz ? X0 : Y0;
@@ -1671,25 +1708,25 @@ function drawTable(c, px, flipped) {
     }
     c.restore();
   }
-  c.strokeStyle = 'rgba(60,32,12,.4)'; c.lineWidth = 1.5;
+  c.strokeStyle = T.seam; c.lineWidth = 1.5;
   c.beginPath();
   c.moveTo(X0, Y0); c.lineTo(0, 0); c.moveTo(W + FR, Y0); c.lineTo(W, 0);
   c.moveTo(X0, H + FR); c.lineTo(0, H); c.moveTo(W + FR, H + FR); c.lineTo(W, H);
   c.stroke();
   c.restore();
-  c.strokeStyle = 'rgba(255,232,196,.28)'; c.lineWidth = 2; rr(c, X0 + 1, Y0 + 1, TW - 2, TH - 2, RAD); c.stroke();
+  c.strokeStyle = T.edge; c.lineWidth = 2; rr(c, X0 + 1, Y0 + 1, TW - 2, TH - 2, RAD); c.stroke();
 
   // brass bushings where the rods pass through the side walls
   for (const x of ROD_X) for (const y of [-FR / 2, H + FR / 2]) {
     const bg = c.createRadialGradient(x - 3, y - 3, 1, x, y, 13);
-    bg.addColorStop(0, '#f3dca0'); bg.addColorStop(.6, '#b98b3c'); bg.addColorStop(1, '#6d4c1b');
+    bg.addColorStop(0, T.metal[0]); bg.addColorStop(.6, T.metal[1]); bg.addColorStop(1, T.metal[2]);
     c.fillStyle = bg; c.beginPath(); c.arc(x, y, 13, 0, Math.PI * 2); c.fill();
     c.fillStyle = '#1a120b'; c.beginPath(); c.arc(x, y, 8.5, 0, Math.PI * 2); c.fill();
   }
   // serve cups at midfield
   for (const y of [-FR / 2, H + FR / 2]) {
-    c.fillStyle = '#6d4c1b'; c.beginPath(); c.ellipse(600, y, 27, 15, 0, 0, Math.PI * 2); c.fill();
-    c.fillStyle = '#d6a548'; c.beginPath(); c.ellipse(600, y, 24, 12.5, 0, 0, Math.PI * 2); c.fill();
+    c.fillStyle = T.metal[2]; c.beginPath(); c.ellipse(600, y, 27, 15, 0, 0, Math.PI * 2); c.fill();
+    c.fillStyle = T.metal[1]; c.beginPath(); c.ellipse(600, y, 24, 12.5, 0, 0, Math.PI * 2); c.fill();
     c.fillStyle = '#120c08'; c.beginPath(); c.ellipse(600, y + 1, 19, 9, 0, 0, Math.PI * 2); c.fill();
   }
   // goal slots
@@ -1706,14 +1743,14 @@ function drawTable(c, px, flipped) {
 
   // playfield
   c.save(); c.beginPath(); c.rect(0, 0, W, H); c.clip();
-  c.fillStyle = '#2c7244'; c.fillRect(0, 0, W, H);
-  for (let i = 1; i < 12; i += 2) { c.fillStyle = 'rgba(255,255,255,.035)'; c.fillRect(i * 100, 0, 100, H); }
+  c.fillStyle = T.felt; c.fillRect(0, 0, W, H);
+  for (let i = 1; i < 12; i += 2) { c.fillStyle = `rgba(255,255,255,${T.stripe})`; c.fillRect(i * 100, 0, 100, H); }
   for (let i = 0; i < 1100; i++) { c.fillStyle = rnd() < .5 ? 'rgba(0,0,0,.07)' : 'rgba(255,255,255,.045)'; c.fillRect(rnd() * W, rnd() * H, 2.2, 2.2); }
-  c.strokeStyle = 'rgba(244,240,226,.8)'; c.lineWidth = 4; c.lineJoin = 'round';
+  c.strokeStyle = `rgba(${T.line},.8)`; c.lineWidth = 4; c.lineJoin = 'round';
   c.strokeRect(8, 8, W - 16, H - 16);
   c.beginPath(); c.moveTo(600, 8); c.lineTo(600, H - 8); c.stroke();
   c.beginPath(); c.arc(600, CY, 92, 0, Math.PI * 2); c.stroke();
-  c.fillStyle = 'rgba(244,240,226,.8)'; c.beginPath(); c.arc(600, CY, 5, 0, Math.PI * 2); c.fill();
+  c.fillStyle = `rgba(${T.line},.8)`; c.beginPath(); c.arc(600, CY, 5, 0, Math.PI * 2); c.fill();
   for (const side of [0, 1]) {
     const m = v => side ? W - v : v;
     c.strokeRect(Math.min(m(8), m(166)), CY - 200, 158, 400);
@@ -1727,7 +1764,7 @@ function drawTable(c, px, flipped) {
   for (const [cx, cy, a0] of [[8, 8, 0], [W - 8, 8, Math.PI / 2], [W - 8, H - 8, Math.PI], [8, H - 8, Math.PI * 1.5]]) {
     c.beginPath(); c.arc(cx, cy, 16, a0, a0 + Math.PI / 2); c.stroke();
   }
-  c.fillStyle = 'rgba(244,240,226,.13)';
+  c.fillStyle = `rgba(${T.line},.13)`;
   c.font = '900 30px "Big Shoulders Display", Impact, "Arial Narrow", sans-serif';
   c.textAlign = 'center'; c.textBaseline = 'middle';
   c.save();
@@ -1748,7 +1785,7 @@ function drawTable(c, px, flipped) {
     c.fillStyle = cg; c.fillRect(cx ? W - 170 : 0, cy ? H - 170 : 0, 170, 170);
   }
   g = c.createRadialGradient(W * .5, H * .45, 60, W * .5, H * .5, W * .68);
-  g.addColorStop(0, 'rgba(255,246,214,.1)'); g.addColorStop(1, 'rgba(0,0,0,.28)');
+  g.addColorStop(0, T.sheen); g.addColorStop(1, 'rgba(0,0,0,.28)');
   c.fillStyle = g; c.fillRect(0, 0, W, H);
   c.restore();
   c.strokeStyle = 'rgba(20,12,6,.8)'; c.lineWidth = 3; c.strokeRect(-1.5, -1.5, W + 3, H + 3);
@@ -1769,7 +1806,7 @@ const rodGrads = rods.map(r => {
   g.addColorStop(0, '#3f454b'); g.addColorStop(.3, '#e9eef2'); g.addColorStop(.55, '#9aa2aa'); g.addColorStop(1, '#353a3f');
   return g;
 });
-function drawBall(c = ctx, bl = ball) {
+function drawBall(c = ctx, bl = ball, th = ballTheme()) {
   if (!bl.show) return;
   const x = bl.x, y = bl.y, r = R * bl.scale;
   c.globalAlpha = bl.alpha;
@@ -1777,7 +1814,7 @@ function drawBall(c = ctx, bl = ball) {
   if (bl.trail.length > 1) {
     for (let i = 1; i < bl.trail.length; i++) {
       const a = bl.trail[i - 1], b = bl.trail[i], q = i / bl.trail.length;
-      c.strokeStyle = sup ? `rgba(255,${Math.round(120 + 90 * q)},50,${(q * .55).toFixed(3)})` : `rgba(242,233,216,${(q * .16).toFixed(3)})`;
+      c.strokeStyle = sup ? `rgba(255,${Math.round(120 + 90 * q)},50,${(q * .55).toFixed(3)})` : `rgba(${th.trail},${(q * (th.glow ? .32 : .16)).toFixed(3)})`;
       c.lineWidth = R * (sup ? 1.9 : 1.4) * q; c.lineCap = 'round';
       c.beginPath(); c.moveTo(a.x, a.y); c.lineTo(b.x, b.y); c.stroke();
     }
@@ -1785,20 +1822,20 @@ function drawBall(c = ctx, bl = ball) {
   const lift = Math.max(0, bl.drop) * 70;
   c.fillStyle = 'rgba(0,0,0,.34)';
   c.beginPath(); c.ellipse(x + 5 + lift * .5, y + 7 + lift * .7, R * 1.02, R * .92, 0, 0, Math.PI * 2); c.fill();
-  if (sup) {
-    const gl = c.createRadialGradient(x, y, r * .6, x, y, r * 2.4);
-    gl.addColorStop(0, 'rgba(255,170,70,.55)'); gl.addColorStop(1, 'rgba(255,120,30,0)');
-    c.fillStyle = gl; c.beginPath(); c.arc(x, y, r * 2.4, 0, Math.PI * 2); c.fill();
+  if (sup || th.glow) {
+    const gl = c.createRadialGradient(x, y, r * .6, x, y, r * (sup ? 2.4 : 2));
+    gl.addColorStop(0, sup ? 'rgba(255,170,70,.55)' : th.glow); gl.addColorStop(1, 'rgba(0,0,0,0)');
+    c.fillStyle = gl; c.beginPath(); c.arc(x, y, r * (sup ? 2.4 : 2), 0, Math.PI * 2); c.fill();
   }
-  const g = c.createRadialGradient(x - r * .38, y - r * .42, r * .08, x, y, r);
-  if (sup) { g.addColorStop(0, '#fffbea'); g.addColorStop(.6, '#ffd28a'); g.addColorStop(1, '#e0782c'); }
-  else { g.addColorStop(0, '#fffdf5'); g.addColorStop(.6, '#efe6cf'); g.addColorStop(1, '#b8a682'); }
+  const g = c.createRadialGradient(x - r * .38, y - r * .42, r * .08, x, y, r), gs = sup ? ['#fffbea', '#ffd28a', '#e0782c'] : th.grad;
+  g.addColorStop(0, gs[0]); g.addColorStop(.6, gs[1]); g.addColorStop(1, gs[2]);
   c.fillStyle = g; c.beginPath(); c.arc(x, y, r, 0, Math.PI * 2); c.fill();
-  c.fillStyle = 'rgba(150,112,62,.5)';
+  c.fillStyle = th.spot;
+  const sk = .2 * th.spotK;
   for (const p of bl.spots) {
     if (p.z < .08) continue;
     c.beginPath();
-    c.ellipse(x + p.x * r * .88, y + p.y * r * .88, Math.max(.3, r * .2 * p.z), r * .2, Math.atan2(p.y, p.x), 0, Math.PI * 2);
+    c.ellipse(x + p.x * r * .88, y + p.y * r * .88, Math.max(.3, r * sk * p.z), r * sk, Math.atan2(p.y, p.x), 0, Math.PI * 2);
     c.fill();
   }
   c.fillStyle = 'rgba(255,255,255,.7)';
@@ -1826,7 +1863,7 @@ function drawFigure(x, y, th, dir, p, k = 1, c = ctx) {
 function render() {
   ctx.setTransform(1, 0, 0, 1, 0, 0);
   const sx = shakeX * scale * dpr, sy = shakeY * scale * dpr;
-  if (sx || sy) { ctx.fillStyle = '#0c0806'; ctx.fillRect(0, 0, cw, ch); }
+  if (sx || sy) { ctx.fillStyle = tableTheme().room[2]; ctx.fillRect(0, 0, cw, ch); }
   ctx.drawImage(sc, sx, sy);
   ctx.setTransform(dpr * scale, 0, 0, dpr * scale, dpr * ox + sx, dpr * oy + sy);
   if (flip) { ctx.translate(W, H); ctx.scale(-1, -1); }     // the online guest defends the left goal too
@@ -2177,17 +2214,7 @@ async function drawCard(S) {
   drawTable(c, ts, S.left === RED);
   const loser = 1 - S.winner;
   drawBall(c, { show: true, x: loser === BLUE ? -R * .5 : W + R * .5, y: CY + 20, scale: 1, alpha: 1, superT: S.superLast ? 1 : 0, trail: [], drop: 0, spots: ball.spots });
-  c.fillStyle = 'rgba(0,0,0,.2)';
-  for (const rod of rods) {
-    for (let j = 0; j < rod.n; j++) { c.beginPath(); c.ellipse(rod.x + 6, CY + rod.offs[j] + 8, 13, 17, 0, 0, Math.PI * 2); c.fill(); }
-  }
-  for (const rod of rods) {
-    const rg = c.createLinearGradient(rod.x - 8, 0, rod.x + 8, 0);
-    rg.addColorStop(0, '#3f454b'); rg.addColorStop(.3, '#e9eef2'); rg.addColorStop(.55, '#9aa2aa'); rg.addColorStop(1, '#353a3f');
-    c.fillStyle = rg; c.fillRect(rod.x - 8, -FR - 16, 16, H + 2 * FR + 32);
-    c.fillStyle = '#1d1a18'; rr(c, rod.x - 11, rod.half, 22, 9, 3); c.fill(); rr(c, rod.x - 11, H - rod.half - 9, 22, 9, 3); c.fill();
-    for (let j = 0; j < rod.n; j++) drawFigure(rod.x, CY + rod.offs[j], 0, teams[rod.team].dir, PAL[rod.team], 1, c);
-  }
+  drawRestRods(c);
   c.restore();
 
   // a few numbers of the hero's match
@@ -2213,6 +2240,20 @@ async function drawCard(S) {
   c.fillStyle = 'rgba(242,233,216,.45)'; c.font = `700 24px ${FONT_U}`;
   spaced(c, upTR(`Cep Langırtı · ${S.date}`), CX, 1892, 4);
   return new Promise(ok => cv.toBlob(ok, 'image/jpeg', .92));   // a JPEG is a fifth of the PNG and the apps recompress anyway
+}
+// the rods with every figure standing at rest, in table coordinates (share card, theme previews)
+function drawRestRods(c) {
+  c.fillStyle = 'rgba(0,0,0,.2)';
+  for (const rod of rods) {
+    for (let j = 0; j < rod.n; j++) { c.beginPath(); c.ellipse(rod.x + 6, CY + rod.offs[j] + 8, 13, 17, 0, 0, Math.PI * 2); c.fill(); }
+  }
+  for (const rod of rods) {
+    const rg = c.createLinearGradient(rod.x - 8, 0, rod.x + 8, 0);
+    rg.addColorStop(0, '#3f454b'); rg.addColorStop(.3, '#e9eef2'); rg.addColorStop(.55, '#9aa2aa'); rg.addColorStop(1, '#353a3f');
+    c.fillStyle = rg; c.fillRect(rod.x - 8, -FR - 16, 16, H + 2 * FR + 32);
+    c.fillStyle = '#1d1a18'; rr(c, rod.x - 11, rod.half, 22, 9, 3); c.fill(); rr(c, rod.x - 11, H - rod.half - 9, 22, 9, 3); c.fill();
+    for (let j = 0; j < rod.n; j++) drawFigure(rod.x, CY + rod.offs[j], 0, teams[rod.team].dir, PAL[rod.team], 1, c);
+  }
 }
 function prepareCard(winner) {
   const n = ++card.n, S = cardStory(winner);
@@ -2311,12 +2352,14 @@ const BADGES = [
   { id: 'quests', i: '🎯', t: 'Görev avcısı', d: n => `${n} günlük görev tamamla`, at: [5, 50, 200], v: L => L.quests },
   { id: 'streak', i: '🗓️', t: 'Sadık oyuncu', d: n => `${n} gün üst üste bütün görevleri bitir`, at: [3, 7, 30], v: (L, P) => P.best },
   { id: 'perfect', i: '💎', t: 'Kusursuz', d: () => '7 gollük maçı gol yemeden kazan', at: [1], v: L => L.perfect },
+  { id: 'collect', i: '🎨', t: 'Koleksiyoncu', d: n => `Yıldızlarla ${n} tema aç`, at: [1, 4, 10], v: (L, P) => P.owned.ball.length + P.owned.table.length - 2 },
 ];
 const ROMAN = ['', 'I', 'II', 'III'];
 const PROG_KEY = 'cep-langirti-ilerleme';
 const blankLife = () => ({ matches: 0, wins: 0, goals: 0, supers: 0, saves: 0, clean: 0, comebacks: 0, bestRun: 0, beat: 0,
   onlineWins: 0, giantStops: 0, emotes: 0, shares: 0, quests: 0, perfect: 0 });
-let prog = { day: '', q: [0, 0, 0], done: [false, false, false], bonus: false, stars: 0, streak: 0, best: 0, lastFull: '', life: blankLife(), badges: {} };
+let prog = { day: '', q: [0, 0, 0], done: [false, false, false], bonus: false, stars: 0, streak: 0, best: 0, lastFull: '', life: blankLife(), badges: {},
+  owned: { ball: ['klasik'], table: ['klasik'] }, ball: 'klasik', table: 'klasik' };
 let goalsOpen = false, goalsTab = 'quests', overRew = [];
 
 const dayKey = (d = new Date()) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
@@ -2324,7 +2367,10 @@ const yesterdayKey = () => { const d = new Date(); d.setDate(d.getDate() - 1); r
 function loadProg() {
   try {
     const p = JSON.parse(localStorage.getItem(PROG_KEY) || 'null');
-    if (p && typeof p === 'object') prog = { ...prog, ...p, life: { ...blankLife(), ...p.life }, badges: { ...p.badges } };
+    if (p && typeof p === 'object') {
+      const own = k => [...new Set(['klasik', ...(p.owned && Array.isArray(p.owned[k]) ? p.owned[k] : [])])];
+      prog = { ...prog, ...p, life: { ...blankLife(), ...p.life }, badges: { ...p.badges }, owned: { ball: own('ball'), table: own('table') } };
+    }
   } catch (e) { /* storage blocked: start fresh */ }
   rollDay();
 }
@@ -2431,6 +2477,7 @@ function renderRewards() {
     ...(bs.length > 2 ? [{ k: 'b', text: `🏅 ${bs.length} yeni rozet: ${bs.map(r => r.icon).join(' ')}`, title: bs.map(r => r.text).join(', ') }] : bs),
   ];
   if (!list.length) list.push({ k: '', text: `🎯 Günün görevleri ${prog.done.filter(Boolean).length}/3 · ⭐ ${prog.stars}` });
+  if (overRew.some(r => r.k === 'q' || r.k === 'a') && prog.stars >= cheapestLocked()) list.push({ k: 't', text: '🎨 Yeni tema açabilirsin' });
   list.forEach((r, i) => {
     const c = document.createElement('span');
     c.className = 'rw ' + r.k; c.textContent = r.text; c.style.animationDelay = (.9 + i * .15) + 's';
@@ -2482,9 +2529,12 @@ function renderGoals() {
     grid.appendChild(el);
   }
   $('badgeCount').textContent = `${got}/${BADGES.length}`;
+  $('gStars').textContent = `⭐ ${prog.stars}`; $('gStars').setAttribute('aria-label', `${prog.stars} yıldızın var`);
   $('tabQuests').setAttribute('aria-selected', String(goalsTab === 'quests'));
   $('tabBadges').setAttribute('aria-selected', String(goalsTab === 'badges'));
-  $('panelQuests').hidden = goalsTab !== 'quests'; $('panelBadges').hidden = goalsTab !== 'badges';
+  $('tabThemes').setAttribute('aria-selected', String(goalsTab === 'themes'));
+  $('panelQuests').hidden = goalsTab !== 'quests'; $('panelBadges').hidden = goalsTab !== 'badges'; $('panelThemes').hidden = goalsTab !== 'themes';
+  if (goalsTab === 'themes') renderShop();
 }
 function badgeInfo(id) {
   const b = BADGES.find(x => x.id === id);
@@ -2498,15 +2548,127 @@ function badgeInfo(id) {
 function openGoals(tab) {
   goalsOpen = true; goalsTab = tab || goalsTab;
   renderGoals(); setUI();
-  $(goalsTab === 'badges' ? 'tabBadges' : 'tabQuests').focus({ preventScroll: true });
+  $({ badges: 'tabBadges', themes: 'tabThemes' }[goalsTab] || 'tabQuests').focus({ preventScroll: true });
 }
 function closeGoals() { goalsOpen = false; setUI(); }
 $('goalsBtn').addEventListener('click', () => { Sound.unlock(); openGoals('quests'); });
-$('overRewards').addEventListener('click', () => openGoals(overRew.some(r => r.k === 'b') ? 'badges' : 'quests'));
+$('overRewards').addEventListener('click', () => openGoals($('overRewards').querySelector('.rw.t') ? 'themes' : overRew.some(r => r.k === 'b') ? 'badges' : 'quests'));
 $('goalsClose').addEventListener('click', closeGoals);
 $('tabQuests').addEventListener('click', () => { goalsTab = 'quests'; renderGoals(); });
 $('tabBadges').addEventListener('click', () => { goalsTab = 'badges'; renderGoals(); });
+$('tabThemes').addEventListener('click', () => { goalsTab = 'themes'; shop.armed = ''; renderGoals(); });
 $('badgeGrid').addEventListener('click', e => { const b = e.target.closest('.badge'); if (b) badgeInfo(b.dataset.b); });
+
+/* ——— Themes: stars buy looks for the ball and the table ———
+   Stars from the quests are spent here; a theme once bought stays yours. Only the look changes, never
+   the play, and each phone shows its own choice (online too). The first tap on a theme you can afford
+   asks, the second one buys it. */
+const BALLS = [
+  { id: 'klasik', name: 'Klasik', price: 0, grad: ['#fffdf5', '#efe6cf', '#b8a682'], spot: 'rgba(150,112,62,.5)', spotK: 1, trail: '242,233,216', trailAt: 900 },
+  { id: 'turuncu', name: 'Turuncu', price: 5, grad: ['#ffe4bf', '#ff9a3c', '#c4561a'], spot: 'rgba(120,50,10,.42)', spotK: 1, trail: '255,170,90', trailAt: 900 },
+  { id: 'futbol', name: 'Futbol', price: 12, grad: ['#ffffff', '#f2f2f2', '#b4b4b4'], spot: 'rgba(22,22,26,.92)', spotK: 1.6, trail: '255,255,255', trailAt: 900 },
+  { id: 'neon', name: 'Neon', price: 20, grad: ['#f2fff0', '#7dff6a', '#1d9c38'], spot: 'rgba(10,80,30,.4)', spotK: 1, trail: '120,255,110', trailAt: 600, glow: 'rgba(120,255,110,.42)' },
+  { id: 'altin', name: 'Altın', price: 35, grad: ['#fff6d0', '#f2c85b', '#a8741c'], spot: 'rgba(120,80,10,.38)', spotK: 1, trail: '255,214,120', trailAt: 700, glow: 'rgba(255,210,110,.3)' },
+  { id: 'ates', name: 'Ateş topu', price: 60, grad: ['#fff3c4', '#ff7a2a', '#b3200e'], spot: 'rgba(90,10,0,.45)', spotK: 1, trail: '255,110,40', trailAt: 420, glow: 'rgba(255,90,30,.45)' },
+];
+const TABLES = [
+  { id: 'klasik', name: 'Klasik', price: 0, room: ['#34281e', '#1c150f', '#0c0806'], base: '#4a2f19', wood: ['#cf9860', '#b87e48', '#9a6234'],
+    grain: ['92,52,22', '255,228,185'], seam: 'rgba(60,32,12,.4)', edge: 'rgba(255,232,196,.28)', metal: ['#f3dca0', '#b98b3c', '#6d4c1b'],
+    felt: '#2c7244', stripe: .035, line: '244,240,226', sheen: 'rgba(255,246,214,.1)' },
+  { id: 'gece', name: 'Gece', price: 8, room: ['#1f2635', '#11151e', '#07080c'], base: '#24170e', wood: ['#6f4d35', '#573a25', '#3f2818'],
+    grain: ['35,20,10', '210,180,150'], seam: 'rgba(20,10,4,.5)', edge: 'rgba(200,220,255,.2)', metal: ['#eef3f8', '#9aa6b2', '#4c5560'],
+    felt: '#1e3a5f', stripe: .03, line: '214,228,255', sheen: 'rgba(190,215,255,.09)' },
+  { id: 'cim', name: 'Çim', price: 15, room: ['#28331f', '#141b10', '#080a06'], base: '#7d776c', wood: ['#f3f1ea', '#dedad0', '#bcb7ab'],
+    grain: ['130,120,105', '255,255,255'], seam: 'rgba(90,85,75,.4)', edge: 'rgba(255,255,255,.5)', metal: ['#f3dca0', '#b98b3c', '#6d4c1b'],
+    felt: '#3b8a37', stripe: .075, line: '255,255,255', sheen: 'rgba(255,255,230,.12)' },
+  { id: 'bordo', name: 'Bordo', price: 30, room: ['#36211f', '#1d100f', '#0c0606'], base: '#35110b', wood: ['#8f3f2c', '#712b1d', '#541d12'],
+    grain: ['60,15,8', '255,200,170'], seam: 'rgba(40,8,4,.5)', edge: 'rgba(255,215,190,.25)', metal: ['#f6e2a6', '#c79a42', '#77521c'],
+    felt: '#7a1f2b', stripe: .03, line: '255,236,214', sheen: 'rgba(255,220,200,.08)' },
+  { id: 'buz', name: 'Buz', price: 50, room: ['#1e2c35', '#0f171d', '#06090c'], base: '#5b7282', wood: ['#eef6fa', '#cddfe9', '#a3bccb'],
+    grain: ['110,145,165', '255,255,255'], seam: 'rgba(80,110,130,.4)', edge: 'rgba(255,255,255,.55)', metal: ['#ffffff', '#b8c7d2', '#5e7180'],
+    felt: '#4d93bf', stripe: .05, line: '240,250,255', sheen: 'rgba(230,248,255,.14)' },
+  { id: 'salon', name: 'Altın Salon', price: 90, room: ['#2b2318', '#141009', '#070504'], base: '#0e0a07', wood: ['#3d3027', '#2b221b', '#1b1510'],
+    grain: ['10,6,3', '226,180,87'], seam: 'rgba(226,180,87,.35)', edge: 'rgba(226,180,87,.55)', metal: ['#fff0bf', '#e2b457', '#7c5a1d'],
+    felt: '#17171c', stripe: .025, line: '226,180,87', sheen: 'rgba(255,220,150,.07)' },
+];
+const THEMES = { ball: BALLS, table: TABLES };
+const ballTheme = () => BALLS.find(b => b.id === prog.ball) || BALLS[0];
+const tableTheme = () => TABLES.find(t => t.id === prog.table) || TABLES[0];
+const shop = { armed: '', armedT: 0, drawn: '' };
+const cheapestLocked = () => Math.min(...[...BALLS.filter(b => !prog.owned.ball.includes(b.id)), ...TABLES.filter(t => !prog.owned.table.includes(t.id))].map(t => t.price));
+const previewSpots = makeSpots().map(p => { const a = .5, c = Math.cos(a), sn = Math.sin(a); return { x: p.x * c + p.z * sn, y: p.y, z: p.z * c - p.x * sn }; });
+
+function drawThemePreview(cv, kind, th) {
+  const c = cv.getContext('2d');
+  c.setTransform(1, 0, 0, 1, 0, 0); c.clearRect(0, 0, cv.width, cv.height);
+  if (kind === 'ball') {
+    const k = cv.width * .3 / R;
+    c.setTransform(k, 0, 0, k, cv.width / 2 - 2, cv.height / 2 - 3);
+    drawBall(c, { show: true, x: 0, y: 0, scale: 1, alpha: 1, superT: 0, trail: [], drop: 0, spots: previewSpots }, th);
+  } else {
+    const k = cv.width / (W + 2 * FR);
+    c.setTransform(k, 0, 0, k, FR * k, (cv.height - (H + 2 * FR) * k) / 2 + FR * k);
+    drawTable(c, k, false, th);
+    drawBall(c, { show: true, x: 600, y: CY + 60, scale: 1, alpha: 1, superT: 0, trail: [], drop: 0, spots: previewSpots });
+    drawRestRods(c);
+  }
+}
+function renderShop() {
+  const key = prog.ball + '|' + prog.table;       // previews only change with the ball in use (table previews show it)
+  for (const kind of ['ball', 'table']) {
+    const shelf = $(kind === 'ball' ? 'ballShelf' : 'tableShelf');
+    if (!shelf.children.length) {
+      for (const th of THEMES[kind]) {
+        const b = document.createElement('button');
+        b.type = 'button'; b.className = 'theme ' + kind; b.dataset.kind = kind; b.dataset.id = th.id;
+        const cv = document.createElement('canvas');
+        cv.width = kind === 'ball' ? 112 : 200; cv.height = kind === 'ball' ? 112 : 124;
+        cv.setAttribute('aria-hidden', 'true');
+        const n = document.createElement('span'); n.className = 'tn'; n.textContent = th.name;
+        const st = document.createElement('span'); st.className = 'ts';
+        b.append(cv, n, st);
+        shelf.appendChild(b);
+      }
+    }
+    [...shelf.children].forEach((b, i) => {
+      const th = THEMES[kind][i], own = prog.owned[kind].includes(th.id), sel = prog[kind] === th.id, armed = shop.armed === kind + ':' + th.id;
+      b.classList.toggle('sel', sel); b.classList.toggle('own', own); b.classList.toggle('armed', armed);
+      b.classList.toggle('poor', !own && prog.stars < th.price);
+      b.lastChild.textContent = sel ? 'Seçili ✓' : own ? 'Seç' : armed ? `Aç: −${th.price}⭐` : `🔒 ${th.price}⭐`;
+      b.setAttribute('aria-label', `${kind === 'ball' ? 'Top' : 'Masa'}: ${th.name}. ${b.lastChild.textContent}`);
+      if (shop.drawn !== key || !b.dataset.drawn) { drawThemePreview(b.firstChild, kind, th); b.dataset.drawn = '1'; }
+    });
+  }
+  shop.drawn = key;
+}
+function shopSay(text) { $('shopInfo').textContent = text; }
+function tapTheme(kind, id) {
+  const th = THEMES[kind].find(t => t.id === id);
+  if (!th) return;
+  if (prog.owned[kind].includes(id)) {
+    shop.armed = '';
+    if (prog[kind] !== id) { prog[kind] = id; saveProg(); drawStatic(); shopSay(`${th.name} ${kind === 'ball' ? 'topu' : 'masası'} seçildi.`); }
+    renderShop(); return;
+  }
+  if (prog.stars < th.price) {
+    shop.armed = ''; renderShop();
+    shopSay(`${th.name} için ${th.price - prog.stars} yıldız daha lazım. Günlük görevlerden kazanabilirsin.`);
+    return;
+  }
+  if (shop.armed !== kind + ':' + id || performance.now() - shop.armedT > 4000) {
+    shop.armed = kind + ':' + id; shop.armedT = performance.now(); renderShop();
+    shopSay(`${th.name}: ${th.price} yıldız harcanacak. Açmak için bir kez daha dokun.`);
+    return;
+  }
+  shop.armed = '';
+  prog.stars -= th.price; prog.owned[kind].push(id); prog[kind] = id;
+  const rew = [];
+  checkBadges(rew);
+  saveProg(); drawStatic(); renderGoals();
+  Sound.reward();
+  shopSay(`${th.name} açıldı ve seçildi! ${rew.length ? 'Yeni rozet: ' + rew.map(r => r.text).join(', ') + '.' : ''}`);
+}
+$('panelThemes').addEventListener('click', e => { const b = e.target.closest('.theme'); if (b) tapTheme(b.dataset.kind, b.dataset.id); });
 
 /* ——— Settings ——— */
 const STORE = 'cep-langirti';
@@ -2896,7 +3058,7 @@ function boot(data) {
 }
 
 // handle for experimenting from the console
-window.langirt = { teams, rods, ball, score, settings, update, startMatch, attract, net, hostTable, joinTable, sendEmote, EMOTES, stats, card, cardStory, drawCard, recordMatch, todayQuests, QUESTS, BADGES, get prog() { return prog; }, get state() { return state; }, get mode() { return mode; }, get me() { return me; } };
+window.langirt = { teams, rods, ball, score, settings, update, startMatch, attract, net, hostTable, joinTable, sendEmote, EMOTES, stats, card, cardStory, drawCard, recordMatch, todayQuests, QUESTS, BADGES, tapTheme, BALLS, TABLES, drawStatic, get prog() { return prog; }, get state() { return state; }, get mode() { return mode; }, get me() { return me; } };
 
 const hot = window.claude && window.claude.hot;
 if (hot && typeof hot.snapshot === 'function') {
