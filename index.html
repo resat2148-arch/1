@@ -1780,7 +1780,7 @@ const NET_SEND = 1 / 30;      // s between snapshots
 const NET_TIMEOUT = 6000;     // ms of silence before the match is called off
 const net = { role: null, kind: '', code: '', tr: null, connected: false, lastHeard: 0, joinT: 0, seq: 0, lastN: 0, snaps: [],
   events: [], evId: 0, lastEv: 0, sendAcc: 0, inSeq: 0, inKey: '', inT: 0, cnt: { p: 0, s: 0, g: 0 }, seen: { p: 0, s: 0, g: 0, pending: false },
-  again: 0, lastAgain: 0, saved: null, forced: null, sfxT: {}, waitT: 0 };
+  again: 0, lastAgain: 0, saved: null, forced: null, peerOpts: null, sfxT: {}, waitT: 0 };
 let onlineOpen = false;
 const r1 = v => Math.round(v * 10) / 10, r2 = v => Math.round(v * 100) / 100, r3 = v => Math.round(v * 1000) / 1000;
 const lerp = (a, b, q) => a + (b - a) * q;
@@ -1831,15 +1831,20 @@ async function roomTransport() {
   };
 }
 async function peerTransport() {
-  if (!window.Peer) { try { await loadScript('https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.4/peerjs.min.js'); } catch (e) { return null; } }
+  // the library ships next to the page (peerjs.min.js); a CDN copy is the fallback
+  for (const src of ['peerjs.min.js', 'https://cdn.jsdelivr.net/npm/peerjs@1.5.5/dist/peerjs.min.js']) {
+    if (window.Peer) break;
+    try { await loadScript(src); } catch (e) { /* try the next one */ }
+  }
   if (!window.Peer) return null;
   let peer = null, conn = null;
+  const opts = net.peerOpts || {};          // PeerJS's free public server unless told otherwise
   return {
     kind: 'peer',
     open(role, code, onState, onGone, onError) {
       const id = 'cep-langirti-' + code.toLowerCase();
       const wire = c => { conn = c; c.on('data', onState); c.on('close', onGone); c.on('error', onGone); };
-      peer = role === 'host' ? new window.Peer(id) : new window.Peer();
+      peer = role === 'host' ? new window.Peer(id, opts) : new window.Peer(opts);
       peer.on('error', e => onError((e && e.type) || 'error'));
       if (role === 'host') peer.on('connection', c => { if (conn && conn.open) c.close(); else wire(c); });
       else peer.on('open', () => wire(peer.connect(id, { serialization: 'json', reliable: true })));
@@ -1918,7 +1923,7 @@ async function hostTable() {
     if (err === 'unavailable-id') { tr.close(); net.tr = null; hostTable(); }   // someone has this code: pick another
     else setNetStatus(netErrorText(err), true);
   });
-  setNetStatus(tr.kind === 'room' ? 'Arkadaşın bu sayfayı claude.ai hesabıyla açıp kodu girsin. Bekleniyor…'
+  setNetStatus(tr.kind === 'room' ? 'Arkadaşın bu sayfayı claude.ai hesabıyla açıp kodu girsin (hesabı yoksa oyunun herkese açık adresini kullanın). Bekleniyor…'
     : 'Arkadaşın aynı adresi açıp kodu girsin. Bekleniyor…');
 }
 function hostOnState(d) {

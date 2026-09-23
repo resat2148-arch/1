@@ -89,8 +89,13 @@ Telefonu yatay olarak ikinizin arasına koyun. Mavi oyuncu sol uçta, kırmızı
 Menüde **Online**'a dokun. Biri **Masa aç** der ve 4 karakterlik bir kod alır; diğeri **Masaya katıl**'a dokunup bu kodu girer. Bağlantı kurulunca maç kendiliğinden başlar.
 
 - **Nerede çalışır:**
-  - **claude.ai'deki oyun sayfası:** Sayfanın canlı "oda" bağlantısı kullanılır; ek sunucu gerekmez. Arkadaşının bir claude.ai hesabı olmalı ve sayfayı sağ üstteki **Paylaş** menüsünden onunla paylaşmalısın. İkiniz de aynı sayfayı kendi telefonunuzda açarsınız.
-  - **Başka bir yerde yayınlanan sürüm:** Telefonlar doğrudan (WebRTC) bağlanır; eşleştirme için PeerJS'in ücretsiz genel sunucusu kullanılır. Bunun için oyunun herkese açık bir https adresinde olması gerekir. Bu depo gizli olduğu için GitHub Pages ücretsiz planda kullanılamaz; depoyu herkese açmak ya da dosyayı başka bir statik barındırmaya koymak gerekir.
+  - **Herkese açık adres (hesap gerekmez):** Telefonlar doğrudan (WebRTC) bağlanır. Eşleştirme için PeerJS'in ücretsiz genel sunucusu kullanılır. Mobil veride doğrudan bağlantı kurulamazsa, PeerJS'in aktarma (TURN) sunucuları devreye girer. PeerJS kütüphanesi oyunun yanında gelir (`peerjs.min.js`).
+  - **claude.ai'deki oyun sayfası:** Sayfanın canlı "oda" bağlantısı kullanılır. Bunun için iki oyuncunun da claude.ai hesabı olmalı ve sayfa Paylaş menüsünden paylaşılmalı.
+  - İki oyuncu aynı adresi açmalıdır: biri claude.ai sayfasını, öbürü herkese açık adresi açarsa birbirlerini bulamazlar.
+- **Herkese açık adres (GitHub Pages):** Bu depo gizli olduğu için önce herkese açılmalı; GitHub Pages ücretsiz planda yalnızca açık depolarda çalışır.
+  1. GitHub'da depoda **Settings → General** sayfasının en altındaki **Danger Zone** bölümünde **Change repository visibility → Public** seç.
+  2. **Settings → Pages** sayfasında **Build and deployment → Source: Deploy from a branch** seç. Dal olarak `claude/telefonda-kicker-oyunu-ik7r65`, klasör olarak `/ (root)` seçip **Save**'e bas.
+  3. Bir iki dakika sonra oyun `https://resat2148-arch.github.io/1/` adresinde açılır. İkiniz de bu adresi Safari'de açın; sonra biri **Online → Masa aç**, diğeri **Online → Masaya katıl** der.
 - **Nasıl işler:**
   - Masayı açan telefon (mavi) bütün fiziği yürütür ve saniyede 30 kez masanın durumunu gönderir. Paket yaklaşık 700 bayttır.
   - Katılan telefon (kırmızı) tuşlarını gönderir ve gelen durumu 90 milisaniye geriden, yumuşatarak çizer.
@@ -103,7 +108,7 @@ Menüde **Online**'a dokun. Biri **Masa aç** der ve 4 karakterlik bir kod alır
 - **Sınırlar:**
   - Gecikme iki telefonun bağlantısına bağlıdır. Katılan taraf kendi çubuğunun hareketini gecikmeyle görür.
   - Masayı açan telefonun ekranı açık kalmalıdır; kilitlenirse ya da uygulamadan çıkılırsa oyun iki taraf için de durur.
-  - Bağlantı kodu yalnızca iki tarayıcı sekmesi arasında ve claude.ai odasının taklidiyle denendi. Gerçek iki telefonda ve PeerJS sunucusuyla denenmedi.
+  - Bağlantı kodu iki tarayıcı sekmesi arasında denendi: claude.ai odasının taklidiyle ve yerelde çalıştırılan bir PeerJS sunucusu üzerinden gerçek WebRTC ile. PeerJS'in genel sunucusuyla ve gerçek iki telefonla henüz denenmedi.
 
 Klavyeyle 2 kişi oynamak için mavi `W S` ve `Boşluk` (ya da `F`), kırmızı `↑ ↓` ve `Enter` (ya da `L`) tuşlarını kullanır. Süper şut mavi için `E`, kırmızı için `O` ya da sağ `Shift`; dev kaleci mavi için `R`, kırmızı için `I` ya da sağ `Ctrl`.
 
@@ -149,3 +154,4 @@ Rakip, aktif çubuğunu topun o çubuğun hizasından geçeceği noktaya getirir
 
 - `index.html`: oyunun tamamı (HTML, CSS, JavaScript; sesler Web Audio ile üretilir)
 - `manifest.webmanifest`, `icon.svg`: ana ekrana eklemek için
+- `peerjs.min.js`: online oyun için PeerJS 1.5.5 (MIT lisansı, © Michelle Bu ve Eric Zhang)
