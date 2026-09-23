@@ -167,6 +167,64 @@ button:focus-visible,.seg input:focus-visible+label{outline:2px solid var(--bras
 .vh{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 #stage:not(.online) #quitBtn{grid-column:auto}
 
+/* ——— daily quests and badges ——— */
+.brandtop{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 8px}
+.brandtop .eyebrow{margin:0}
+.goalspill{appearance:none;display:inline-flex;align-items:center;gap:4px;border:1px solid var(--brass);background:rgba(214,165,72,.12);color:var(--chalk);border-radius:999px;
+  padding:5px 12px;font:700 13px/1 var(--ui);letter-spacing:.03em;cursor:pointer;white-space:nowrap;font-variant-numeric:tabular-nums}
+.goalspill .sep{opacity:.5;margin:0 3px}
+.goalspill.done{background:var(--brass);color:#1b1206}
+.card.goalscard{width:min(720px,100%);gap:12px;justify-items:stretch;text-align:left}
+.gtabs{display:flex;gap:6px;align-items:center}
+.gtabs [role=tab]{appearance:none;border:1px solid var(--chalk-3);background:rgba(242,233,216,.05);color:var(--chalk-2);border-radius:999px;padding:8px 14px;font:700 14px/1 var(--ui);letter-spacing:.03em;cursor:pointer}
+.gtabs [role=tab][aria-selected=true]{background:var(--chalk);color:var(--ink);border-color:var(--chalk)}
+.gtabs [role=tab] span{opacity:.7;font-variant-numeric:tabular-nums}
+.gclose{appearance:none;margin-left:auto;width:36px;height:36px;border-radius:50%;border:1px solid var(--chalk-3);background:rgba(242,233,216,.05);color:var(--chalk);display:grid;place-items:center;padding:0;cursor:pointer}
+.gclose svg{width:16px;height:16px}
+.gpanel{display:grid;gap:10px}
+.gmeta{margin:0;color:var(--chalk-2);font-size:14px}
+.gmeta b{color:var(--chalk)}
+.gnote{margin:0;font-size:12px;color:var(--chalk-2)}
+.quests{list-style:none;margin:0;padding:0;display:grid;gap:7px}
+.quest{display:grid;grid-template-columns:3.6em minmax(0,1fr) minmax(60px,110px) 2.6em;gap:12px;align-items:center;padding:9px 12px;border-radius:12px;background:rgba(242,233,216,.05);border:1px solid var(--chalk-3)}
+.quest.done{border-color:var(--brass);background:rgba(214,165,72,.13)}
+.qstars{font-size:12px;letter-spacing:-.12em;white-space:nowrap}
+.qtext{display:grid;gap:2px;font:600 15px/1.2 var(--ui)}
+.qtext small{font-size:11.5px;font-weight:500;color:var(--red-hi)}
+.quest.done .qtext{color:var(--chalk-2)}
+.qbar{height:8px;border-radius:99px;background:rgba(242,233,216,.12);overflow:hidden}
+.qbar i{display:block;height:100%;width:var(--w,0%);background:var(--brass);border-radius:inherit;transition:width .4s}
+.qnum{font:900 18px/1 var(--display);text-align:right;font-variant-numeric:tabular-nums}
+.quest.done .qnum{color:var(--brass)}
+.badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(74px,1fr));gap:6px;max-height:min(60cqh,320px);overflow:auto;touch-action:pan-y;padding:2px}
+.badge{appearance:none;border:1px solid var(--chalk-3);background:rgba(242,233,216,.04);border-radius:13px;padding:7px 3px 6px;display:grid;justify-items:center;align-content:start;gap:4px;cursor:pointer;color:var(--chalk)}
+.badge .bi{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font-size:19px;line-height:1;border:3px solid var(--tc,rgba(242,233,216,.14));background:rgba(0,0,0,.28)}
+.badge.t0 .bi{filter:grayscale(1);opacity:.38}
+.badge.t0 .bn{color:var(--chalk-2)}
+.badge.t1{--tc:#c8834a}
+.badge.t2{--tc:#c9d0d6}
+.badge.t3{--tc:#e2b457}
+.badge.t3 .bi{box-shadow:0 0 14px rgba(226,180,87,.45)}
+.badge .bn{font:700 11px/1.1 var(--ui);text-align:center}
+.badge .bt{font:600 10.5px/1 var(--ui);color:var(--chalk-2);font-variant-numeric:tabular-nums}
+.badge[aria-pressed=true]{border-color:var(--brass);background:rgba(214,165,72,.1)}
+.binfo{margin:0;min-height:2.7em;color:var(--chalk-2);font-size:13.5px}
+.binfo b{color:var(--chalk)}
+.rewards{appearance:none;border:0;background:none;padding:0;margin:2px 0 0;display:flex;flex-wrap:wrap;justify-content:center;gap:6px;cursor:pointer;color:var(--chalk);max-width:100%}
+.rw{display:inline-flex;align-items:center;gap:5px;padding:5px 11px;border-radius:999px;border:1px solid var(--chalk-3);background:rgba(242,233,216,.06);font:700 12.5px/1.15 var(--ui);white-space:nowrap}
+.rw.q{border-color:var(--brass);background:rgba(214,165,72,.15)}
+.rw.b{border-color:#e2b457;background:linear-gradient(180deg,rgba(226,180,87,.38),rgba(226,180,87,.12));animation:rwIn .6s cubic-bezier(.2,.8,.2,1) both}
+.rw.q,.rw.a{animation:rwIn .45s cubic-bezier(.2,.8,.2,1) both}
+.rw.a{border-color:#f08a2c;background:rgba(240,138,44,.18)}
+@keyframes rwIn{0%{opacity:0;scale:.6}60%{scale:1.08}100%{opacity:1;scale:1}}
+@container (max-height:460px){
+  .brandtop{margin-bottom:8px}
+  .goalspill{padding:3px 10px;font-size:12px;margin-block:-5px}   /* no taller than the eyebrow line */
+  .quest{padding:7px 10px}
+  .card.goalscard{gap:9px}
+  .gpanel{gap:8px}
+}
+
 /* ——— share card ——— */
 .cta.share{display:inline-flex;align-items:center;gap:8px}
 .cta.share svg{width:20px;height:20px;margin-top:-3px}
@@ -278,7 +336,7 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
   .overlay,.ctl,#hud{transition:none}
   .skill.ready{animation:none}
   .bubble{animation:bubbleFade 2.4s linear forwards}
-  .bubble .e,.emo.hot,.tray{animation:none}
+  .bubble .e,.emo.hot,.tray,.rw{animation:none}
 }
 @keyframes bubbleFade{0%,85%{opacity:1}100%{opacity:0}}
 </style>
@@ -320,7 +378,7 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
   <section class="overlay" id="menu">
     <div class="menu">
       <div class="brand">
-        <p class="eyebrow">Kicker · Langırt</p>
+        <div class="brandtop"><p class="eyebrow">Kicker · Langırt</p><button type="button" class="goalspill" id="goalsBtn">🎯 <span id="goalsCount">0/3</span><span class="sep" aria-hidden="true">·</span>⭐ <span id="starCount">0</span></button></div>
         <h1><span class="cep">Cep</span><span class="rodline">Langırtı</span></h1>
         <ul class="how">
           <li><b>▲ ▼</b><span>Parlayan çubuğu kaydırır (aktif çubuk kapalıysa hepsini).</span></li>
@@ -425,6 +483,7 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
       <p class="eyebrow" id="overEyebrow">Maç bitti</p>
       <h2 class="big" id="overTitle">Kazandın</h2>
       <p class="final"><span class="b" id="finB">0</span><span class="dash">–</span><span class="r" id="finR">0</span></p>
+      <button type="button" class="rewards" id="overRewards" aria-label="Görevler ve rozetler" hidden></button>
       <div class="emostrip" id="overEmo" role="group" aria-label="Rakibine ifade gönder" hidden></div>
       <div class="row">
         <button class="cta" id="againBtn">Rövanş</button>
@@ -444,6 +503,24 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
           <a class="cta" id="cardDl" href="#" download>İndir</a>
           <button class="ghost" id="cardClose">Kapat</button>
         </div>
+      </div>
+    </div>
+  </section>
+  <section class="overlay" id="goals" hidden>
+    <div class="card goalscard">
+      <div class="gtabs" role="tablist" aria-label="Görevler ve rozetler">
+        <button type="button" role="tab" id="tabQuests" aria-selected="true" aria-controls="panelQuests">Günlük görevler</button>
+        <button type="button" role="tab" id="tabBadges" aria-selected="false" aria-controls="panelBadges">Rozetler <span id="badgeCount">0/15</span></button>
+        <button type="button" class="gclose" id="goalsClose" aria-label="Kapat"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button>
+      </div>
+      <div class="gpanel" id="panelQuests" role="tabpanel" aria-labelledby="tabQuests">
+        <p class="gmeta" id="questMeta"></p>
+        <ol class="quests" id="questList"></ol>
+        <p class="gnote">Bilgisayara karşı ve online maçlar, maç bitince sayılır; 2 kişilik maçlar sayılmaz. İlerlemen bu tarayıcıda saklanır.</p>
+      </div>
+      <div class="gpanel" id="panelBadges" role="tabpanel" aria-labelledby="tabBadges" hidden>
+        <div class="badges" id="badgeGrid"></div>
+        <p class="binfo" id="badgeInfo" aria-live="polite">Bir rozete dokun: nasıl kazanıldığını gör.</p>
       </div>
     </div>
   </section>
@@ -599,7 +676,8 @@ let flip = false;                   // the online guest sees the table turned 18
 const teamName = id => mode === 'online' ? (id === me ? 'Sen' : 'Rakip') : NAMES[mode][id];
 let paused = false;
 const score = [0, 0];
-const stats = { t0: 0, dur: 0, goals: [], saves: [0, 0] };    // for the share card: goals in order, goalie saves
+// for the share card, quests and badges: goals in order, goalie saves, dev kaleci uses, super shots a giant goalie stopped
+const stats = { t0: 0, dur: 0, goals: [], saves: [0, 0], giants: [0, 0], bigSaves: [0, 0] };
 const settings = { level: 'kulup', target: 5, sound: true, autoKeeper: true, activeRod: true, superShot: true, giantGoalie: true, emotes: true };
 let simT = 0, acc = 0, timers = [], lastServer = BLUE;
 const hist = [];
@@ -661,6 +739,11 @@ const Sound = {
   fanfare(good) {
     if (!this.ok('fanfare', 1, true)) return;
     (good ? [523, 659, 784, 1047] : [392, 330, 262]).forEach((n, i) => this.tone(n, n * .995, .24, .22, 'triangle', i * .13));
+  },
+  reward() {
+    if (!this.ok('reward', .3, true)) return;
+    [784, 988, 1175, 1568].forEach((n, i) => this.tone(n, n, .14, .12, 'triangle', i * .075));
+    this.tone(2093, 2093, .35, .05, 'sine', .32);
   },
   // a little voice for every emote; it also plays on the result screen
   emote(v) {
@@ -959,7 +1042,10 @@ function stepBall(h) {
       const inbound = -ball.vx * t.dir;          // speed towards this team's goal
       const jn = collideFoot(fx, fy, fvx, fvy, landing, fw, ft);
       if (jn > 0) {
-        if (ball.superT > 0 && rod.team !== ball.superTeam) ball.superT = 0;   // the goalie stopped it
+        if (ball.superT > 0 && rod.team !== ball.superTeam) {                   // the goalie stopped it
+          if (rod.big > .5 && state === 'play') stats.bigSaves[rod.team]++;
+          ball.superT = 0;
+        }
         contact(t, jn, fvx);
         if (rod.n === 1 && inbound > 1800 && state === 'play') {   // the goalie stopped a real shot
           stats.saves[t.id]++;
@@ -1212,6 +1298,7 @@ function clearInput() {
 }
 function startGiant(t) {
   t.giant = 0; t.giantT = GIANT.time;
+  if (state === 'play') stats.giants[t.id]++;
   Sound.grow();
   if (mine(t)) vibrate(25);
 }
@@ -1259,6 +1346,7 @@ const KEYMAP = {
 };
 KEYMAP.online = KEYMAP.cpu;
 window.addEventListener('keydown', e => {
+  if (e.code === 'Escape' && goalsOpen) { closeGoals(); return; }
   if (e.code === 'KeyP' || e.code === 'Escape') {
     if (state === 'play') { e.preventDefault(); paused ? resumeGame() : pauseGame(); }
     return;
@@ -1335,6 +1423,7 @@ function sendEmote(team, id) {
   if (net.role === 'guest') { net.emN++; net.emId = id; sendGuestInput(true); }
   else if (net.role === 'host') pushEvent({ k: 'emo', t: team, e: id });
   else if (mode === 'cpu') cpuReact('taunted');
+  recordEvent('emote');
   return true;
 }
 // online host: the guest's emotes come with its buttons, counted so none shows twice
@@ -1815,9 +1904,11 @@ function toast(msg, ms = 1600) {
   clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.remove('show'), ms);
 }
 function setUI() {
-  $('menu').hidden = state !== 'menu' || onlineOpen;
+  if (state === 'play') goalsOpen = false;
+  $('menu').hidden = state !== 'menu' || onlineOpen || goalsOpen;
+  $('goals').hidden = !goalsOpen;
   $('online').hidden = !onlineOpen;
-  $('over').hidden = state !== 'over';
+  $('over').hidden = state !== 'over' || goalsOpen;
   if (state !== 'over') card.open = false;
   $('cardView').hidden = !card.open;
   $('pause').hidden = !(state === 'play' && paused);
@@ -1908,7 +1999,7 @@ function startMatch(m) {
   state = 'play'; paused = false;
   teams[BLUE].ai = null; teams[RED].ai = mode === 'cpu' ? LEVELS[settings.level] : null;
   resetTable(); clearInput(); applyControls(); renderHud();
-  Object.assign(stats, { t0: simT, dur: 0, goals: [], saves: [0, 0] });
+  Object.assign(stats, { t0: simT, dur: 0, goals: [], saves: [0, 0], giants: [0, 0], bigSaves: [0, 0] });
   const first = Math.random() < .5 ? BLUE : RED;
   queueServe(first, .9);
   toast(mode === 'duo' ? `Servis: ${NAMES.duo[first]}` : first === me ? 'Servis sende' : 'Servis rakipte');
@@ -1930,12 +2021,13 @@ function showResult(winner) {
   $('finB').textContent = score[me]; $('finR').textContent = score[1 - me];
   $('finB').className = me === BLUE ? 'b' : 'r'; $('finR').className = me === BLUE ? 'r' : 'b';
   prepareCard(winner);
+  recordMatch(winner);
 }
 function endMatch(winner) {
   stats.dur = simT - stats.t0;
   showResult(winner);
   if (mode === 'cpu') cpuReact(winner === RED ? 'won' : 'lost');
-  pushEvent({ k: 'end', w: winner, st: { d: Math.round(stats.dur), g: stats.goals.map(g => g.s | g.o << 1 | g.u << 2), sv: [...stats.saves] } });
+  pushEvent({ k: 'end', w: winner, st: { d: Math.round(stats.dur), g: stats.goals.map(g => g.s | g.o << 1 | g.u << 2), sv: [...stats.saves], gi: [...stats.giants], bs: [...stats.bigSaves] } });
   state = 'over'; paused = false; clearInput();
   for (const t of teams) t.ai = LEVELS.kulup;
   applyControls();
@@ -1978,7 +2070,7 @@ const GAME_URL = 'https://resat2148-arch.github.io/1/';
 const CARD_W = 1080, CARD_H = 1920;
 const FONT_D = '"Big Shoulders Display", Impact, "Arial Narrow", sans-serif';
 const FONT_U = '"Barlow Semi Condensed", "Arial Narrow", "Roboto Condensed", sans-serif';
-const card = { file: null, ready: null, n: 0, url: '', open: false, dl: null };
+const card = { file: null, ready: null, n: 0, url: '', open: false, dl: null, counted: 0 };
 // on the claude.ai page files go out through the page's "downloads" capability (the Claude iPhone app
 // opens the share sheet with it); a page there cannot share or download files by itself
 if (window.claude && typeof window.claude.use === 'function') window.claude.use('downloads').then(d => { card.dl = d; }, () => {});
@@ -1990,11 +2082,7 @@ function cardStory(winner) {
   const duo = mode === 'duo', lvl = LEVEL_NAME[settings.level];
   const left = duo ? BLUE : me, hero = duo ? winner : me, opp = 1 - hero;   // hero: whose numbers are shown
   const a = score[hero], b = score[opp], margin = a - b, won = winner === hero;
-  let d = 0, worst = 0, run = 0, streak = 0;
-  for (const g of stats.goals) {
-    d += g.s === hero ? 1 : -1; worst = Math.min(worst, d);
-    run = g.s === hero ? run + 1 : 0; streak = Math.max(streak, run);
-  }
+  const { worst, run: streak } = goalArc(hero);
   let title, tag;
   if (duo) {
     title = `${NAMES.duo[winner]} kazandı!`;
@@ -2140,7 +2228,7 @@ async function shareCard() {
   if (!f && card.ready) { $('shareBtn').disabled = true; f = await card.ready; $('shareBtn').disabled = false; }
   if (!f) { toast('Görsel hazırlanamadı'); return; }
   if (card.dl) {
-    try { await card.dl.save({ filename: f.name, data: f }); }
+    try { await card.dl.save({ filename: f.name, data: f }); countShare(); }
     catch (e) {
       const code = e && e.code;
       if (code === 'rate_limited') toast('Biraz bekle, sonra yeniden dene');
@@ -2152,11 +2240,13 @@ async function shareCard() {
   try { can = !!(navigator.share && navigator.canShare && navigator.canShare({ files: [f] })); } catch (e) { can = false; }
   if (can) {
     // only the picture: some apps (Instagram among them) leave the share sheet when text rides along
-    try { await navigator.share({ files: [f] }); return; }
+    try { await navigator.share({ files: [f] }); countShare(); return; }
     catch (e) { if (e && e.name === 'AbortError') return; }      // the sheet was closed
   }
   openCardView(f);
 }
+// one share per match card counts towards quests and badges, however often it is sent
+function countShare() { if (card.counted === card.n) return; card.counted = card.n; recordEvent('share'); }
 function openCardView(f) {
   if (card.url) URL.revokeObjectURL(card.url);
   card.url = URL.createObjectURL(f);
@@ -2171,6 +2261,252 @@ function closeCardView() {
   if (card.url) { URL.revokeObjectURL(card.url); card.url = ''; }
   setUI();
 }
+
+/* ——— Daily quests and badges ———
+   Three quests a day, one easy (1 ⭐), one medium (2 ⭐) and one hard (3 ⭐), picked from the date so
+   friends get the same ones; all three bring 2 more and keep the daily run going. Badges mark lifetime
+   milestones in up to three tiers. Matches against the computer and online matches count from this
+   phone's side once they end; two players on one phone do not (it would be too easy to farm).
+   Progress lives in this browser's storage. */
+const QUESTS = [
+  [
+    { id: 'play1', t: 'Bir maç bitir', n: 1, m: () => 1 },
+    { id: 'win1', t: 'Bir maç kazan', n: 1, m: m => m.won },
+    { id: 'goals3', t: '3 gol at', n: 3, m: m => m.goals },
+    { id: 'saves3', t: 'Kalecinle 3 kurtarış yap', n: 3, m: m => m.saves },
+    { id: 'emote3', t: 'Rakibine 3 ifade gönder', n: 3, ev: 'emote' },
+  ], [
+    { id: 'win2', t: '2 maç kazan', n: 2, m: m => m.won },
+    { id: 'goals8', t: '8 gol at', n: 8, m: m => m.goals },
+    { id: 'super1', t: 'Süper şutla gol at', n: 1, m: m => m.supers, need: 'superShot' },
+    { id: 'giant2', t: 'Dev kaleciyi 2 kez kullan', n: 2, m: m => m.giants, need: 'giantGoalie' },
+    { id: 'club', t: 'Kulüp ya da Usta bilgisayarı yen', n: 1, m: m => m.won && (m.level === 'kulup' || m.level === 'usta') },
+    { id: 'run3', t: 'Bir maçta üst üste 3 gol at', n: 1, m: m => m.run >= 3 },
+    { id: 'share1', t: 'Bir sonuç kartı paylaş', n: 1, ev: 'share' },
+  ], [
+    { id: 'clean', t: 'Gol yemeden bir maç kazan', n: 1, m: m => m.won && !m.against },
+    { id: 'usta', t: 'Usta bilgisayarı yen', n: 1, m: m => m.won && m.level === 'usta' },
+    { id: 'comeback', t: '2 gol geriden gelip kazan', n: 1, m: m => m.won && m.worst <= -2 },
+    { id: 'super2', t: 'Bir maçta 2 süper gol at', n: 1, m: m => m.supers >= 2, need: 'superShot' },
+    { id: 'saves3m', t: 'Bir maçta 3 kurtarış yap', n: 1, m: m => m.saves >= 3 },
+    { id: 'win7', t: '7 gollük bir maç kazan', n: 1, m: m => m.won && m.target === 7 },
+  ],
+];
+const QUEST_NEED = { superShot: 'Süper şut ayarı açık olmalı', giantGoalie: 'Dev kaleci ayarı açık olmalı' };
+const ALL_BONUS = 2;
+// [value, tier thresholds]; a save counts when the goalie stops a ball heading for goal faster than 1.8 m/s
+const BADGES = [
+  { id: 'wins', i: '🏆', t: 'Galip', d: n => `${n} maç kazan`, at: [1, 10, 50], v: L => L.wins },
+  { id: 'goals', i: '⚽', t: 'Golcü', d: n => `${n} gol at`, at: [10, 100, 500], v: L => L.goals },
+  { id: 'super', i: '⚡', t: 'Süper yıldız', d: n => `${n} süper gol at`, at: [1, 10, 50], v: L => L.supers },
+  { id: 'saves', i: '🧤', t: 'Eldiven', d: n => `${n} kurtarış yap`, at: [10, 50, 200], v: L => L.saves },
+  { id: 'clean', i: '🧱', t: 'Kale duvarı', d: n => `Gol yemeden ${n} maç kazan`, at: [1, 5, 25], v: L => L.clean },
+  { id: 'comeback', i: '🔄', t: 'Geri dönüş', d: n => `2 gol geriden gelip ${n} maç kazan`, at: [1, 5, 20], v: L => L.comebacks },
+  { id: 'run', i: '🔥', t: 'Seri', d: n => `Bir maçta üst üste ${n} gol at`, at: [3, 5, 7], v: L => L.bestRun },
+  { id: 'cpu', i: '🤖', t: 'Makineyi yen', d: n => `${['Acemi', 'Kulüp', 'Usta'][n - 1]} bilgisayarı yen`, at: [1, 2, 3], v: L => L.beat },
+  { id: 'online', i: '🌐', t: 'Online savaşçı', d: n => `Online ${n} maç kazan`, at: [1, 10, 50], v: L => L.onlineWins },
+  { id: 'giant', i: '🛡️', t: 'Dev duvar', d: n => `Dev kaleciyle ${n} süper şut durdur`, at: [1, 5, 20], v: L => L.giantStops },
+  { id: 'emote', i: '😂', t: 'Psikolojik harp', d: n => `${n} ifade gönder`, at: [10, 100, 500], v: L => L.emotes },
+  { id: 'share', i: '📣', t: 'Viral', d: n => `${n} sonuç kartı paylaş`, at: [1, 10, 50], v: L => L.shares },
+  { id: 'quests', i: '🎯', t: 'Görev avcısı', d: n => `${n} günlük görev tamamla`, at: [5, 50, 200], v: L => L.quests },
+  { id: 'streak', i: '🗓️', t: 'Sadık oyuncu', d: n => `${n} gün üst üste bütün görevleri bitir`, at: [3, 7, 30], v: (L, P) => P.best },
+  { id: 'perfect', i: '💎', t: 'Kusursuz', d: () => '7 gollük maçı gol yemeden kazan', at: [1], v: L => L.perfect },
+];
+const ROMAN = ['', 'I', 'II', 'III'];
+const PROG_KEY = 'cep-langirti-ilerleme';
+const blankLife = () => ({ matches: 0, wins: 0, goals: 0, supers: 0, saves: 0, clean: 0, comebacks: 0, bestRun: 0, beat: 0,
+  onlineWins: 0, giantStops: 0, emotes: 0, shares: 0, quests: 0, perfect: 0 });
+let prog = { day: '', q: [0, 0, 0], done: [false, false, false], bonus: false, stars: 0, streak: 0, best: 0, lastFull: '', life: blankLife(), badges: {} };
+let goalsOpen = false, goalsTab = 'quests', overRew = [];
+
+const dayKey = (d = new Date()) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+const yesterdayKey = () => { const d = new Date(); d.setDate(d.getDate() - 1); return dayKey(d); };
+function loadProg() {
+  try {
+    const p = JSON.parse(localStorage.getItem(PROG_KEY) || 'null');
+    if (p && typeof p === 'object') prog = { ...prog, ...p, life: { ...blankLife(), ...p.life }, badges: { ...p.badges } };
+  } catch (e) { /* storage blocked: start fresh */ }
+  rollDay();
+}
+function saveProg() { try { localStorage.setItem(PROG_KEY, JSON.stringify(prog)); } catch (e) { /* storage blocked */ } }
+function rollDay() {
+  const k = dayKey();
+  if (prog.day === k) return;
+  Object.assign(prog, { day: k, q: [0, 0, 0], done: [false, false, false], bonus: false });
+  saveProg();
+}
+function todayQuests() {
+  const rnd = mulberry32(Math.imul(+prog.day.replace(/-/g, ''), 2654435761 | 0));
+  rnd(); rnd();
+  return QUESTS.map(list => list[Math.floor(rnd() * list.length)]);
+}
+const currentStreak = () => prog.lastFull === prog.day || prog.lastFull === yesterdayKey() ? prog.streak : 0;
+// the hero's arc through a match: how far behind it fell and its longest run of goals
+function goalArc(hero) {
+  let d = 0, worst = 0, run = 0, best = 0;
+  for (const g of stats.goals) { d += g.s === hero ? 1 : -1; worst = Math.min(worst, d); run = g.s === hero ? run + 1 : 0; best = Math.max(best, run); }
+  return { worst, run: best };
+}
+function matchSummary(winner) {
+  const hero = me, known = stats.goals.length === score[BLUE] + score[RED], arc = goalArc(hero);
+  return {
+    won: winner === hero, against: score[1 - hero], worst: arc.worst, run: arc.run,
+    goals: known ? stats.goals.filter(g => g.s === hero && !g.o).length : score[hero],      // an own goal is a gift, not a goal
+    supers: stats.goals.filter(g => g.s === hero && g.u).length, saves: stats.saves[hero] || 0,
+    giants: (stats.giants || [])[hero] || 0, giantStops: (stats.bigSaves || [])[hero] || 0,
+    level: mode === 'cpu' ? settings.level : '', online: mode === 'online', target: settings.target,
+  };
+}
+function advance(inc, rew) {
+  rollDay();
+  todayQuests().forEach((q, i) => {
+    if (prog.done[i]) return;
+    const d = +inc(q) || 0;
+    if (d <= 0) return;
+    prog.q[i] = Math.min(q.n, prog.q[i] + d);
+    if (prog.q[i] < q.n) return;
+    prog.done[i] = true; prog.stars += i + 1; prog.life.quests++;
+    rew.push({ k: 'q', text: `✓ ${q.t} · +${i + 1}⭐`, s: i + 1 });
+  });
+  if (!prog.bonus && prog.done.every(Boolean)) {
+    prog.bonus = true; prog.stars += ALL_BONUS;
+    prog.streak = prog.lastFull === yesterdayKey() ? prog.streak + 1 : 1;
+    prog.lastFull = prog.day; prog.best = Math.max(prog.best, prog.streak);
+    rew.push({ k: 'a', text: `🔥 Günün bütün görevleri · +${ALL_BONUS}⭐` });
+  }
+}
+function checkBadges(rew) {
+  for (const b of BADGES) {
+    const tier = b.at.filter(x => b.v(prog.life, prog) >= x).length;
+    if (tier <= (prog.badges[b.id] || 0)) continue;
+    prog.badges[b.id] = tier;
+    rew.push({ k: 'b', text: `${b.i} ${b.t}${b.at.length > 1 ? ' ' + ROMAN[tier] : ''}`, icon: b.i, title: 'Yeni rozet' });
+  }
+}
+// a match that ended on this phone: lifetime numbers, quests and badges
+function recordMatch(winner) {
+  overRew = [];
+  if (mode !== 'duo') {
+    const m = matchSummary(winner), L = prog.life;
+    L.matches++; L.goals += m.goals; L.supers += m.supers; L.saves += m.saves; L.giantStops += m.giantStops;
+    L.bestRun = Math.max(L.bestRun, m.run);
+    if (m.won) {
+      L.wins++;
+      if (!m.against) L.clean++;
+      if (m.worst <= -2) L.comebacks++;
+      if (m.level) L.beat = Math.max(L.beat, { acemi: 1, kulup: 2, usta: 3 }[m.level]);
+      if (m.online) L.onlineWins++;
+      if (!m.against && m.target === 7) L.perfect++;
+    }
+    advance(q => q.m ? q.m(m) : 0, overRew);
+    checkBadges(overRew);
+    saveProg();
+    if (overRew.length) setTimeout(() => Sound.reward(), 900);   // after the final whistle
+  }
+  renderRewards(); renderPill();
+}
+// things done outside a match's numbers: an emote sent, a result card shared
+function recordEvent(kind) {
+  if (kind === 'emote' && mode === 'duo') return;
+  const rew = [];
+  prog.life[kind === 'emote' ? 'emotes' : 'shares']++;
+  advance(q => q.ev === kind, rew);
+  checkBadges(rew);
+  saveProg(); renderPill();
+  if (!rew.length) return;
+  Sound.reward();
+  toast(rew.map(r => r.text).join('  ·  '), 3000);
+  if (state === 'over') { overRew.push(...rew); renderRewards(); }
+  if (goalsOpen) renderGoals();
+}
+function renderRewards() {
+  const el = $('overRewards');
+  el.textContent = '';
+  el.hidden = mode === 'duo';
+  if (el.hidden) return;
+  const qs = overRew.filter(r => r.k === 'q'), bs = overRew.filter(r => r.k === 'b');
+  const list = [
+    ...(qs.length > 1 ? [{ k: 'q', text: `✓ ${qs.length} görev tamam · +${qs.reduce((n, r) => n + r.s, 0)}⭐` }] : qs),
+    ...overRew.filter(r => r.k === 'a'),
+    ...(bs.length > 2 ? [{ k: 'b', text: `🏅 ${bs.length} yeni rozet: ${bs.map(r => r.icon).join(' ')}`, title: bs.map(r => r.text).join(', ') }] : bs),
+  ];
+  if (!list.length) list.push({ k: '', text: `🎯 Günün görevleri ${prog.done.filter(Boolean).length}/3 · ⭐ ${prog.stars}` });
+  list.forEach((r, i) => {
+    const c = document.createElement('span');
+    c.className = 'rw ' + r.k; c.textContent = r.text; c.style.animationDelay = (.9 + i * .15) + 's';
+    if (r.title) c.title = r.title;
+    el.appendChild(c);
+  });
+}
+function renderPill() {
+  rollDay();
+  const n = prog.done.filter(Boolean).length;
+  $('goalsCount').textContent = `${n}/3`; $('starCount').textContent = prog.stars;
+  $('goalsBtn').classList.toggle('done', n === 3);
+  $('goalsBtn').setAttribute('aria-label', `Günlük görevler: ${n}/3 tamam, ${prog.stars} yıldız. Rozetler.`);
+}
+function renderGoals() {
+  renderPill();
+  const now = new Date(), mid = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+  const left = Math.max(1, Math.round((mid - now) / 60000)), h = Math.floor(left / 60), mm = left % 60;
+  const streak = currentStreak();
+  $('questMeta').innerHTML = `⭐ <b>${prog.stars}</b> yıldız · 🔥 Seri <b>${streak}</b> gün`
+    + (streak < prog.best ? ` (en iyi ${prog.best})` : '') + ` · Yeni görevler ${h ? h + ' sa ' : ''}${mm} dk sonra`;
+  const list = $('questList');
+  list.textContent = '';
+  todayQuests().forEach((q, i) => {
+    const li = document.createElement('li'), done = prog.done[i], p = prog.q[i];
+    li.className = 'quest' + (done ? ' done' : '');
+    const stars = document.createElement('span'); stars.className = 'qstars'; stars.textContent = '⭐'.repeat(i + 1);
+    stars.setAttribute('aria-label', `${i + 1} yıldız`);
+    const text = document.createElement('span'); text.className = 'qtext'; text.textContent = q.t;
+    if (q.need && !settings[q.need] && !done) { const sm = document.createElement('small'); sm.textContent = QUEST_NEED[q.need]; text.appendChild(sm); }
+    const bar = document.createElement('span'); bar.className = 'qbar'; bar.innerHTML = '<i></i>';
+    bar.firstChild.style.setProperty('--w', Math.round(p / q.n * 100) + '%');
+    const num = document.createElement('span'); num.className = 'qnum'; num.textContent = done ? '✓' : `${p}/${q.n}`;
+    li.append(stars, text, bar, num);
+    list.appendChild(li);
+  });
+  const grid = $('badgeGrid');
+  grid.textContent = '';
+  let got = 0;
+  for (const b of BADGES) {
+    const tier = prog.badges[b.id] || 0, one = b.at.length === 1;
+    if (tier) got++;
+    const el = document.createElement('button');
+    el.type = 'button'; el.className = `badge t${one && tier ? 3 : tier}`; el.dataset.b = b.id; el.setAttribute('aria-pressed', 'false');
+    const v = Math.floor(b.v(prog.life, prog)), next = b.at[tier];
+    el.innerHTML = '<span class="bi" aria-hidden="true"></span><span class="bn"></span><span class="bt"></span>';
+    el.children[0].textContent = b.i; el.children[1].textContent = b.t;
+    el.children[2].textContent = b.id === 'cpu' ? (tier ? ROMAN[tier] : '—') : next ? `${tier ? ROMAN[tier] + ' · ' : ''}${Math.min(v, next)}/${next}` : one ? '✓' : ROMAN[tier];
+    grid.appendChild(el);
+  }
+  $('badgeCount').textContent = `${got}/${BADGES.length}`;
+  $('tabQuests').setAttribute('aria-selected', String(goalsTab === 'quests'));
+  $('tabBadges').setAttribute('aria-selected', String(goalsTab === 'badges'));
+  $('panelQuests').hidden = goalsTab !== 'quests'; $('panelBadges').hidden = goalsTab !== 'badges';
+}
+function badgeInfo(id) {
+  const b = BADGES.find(x => x.id === id);
+  if (!b) return;
+  const tier = prog.badges[b.id] || 0, v = Math.floor(b.v(prog.life, prog)), next = b.at[tier];
+  for (const el of $('badgeGrid').children) el.setAttribute('aria-pressed', String(el.dataset.b === id));
+  const name = `<b>${b.i} ${b.t}${tier && b.at.length > 1 ? ' ' + ROMAN[tier] : ''}</b>`;
+  $('badgeInfo').innerHTML = next == null ? `${name} · tamamlandı: ${b.d(b.at[b.at.length - 1])}.`
+    : `${name} · ${tier ? 'sıradaki' : 'kazanmak için'}${b.at.length > 1 ? ` (${ROMAN[tier + 1]})` : ''}: ${b.d(next)}` + (b.id === 'cpu' || next === 1 ? '.' : ` · şu an ${v}/${next}.`);
+}
+function openGoals(tab) {
+  goalsOpen = true; goalsTab = tab || goalsTab;
+  renderGoals(); setUI();
+  $(goalsTab === 'badges' ? 'tabBadges' : 'tabQuests').focus({ preventScroll: true });
+}
+function closeGoals() { goalsOpen = false; setUI(); }
+$('goalsBtn').addEventListener('click', () => { Sound.unlock(); openGoals('quests'); });
+$('overRewards').addEventListener('click', () => openGoals(overRew.some(r => r.k === 'b') ? 'badges' : 'quests'));
+$('goalsClose').addEventListener('click', closeGoals);
+$('tabQuests').addEventListener('click', () => { goalsTab = 'quests'; renderGoals(); });
+$('tabBadges').addEventListener('click', () => { goalsTab = 'badges'; renderGoals(); });
+$('badgeGrid').addEventListener('click', e => { const b = e.target.closest('.badge'); if (b) badgeInfo(b.dataset.b); });
 
 /* ——— Settings ——— */
 const STORE = 'cep-langirti';
@@ -2231,6 +2567,7 @@ $('againBtn').addEventListener('click', () => { if (net.role === 'guest') { net.
 $('menuBtn').addEventListener('click', attract);
 $('shareBtn').addEventListener('click', shareCard);
 $('cardClose').addEventListener('click', closeCardView);
+$('cardDl').addEventListener('click', countShare);
 $('soundBtn').addEventListener('click', () => { settings.sound = !settings.sound; saveSettings(); setUI(); if (settings.sound) Sound.unlock(); });
 $('emoteBtn').addEventListener('click', () => {
   settings.emotes = !settings.emotes;
@@ -2491,8 +2828,8 @@ function guestEvent(e) {
     case 'sup': shake(7); if (!reduceMotion) flashT = .22; break;
     case 'end':
       // the host's numbers for the share card (an older host sends none: then the card leaves them out)
-      Object.assign(stats, e.st ? { dur: e.st.d | 0, goals: (e.st.g || []).map(v => ({ s: v & 1, o: v >> 1 & 1, u: v >> 2 & 1 })), saves: e.st.sv || [0, 0] }
-        : { dur: 0, goals: [], saves: [0, 0] });
+      Object.assign(stats, e.st ? { dur: e.st.d | 0, goals: (e.st.g || []).map(v => ({ s: v & 1, o: v >> 1 & 1, u: v >> 2 & 1 })), saves: e.st.sv || [0, 0],
+        giants: e.st.gi || [0, 0], bigSaves: e.st.bs || [0, 0] } : { dur: 0, goals: [], saves: [0, 0], giants: [0, 0], bigSaves: [0, 0] });
       showResult(e.w); break;
   }
 }
@@ -2547,7 +2884,8 @@ function loop(now) {
 function boot(data) {
   data = data || {};
   loadSettings(data.settings);
-  syncForm(); layout(); attract();
+  loadProg();
+  syncForm(); layout(); attract(); renderPill();
   if (data.match && Array.isArray(data.match.score)) {
     startMatch(data.match.mode === 'duo' ? 'duo' : 'cpu');
     score[BLUE] = data.match.score[0] | 0; score[RED] = data.match.score[1] | 0;
@@ -2558,7 +2896,7 @@ function boot(data) {
 }
 
 // handle for experimenting from the console
-window.langirt = { teams, rods, ball, score, settings, update, startMatch, attract, net, hostTable, joinTable, sendEmote, EMOTES, stats, card, cardStory, drawCard, get state() { return state; }, get mode() { return mode; }, get me() { return me; } };
+window.langirt = { teams, rods, ball, score, settings, update, startMatch, attract, net, hostTable, joinTable, sendEmote, EMOTES, stats, card, cardStory, drawCard, recordMatch, todayQuests, QUESTS, BADGES, get prog() { return prog; }, get state() { return state; }, get mode() { return mode; }, get me() { return me; } };
 
 const hot = window.claude && window.claude.hot;
 if (hot && typeof hot.snapshot === 'function') {

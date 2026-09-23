@@ -109,6 +109,43 @@ Maç bitince sonuç ekranındaki **Paylaş** tuşu, maçın görselini telefonun
 - **Neden yalnızca görsel:** Yanına yazı eklenince bazı uygulamalar (Instagram gibi) paylaşım menüsünde görünmüyor. Oyunun adresi görselin üstünde yazılı.
 - Görsel maç biter bitmez hazırlanır; bu yüzden tuşa basınca paylaşım menüsü hemen açılır.
 
+### Günlük görevler ve rozetler
+
+Ana menüdeki **🎯 0/3 · ⭐ 0** düğmesi görevler ve rozetler ekranını açar. Maç sonu ekranında da o maçta tamamlanan görevler ve kazanılan rozetler görünür; onlara dokununca aynı ekran açılır.
+
+- **Günlük görevler:** Her gün üç görev gelir: bir kolay (1⭐), bir orta (2⭐), bir zor (3⭐). Görevler tarihe göre seçilir, yani aynı gün herkes aynı görevleri alır; arkadaşınla yarışabilirsin. Gece yarısı yenilenir.
+  - Kolay: bir maç bitir, bir maç kazan, 3 gol at, kalecinle 3 kurtarış yap, rakibine 3 ifade gönder.
+  - Orta: 2 maç kazan, 8 gol at, süper şutla gol at, dev kaleciyi 2 kez kullan, Kulüp ya da Usta bilgisayarı yen, bir maçta üst üste 3 gol at, bir sonuç kartı paylaş.
+  - Zor: gol yemeden bir maç kazan, Usta bilgisayarı yen, 2 gol geriden gelip kazan, bir maçta 2 süper gol at, bir maçta 3 kurtarış yap, 7 gollük bir maç kazan.
+- **Günün bütün görevleri:** Üçü de bitince +2⭐ bonus gelir ve günlük seri 🔥 bir gün uzar. Bir gün atlanırsa seri sıfırlanır; en iyi seri saklanır.
+- **Rozetler:** 15 rozet var. Çoğu üç seviyelidir: bronz (I), gümüş (II), altın (III). Bir rozete dokununca nasıl kazanıldığı ve ne kadar kaldığı görünür.
+
+  | Rozet | I / II / III |
+  | --- | --- |
+  | 🏆 Galip | 1 / 10 / 50 maç kazan |
+  | ⚽ Golcü | 10 / 100 / 500 gol at |
+  | ⚡ Süper yıldız | 1 / 10 / 50 süper gol at |
+  | 🧤 Eldiven | 10 / 50 / 200 kurtarış yap |
+  | 🧱 Kale duvarı | Gol yemeden 1 / 5 / 25 maç kazan |
+  | 🔄 Geri dönüş | 2 gol geriden gelip 1 / 5 / 20 maç kazan |
+  | 🔥 Seri | Bir maçta üst üste 3 / 5 / 7 gol at |
+  | 🤖 Makineyi yen | Acemi / Kulüp / Usta bilgisayarı yen |
+  | 🌐 Online savaşçı | Online 1 / 10 / 50 maç kazan |
+  | 🛡️ Dev duvar | Dev kaleciyle 1 / 5 / 20 süper şut durdur |
+  | 😂 Psikolojik harp | 10 / 100 / 500 ifade gönder |
+  | 📣 Viral | 1 / 10 / 50 sonuç kartı paylaş |
+  | 🎯 Görev avcısı | 5 / 50 / 200 günlük görev tamamla |
+  | 🗓️ Sadık oyuncu | 3 / 7 / 30 gün üst üste bütün görevleri bitir |
+  | 💎 Kusursuz | 7 gollük maçı gol yemeden kazan (tek seviye) |
+
+- **Ne sayılır:**
+  - Bilgisayara karşı ve online maçlar, maç bitince kendi tarafından sayılır; online'da iki telefon da kendi ilerlemesini tutar. Yarıda bırakılan maç sayılmaz.
+  - 2 kişilik maçlar sayılmaz; tek başına iki tarafı oynayıp görev toplamak çok kolay olurdu.
+  - Kendi kalesine atılan gol, golü kazanan tarafa "gol" olarak yazılmaz.
+  - Kurtarış: kaleye 1,8 m/s'den hızlı gelen bir şutu kalecinin durdurması. Bilgisayarlar arası denemelerde bir maçta genelde 0–3 kurtarış oluyor; görev hedefleri buna göre seçildi.
+  - İfade ve paylaşım görevleri anında ilerler. Paylaşım, paylaşım menüsünden bir uygulamaya gönderince ya da **İndir**'e basınca sayılır; her maçın kartı bir kez sayılır.
+- **Saklama:** İlerleme o tarayıcıda saklanır (`localStorage`). Safari'de açılan oyun ile ana ekrana eklenen oyunun depoları ayrıdır; hep aynı yerden oyna. Tarayıcı verileri silinirse ilerleme de silinir.
+
 ### 2 kişi (aynı telefon)
 
 Telefonu yatay olarak ikinizin arasına koyun. Mavi oyuncu sol uçta, kırmızı oyuncu sağ uçta oturur; herkesin kalesi kendi tarafındadır.
