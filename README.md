@@ -15,6 +15,7 @@ Telefonda oynanan langırt (kicker) oyunu. Tek bir `index.html` dosyasından olu
 | Ayağın kenarıyla vurmak | Ayak yuvarlak olduğu için top açılı seker. |
 | Arka | Top aktif çubuğun hemen arkasında (1,2–6 cm) kaldıysa ŞUT'a bas: adamlar öne doğru tam tur döner, ayak topun arkasına iner ve topu ileri sürer. |
 | **SÜPER** (ŞUT'un üstünde) | Göstergen dolunca süper şutu hazırlar; bir sonraki vuruşun süper şut olur (aşağıya bak). |
+| **DEV** (ŞUT'un altında) | Kendi göstergesi dolunca kalecin 6 saniyeliğine dev olur (aşağıya bak). |
 
 ### Aktif çubuk
 
@@ -59,6 +60,20 @@ Menüdeki **Süper şut** anahtarıyla kapatılabilir; açık gelir ve seçimin 
 
 Simülasyonda gösterge 40 saniyede dolarken gollerin yaklaşık %30'u süper şuttan geldi. 22 saniyelik dolumla bu oran yarıyı geçiyordu ve oyun göstergeye bağlı kalıyordu.
 
+### Dev kaleci
+
+Süper şuttan ayrı, ikinci bir güçtür ve kendi göstergesi vardır. Gösterge top oyundayken 55 saniyede dolar; gol yiyen takıma %20 ek dolum verir.
+
+- **Kullanma:** Gösterge dolunca **DEV** tuşu turkuaz parlar ve tabelada takımın yanındaki kalkan yanar. Basınca kaleci hemen büyür; hazırlama adımı yoktur.
+- **Etkisi:** Kaleci 6 saniye boyunca çubuk boyunca yaklaşık 2,4 kat, derinlikte biraz genişler; etrafında turkuaz bir hale belirir. Bu sürede tuşun halkası kalan süreyi gösterir. Süre bitince kaleci küçülür ve gösterge yeniden dolmaya başlar.
+- **Sınırları:** Kalecinin yine topla hizalanması gerekir; yalnızca kalenin çok daha büyük kısmını kapatır, bu yüzden kenara kaçan şutlar girebilir. Süper şutu durdurabilir; bu yüzden süper şutun doğal karşılığıdır.
+- **Tuşların yeri:** Tek kişilik modda DEV tuşu, sol başparmak ▲▼'dan kalkmasın diye sağda ŞUT'un altında; SÜPER üstünde. İki kişilik modda her oyuncunun sütununun altında SÜPER ve DEV yan yana durur.
+- **Bilgisayar:** Aynı göstergeyle oynar ve dev kalecisini senin süperin hazırken, top senin forvetindeyken ya da kalesine sert bir şut gelirken kullanır.
+
+Menüdeki **Dev kaleci** anahtarıyla kapatılabilir; açık gelir ve seçimin hatırlanır.
+
+Simülasyonda dev kaleci açıkken toplam gol yaklaşık %19, süper gol yaklaşık üçte bir azaldı. İlk denenen ayarda (7 saniye, 45 saniyede dolum) goller %35 azalıyordu; bu yüzden süre kısaltıldı, dolum yavaşlatıldı.
+
 ### 2 kişi (aynı telefon)
 
 Telefonu yatay olarak ikinizin arasına koyun. Mavi oyuncu sol uçta, kırmızı oyuncu sağ uçta oturur; herkesin kalesi kendi tarafındadır.
@@ -69,9 +84,9 @@ Telefonu yatay olarak ikinizin arasına koyun. Mavi oyuncu sol uçta, kırmızı
 - İki taraf da "topa en yakın çubuk" kuralıyla oynar; her takımın aktif çubuğu kendi renginde parlar.
 - Otomatik kaleci açıksa iki takıma birden uygulanır.
 
-Klavyeyle 2 kişi oynamak için mavi `W S` ve `Boşluk` (ya da `F`), kırmızı `↑ ↓` ve `Enter` (ya da `L`) tuşlarını kullanır. Süper şut mavi için `E`, kırmızı için `O` ya da sağ `Shift`.
+Klavyeyle 2 kişi oynamak için mavi `W S` ve `Boşluk` (ya da `F`), kırmızı `↑ ↓` ve `Enter` (ya da `L`) tuşlarını kullanır. Süper şut mavi için `E`, kırmızı için `O` ya da sağ `Shift`; dev kaleci mavi için `R`, kırmızı için `I` ya da sağ `Ctrl`.
 
-Bilgisayara karşı modda klavyeyle de oynanır: `↑ ↓` ya da `W S` aktif çubuğu kaydırır, `Boşluk` şut çeker, `E` ya da `Q` süper şutu hazırlar. İki modda da `P` ya da `Esc` molaya alır.
+Bilgisayara karşı modda klavyeyle de oynanır: `↑ ↓` ya da `W S` aktif çubuğu kaydırır, `Boşluk` şut çeker, `E` ya da `Q` süper şutu hazırlar, `R` dev kaleciyi açar. İki modda da `P` ya da `Esc` molaya alır.
 
 Oyun yatay ekran için tasarlandı. Telefon dik tutulursa sahne kendiliğinden 90° döner; telefonu yan çevirmen yeterli.
 

@@ -79,27 +79,35 @@ button:focus-visible,.seg input:focus-visible+label{outline:2px solid var(--bras
 #stage.duo .pad .dir{height:calc(var(--cs) * .8);border-color:var(--edge)}
 #stage.duo .pad .dir.on{background:radial-gradient(circle at 50% 50%,var(--edge-deep),#1a120c 80%);color:#fff}
 #stage.duo .shoot,#stage:not(.duo) .pad.red{display:none}
-/* süper şut: the ring fills with the meter, glows when ready, burns when armed */
-.skill{display:grid;place-items:center;padding:0;border-radius:50%;cursor:pointer;
+/* powers: the ring fills with the meter, glows when ready, burns while loaded or running.
+   süper şut is orange, dev kaleci teal */
+.skill{--sk:#f08a2c;--sk-hi:#ffe1b0;--sk-edge:#ffd08a;--sk-a:rgba(240,138,44,.55);--sk-b:rgba(240,138,44,.9);--sk-f1:#ffc070;--sk-f2:#b4501a;
+  display:grid;place-items:center;padding:0;border-radius:50%;cursor:pointer;
   background:radial-gradient(circle at 40% 35%,#2e2219,#140e0a 70%);border:2px solid rgba(242,233,216,.16);
   color:rgba(242,233,216,.45);font:900 calc(var(--cs) * .17)/1 var(--display);letter-spacing:.08em;text-transform:uppercase;transition:scale .06s}
+.skill.giant{--sk:#3cc6a6;--sk-hi:#c8fff1;--sk-edge:#a8f5e2;--sk-a:rgba(60,198,166,.5);--sk-b:rgba(60,198,166,.9);--sk-f1:#8ff0d6;--sk-f2:#177a64}
 .skill span{display:block;rotate:var(--turn,0deg)}
 .skill::before{content:"";position:absolute;inset:-6px;border-radius:50%;pointer-events:none;
-  background:conic-gradient(#f08a2c calc(var(--m,0) * 1turn),rgba(242,233,216,.08) 0);
+  background:conic-gradient(var(--sk) calc(var(--m,0) * 1turn),rgba(242,233,216,.08) 0);
   -webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 4px),#000 calc(100% - 3px));
           mask:radial-gradient(farthest-side,transparent calc(100% - 4px),#000 calc(100% - 3px))}
-.skill.ready{color:#ffe1b0;border-color:#f08a2c;box-shadow:0 0 16px rgba(240,138,44,.55);animation:superPulse 1.1s ease-in-out infinite}
-.skill.armed{color:#1b0d04;border-color:#ffd08a;background:radial-gradient(circle at 50% 45%,#ffc070,#b4501a 75%);box-shadow:0 0 22px rgba(240,138,44,.8)}
+.skill.ready{color:var(--sk-hi);border-color:var(--sk);box-shadow:0 0 16px var(--sk-a);animation:superPulse 1.1s ease-in-out infinite}
+.skill.armed{color:#10100c;border-color:var(--sk-edge);background:radial-gradient(circle at 50% 45%,var(--sk-f1),var(--sk-f2) 75%);box-shadow:0 0 22px var(--sk-b)}
 .skill.on{scale:.94}
-@keyframes superPulse{50%{box-shadow:0 0 28px rgba(240,138,44,.9)}}
+@keyframes superPulse{50%{box-shadow:0 0 28px var(--sk-b)}}
 .shoot.armed,.pad .mini.armed{box-shadow:0 0 0 3px #f08a2c,0 0 26px rgba(240,138,44,.75)}
 .skill.solo{right:calc(var(--sr) + 14px + var(--cs) * .25);top:calc(58% - var(--cs) * .97 - 12px);translate:0 -50%;width:calc(var(--cs) * .72);height:calc(var(--cs) * .72)}
-.pad .skill{display:none;position:relative;align-self:center;width:calc(var(--cs) * .62);height:calc(var(--cs) * .62);font-size:calc(var(--cs) * .15)}
-#stage.duo .pad .skill{display:grid}
-#stage.duo .skill.solo,#stage.nosuper .skill,#stage.nosuper .bolt{display:none!important}
+.skill.solo.giant{top:calc(58% + var(--cs) * .97 + 12px)}
+.pad .skills{display:none;align-self:center;gap:8px;margin-inline:calc(var(--cs) * -.05 - 4px)}
+#stage.duo .pad .skills{display:flex}
+.pad .skill{position:relative;width:calc(var(--cs) * .55);height:calc(var(--cs) * .55);font-size:calc(var(--cs) * .13)}
+#stage.duo .skill.solo,#stage.nosuper .skill:not(.giant),#stage.nosuper .bolt,#stage.nogiant .skill.giant,#stage.nogiant .shield{display:none!important}
 .bolt{width:12px;height:12px;color:rgba(242,233,216,.2);transition:color .2s}
 .bolt.ready{color:#f08a2c}
 .bolt.armed{color:#ffd08a;filter:drop-shadow(0 0 4px #f08a2c)}
+.shield{width:12px;height:12px;color:rgba(242,233,216,.2);transition:color .2s}
+.shield.ready{color:#3cc6a6}
+.shield.armed{color:#c8fff1;filter:drop-shadow(0 0 4px #3cc6a6)}
 .switches{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px}
 #pauseBtn{top:calc(var(--st) + 8px);right:calc(var(--sr) + 12px);width:40px;height:40px;border-radius:50%;background:var(--glass);border:1px solid var(--chalk-3);display:grid;place-items:center;cursor:pointer;padding:0}
 #pauseBtn svg{width:18px;height:18px}
@@ -188,7 +196,7 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
   .cta{padding:12px 16px;font-size:20px}
   .kb{display:none}
   .sw-text small{display:none}
-  h1{font-size:15cqh}
+  h1{font-size:14cqh}
   .how{gap:4px}
   .card{padding:16px;gap:8px}
 }
@@ -208,25 +216,26 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
   <canvas id="game" aria-label="Langırt masası"></canvas>
 
   <div id="hud" aria-live="polite">
-    <div class="team b"><span class="tag" id="tagB">Sen</span><svg class="bolt" id="boltB" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7z" fill="currentColor"/></svg><span class="beads" id="beadsB"></span><span class="num" id="numB">0</span></div>
+    <div class="team b"><span class="tag" id="tagB">Sen</span><svg class="bolt" id="boltB" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7z" fill="currentColor"/></svg><svg class="shield" id="shieldB" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 4 5v6c0 5 3.4 9.3 8 11 4.6-1.7 8-6 8-11V5z" fill="currentColor"/></svg><span class="beads" id="beadsB"></span><span class="num" id="numB">0</span></div>
     <span class="colon">:</span>
-    <div class="team r"><span class="num" id="numR">0</span><span class="beads" id="beadsR"></span><svg class="bolt" id="boltR" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7z" fill="currentColor"/></svg><span class="tag" id="tagR">CPU</span></div>
+    <div class="team r"><span class="num" id="numR">0</span><span class="beads" id="beadsR"></span><svg class="shield" id="shieldR" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 4 5v6c0 5 3.4 9.3 8 11 4.6-1.7 8-6 8-11V5z" fill="currentColor"/></svg><svg class="bolt" id="boltR" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7z" fill="currentColor"/></svg><span class="tag" id="tagR">CPU</span></div>
   </div>
 
   <div class="ctl pad blue">
     <button class="key dir" data-key="b-up" aria-label="Mavi: çubuğu yukarı kaydır"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 16l8-8 8 8" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     <button class="key mini" data-key="b-shoot" aria-label="Mavi: şut"><span>Şut</span></button>
     <button class="key dir" data-key="b-down" aria-label="Mavi: çubuğu aşağı kaydır"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8l8 8 8-8" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-    <button class="key skill" data-key="b-skill" aria-label="Mavi: süper şut"><span>Süper</span></button>
+    <div class="skills"><button class="key skill" data-key="b-skill" aria-label="Mavi: süper şut"><span>Süper</span></button><button class="key skill giant" data-key="b-giant" aria-label="Mavi: dev kaleci"><span>Dev</span></button></div>
   </div>
   <div class="ctl pad red">
     <button class="key dir" data-key="r-up" aria-label="Kırmızı: çubuğu yukarı kaydır"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 16l8-8 8 8" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     <button class="key mini" data-key="r-shoot" aria-label="Kırmızı: şut"><span>Şut</span></button>
     <button class="key dir" data-key="r-down" aria-label="Kırmızı: çubuğu aşağı kaydır"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8l8 8 8-8" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-    <button class="key skill" data-key="r-skill" aria-label="Kırmızı: süper şut"><span>Süper</span></button>
+    <div class="skills"><button class="key skill giant" data-key="r-giant" aria-label="Kırmızı: dev kaleci"><span>Dev</span></button><button class="key skill" data-key="r-skill" aria-label="Kırmızı: süper şut"><span>Süper</span></button></div>
   </div>
   <button class="ctl key shoot" data-key="b-shoot" aria-label="Şut">Şut</button>
   <button class="ctl key skill solo" data-key="b-skill" aria-label="Süper şut"><span>Süper</span></button>
+  <button class="ctl key skill solo giant" data-key="b-giant" aria-label="Dev kaleci"><span>Dev</span></button>
   <button class="ctl" id="pauseBtn" aria-label="Mola"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1.5" fill="currentColor"/><rect x="14" y="5" width="4" height="14" rx="1.5" fill="currentColor"/></svg></button>
 
   <div id="banner"><h2 id="bannerTitle">Gol!</h2><p id="bannerSub"></p></div>
@@ -242,7 +251,7 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
           <li><b>Şut</b><span>Dokun: hızlı vuruş. Basılı tut: güç topla, bırak.</span></li>
           <li><b>Açı</b><span>Ayağın kenarıyla vur ya da vururken çubuğu kaydır.</span></li>
           <li><b>Arka</b><span>Top adamın hemen arkasındaysa ŞUT: tam tur dönüp ileri vurur.</span></li>
-          <li><b>Süper</b><span>Halka dolunca SÜPER'e bas: sonraki şutun çok hızlı gider, kaleci dışında kimse durduramaz.</span></li>
+          <li><b>Güçler</b><span>Halkası dolunca SÜPER: sonraki şutun kaleci dışında kimseye takılmaz. DEV: kalecin 6 sn dev olur.</span></li>
           <li><b>2 kişi</b><span>Mavi sol uçtaki, kırmızı sağ uçtaki tuşlarla oynar.</span></li>
         </ul>
       </div>
@@ -279,12 +288,17 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
           <span class="sw" aria-hidden="true"></span>
           <span class="sw-text">Süper şut<small>Dolan göstergeyle, kaleci dışında kimsenin durduramadığı hızlı şut</small></span>
         </label>
+        <label class="switch" for="giantGoalie">
+          <input type="checkbox" id="giantGoalie" name="giantGoalie">
+          <span class="sw" aria-hidden="true"></span>
+          <span class="sw-text">Dev kaleci<small>Kendi göstergesi dolunca kaleci 6 saniye dev olur</small></span>
+        </label>
         </div>
         <div class="starts">
           <button class="cta" type="submit" id="startBtn">Bilgisayara karşı</button>
           <button class="cta alt" type="button" id="duoBtn">2 kişi</button>
         </div>
-        <p class="kb">Klavye: ↑ ↓ / W S · Boşluk = şut · E = süper · P = mola. 2 kişi: mavi W S Boşluk E, kırmızı ↑ ↓ Enter O</p>
+        <p class="kb">Klavye: ↑ ↓ / W S · Boşluk = şut · E = süper · R = dev · P = mola. 2 kişi: mavi W S Boşluk E R, kırmızı ↑ ↓ Enter O I</p>
       </form>
     </div>
   </section>
@@ -378,6 +392,11 @@ const KEEPER = { react: .25, speed: .45, near: .65, far: .25, reach: GH - 26 };
 // kick flies about half again as fast without skidding and passes straight through the opponent's
 // outfield figures; only the goalie can still stop it.
 const SUPER = { fill: 1 / 40, concede: .3, speed: 3800, vmax: 4200, time: 1.6, minSpeed: 1500 };
+// Dev kaleci: a second, slower meter. Used, it makes the goalie about 2.4 times as wide for 6 seconds.
+// It still has to be lined up, it just covers far more of the goal, and it can stop a super shot.
+const GIANT = { fill: 1 / 55, concede: .2, time: 6, grow: 1.4, rate: 5 };
+const footW = rod => FW * (1 + GIANT.grow * rod.big);
+const footT = rod => FT * (1 + .3 * rod.big);
 
 /* ——— Helpers ——— */
 const clamp = (v, a, b) => v < a ? a : v > b ? b : v;
@@ -406,6 +425,7 @@ function makeTeam(id) {
     keeper: false,                                        // goalie follows the ball on its own
     together: false, u: 0, du: 0,                         // all rods on one hand: shared share of travel
     skill: 0, armed: false,                               // süper şut meter (0–1) and whether it is loaded
+    giant: 0, giantT: 0,                                  // dev kaleci meter (0–1) and seconds left while it runs
     k: { phase: 'idle', th: 0, w: 0, charge: 0, wMax: W_MIN },
     pressQ: false, releaseQ: false, ai: null,
     aiS: { noise: 0, noiseT: 0, aimY: CY, aimOn: false, kickT: -1, holdT: -1, holdDur: 0, cool: 0, heel: false },
@@ -417,6 +437,7 @@ const rods = ROD_SPEC.map(([team, n, s, half], i) => ({
   i, x: ROD_X[i], team, n, s, half, offs: Array.from({ length: n }, (_, j) => (j - (n - 1) / 2) * s),
   p: 0, v: 0, auto: 0,                          // slide offset and speed (mm), self-driven speed factor
   th: 0, w: 0, sync: true, lift: false, liftT: 0, prevColl: true,
+  big: 0,                                       // goalie growth, 0 normal … 1 dev kaleci
 }));
 for (const t of teams) t.rods = rods.filter(r => r.team === t.id);
 const figY = (rod, j) => CY + rod.offs[j] + rod.p;
@@ -457,7 +478,7 @@ let mode = 'cpu';                   // cpu: you against the computer · duo: two
 const NAMES = { cpu: ['Sen', 'CPU'], duo: ['Mavi', 'Kırmızı'] };
 let paused = false;
 const score = [0, 0];
-const settings = { level: 'kulup', target: 5, sound: true, autoKeeper: true, activeRod: true, superShot: true };
+const settings = { level: 'kulup', target: 5, sound: true, autoKeeper: true, activeRod: true, superShot: true, giantGoalie: true };
 let simT = 0, acc = 0, timers = [], lastServer = BLUE;
 const hist = [];
 const particles = [];
@@ -512,6 +533,8 @@ const Sound = {
   },
   serve() { if (!this.ok('serve', .3)) return; [0, .07, .13].forEach(w => this.tone(520, 400, .04, .12, 'triangle', w)); },
   arm() { if (!this.ok('arm', .2)) return; this.tone(440, 880, .16, .18, 'triangle'); this.tone(660, 1320, .16, .1, 'sine', .07); },
+  grow() { if (!this.ok('grow', .3)) return; this.tone(180, 520, .35, .35, 'triangle'); this.tone(90, 260, .35, .3); },
+  shrink() { if (!this.ok('shrink', .3)) return; this.tone(420, 150, .28, .18, 'triangle'); },
   superShot() { if (!this.ok('super', .3)) return; this.tone(130, 40, .45, .9); this.noise(700, .6, .45, .55); this.tone(1600, 300, .35, .12, 'sawtooth'); },
   fanfare(good) {
     if (!this.ok('fanfare', 1, true)) return;
@@ -678,8 +701,8 @@ function autoLift(t, dt) {
 }
 
 /* ——— Ball physics ——— */
-function collideFoot(fx, fy, fvx, fvy, landing) {
-  const hx = FT - CR, hy = FW - CR, m = R + CR;
+function collideFoot(fx, fy, fvx, fvy, landing, fw = FW, ft = FT) {
+  const hx = ft - CR, hy = fw - CR, m = R + CR;
   const dx = ball.x - fx, dy = ball.y - fy;
   if (Math.abs(dx) > hx + m || Math.abs(dy) > hy + m) return 0;
   const qx = clamp(dx, -hx, hx), qy = clamp(dy, -hy, hy);
@@ -779,7 +802,8 @@ function stepBall(h) {
   // figures
   for (const rod of rods) {
     const dx = ball.x - rod.x;
-    if (dx > LC + FT + R + 6 || dx < -(LC + FT + R + 6)) continue;
+    const fw = footW(rod), ft = footT(rod);
+    if (dx > LC + ft + R + 6 || dx < -(LC + ft + R + 6)) continue;
     const t = teams[rod.team];
     if (ball.superT > 0 && rod.team !== ball.superTeam && rod.n !== 1) continue;   // a super shot goes straight through
     if (Math.abs(rod.th) >= THETA_C) continue;   // feet raised: the ball rolls underneath
@@ -788,8 +812,8 @@ function stepBall(h) {
     const fx = rod.x + t.dir * LC * sn, fvx = t.dir * LC * cs * rod.w, fvy = rod.v;
     for (let j = 0; j < rod.n; j++) {
       const fy = figY(rod, j);
-      if (Math.abs(ball.y - fy) > FW + R + 2) continue;
-      const jn = collideFoot(fx, fy, fvx, fvy, landing);
+      if (Math.abs(ball.y - fy) > fw + R + 2) continue;
+      const jn = collideFoot(fx, fy, fvx, fvy, landing, fw, ft);
       if (jn > 0) {
         if (ball.superT > 0 && rod.team !== ball.superTeam) ball.superT = 0;   // the goalie stopped it
         contact(t, jn, fvx);
@@ -859,6 +883,7 @@ function scoreGoal(scorer, side) {
   const superGoal = ball.superT > 0 && ball.superTeam === scorer;
   ball.superT = 0;
   if (settings.superShot) teams[1 - scorer].skill = Math.min(1, teams[1 - scorer].skill + SUPER.concede);
+  if (settings.giantGoalie && teams[1 - scorer].giantT <= 0) teams[1 - scorer].giant = Math.min(1, teams[1 - scorer].giant + GIANT.concede);
   const sub = `${NAMES[mode][BLUE]} ${score[BLUE]} – ${score[RED]} ${NAMES[mode][RED]}`;
   banner(own ? 'Kendi kalesine!' : superGoal ? 'Süper gol!' : 'Gol!', sub, PAL[scorer].hi);
   vibrate(mode === 'duo' ? 60 : scorer === BLUE ? [30, 40, 60] : 80);
@@ -930,6 +955,12 @@ function aiUpdate(t, dt) {
   } else if (S.holdT >= 0) { S.holdT -= dt; if (S.holdT < 0) { t.releaseQ = true; S.cool = L.cool; } }
 
   if (!b.live) { t.desired = 0; return; }
+  if (settings.giantGoalie && state === 'play' && t.giant >= 1 && t.giantT <= 0) {
+    const opp = teams[1 - t.id], oppFwd = opp.rods.find(r => r.n === 3);
+    const fo = (b.x - oppFwd.x) * opp.dir;
+    const shotComing = b.vx * t.dir < -700 && (t.dir > 0 ? b.x : W - b.x) < 500;
+    if (opp.armed || (fo > -12 && fo < 80) || shotComing) startGiant(t);   // their forwards have it, or a shot is on its way
+  }
   updateActive(t, b, dt);
   const rod = t.active;
   S.noiseT -= dt;
@@ -980,7 +1011,7 @@ function aiUpdate(t, dt) {
 
 /* ——— Input ———
    Keys are "<team>-<action>": b- for blue (left end), r- for red (right end). */
-const inputs = [{ up: false, down: false, shoot: false, skill: false }, { up: false, down: false, shoot: false, skill: false }];
+const inputs = [{ up: false, down: false, shoot: false, skill: false, giant: false }, { up: false, down: false, shoot: false, skill: false, giant: false }];
 const kbHeld = new Set();
 const ptrKeys = new Map();
 const keyEls = {};
@@ -991,8 +1022,9 @@ function syncInput() {
   for (const k of ptrKeys.values()) held.add(k);
   for (const t of teams) {
     const pre = t.id === BLUE ? 'b-' : 'r-', inp = inputs[t.id];
-    const now = { up: held.has(pre + 'up'), down: held.has(pre + 'down'), shoot: held.has(pre + 'shoot'), skill: held.has(pre + 'skill') };
+    const now = { up: held.has(pre + 'up'), down: held.has(pre + 'down'), shoot: held.has(pre + 'shoot'), skill: held.has(pre + 'skill'), giant: held.has(pre + 'giant') };
     if (now.skill && !inp.skill) trySkill(t);
+    if (now.giant && !inp.giant) tryGiant(t);
     if (now.shoot !== inp.shoot && state === 'play' && !paused && !t.ai) {
       if (now.shoot) t.pressQ = true; else t.releaseQ = true;
     }
@@ -1002,9 +1034,19 @@ function syncInput() {
 }
 function clearInput() {
   ptrKeys.clear(); kbHeld.clear();
-  for (const inp of inputs) inp.up = inp.down = inp.shoot = inp.skill = false;
+  for (const inp of inputs) inp.up = inp.down = inp.shoot = inp.skill = inp.giant = false;
   for (const k in keyEls) for (const el of keyEls[k]) el.classList.remove('on');
   for (const t of teams) if (!t.ai && t.k.phase === 'windup') t.k.phase = 'recover';
+}
+function startGiant(t) {
+  t.giant = 0; t.giantT = GIANT.time;
+  Sound.grow();
+  if (!t.ai) vibrate(25);
+}
+function tryGiant(t) {
+  if (!settings.giantGoalie || state !== 'play' || paused || t.ai || t.giantT > 0) return;
+  if (t.giant >= 1) startGiant(t);
+  else Sound.tock(.15);                                       // not charged yet
 }
 function trySkill(t) {
   if (!settings.superShot || state !== 'play' || paused || t.ai || t.armed) return;
@@ -1038,9 +1080,9 @@ window.addEventListener('pointercancel', endPtr);
 stage.addEventListener('contextmenu', e => e.preventDefault());
 
 const KEYMAP = {
-  cpu: { ArrowUp: 'b-up', KeyW: 'b-up', ArrowDown: 'b-down', KeyS: 'b-down', Space: 'b-shoot', KeyK: 'b-shoot', KeyJ: 'b-shoot', KeyE: 'b-skill', KeyQ: 'b-skill' },
+  cpu: { ArrowUp: 'b-up', KeyW: 'b-up', ArrowDown: 'b-down', KeyS: 'b-down', Space: 'b-shoot', KeyK: 'b-shoot', KeyJ: 'b-shoot', KeyE: 'b-skill', KeyQ: 'b-skill', KeyR: 'b-giant' },
   duo: { KeyW: 'b-up', KeyS: 'b-down', Space: 'b-shoot', KeyF: 'b-shoot',
-         ArrowUp: 'r-up', ArrowDown: 'r-down', Enter: 'r-shoot', NumpadEnter: 'r-shoot', KeyL: 'r-shoot', KeyE: 'b-skill', KeyO: 'r-skill', ShiftRight: 'r-skill' },
+         ArrowUp: 'r-up', ArrowDown: 'r-down', Enter: 'r-shoot', NumpadEnter: 'r-shoot', KeyL: 'r-shoot', KeyE: 'b-skill', KeyO: 'r-skill', ShiftRight: 'r-skill', KeyR: 'b-giant', KeyI: 'r-giant', ControlRight: 'r-giant' },
 };
 window.addEventListener('keydown', e => {
   if (e.code === 'KeyP' || e.code === 'Escape') {
@@ -1075,7 +1117,15 @@ function update(dt) {
   while (acc >= STEP && n < 40) { step(STEP); acc -= STEP; n++; }
   if (n >= 40) acc = 0;
 
-  if (state === 'play' && settings.superShot && ball.live) for (const t of teams) t.skill = Math.min(1, t.skill + SUPER.fill * dt);
+  if (state === 'play' && ball.live) for (const t of teams) {
+    if (settings.superShot) t.skill = Math.min(1, t.skill + SUPER.fill * dt);
+    if (settings.giantGoalie && t.giantT <= 0) t.giant = Math.min(1, t.giant + GIANT.fill * dt);
+  }
+  for (const t of teams) {
+    if (t.giantT > 0) { t.giantT -= dt; if (t.giantT <= 0) { t.giantT = 0; Sound.shrink(); } }
+    const g = t.rods.find(r => r.n === 1);
+    g.big = approach(g.big, t.giantT > 0 ? 1 : 0, GIANT.rate * dt);   // grows and shrinks over a fifth of a second
+  }
   if (ball.superT > 0) { ball.superT -= dt; if (!ball.live || Math.hypot(ball.vx, ball.vy) < SUPER.minSpeed) ball.superT = 0; }
   if (flashT > 0) flashT -= dt;
   hist.push({ t: simT, x: ball.x, y: ball.y, vx: ball.vx, vy: ball.vy, live: ball.live });
@@ -1340,22 +1390,23 @@ function drawBall() {
   ctx.beginPath(); ctx.ellipse(x - r * .34, y - r * .4, r * .22, r * .13, -.6, 0, Math.PI * 2); ctx.fill();
   ctx.globalAlpha = 1;
 }
-function drawFigure(x, y, th, dir, p) {
-  const s = Math.sin(th), as = Math.abs(s);
+function drawFigure(x, y, th, dir, p, k = 1) {
+  // k > 1: dev kaleci, much wider along the rod and a little deeper
+  const s = Math.sin(th), as = Math.abs(s), kx = 1 + (k - 1) * .22;
   const X = t => x + dir * t * s;
   if (as > .12) {                                   // legs and boot show once the figure swings
     const x1 = X(18), x2 = X(LC), lx = Math.min(x1, x2) - 4, lw = Math.abs(x2 - x1) + 8;
     ctx.fillStyle = p.dark;
-    rr(ctx, lx, y - 11, lw, 9, 4); ctx.fill();
-    rr(ctx, lx, y + 2, lw, 9, 4); ctx.fill();
-    rr(ctx, x2 - FT, y - FW, FT * 2, FW * 2, CR); ctx.fill();
+    rr(ctx, lx, y - 11 * k, lw, 9 * k, 4); ctx.fill();
+    rr(ctx, lx, y + 2 * k, lw, 9 * k, 4); ctx.fill();
+    rr(ctx, x2 - FT * kx, y - FW * k, FT * 2 * kx, FW * 2 * k, CR); ctx.fill();
   }
-  const tx = X(6), tw = 9 + 17 * as;
-  ctx.fillStyle = p.shirt; rr(ctx, tx - tw, y - 16, tw * 2, 32, 8); ctx.fill();
-  ctx.fillStyle = 'rgba(255,255,255,.16)'; rr(ctx, tx - tw + 2, y - 14, tw * 2 - 4, 9, 5); ctx.fill();
-  const hx = X(-26);
-  ctx.fillStyle = p.light; ctx.beginPath(); ctx.arc(hx, y, 8.5, 0, Math.PI * 2); ctx.fill();
-  ctx.fillStyle = 'rgba(255,255,255,.35)'; ctx.beginPath(); ctx.arc(hx - 2.5, y - 3, 3, 0, Math.PI * 2); ctx.fill();
+  const tx = X(6), tw = (9 + 17 * as) * kx;
+  ctx.fillStyle = p.shirt; rr(ctx, tx - tw, y - 16 * k, tw * 2, 32 * k, 8); ctx.fill();
+  ctx.fillStyle = 'rgba(255,255,255,.16)'; rr(ctx, tx - tw + 2, y - 14 * k, tw * 2 - 4, 9 * k, 5); ctx.fill();
+  const hx = X(-26), hr = 8.5 * (1 + (k - 1) * .45);
+  ctx.fillStyle = p.light; ctx.beginPath(); ctx.arc(hx, y, hr, 0, Math.PI * 2); ctx.fill();
+  ctx.fillStyle = 'rgba(255,255,255,.35)'; ctx.beginPath(); ctx.arc(hx - hr * .3, y - hr * .35, hr * .35, 0, Math.PI * 2); ctx.fill();
 }
 function render() {
   ctx.setTransform(1, 0, 0, 1, 0, 0);
@@ -1378,7 +1429,7 @@ function render() {
   for (const rod of rods) {
     const t = teams[rod.team], s = Math.abs(Math.sin(rod.th)), cx = rod.x + t.dir * LC * .55 * Math.sin(rod.th);
     for (let j = 0; j < rod.n; j++) {
-      ctx.beginPath(); ctx.ellipse(cx + 6, figY(rod, j) + 8, 13 + 26 * s, 17, 0, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath(); ctx.ellipse(cx + 6, figY(rod, j) + 8, 13 + 26 * s, 17 * (1 + GIANT.grow * rod.big), 0, 0, Math.PI * 2); ctx.fill();
     }
   }
   for (const rod of rods) {
@@ -1394,7 +1445,11 @@ function render() {
     for (let j = 0; j < rod.n; j++) {
       const y = figY(rod, j);
       if (ghost) ctx.globalAlpha = Math.abs(ball.x - rod.x) < 70 && Math.abs(ball.y - y) < 60 ? .35 : .75;
-      drawFigure(rod.x, y, rod.th, t.dir, PAL[rod.team]);
+      if (rod.big > 0) {                             // a teal halo marks the dev kaleci
+        ctx.fillStyle = `rgba(60,198,166,${(.28 * rod.big).toFixed(3)})`;
+        ctx.beginPath(); ctx.ellipse(rod.x, y, 26, footW(rod) + 12, 0, 0, Math.PI * 2); ctx.fill();
+      }
+      drawFigure(rod.x, y, rod.th, t.dir, PAL[rod.team], 1 + GIANT.grow * rod.big);
     }
     ctx.globalAlpha = 1;
   }
@@ -1443,7 +1498,7 @@ function setUI() {
   $('keeperBtn').textContent = settings.autoKeeper ? 'Oto kaleci: açık' : 'Oto kaleci: kapalı';
   $('keeperBtn').disabled = !settings.activeRod;
 }
-const lastP = [-1, -1], lastS = ['', ''];
+const lastP = [-1, -1], lastS = ['', ''], lastG = ['', ''];
 function syncShootRing() {
   for (const t of teams) {
     const k = t.k, pre = t.id === BLUE ? 'b-' : 'r-';
@@ -1451,6 +1506,16 @@ function syncShootRing() {
     if (p !== lastP[t.id]) {
       for (const el of keyEls[pre + 'shoot']) el.style.setProperty('--p', p);
       lastP[t.id] = p;
+    }
+    // dev kaleci meter; while it runs the ring shows the seconds left
+    const gOn = t.giantT > 0, gReady = t.giant >= 1 && !gOn;
+    const gm = Math.round((gOn ? t.giantT / GIANT.time : t.giant) * 40) / 40;
+    const gk = `${gm}|${gReady}|${gOn}`;
+    if (gk !== lastG[t.id]) {
+      lastG[t.id] = gk;
+      for (const el of keyEls[pre + 'giant']) { el.style.setProperty('--m', gm); el.classList.toggle('ready', gReady); el.classList.toggle('armed', gOn); }
+      const sh = $(t.id === BLUE ? 'shieldB' : 'shieldR');
+      sh.classList.toggle('ready', gReady); sh.classList.toggle('armed', gOn);
     }
     // süper şut meter on the buttons and the score board
     const m = Math.round(t.skill * 40) / 40, ready = t.skill >= 1 && !t.armed;
@@ -1468,11 +1533,11 @@ function syncShootRing() {
 function resetTable() {
   for (const t of teams) {
     t.desired = 0; t.pressQ = t.releaseQ = false;
-    t.active = t.kickRod = t.cand = null; t.candT = 0; t.flow = 0; t.u = t.du = 0; t.skill = 0; t.armed = false;
+    t.active = t.kickRod = t.cand = null; t.candT = 0; t.flow = 0; t.u = t.du = 0; t.skill = 0; t.armed = false; t.giant = 0; t.giantT = 0;
     Object.assign(t.k, { phase: 'idle', th: 0, w: 0, charge: 0 });
     Object.assign(t.aiS, { kickT: -1, holdT: -1, cool: 0 });
   }
-  for (const rod of rods) Object.assign(rod, { p: 0, v: 0, auto: 0, th: 0, w: 0, sync: true, lift: false, liftT: 0, prevColl: true });
+  for (const rod of rods) Object.assign(rod, { big: 0, p: 0, v: 0, auto: 0, th: 0, w: 0, sync: true, lift: false, liftT: 0, prevColl: true });
   timers = []; particles.length = 0; hist.length = 0;
   ball.live = false; ball.show = false; ball.inGoal = 0; ball.trail.length = 0; ball.superT = 0; flashT = 0;
 }
@@ -1568,6 +1633,7 @@ function loadSettings(extra) {
     if (typeof src.autoKeeper === 'boolean') settings.autoKeeper = src.autoKeeper;
     if (typeof src.activeRod === 'boolean') settings.activeRod = src.activeRod;
     if (typeof src.superShot === 'boolean') settings.superShot = src.superShot;
+    if (typeof src.giantGoalie === 'boolean') settings.giantGoalie = src.giantGoalie;
   }
 }
 function saveSettings() { try { localStorage.setItem(STORE, JSON.stringify(settings)); } catch (e) { /* storage blocked */ } }
@@ -1577,6 +1643,8 @@ function syncForm() {
   $('activeRod').checked = settings.activeRod;
   $('superShot').checked = settings.superShot;
   stage.classList.toggle('nosuper', !settings.superShot);
+  $('giantGoalie').checked = settings.giantGoalie;
+  stage.classList.toggle('nogiant', !settings.giantGoalie);
   $('autoKeeper').disabled = !settings.activeRod;            // the goalie moves with your hand when all rods move together
   $('keeperSwitch').classList.toggle('off', !settings.activeRod);
   $('tg-' + settings.target).checked = true;
@@ -1587,6 +1655,7 @@ $('setup').addEventListener('change', e => {
   if (e.target.name === 'autoKeeper') settings.autoKeeper = e.target.checked;
   if (e.target.name === 'activeRod') settings.activeRod = e.target.checked;
   if (e.target.name === 'superShot') settings.superShot = e.target.checked;
+  if (e.target.name === 'giantGoalie') settings.giantGoalie = e.target.checked;
   saveSettings(); syncForm();
 });
 $('setup').addEventListener('submit', e => { e.preventDefault(); startMatch('cpu'); });
