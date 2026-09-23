@@ -8,14 +8,23 @@ Mavi takım sensin, kırmızı takımı bilgisayar oynar. Seçtiğin gol sayıs�
 
 | Kontrol | Ne yapar |
 | --- | --- |
-| **▲ / ▼** (sol başparmak) | Bütün çubuklarını birlikte yukarı / aşağı kaydırır. Parmağını kaldırmadan ▲ ile ▼ arasında kaydırabilirsin. |
-| **ŞUT** (sağ başparmak), dokun | Adamlar hızlıca döner ve topa vurur. |
+| **▲ / ▼** (sol başparmak) | Aktif çubuğu (pirinç renkte parlayan çubuk) yukarı / aşağı kaydırır. Parmağını kaldırmadan ▲ ile ▼ arasında kaydırabilirsin. |
+| **ŞUT** (sağ başparmak), dokun | Aktif çubuğun adamları hızlıca döner ve topa vurur. |
 | **ŞUT**, basılı tut | Adamlar geriye yatar ve güç toplar (tuşun çevresindeki halka dolar). Bıraktığında daha sert vurur. |
 | Vururken ▲/▼ | Kayan çubuk sürtünmeyle topa yan hız verir, top çapraz gider. |
 | Ayağın kenarıyla vurmak | Ayak yuvarlak olduğu için top açılı seker. |
 | Topuk | Top adamının arkasında kaldıysa ŞUT'a basılı tut: adam geriye yatarken topu arkaya iter. |
 
-Bilgisayarda klavyeyle de oynanır: `↑ ↓` ya da `W S` çubukları kaydırır, `Boşluk` şut çeker, `P` ya da `Esc` molaya alır.
+### Aktif çubuk
+
+Her an yalnızca bir çubuğunu kontrol edersin: topa en yakın ve topu önüne alabilecek çubuğu. Top başka bir çubuğun bölgesine geçince kontrol de kendiliğinden o çubuğa geçer. Diğer çubukların, bıraktığın yerde kalır.
+
+- Top adamlarının arkasındaysa arkadaki çubuk için ek mesafe sayılır. Bu yüzden kontrol, topu ileri vurabilecek çubukta kalır.
+- Top hızla kendi kalene geliyorsa kontrol, topun henüz geçmediği ilk çubuğa verilir.
+- Vuruş sırasında kontrol başka çubuğa geçmez.
+- Bilgisayar da aynı kuralla oynar: o da aynı anda tek çubuğunu yönetir.
+
+Bilgisayarda klavyeyle de oynanır: `↑ ↓` ya da `W S` aktif çubuğu kaydırır, `Boşluk` şut çeker, `P` ya da `Esc` molaya alır.
 
 Oyun yatay ekran için tasarlandı. Telefon dik tutulursa sahne kendiliğinden 90° döner; telefonu yan çevirmen yeterli.
 
@@ -49,7 +58,7 @@ Bütün hesaplar gerçek masa ölçüleriyle, milimetre ve saniye cinsinden yap�
 - şut gücü
 - açılı şut deneme sıklığı
 
-Rakip topu kesmek için topun yolundaki ilk çubuğunu hizalar. Top ayağının önündeyken kaleye doğru nişan alıp vurur. Arkaya düşen topu defans ya da forvetiyle topuk pasıyla kurtarır.
+Rakip, aktif çubuğunu topun o çubuğun hizasından geçeceği noktaya getirir. Top ayağının önündeyken kaleye doğru nişan alıp vurur. Arkaya düşen topu defans ya da forvetiyle topuk pasıyla kurtarır.
 
 ## Dosyalar
 
