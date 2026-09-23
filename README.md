@@ -14,6 +14,7 @@ Telefonda oynanan langırt (kicker) oyunu. Tek bir `index.html` dosyasından olu
 | Vururken ▲/▼ | Kayan çubuk sürtünmeyle topa yan hız verir, top çapraz gider. |
 | Ayağın kenarıyla vurmak | Ayak yuvarlak olduğu için top açılı seker. |
 | Topuk | Top adamının arkasında kaldıysa ŞUT'a basılı tut: adam geriye yatarken topu arkaya iter. |
+| **SÜPER** (ŞUT'un üstünde) | Göstergen dolunca süper şutu hazırlar; bir sonraki vuruşun süper şut olur (aşağıya bak). |
 
 ### Aktif çubuk
 
@@ -44,6 +45,20 @@ Kontrol başka bir çubuktayken kalecin topu kendiliğinden izler. Böylece sert
 
 Açık gelir; kapatmak için menüdeki **Otomatik kaleci** anahtarını ya da moladaki **Oto kaleci** düğmesini kullan. Yalnızca aktif çubuk açıkken çalışır. Seçimin hatırlanır. Bilgisayara karşı modda yalnızca senin takımına, 2 kişilik modda iki takıma da uygulanır.
 
+### Süper şut
+
+Her takımın bir süper şut göstergesi vardır. Gösterge top oyundayken 40 saniyede dolar; gol yiyen takımın göstergesine ayrıca %30 eklenir.
+
+- **Hazırlama:** Gösterge dolunca **SÜPER** tuşu turuncu parlar ve skor tabelasında takımın yanındaki şimşek yanar. Tuşa basınca süper şut hazırlanır: ŞUT tuşu da turuncu çerçeve alır. Dolmadan basarsan bir şey olmaz.
+- **Ateşleme:** Hazırlanan süper, bir sonraki gerçek ileri vuruşunda ateşlenir. Topuk itişi ya da yana giden vuruş onu harcamaz. Kullanınca gösterge sıfırlanır.
+- **Etkisi:** Top normal şutun yaklaşık 1,5 katı hızla (en az 3,8 m/s) kaymadan gider. Rakibin defans, orta saha ve forvet adamlarının içinden geçer; geçtiği adamlar bir anlığına soluklaşır. Turuncu iz ve parıltı bırakır, gol olursa "Süper gol!" yazar.
+- **Sınırları:** Kaleci süper şutu durdurabilir; kaleci dokunduğu an süper biter. Duvardan sekebilir. Hızı 1,5 m/s'nin altına düşünce ya da 1,6 saniye sonra normal topa döner.
+- **Bilgisayar:** Aynı göstergeyle oynar ve süperini forvetiyle vururken kullanır. İki kişilik modda iki oyuncunun da ayrı göstergesi ve SÜPER tuşu vardır.
+
+Menüdeki **Süper şut** anahtarıyla kapatılabilir; açık gelir ve seçimin hatırlanır. Kapalıyken tuşlar ve göstergeler gizlenir.
+
+Simülasyonda gösterge 40 saniyede dolarken gollerin yaklaşık %30'u süper şuttan geldi. 22 saniyelik dolumla bu oran yarıyı geçiyordu ve oyun göstergeye bağlı kalıyordu.
+
 ### 2 kişi (aynı telefon)
 
 Telefonu yatay olarak ikinizin arasına koyun. Mavi oyuncu sol uçta, kırmızı oyuncu sağ uçta oturur; herkesin kalesi kendi tarafındadır.
@@ -54,9 +69,9 @@ Telefonu yatay olarak ikinizin arasına koyun. Mavi oyuncu sol uçta, kırmızı
 - İki taraf da "topa en yakın çubuk" kuralıyla oynar; her takımın aktif çubuğu kendi renginde parlar.
 - Otomatik kaleci açıksa iki takıma birden uygulanır.
 
-Klavyeyle 2 kişi oynamak için mavi `W S` ve `Boşluk` (ya da `F`), kırmızı `↑ ↓` ve `Enter` (ya da `L`) tuşlarını kullanır.
+Klavyeyle 2 kişi oynamak için mavi `W S` ve `Boşluk` (ya da `F`), kırmızı `↑ ↓` ve `Enter` (ya da `L`) tuşlarını kullanır. Süper şut mavi için `E`, kırmızı için `O` ya da sağ `Shift`.
 
-Bilgisayara karşı modda klavyeyle de oynanır: `↑ ↓` ya da `W S` aktif çubuğu kaydırır, `Boşluk` şut çeker. İki modda da `P` ya da `Esc` molaya alır.
+Bilgisayara karşı modda klavyeyle de oynanır: `↑ ↓` ya da `W S` aktif çubuğu kaydırır, `Boşluk` şut çeker, `E` ya da `Q` süper şutu hazırlar. İki modda da `P` ya da `Esc` molaya alır.
 
 Oyun yatay ekran için tasarlandı. Telefon dik tutulursa sahne kendiliğinden 90° döner; telefonu yan çevirmen yeterli.
 
