@@ -24,6 +24,17 @@ Her an yalnızca bir çubuğunu kontrol edersin: topa en yakın ve topu önüne 
 - Vuruş sırasında kontrol başka çubuğa geçmez.
 - Bilgisayar da aynı kuralla oynar: o da aynı anda tek çubuğunu yönetir.
 
+### Otomatik kaleci
+
+Kontrol başka bir çubuktayken kalecin topu kendiliğinden izler. Böylece sert bir şutta kontrol kaleciye geçtiğinde kaleci boş kalenin kenarında beklemiyor olur. Yardım bilerek sınırlı tutuldu:
+
+- Topu 0,25 saniye gecikmeyle görür, topun gideceği yeri tahmin etmez.
+- Senin el hızının %45'iyle kayar.
+- Kale ağzının dışına çıkmaz. Topu yalnızca kısmen izler: top şut menzilindeyken yaklaşık üçte iki oranında, uzaktayken daha az. Bu yüzden köşeler açık kalır.
+- Kontrol kaleciye geçtiği anda kaleciyi yine sen oynarsın.
+
+Açık gelir; kapatmak için menüdeki **Otomatik kaleci** anahtarını ya da moladaki **Oto kaleci** düğmesini kullan. Seçimin hatırlanır. Bu yardım yalnızca senin takımına uygulanır.
+
 Bilgisayarda klavyeyle de oynanır: `↑ ↓` ya da `W S` aktif çubuğu kaydırır, `Boşluk` şut çeker, `P` ya da `Esc` molaya alır.
 
 Oyun yatay ekran için tasarlandı. Telefon dik tutulursa sahne kendiliğinden 90° döner; telefonu yan çevirmen yeterli.

@@ -99,7 +99,7 @@ h1 .rodline{position:relative}
 h1 .rodline::before{content:"";position:absolute;left:-60px;right:-14%;top:50%;height:max(6px,.085em);border-radius:99px;z-index:-1;
   background:linear-gradient(180deg,#f4f7f9,#9aa3ab 55%,#5d646b);box-shadow:0 4px 8px rgba(0,0,0,.45)}
 .how{list-style:none;margin:18px 0 0;padding:0;display:grid;gap:8px;max-width:42ch}
-.how li{display:grid;grid-template-columns:3.6em 1fr;gap:10px;align-items:baseline;color:var(--chalk-2);font-size:14px}
+.how li{display:grid;grid-template-columns:4.6em 1fr;gap:10px;align-items:baseline;color:var(--chalk-2);font-size:14px}
 .how b{font:900 16px/1 var(--display);letter-spacing:.06em;color:var(--chalk);text-transform:uppercase}
 .setup{display:grid;gap:14px;padding:18px;border-radius:18px;background:rgba(10,7,5,.6);border:1px solid var(--chalk-3);margin:0}
 fieldset{border:0;margin:0;padding:0;min-width:0}
@@ -113,6 +113,15 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
 .cta:active,.ghost:active{scale:.98}
 .ghost{appearance:none;border:1px solid var(--chalk-3);background:rgba(242,233,216,.05);color:var(--chalk);border-radius:12px;padding:12px 14px;font:600 15px/1.1 var(--ui);cursor:pointer}
 .kb{margin:0;font-size:12px;color:var(--chalk-2)}
+.switch{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:center;cursor:pointer}
+.switch input{position:absolute;opacity:0;pointer-events:none}
+.sw{position:relative;width:46px;height:26px;border-radius:99px;background:rgba(242,233,216,.14);border:1px solid var(--chalk-3);transition:background .15s}
+.sw::after{content:"";position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:var(--chalk-2);transition:translate .15s,background .15s}
+.switch input:checked+.sw{background:var(--brass);border-color:var(--brass)}
+.switch input:checked+.sw::after{translate:20px 0;background:#1b1206}
+.switch input:focus-visible+.sw{outline:2px solid var(--brass);outline-offset:3px}
+.sw-text{display:grid;gap:2px;font:600 15px/1.15 var(--ui)}
+.sw-text small{font-size:12px;font-weight:500;color:var(--chalk-2)}
 .card{width:min(460px,100%);display:grid;gap:10px;justify-items:center;text-align:center;padding:22px 22px 20px;border-radius:20px;background:rgba(10,7,5,.74);border:1px solid var(--chalk-3);box-shadow:0 20px 60px rgba(0,0,0,.5)}
 .card .eyebrow{margin:0}
 .big{margin:0;font:900 clamp(40px,15cqh,84px)/.9 var(--display);text-transform:uppercase;text-wrap:balance}
@@ -132,6 +141,7 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
   .setup{padding:14px;gap:10px}
   .seg label{padding:6px 4px;font-size:15px}
   .cta{padding:12px 16px;font-size:20px}
+  .kb{display:none}
   .card{padding:16px;gap:8px}
 }
 @container (max-width:600px){
@@ -193,6 +203,11 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
             <input type="radio" name="target" id="tg-7" value="7"><label for="tg-7">7 gol</label>
           </div>
         </fieldset>
+        <label class="switch" for="autoKeeper">
+          <input type="checkbox" id="autoKeeper" name="autoKeeper">
+          <span class="sw" aria-hidden="true"></span>
+          <span class="sw-text">Otomatik kaleci<small>Kontrol başka çubuktayken kalecin topu yavaşça izler</small></span>
+        </label>
         <button class="cta" type="submit" id="startBtn">Maça başla</button>
         <p class="kb">Klavye: ↑ ↓ ya da W S · Boşluk = şut · P = mola</p>
       </form>
@@ -207,8 +222,9 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
       <div class="stack">
         <button class="cta" id="resumeBtn">Devam et</button>
         <button class="ghost" id="soundBtn">Ses: açık</button>
+        <button class="ghost" id="keeperBtn">Oto kaleci: açık</button>
         <button class="ghost" id="restartBtn">Baştan başlat</button>
-        <button class="ghost" id="quitBtn" style="grid-column:1/-1">Menüye dön</button>
+        <button class="ghost" id="quitBtn">Menüye dön</button>
       </div>
     </div>
   </section>
@@ -276,6 +292,10 @@ const LEVELS = {
   usta: { react: .09, speed: 1, noise: 6, anticip: 1, kickDelay: [0, .06], charge: [.45, 1], aim: .95, cool: .25 },
 };
 const LEVEL_NAME = { acemi: 'Acemi', kulup: 'Kulüp', usta: 'Usta' };
+// Automatic goalie (a help for the player, can be switched off): it sees the ball late, moves at half
+// hand speed, never predicts, stays inside the goal mouth and only partly follows the ball, so the
+// corners stay beatable. It follows more once the ball is in shooting range.
+const KEEPER = { react: .25, speed: .45, near: .65, far: .25, reach: GH - 26 };
 
 /* ——— Helpers ——— */
 const clamp = (v, a, b) => v < a ? a : v > b ? b : v;
@@ -300,6 +320,7 @@ function makeTeam(id) {
   return {
     id, dir: id === BLUE ? 1 : -1, desired: 0, speedMul: 1,
     active: null, kickRod: null, cand: null, candT: 0,   // the rod under the player's hand
+    keeper: false,                                        // goalie follows the ball on its own
     k: { phase: 'idle', th: 0, w: 0, charge: 0, wMax: W_MIN },
     pressQ: false, releaseQ: false, ai: null,
     aiS: { noise: 0, noiseT: 0, aimY: CY, aimOn: false, kickT: -1, holdT: -1, holdDur: 0, cool: 0, heel: false },
@@ -309,7 +330,7 @@ const teams = [makeTeam(BLUE), makeTeam(RED)];
 // each rod follows its team's kick, except while it is lifted to let a ball through
 const rods = ROD_SPEC.map(([team, n, s, half], i) => ({
   i, x: ROD_X[i], team, n, s, half, offs: Array.from({ length: n }, (_, j) => (j - (n - 1) / 2) * s),
-  p: 0, v: 0,                                   // slide offset and speed, mm
+  p: 0, v: 0, auto: 0,                          // slide offset and speed (mm), self-driven speed factor
   th: 0, w: 0, sync: true, lift: false, liftT: 0, prevColl: true,
 }));
 for (const t of teams) t.rods = rods.filter(r => r.team === t.id);
@@ -328,7 +349,7 @@ const ball = { x: 600, y: CY, vx: 0, vy: 0, rx: 0, ry: 0, live: false, show: fal
 let state = 'menu';                 // menu | play | over
 let paused = false;
 const score = [0, 0];
-const settings = { level: 'kulup', target: 5, sound: true };
+const settings = { level: 'kulup', target: 5, sound: true, autoKeeper: true };
 let simT = 0, acc = 0, timers = [], lastServer = BLUE;
 const hist = [];
 const particles = [];
@@ -391,7 +412,7 @@ const Sound = {
 /* ——— Rods: only the active rod slides with the controls, the others stay where they were left ——— */
 function stepRods(t, h) {
   for (const rod of t.rods) {
-    const target = rod === t.active ? clamp(t.desired, -1, 1) * VROD * t.speedMul : 0;
+    const target = rod === t.active ? clamp(t.desired, -1, 1) * VROD * t.speedMul : (rod.auto || 0) * VROD;
     const speeding = Math.abs(target) > Math.abs(rod.v) && (rod.v === 0 || Math.sign(target) === Math.sign(rod.v));
     rod.v = approach(rod.v, target, (speeding ? ROD_ACC : ROD_DEC) * h);
     let p = rod.p + rod.v * h;
@@ -421,6 +442,20 @@ function updateActive(t, b, dt) {
   if (c !== t.cand) { t.cand = c; t.candT = 0; }
   t.candT += dt;
   if (t.candT >= .06) { t.active = t.kickRod = c; t.candT = 0; }
+}
+function autoKeeper(t) {
+  const g = t.rods.find(r => r.n === 1);
+  g.auto = 0;
+  if (!t.keeper || g === t.active) return;
+  const b = perceive(KEEPER.react);
+  let tp = 0;
+  if (b.live) {
+    const d = t.dir > 0 ? b.x : W - b.x;                         // distance from our goal line
+    const follow = KEEPER.near + (KEEPER.far - KEEPER.near) * clamp((d - 450) / 450, 0, 1);
+    tp = clamp((b.y - CY) * follow, -KEEPER.reach, KEEPER.reach);
+  }
+  const e = tp - g.p;
+  if (Math.abs(e) > 2) g.auto = clamp(e / 30, -1, 1) * KEEPER.speed;
 }
 
 function stepKick(t, h) {
@@ -839,7 +874,7 @@ function update(dt) {
     updateActive(bt, ball, dt);
     bt.desired = (input.down ? 1 : 0) - (input.up ? 1 : 0); bt.speedMul = 1;
   }
-  for (const t of teams) { if (t.ai) aiUpdate(t, dt); autoLift(t, dt); }
+  for (const t of teams) { if (t.ai) aiUpdate(t, dt); autoKeeper(t); autoLift(t, dt); }
 
   acc += dt;
   let n = 0;
@@ -1185,6 +1220,7 @@ function setUI() {
   stage.classList.toggle('match', state === 'play');
   stage.classList.toggle('playing', state === 'play' && !paused);
   $('soundBtn').textContent = settings.sound ? 'Ses: açık' : 'Ses: kapalı';
+  $('keeperBtn').textContent = settings.autoKeeper ? 'Oto kaleci: açık' : 'Oto kaleci: kapalı';
 }
 let lastP = -1;
 function syncShootRing() {
@@ -1201,13 +1237,14 @@ function resetTable() {
     Object.assign(t.k, { phase: 'idle', th: 0, w: 0, charge: 0 });
     Object.assign(t.aiS, { kickT: -1, holdT: -1, cool: 0 });
   }
-  for (const rod of rods) Object.assign(rod, { p: 0, v: 0, th: 0, w: 0, sync: true, lift: false, liftT: 0, prevColl: true });
+  for (const rod of rods) Object.assign(rod, { p: 0, v: 0, auto: 0, th: 0, w: 0, sync: true, lift: false, liftT: 0, prevColl: true });
   timers = []; particles.length = 0; hist.length = 0;
   ball.live = false; ball.show = false; ball.inGoal = 0; ball.trail.length = 0;
 }
 function attract() {
   state = 'menu'; paused = false;
   teams[BLUE].ai = LEVELS.kulup; teams[RED].ai = LEVELS.kulup;
+  teams[BLUE].keeper = teams[RED].keeper = false;
   resetTable(); clearInput();
   queueServe(Math.random() < .5 ? BLUE : RED, .6);
   setUI();
@@ -1216,6 +1253,7 @@ function startMatch() {
   score[BLUE] = score[RED] = 0;
   state = 'play'; paused = false;
   teams[BLUE].ai = null; teams[RED].ai = LEVELS[settings.level];
+  teams[BLUE].keeper = settings.autoKeeper; teams[RED].keeper = false;
   resetTable(); clearInput(); renderHud();
   const first = Math.random() < .5 ? BLUE : RED;
   queueServe(first, .9);
@@ -1230,7 +1268,7 @@ function endMatch(winner) {
   $('overEyebrow').textContent = `Maç bitti · ${LEVEL_NAME[settings.level]} rakip`;
   $('overTitle').textContent = won ? 'Kazandın' : 'Kaybettin';
   $('finB').textContent = score[BLUE]; $('finR').textContent = score[RED];
-  teams[BLUE].ai = LEVELS.kulup;
+  teams[BLUE].ai = LEVELS.kulup; teams[BLUE].keeper = false;
   queueServe(Math.random() < .5 ? BLUE : RED, 1);
   setUI();
 }
@@ -1269,16 +1307,19 @@ function loadSettings(extra) {
     if (LEVELS[src.level]) settings.level = src.level;
     if ([3, 5, 7].includes(src.target)) settings.target = src.target;
     if (typeof src.sound === 'boolean') settings.sound = src.sound;
+    if (typeof src.autoKeeper === 'boolean') settings.autoKeeper = src.autoKeeper;
   }
 }
 function saveSettings() { try { localStorage.setItem(STORE, JSON.stringify(settings)); } catch (e) { /* storage blocked */ } }
 function syncForm() {
   $('lv-' + settings.level).checked = true;
+  $('autoKeeper').checked = settings.autoKeeper;
   $('tg-' + settings.target).checked = true;
 }
 $('setup').addEventListener('change', e => {
   if (e.target.name === 'level') settings.level = e.target.value;
   if (e.target.name === 'target') settings.target = +e.target.value;
+  if (e.target.name === 'autoKeeper') settings.autoKeeper = e.target.checked;
   saveSettings();
 });
 $('setup').addEventListener('submit', e => { e.preventDefault(); startMatch(); });
@@ -1289,6 +1330,11 @@ $('quitBtn').addEventListener('click', attract);
 $('againBtn').addEventListener('click', startMatch);
 $('menuBtn').addEventListener('click', attract);
 $('soundBtn').addEventListener('click', () => { settings.sound = !settings.sound; saveSettings(); setUI(); if (settings.sound) Sound.unlock(); });
+$('keeperBtn').addEventListener('click', () => {
+  settings.autoKeeper = !settings.autoKeeper;
+  if (state === 'play') teams[BLUE].keeper = settings.autoKeeper;
+  saveSettings(); syncForm(); setUI();
+});
 
 /* ——— Loop & boot ——— */
 let lastT = performance.now();
