@@ -573,6 +573,112 @@ button:focus-visible,.seg input:focus-visible+label{outline:2px solid var(--bras
   .fmopt b i{font-size:10.5px}
 }
 
+/* ——— private leagues ——— */
+.lgpill{padding-inline:10px;gap:5px}
+.lgpill .lgpt{font:700 13px/1 var(--ui);letter-spacing:.02em}
+.card.lgcard{width:min(900px,100%);justify-items:stretch;text-align:left;gap:9px;max-height:100%;min-height:0;grid-template-rows:auto minmax(0,1fr) auto}
+.lghead{min-width:0}
+.lghead .ttitle{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lgview{display:grid;gap:9px;min-width:0;min-height:0;align-content:start}
+#lgDetail{grid-template-rows:auto minmax(0,1fr) auto}
+.lgrows{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px;max-height:46cqh;overflow:auto;touch-action:pan-y}
+.lgrows:empty{display:none}
+.lgrow{appearance:none;display:grid;gap:4px;text-align:left;min-width:0;padding:10px 12px;border-radius:12px;border:1px solid var(--chalk-3);background:rgba(242,233,216,.05);color:var(--chalk);cursor:pointer}
+.lgrow b{font:900 19px/1.1 var(--display);letter-spacing:.03em;text-transform:uppercase;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lgrow span{font-size:12.5px;color:var(--chalk-2)}
+.lgrow i{font-style:normal;font-size:12.5px;font-weight:700;color:var(--brass)}
+.lgrow:hover,.lgrow:focus-visible{border-color:var(--brass);background:rgba(214,165,72,.1)}
+.lgempty{margin:0;font-size:14px;line-height:1.4;color:var(--chalk-2)}
+.lgfoot{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
+.lgjoin{display:flex;gap:8px;flex:1 1 280px;min-width:0}
+.lgjoin input,.lgname input,.lgtok input{flex:1;min-width:0;padding:10px 12px;border-radius:10px;border:1px solid var(--chalk-3);background:rgba(10,7,5,.6);color:var(--chalk);font:600 15px/1.1 var(--ui);-webkit-user-select:text;user-select:text;touch-action:manipulation}
+.lgjoin input:focus,.lgname input:focus,.lgtok input:focus{outline:none;border-color:var(--brass)}
+.lgfoot .cta,.lgonline .cta{font-size:17px;padding:11px 16px}
+.lgname{display:grid;gap:5px}
+.lgbar{display:flex;align-items:center;gap:8px;justify-content:space-between;flex-wrap:wrap}
+.lginv{padding:8px 12px}
+.lgpanel{min-height:0;overflow:auto;touch-action:pan-y;display:grid;gap:7px;align-content:start;padding-right:2px}
+.lgtab{width:100%;border-collapse:collapse;font:600 14px/1.2 var(--ui);font-variant-numeric:tabular-nums}
+.lgtab th{font:700 10.5px/1 var(--ui);letter-spacing:.12em;text-transform:uppercase;color:var(--chalk-2);text-align:center;padding:4px 6px}
+.lgtab td{padding:6px;text-align:center;border-top:1px solid rgba(242,233,216,.08)}
+.lgtab .nm{text-align:left;width:100%;max-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lgtab .nm small{color:var(--brass);font-weight:600}
+.lgtab tr.me td{color:#ffe1a8;background:rgba(214,165,72,.1)}
+.lgtab tr.gone td{opacity:.5}
+.lgtab td.p{font:900 16px/1 var(--display);color:var(--brass)}
+.lgchamp{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:12px;border:1px solid #e2b457;background:radial-gradient(circle at 20% 50%,rgba(226,180,87,.28),rgba(226,180,87,.05))}
+.lgchamp span{font-size:26px}
+.lgchamp b{font:900 20px/1 var(--display);letter-spacing:.03em;text-transform:uppercase;color:#ffe1a8}
+.lgchamp small{flex:1;font-size:12px;color:var(--chalk-2)}
+.lgwait{display:grid;gap:6px;justify-items:start;padding:12px;border-radius:12px;border:1px dashed var(--chalk-3)}
+.lgwait b{font:900 18px/1.1 var(--display);letter-spacing:.03em;text-transform:uppercase}
+.lgwait span{font-size:13px;color:var(--chalk-2)}
+.lgwait .cta{font-size:17px;padding:10px 16px}
+.lgbracket{min-height:150px}
+.lgbracket .brow{padding:3px 8px}
+.lgbracket .bm{min-height:0}
+.lgonline{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:8px 10px;border-radius:12px;border:1px solid rgba(214,165,72,.45);background:rgba(214,165,72,.08)}
+.lgonline p{margin:0;flex:1 1 240px;display:grid;gap:2px}
+.lgonline b{font:700 14px/1.1 var(--ui)}
+.lgonline span{font-size:12px;color:var(--chalk-2)}
+.lgonline .ghost{padding:10px 12px}
+.lgpanel .tlab{margin:4px 0 0}
+.lggame,.lgres{display:flex;align-items:center;gap:8px;min-width:0;padding:5px 6px 5px 10px;border-radius:10px;border:1px solid var(--chalk-3);background:rgba(242,233,216,.04)}
+.lggame.you{border-color:rgba(214,165,72,.5)}
+.lggame .vs,.lgres span{flex:1;min-width:0;font:600 14px/1.2 var(--ui);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lgres b{font:900 16px/1 var(--display);color:var(--brass);margin:0 4px}
+.lggame small,.lgres small{font-size:12px;color:var(--chalk-2);white-space:nowrap}
+.lggame .ghost{padding:7px 10px;font-size:13px}
+.ghost.sm{padding:5px 9px;font-size:12px;border-radius:9px}
+.lginvite{display:flex;flex-wrap:wrap;align-items:end;gap:10px}
+.lgcode{display:grid;gap:4px}
+.lgcode b{font:900 28px/1 var(--display);letter-spacing:.16em;color:var(--brass)}
+.lgtok{display:grid;gap:4px;flex:1 1 200px;min-width:0}
+.lgtok input{font-size:12px;padding:8px 10px;color:var(--chalk-2)}
+.lginvite .cta{font-size:16px;padding:10px 14px}
+.lgmembers{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:6px}
+.lgmembers li{display:flex;align-items:center;gap:8px;min-width:0;padding:6px 6px 6px 10px;border-radius:10px;border:1px solid var(--chalk-3);background:rgba(242,233,216,.04)}
+.lgmembers li b{font:700 14px/1.1 var(--ui);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.lgmembers li small{flex:1;font-size:11.5px;color:var(--chalk-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lgmembers li.me b{color:#ffe1a8}
+.lgmembers li.gone{opacity:.5}
+.lghist{margin-top:2px}
+.lgsync{margin:0;font-size:11.5px;color:var(--chalk-2)}
+.lgsync:empty{display:none}
+.lgmsg{margin:0;font-size:13px;color:var(--chalk-2)}
+.lgmsg.err{color:#ff9c8a}
+@container (max-height:460px){
+  .card.lgcard{gap:6px;padding-block:11px}
+  #lgDetail ~ .lgmsg:empty{display:none}
+  .lgcard:has(#lgDetail:not([hidden])) .eyebrow{display:none}
+  .lgbracket .brow{padding:2px 7px}
+  .lgbracket .bn{font-size:11.5px}
+  .lgbracket .bs{font-size:13px}
+  .lgcard .ttitle{font-size:26px}
+  .lgcard .tmeta{margin-top:1px;font-size:12px}
+  .lgview{gap:7px}
+  .lgrow{padding:7px 10px;gap:2px}
+  .lgrow b{font-size:17px}
+  .lgempty{font-size:13px}
+  .lgfoot .cta,.lgonline .cta{font-size:15px;padding:9px 12px}
+  .lgjoin input,.lgname input{padding:8px 10px}
+  .lgtab td{padding:4px 6px}
+  .lgonline{padding:6px 8px}
+  .lgonline span{display:none}
+  .lggame,.lgres{padding-block:3px}
+  .lgcode b{font-size:22px}
+}
+@container (max-height:360px){
+  .lgcard .eyebrow{display:none}
+  .lgcard .ttitle{font-size:22px}
+  .lgbar .gtabs [role=tab]{padding:6px 9px}
+}
+@container (max-width:999px){ .lgpill .lgpt{display:none} .lgpill{padding-inline:9px} }
+@container (max-width:640px){
+  .lgrows{grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}
+  .lggame .ghost{font-size:12px;padding:6px 8px}
+}
+
 /* ——— store ——— */
 .rw.t{border-color:#3cc6a6;background:rgba(60,198,166,.16)}
 .storepill{position:relative}
@@ -791,7 +897,7 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
   .how .tip-emo{display:none}             /* the 💬 button explains itself on the smallest screens */
   .pquick{display:none}                   /* the other tabs say the same */
 }
-@container (max-width:700px){
+@container (max-width:780px){
   .profchip .pn{display:none}                    /* avatar and level only: the pills need the room */
 }
 @container (max-width:700px) and (max-height:460px){   /* a small phone on its side: the two columns get tall */
@@ -852,7 +958,7 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
   <section class="overlay" id="menu">
     <div class="menu">
       <div class="brand">
-        <div class="brandtop"><button type="button" class="profchip" id="profBtn"><span class="pa" id="profAv" aria-hidden="true">⚽</span><span class="pn" id="profName">Oyuncu</span><span class="plv" id="profLv">Sv 1</span></button><span class="pills"><button type="button" class="goalspill cuppill teampill" id="teamBtn" aria-label="Takımım"><span id="teamCrest">🛡️</span></button><button type="button" class="goalspill cuppill" id="cupBtn" aria-label="Haftalık kupa ve liderlik tablosu">🏆</button><button type="button" class="goalspill cuppill storepill" id="storeBtn" aria-label="Mağaza">🛒<span class="sdot" id="storeDot" hidden></span></button><button type="button" class="goalspill" id="goalsBtn">🎯 <span id="goalsCount">0/3</span><span class="sep" aria-hidden="true">·</span>⭐ <span id="starCount">0</span></button></span></div>
+        <div class="brandtop"><button type="button" class="profchip" id="profBtn"><span class="pa" id="profAv" aria-hidden="true">⚽</span><span class="pn" id="profName">Oyuncu</span><span class="plv" id="profLv">Sv 1</span></button><span class="pills"><button type="button" class="goalspill cuppill teampill" id="teamBtn" aria-label="Takımım"><span id="teamCrest">🛡️</span></button><button type="button" class="goalspill lgpill" id="lgBtn" aria-label="Özel ligler"><span aria-hidden="true">👥</span><span class="lgpt">Lig</span></button><button type="button" class="goalspill cuppill" id="cupBtn" aria-label="Haftalık kupa ve liderlik tablosu">🏆</button><button type="button" class="goalspill cuppill storepill" id="storeBtn" aria-label="Mağaza">🛒<span class="sdot" id="storeDot" hidden></span></button><button type="button" class="goalspill" id="goalsBtn">🎯 <span id="goalsCount">0/3</span><span class="sep" aria-hidden="true">·</span>⭐ <span id="starCount">0</span></button></span></div>
         <h1><span class="cep">Cep</span><span class="rodline">Langırtı</span></h1>
         <ul class="how">
           <li><b>▲ ▼</b><span>Parlayan çubuğu kaydırır (aktif çubuk kapalıysa hepsini).</span></li>
@@ -959,12 +1065,52 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
         <span class="tlab">Oyuncular</span>
         <div class="tplayers" id="tourNames"></div>
         <p class="gnote" id="tourNote"></p>
-        <div class="tbtns"><button type="button" class="ghost" id="tourAdd">+ Oyuncu ekle</button><button type="button" class="cta" id="tourStart">Kura çek ve başla</button></div>
+        <div class="tbtns"><button type="button" class="ghost" id="tourLg" aria-label="Özel lig: arkadaşlarla her biri kendi telefonundan">👥 Özel lig</button><button type="button" class="ghost" id="tourAdd">+ Oyuncu ekle</button><button type="button" class="cta" id="tourStart">Kura çek ve başla</button></div>
       </div>
       <div class="tbracket" id="tourBracket" hidden>
         <div class="bracket2" id="bracket"></div>
         <div class="tfoot"><p class="tnext" id="tourNext"></p><button type="button" class="ghost" id="tourNew">Yeni turnuva</button><button type="button" class="cta" id="tourGo">Maça başla</button></div>
       </div>
+    </div>
+  </section>
+
+  <section class="overlay" id="league" hidden>
+    <div class="card lgcard">
+      <div class="thead">
+        <div class="lghead"><p class="eyebrow" id="lgEyebrow">Arkadaşlar · iş yeri</p><h2 class="ttitle" id="lgTitle">Özel ligler</h2><p class="tmeta" id="lgMeta"></p></div>
+        <button type="button" class="gclose" id="lgClose" aria-label="Kapat"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button>
+      </div>
+      <div class="lgview" id="lgList">
+        <div class="lgrows" id="lgRows"></div>
+        <p class="lgempty" id="lgEmpty">Arkadaşlarınla ya da iş yerinde uzun soluklu bir lig ya da kupa kur. Herkes kendi telefonundan katılır; maçlar online ya da aynı telefonda oynanır, tablo kendiliğinden işler.</p>
+        <div class="lgfoot">
+          <form class="lgjoin" id="lgJoinForm"><input id="lgJoinIn" placeholder="Lig kodu ya da davet" aria-label="Lig kodu ya da davet" autocomplete="off" autocapitalize="characters" autocorrect="off" spellcheck="false" enterkeyhint="go"><button type="submit" class="ghost">Katıl</button></form>
+          <button type="button" class="cta" id="lgNewBtn">+ Yeni lig kur</button>
+        </div>
+      </div>
+      <form class="lgview" id="lgNew" hidden>
+        <label class="lgname"><span class="tlab">Lig adı</span><input id="lgNameIn" maxlength="24" autocomplete="off" spellcheck="false" enterkeyhint="done"></label>
+        <div class="topts">
+          <div class="topt"><span class="tlab">Biçim</span><div class="tseg" id="lgFmt" role="group" aria-label="Biçim"><button type="button" data-v="lig">Lig</button><button type="button" data-v="kupa">Kupa (eleme)</button></div></div>
+          <div class="topt" id="lgLegsOpt"><span class="tlab">Devre</span><div class="tseg" id="lgLegs" role="group" aria-label="Devre"><button type="button" data-v="1">Tek</button><button type="button" data-v="2">Çift</button></div></div>
+          <div class="topt"><span class="tlab">Maç</span><div class="tseg" id="lgTg" role="group" aria-label="Kaç gole kadar"><button type="button" data-v="3">3 gol</button><button type="button" data-v="5">5 gol</button><button type="button" data-v="7">7 gol</button></div></div>
+        </div>
+        <p class="gnote" id="lgNewNote"></p>
+        <div class="tbtns"><button type="button" class="ghost" id="lgNewBack">Geri</button><button type="submit" class="cta">Ligi kur</button></div>
+      </form>
+      <div class="lgview" id="lgDetail" hidden>
+        <div class="lgbar">
+          <div class="gtabs" id="lgTabs" role="tablist" aria-label="Lig">
+            <button type="button" role="tab" data-tab="table" aria-selected="true">Tablo</button>
+            <button type="button" role="tab" data-tab="games" aria-selected="false">Maçlar</button>
+            <button type="button" role="tab" data-tab="members" aria-selected="false">Üyeler <span id="lgMCount"></span></button>
+          </div>
+          <button type="button" class="ghost lginv" id="lgInvite">📨 Davet et</button>
+        </div>
+        <div class="lgpanel" id="lgPanel"></div>
+        <p class="lgsync" id="lgSync" aria-live="polite"></p>
+      </div>
+      <p class="lgmsg" id="lgMsg" aria-live="polite" hidden></p>
     </div>
   </section>
 
@@ -2150,6 +2296,7 @@ window.addEventListener('keydown', e => {
   if (e.code === 'Escape' && pairOpen) { pairOpen = false; setUI(); return; }
   if (e.code === 'Escape' && fmOpen) { fmOpen = false; setUI(); return; }
   if (e.code === 'Escape' && tourOpen) { closeTour(); return; }
+  if (e.code === 'Escape' && lg.open) { $('lgClose').click(); return; }
   if (e.code === 'KeyP' || e.code === 'Escape') {
     if (state === 'play') { e.preventDefault(); paused ? resumeGame() : pauseGame(); }
     return;
@@ -3152,14 +3299,16 @@ function toast(msg, ms = 1600) {
 function setUI() {
   if (state === 'play') goalsOpen = store.open = false;
   if (state !== 'menu' && !(state === 'play' && paused)) fmOpen = false;
-  $('menu').hidden = state !== 'menu' || onlineOpen || goalsOpen || store.open || pairOpen || tourOpen || fmOpen;
+  if (state === 'play') lg.open = false;
+  $('menu').hidden = state !== 'menu' || onlineOpen || goalsOpen || store.open || pairOpen || tourOpen || fmOpen || lg.open;
+  $('league').hidden = !lg.open;
   $('formPick').hidden = !fmOpen;
   $('goals').hidden = !goalsOpen;
   $('store').hidden = !store.open;
   $('online').hidden = !onlineOpen;
   $('pairPick').hidden = !pairOpen || state !== 'menu';
   $('tour').hidden = !tourOpen || state === 'play';
-  $('over').hidden = state !== 'over' || goalsOpen || store.open || tourOpen;
+  $('over').hidden = state !== 'over' || goalsOpen || store.open || tourOpen || lg.open;
   if (state !== 'over') card.open = false;
   $('cardView').hidden = !card.open;
   $('pause').hidden = !(state === 'play' && paused) || fmOpen;
@@ -3240,7 +3389,7 @@ function attract(keepNet) {
   if (pair) setPair(null);
   for (const t of teams) t.perk = NO_PERK;
   if (net.role && keepNet !== true) leaveOnline();
-  endTourContext();
+  endTourContext(); endLgContext();
   if (cup.active) { if (state === 'play') cupForfeit(); endCupContext(); }
   state = 'menu'; paused = false;
   applyTeams();
@@ -3258,6 +3407,7 @@ function setMode(m) {
 }
 function startMatch(m) {
   setMode(m === 'duo' || m === 'cpu' || m === 'online' ? m : mode);
+  if (mode === 'online') lgKickoff();                                         // a league table: is this a league match?
   score[BLUE] = score[RED] = 0;
   state = 'play'; paused = false;
   teams[BLUE].ai = null; teams[RED].ai = mode === 'cpu' ? LEVELS[settings.level] : null;
@@ -3278,6 +3428,7 @@ function startMatch(m) {
   pushEvent({ k: 'srv', t: first });
   setUI();
   spkKickoff();
+  if (mode === 'online') lgKickToast();
   Sound.unlock(); enterFullscreen(); requestWake();
 }
 function showResult(winner) {
@@ -3298,6 +3449,7 @@ function showResult(winner) {
   recordMatch(winner);
   if (cup.active && mode === 'cpu') cupAfterMatch(winner);
   if (tour.live) tourAfterMatch(winner);
+  lgAfterMatch(winner);
 }
 function endMatch(winner) {
   spkEnd(winner);
@@ -3734,7 +3886,7 @@ function recordEvent(kind) {
 function renderRewards() {
   const el = $('overRewards');
   el.textContent = '';
-  el.hidden = mode === 'duo' && !tour.live;         // a two-player tournament match still says who went through
+  el.hidden = mode === 'duo' && !tour.live && !lg.live;         // a two-player tournament match still says who went through
   if (el.hidden) return;
   // four chips at most, so the buttons stay on screen: the cup, the quests (with the day's bonus), the badges, a theme
   const qs = overRew.filter(r => r.k === 'q'), all = overRew.find(r => r.k === 'a'), bs = overRew.filter(r => r.k === 'b');
@@ -4778,27 +4930,8 @@ function renderBracket() {
   const T = curTour(), nx = tourNext(), rounds = TOUR_ROUNDS[T.size];
   $('tourTitle').textContent = T.champ != null ? `🏆 ${slotName(tourSlot(T.champ))}` : nx ? rounds[nx.r] : 'Turnuva';
   $('tourMeta').textContent = `${T.size} takım · ${T.target} gole kadar` + (T.champ != null ? ' · şampiyon belli oldu!' : '');
-  const box = $('bracket');
-  box.textContent = '';
-  box.style.setProperty('--cols', T.r.length + 1);
-  T.r.forEach((round, r) => {
-    const col = document.createElement('div'); col.className = 'bcol';
-    const h = document.createElement('p'); h.className = 'bhead'; h.textContent = rounds[r]; col.appendChild(h);
-    const body = document.createElement('div'); body.className = 'bbody';
-    for (let m = 0; m < round.length; m += 2) {
-      const pw = document.createElement('div'); pw.className = 'bpair' + (round.length > 1 ? '' : ' single');
-      for (const k of round.length > 1 ? [m, m + 1] : [m]) pw.appendChild(matchBox(round[k], nx && nx.r === r && nx.m === k, r > 0));
-      body.appendChild(pw);
-    }
-    col.appendChild(body); box.appendChild(col);
-  });
-  const col = document.createElement('div'); col.className = 'bcol champ';
-  const h = document.createElement('p'); h.className = 'bhead'; h.textContent = 'Şampiyon'; col.appendChild(h);
-  const body = document.createElement('div'); body.className = 'bbody';
-  const c = document.createElement('div'); c.className = 'bchamp' + (T.champ != null ? ' won' : '');
-  c.innerHTML = '<span class="cup" aria-hidden="true">🏆</span><span class="cn"></span>';
-  c.lastChild.textContent = T.champ != null ? slotName(tourSlot(T.champ)) : '?';
-  body.appendChild(c); col.appendChild(body); box.appendChild(col);
+  const mine = i => i != null && net.t && tourSlot(i).g === net.gid;
+  drawBracket($('bracket'), T, rounds, nx, i => i == null ? '—' : slotName(tourSlot(i)), i => (i != null && !tourSlot(i).c ? ' human' : '') + (mine(i) ? ' me' : ''));
   // what comes next
   const go = $('tourGo'), online = !!net.t, host = net.role === 'host';
   go.hidden = !nx || (online && !host);
@@ -4813,14 +4946,35 @@ function renderBracket() {
     $('tourNext').textContent += host ? (meIn ? ' · sen oynuyorsun' : ' · sen izleyeceksin') : meIn ? ' · sıra sende! Masayı açan başlatınca maç açılır.' : ' · masayı açan başlatınca izleyeceksin.';
   }
 }
-function matchBox(x, next, joined) {
-  const mine = i => i != null && net.t && tourSlot(i).g === net.gid;
+function drawBracket(box, T, heads, nx, nameOf, rowCls) {
+  box.textContent = '';
+  box.style.setProperty('--cols', T.r.length + 1);
+  T.r.forEach((round, r) => {
+    const col = document.createElement('div'); col.className = 'bcol';
+    const h = document.createElement('p'); h.className = 'bhead'; h.textContent = heads[r]; col.appendChild(h);
+    const body = document.createElement('div'); body.className = 'bbody';
+    for (let m = 0; m < round.length; m += 2) {
+      const pw = document.createElement('div'); pw.className = 'bpair' + (round.length > 1 ? '' : ' single');
+      for (const k of round.length > 1 ? [m, m + 1] : [m]) pw.appendChild(matchBox(round[k], nx && nx.r === r && nx.m === k, r > 0, nameOf, rowCls));
+      body.appendChild(pw);
+    }
+    col.appendChild(body); box.appendChild(col);
+  });
+  const col = document.createElement('div'); col.className = 'bcol champ';
+  const h = document.createElement('p'); h.className = 'bhead'; h.textContent = 'Şampiyon'; col.appendChild(h);
+  const body = document.createElement('div'); body.className = 'bbody';
+  const c = document.createElement('div'); c.className = 'bchamp' + (T.champ != null ? ' won' : '');
+  c.innerHTML = '<span class="cup" aria-hidden="true">🏆</span><span class="cn"></span>';
+  c.lastChild.textContent = T.champ != null ? nameOf(T.champ) : '?';
+  body.appendChild(c); col.appendChild(body); box.appendChild(col);
+}
+function matchBox(x, next, joined, nameOf, rowCls) {
   const el = document.createElement('div');
   el.className = 'bm' + (next ? ' next' : '') + (x.w != null ? ' done' : '') + (joined ? ' joined' : '');
   for (const [k, sc] of [['a', 'sa'], ['b', 'sb']]) {
     const i = x[k], row = document.createElement('div');
-    row.className = 'brow' + (x.w != null && x.w === i ? ' win' : x.w != null ? ' out' : '') + (i != null && !tourSlot(i).c ? ' human' : '') + (mine(i) ? ' me' : '');
-    const n = document.createElement('span'); n.className = 'bn'; n.textContent = i == null ? '—' : slotName(tourSlot(i));
+    row.className = 'brow' + (x.w != null && x.w === i ? ' win' : x.w != null ? ' out' : '') + rowCls(i);
+    const n = document.createElement('span'); n.className = 'bn'; n.textContent = nameOf(i);
     const s = document.createElement('b'); s.className = 'bs'; s.textContent = x.w != null ? x[sc] : '';
     row.append(n, s); el.appendChild(row);
   }
@@ -5162,6 +5316,7 @@ $('againBtn').addEventListener('click', () => {
   else if (net.role === 'guest') { net.again++; sendGuestInput(true); toast('Rövanş isteği gönderildi'); }
   else if (cup.active) startCup();
   else if (tour.live && tour.live.done) openTour('bracket');
+  else if (lg.live && lg.live.done) lgBack();
   else startMatch();
 });
 $('menuBtn').addEventListener('click', () => net.t ? (net.role === 'host' ? backToBracket() : openTour('bracket')) : net.p2 && net.role === 'host' ? backToLobby() : attract());
@@ -5421,6 +5576,7 @@ function leaveOnline() {
   if (mm.on) stopSearch();
   if (net.tr) { try { net.tr.close(); } catch (e) { /* already closed */ } }
   const wasGuest = net.role === 'guest';
+  lg.table = ''; lgNetReset();
   Object.assign(net, { tr: null, role: null, connected: false, snaps: [], events: [], again: 0, lastAgain: 0, oppName: '', oppLook: null, lookKey: '', oppFm: '',
     guestG: '', p2: false, seats: [null, null, null, null], guests: {}, mySeat: -1, want: -1, sideLook: [null, null],
     t: false, tour: null, players: [], tbKey: '', tlKey: '', spect: false, leftBracket: false, bot: null });
@@ -5459,6 +5615,7 @@ async function hostTable(kind) {
     seen: { p: 0, s: 0, g: 0, pending: false }, lastAgain: 0, seenEm: 0, bdGot: -1, brdV: -1,
     gid: 'host', guestG: '', p2, guests: {}, seats: [p2 ? { g: 'host', name: prog.name } : null, null, null, null], mySeat: p2 ? 0 : -1,
     t, tour: null, players: t ? [{ g: 'host', name: prog.name }] : [], tbV: 0 });
+  lgNetReset();
   const retry = err => {
     if (err === 'unavailable-id') { tr.close(); net.tr = null; hostTable(kind); }   // someone has this code: pick another
     else setNetStatus(netErrorText(err), true);
@@ -5479,7 +5636,8 @@ async function hostTable(kind) {
   }
   $('hostCode').textContent = net.code; $('onHost').hidden = false;
   tr.open('host', net.code, hostOnState, partnerGone, retry);
-  setNetStatus(`Arkadaşın ${where} kodu girsin. Bekleniyor…`);
+  const L = lg.list[lg.table];
+  setNetStatus(L ? `🏅 ${L.n} lig maçı: rakibin ${where} bu kodu girsin. Aranızdaki sıradaki maç sayılır.` : `Arkadaşın ${where} kodu girsin. Bekleniyor…`);
 }
 function hostOnState(d) {
   if (!d || !Array.isArray(d.in)) return;
@@ -5487,6 +5645,7 @@ function hostOnState(d) {
   if (net.t) return hostTOnState(d);
   if (validFm(d.fm) && d.fm !== net.oppFm) { net.oppFm = d.fm; if (state === 'play') setFormation(teams[RED], d.fm); }
   if (d.g) { if (!net.guestG) net.guestG = String(d.g); else if (d.g !== net.guestG) return; }   // one guest; a second phone finds the table full
+  lgIn(d);                                                                     // (before the match starts: it may be a league match)
   if (Array.isArray(d.bd) && Array.isArray(d.bd[0])) net.oppName = cleanName(d.bd[0][1]) || net.oppName;   // their own row comes first
   if (Array.isArray(d.lk)) { const k = JSON.stringify(d.lk); if (k !== net.lookKey) { net.lookKey = k; net.oppLook = parseLook(d.lk); applyTeams(); } }
   net.lastHeard = performance.now();
@@ -5800,6 +5959,7 @@ async function hostForSearch() {
   const code = makeCode();
   Object.assign(net, { tr, role: 'host', kind: tr.kind, code, connected: false, seq: 0, events: [], evId: 0,
     seen: { p: 0, s: 0, g: 0, pending: false }, lastAgain: 0, seenEm: 0, bdGot: -1, brdV: -1, gid: 'host', guestG: '', p2: false, t: false });
+  lgNetReset();
   mm.joining = false;
   tr.open('host', code, hostOnState, partnerGone, err => { if (err === 'unavailable-id' && mm.on) { tr.close(); net.tr = null; hostForSearch(); } });
   mm.stop = tr.match ? tr.match(code, other => joinFromSearch(other)) : null;
@@ -5876,6 +6036,7 @@ function makeSnap() {
     r,
     tm: teams.map(t => [r2(t.skill), t.armed ? 1 : 0, r2(t.giant), r2(t.giantT), t.active && !t.together ? t.active.i : -1, t.k.phase === 'windup' ? r2(t.k.charge) : 0]),
     ev: net.events.slice(-12), ba: net.p2 ? bd : net.bdGot,
+    ...lgOut(),
   };
 }
 
@@ -5888,6 +6049,7 @@ async function joinTable(raw, quiet) {
   if (!tr) return quiet ? failJoin('') : setNetStatus(NO_NET, true);
   Object.assign(net, { tr, role: 'guest', kind: tr.kind, code, connected: false, lastN: 0, lastEv: 0, snaps: [], joinT: performance.now(),
     cnt: { p: 0, s: 0, g: 0 }, again: 0, inKey: '', emN: 0, bdAck: -1, gid: Math.random().toString(36).slice(2, 10), p2: false, mySeat: -1, want: -1 });
+  lgNetReset();
   tr.open('guest', code, guestOnState, () => { if (mm.on) failJoin(''); else partnerGone(); }, err => failJoin(netErrorText(err)));
   sendGuestInput(true);
   if (!quiet) setNetStatus('Masa aranıyor…');
@@ -5897,11 +6059,12 @@ function sendGuestInput(force) {
   const i = inputs[BLUE], c = net.cnt;
   // the guest's screen is turned 180°: its ▲ moves the rods towards the bottom of the table
   const a = [(flip ? i.down : i.up) ? 1 : 0, (flip ? i.up : i.down) ? 1 : 0, i.shoot ? 1 : 0, c.p, c.s, c.g];   // (a blue guest's screen is not turned)
-  const key = a.join() + '|' + net.again + '|' + net.emN + '|' + board.v + '|' + net.bdAck + '|' + net.want + '|' + settings.formation;
+  const key = a.join() + '|' + net.again + '|' + net.emN + '|' + board.v + '|' + net.bdAck + '|' + net.want + '|' + settings.formation + '|' + lgKeyPart();
   if (!force && key === net.inKey) return;
   net.inKey = key; net.inT = performance.now();
   const msg = { in: a, ag: net.again, em: [net.emN, net.emId], n: ++net.inSeq, lk: [prog.kit, prog.fx, teamWire()], g: net.gid, nm: prog.name, want: net.want, fm: settings.formation };
   if (net.bdAck !== board.v) { msg.bd = boardPayload(); msg.bv = board.v; }      // our table, until the host has it
+  Object.assign(msg, lgOut());
   net.tr.send(msg);
 }
 function guestOnState(d) {
@@ -5934,6 +6097,7 @@ function guestOnState(d) {
   if (Array.isArray(d.ck)) { clock.left = +d.ck[0] || 0; clock.gold = !!d.ck[1]; renderClock(); }
   if (typeof d.ba === 'number') net.bdAck = d.ba;
   else if (d.ba && typeof d.ba[net.gid] === 'number') net.bdAck = d.ba[net.gid];
+  lgIn(d);
   for (const e of d.ev || []) if (e.i > net.lastEv) { net.lastEv = e.i; guestEvent(e); }
   if (d.st !== state) { state = d.st; paused = false; setUI(); }
 }
@@ -5947,7 +6111,7 @@ function enterGuest(d) {
   resetTable();
   for (const t of [...teams, ...UNITS.flat()]) { if (!net.p2) t.ai = null; t.keeper = false; t.together = false; }
   net.lastEv = Math.max(0, ...(d.ev || []).map(e => e.i));      // what happened before we arrived is old news,
-  for (const e of d.ev || []) if (e.k === 'brd' || e.k === 'lk' || e.k === 'lk2') guestEvent(e);   // but the host's table and kits are state
+  for (const e of d.ev || []) if (e.k === 'brd' || e.k === 'lk' || e.k === 'lk2' || e.k === 'lg') guestEvent(e);   // but the host's table and kits are state
   state = d.st; paused = false; clearInput(); renderHud(); setUI();
   Sound.unlock(); enterFullscreen(); requestWake();
   resetClock();
@@ -5961,6 +6125,8 @@ function guestEvent(e) {
     case 'lk2': net.sideLook = (e.l || []).map(w => Array.isArray(w) ? parseLook(w) : null); applyTeams(); renderHud(); break;
     case 'brd': if (Array.isArray(e.b) && Array.isArray(e.b[0]) && !net.p2) net.oppName = cleanName(e.b[0][1]) || net.oppName; mergeBoard(e.b); break;
     case 'lk': net.oppLook = parseLook(e.l); applyTeams(); renderHud(); break;
+    case 'lg': lgGuestKick(e); break;
+    case 'lgr': lgGuestResult(e); break;
     case 'sv': spkSave(e.t); break;
     case 'gi': spkGiant(e.t); break;
     case 'srv': toast(net.spect ? `Servis: ${teamName(e.t)} · izliyorsun` : e.t === me ? 'Servis sende' : 'Servis rakipte'); spkKickoff(); break;
@@ -6049,7 +6215,699 @@ function boot(data) {
 }
 
 // handle for experimenting from the console
-window.langirt = { FORMATIONS, setFormation, chooseFormation, openFormations, teams, rods, ball, score, settings, update, startMatch, attract, net, hostTable, joinTable, sendEmote, EMOTES, stats, card, cardStory, drawCard, recordMatch, todayQuests, QUESTS, BADGES, BALLS, TABLES, PAL, clock, MATCH_TIME, MM, mm, findRival, tour, tourNext, openTour, playTour, tourSim, TEAM_COLORS, CRESTS, resolvePals, teamPal, colorDist, applyTeams, KITS, FXS, ITEMS, BUNDLES, store, openStore, storeBuy, storePick, storeCat, priceOf, bundlePrice, rollDeals, lookOf, spawnFx, particles, pv, drawStatic, startCup, cupRule, weekKey, mergeBoard, boardPayload, RULES, cup, FIREBASE, fb, fbPush, fbFetch, fbOn, renderBoard, spk, say, levelOf, xpOf, renderProfile, skillPoints, perksOf, applyPerks, PERK_NODES, UNITS, setPair, tryGiant, trySkill, press(k, down) { if (down) kbHeld.add(k); else kbHeld.delete(k); syncInput(); }, get pair() { return pair; }, get ctls() { return ctls; }, get prog() { return prog; }, get state() { return state; }, get mode() { return mode; }, get me() { return me; } };
+/* ——— Private leagues ———
+   A league for a group of friends or colleagues: a round robin (everyone plays everyone, once or twice)
+   or a knock-out cup drawn from its members. Whoever sets it up shares an invite and the others join
+   with it. League matches are played online, each player on their own phone, or on one phone between
+   two members. Every member's phone keeps the whole league; the copies come together through Firebase
+   when the page can reach it, and phone to phone whenever two members play online. A result is never
+   lost: it waits on the phones that played it until they meet the cloud or another member. */
+const LG_KEY = 'cep-langirti-lig';
+const LG_MAX = { lig: 12, kupa: 8 }, LG_LEAGUES = 8;
+const LG_ALPHA = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+const LG_ID = /^[A-Z2-9]{6}$/, LG_PID = /^[a-z0-9]{6,16}$/, LG_RID = /^\d{1,3}\.(?:[a-z0-9]{6,16}\.[a-z0-9]{6,16}\.[12]|k[0-2]\.[0-3])$/;
+const LG_ROUNDS = [[], ['Final'], ['Yarı final', 'Final'], ['Çeyrek final', 'Yarı final', 'Final']];
+const lg = { list: {}, open: false, view: 'list', cur: '', tab: 'table', live: null, saved: null, table: '', sure: '', msg: '', err: false,
+  draft: { n: '', f: 'lig', legs: 1, tg: 5 }, timer: 0, cloud: { down: 0, busy: {}, at: {} } };
+const lgEsc = s => String(s).replace(/[&<>"']/g, c => '&#' + c.charCodeAt(0) + ';');
+const cleanLgName = v => String(v == null ? '' : v).replace(/[\u0000-\u001f\u007f-\u009f​-‏‪-‮⁦-⁩]/g, '').replace(/\s+/g, ' ').trim().slice(0, 24);
+const lgHashStr = s => { let h = 2166136261; for (let i = 0; i < s.length; i++) h = Math.imul(h ^ s.charCodeAt(i), 16777619); return (h >>> 0).toString(36); };
+const lgTag = id => lgHashStr(id + '·cep-lig');          // what another phone hears: the code itself stays private
+const b64u = s => btoa(unescape(encodeURIComponent(s))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+const unb64u = s => decodeURIComponent(escape(atob(s.replace(/-/g, '+').replace(/_/g, '/'))));
+const lgDate = t => new Date(t).toLocaleDateString('tr-TR', { day: 'numeric', month: 'short' });
+
+// ——— the league itself
+// Anything from storage, another phone or the cloud goes through here: checked, clamped, capped.
+function lgClean(o, local) {
+  if (!o || typeof o !== 'object' || !LG_ID.test(o.id)) return null;
+  const int = (v, lo, hi) => Math.max(lo, Math.min(hi, Math.floor(+v) || 0));
+  const L = { id: o.id, n: cleanLgName(o.n) || 'Lig', f: o.f === 'kupa' ? 'kupa' : 'lig', legs: +o.legs === 2 ? 2 : 1, tg: [3, 5, 7].includes(+o.tg) ? +o.tg : 5,
+    o: LG_PID.test(o.o) ? o.o : '', t: int(o.t, 0, 1e14), v: int(o.v, 0, 1e9), s: int(o.s, 1, 999),
+    dr: Array.isArray(o.dr) && [2, 4, 8].includes(o.dr.length) ? o.dr.map(p => LG_PID.test(p) ? p : null) : null,
+    ch: (Array.isArray(o.ch) ? o.ch : []).filter(c => c && LG_PID.test(c.p)).slice(-10).map(c => ({ s: int(c.s, 1, 999), p: c.p, n: cleanName(c.n) || 'Oyuncu' })),
+    m: {}, r: {} };
+  let k = 0;
+  for (const p in o.m && typeof o.m === 'object' ? o.m : {}) {
+    const e = o.m[p];
+    if (!LG_PID.test(p) || !e || typeof e !== 'object' || k++ >= 24) continue;
+    L.m[p] = { n: cleanName(e.n) || 'Oyuncu', t: int(e.t, 0, 1e14), u: int(e.u, 0, 1e14), x: e.x ? 1 : 0 };
+    if (typeof e.g === 'string' && /^[A-Za-z0-9_-]{1,64}$/.test(e.g)) L.m[p].g = e.g;
+  }
+  k = 0;
+  for (const rid in o.r && typeof o.r === 'object' ? o.r : {}) {
+    const e = o.r[rid];
+    if (!LG_RID.test(rid) || !e || !LG_PID.test(e.a) || !LG_PID.test(e.b) || e.a === e.b || k++ >= 400) continue;
+    const pr = rid.split('.');
+    if (pr.length === 4 && [e.a, e.b].sort().join('.') !== pr[1] + '.' + pr[2]) continue;     // a result for the pair its key names
+    L.r[rid] = { a: e.a, b: e.b, sa: int(e.sa, 0, 30), sb: int(e.sb, 0, 30), u: int(e.u, 0, 1e14), h: e.h === 'tel' ? 'tel' : 'on', d: e.d ? 1 : 0 };
+  }
+  if (local) { L.q = Array.isArray(o.q) ? o.q.filter(x => typeof x === 'string' && x.length < 60).slice(0, 500) : []; L.at = int(o.at, 0, 1e14); L.sy = int(o.sy, 0, 1e14); }
+  return L;
+}
+function lgLoad() {
+  let raw = null;
+  try { raw = JSON.parse(localStorage.getItem(LG_KEY) || 'null'); } catch (e) { raw = null; }
+  lg.list = {};
+  for (const o of Array.isArray(raw) ? raw : []) { const L = lgClean(o, true); if (L) lg.list[L.id] = L; }
+}
+function lgSave() { try { localStorage.setItem(LG_KEY, JSON.stringify(Object.values(lg.list))); } catch (e) { /* storage blocked */ } }
+function lgHash(L) {
+  const m = Object.keys(L.m).sort().map(p => p + ':' + L.m[p].u).join(','), r = Object.keys(L.r).sort().map(k => k + ':' + L.r[k].u).join(',');
+  return lgHashStr(L.v + '|' + m + '|' + r);
+}
+// newer wins, item by item: the founder's settings by version, a member or a result by its time
+function lgMerge(L, I) {
+  if (!I || I.id !== L.id) return false;
+  let ch = false;
+  if (I.v > L.v) { for (const k of ['n', 'f', 'legs', 'tg', 'o', 't', 'v', 's', 'dr', 'ch']) L[k] = I[k]; ch = true; }
+  for (const p in I.m) {
+    const a = L.m[p], b = I.m[p];
+    if (!a) { if (Object.keys(L.m).length < 24) { L.m[p] = { ...b }; ch = true; } }
+    else if (b.u > a.u) { L.m[p] = { ...b, ...(b.g || a.g ? { g: b.g || a.g } : {}) }; ch = true; }
+    else if (b.g && !a.g) a.g = b.g;
+  }
+  for (const k in I.r) {
+    const a = L.r[k], b = I.r[k];
+    if (a ? b.u > a.u : Object.keys(L.r).length < 400) { L.r[k] = { ...b }; ch = true; }
+  }
+  return ch;
+}
+const lgName = (L, p) => p === prog.pid ? prog.name : L.m[p] ? L.m[p].n : 'Oyuncu';
+const lgActive = L => Object.keys(L.m).filter(p => !L.m[p].x).sort((a, b) => L.m[a].t - L.m[b].t || (a < b ? -1 : 1));
+const lgRes = (L, rid) => { const r = L.r[rid]; return r && !r.d ? r : null; };
+const lgSeasonRes = L => Object.entries(L.r).filter(([k, r]) => !r.d && k.startsWith(L.s + '.'));
+const lgMine = L => !!(L.m[prog.pid] && !L.m[prog.pid].x);
+function lgFixtures(L) {                          // the round robin: every pair, once or twice
+  const ps = lgActive(L).sort(), out = [];
+  for (let i = 0; i < ps.length; i++) for (let j = i + 1; j < ps.length; j++) for (let leg = 1; leg <= L.legs; leg++) {
+    const rid = `${L.s}.${ps[i]}.${ps[j]}.${leg}`;
+    out.push({ rid, a: ps[i], b: ps[j], leg, res: lgRes(L, rid) });
+  }
+  return out;
+}
+function lgTable(L) {
+  const rows = {};
+  const row = p => rows[p] || (rows[p] = { p, o: 0, w: 0, d: 0, l: 0, gf: 0, ga: 0, pts: 0 });
+  for (const p of lgActive(L)) row(p);
+  for (const [, r] of lgSeasonRes(L)) {
+    if (L.f === 'kupa') break;
+    const A = row(r.a), B = row(r.b);
+    A.o++; B.o++; A.gf += r.sa; A.ga += r.sb; B.gf += r.sb; B.ga += r.sa;
+    if (r.sa > r.sb) { A.w++; A.pts += 3; B.l++; } else if (r.sb > r.sa) { B.w++; B.pts += 3; A.l++; } else { A.d++; B.d++; A.pts++; B.pts++; }
+  }
+  return Object.values(rows).sort((a, b) => b.pts - a.pts || (b.gf - b.ga) - (a.gf - a.ga) || b.gf - a.gf || b.w - a.w || lgName(L, a.p).localeCompare(lgName(L, b.p), 'tr'));
+}
+// the cup: drawn pairs, byes and walkovers go through, results decide the rest
+function lgBracket(L) {
+  if (L.f !== 'kupa' || !L.dr) return null;
+  const size = L.dr.length, R = Math.round(Math.log2(size)), r = [];
+  const gone = p => !!(p && (!L.m[p] || L.m[p].x));
+  for (let k = 0; k < R; k++) {
+    const round = [];
+    for (let m = 0; m < size >> (k + 1); m++) {
+      const a = k ? r[k - 1][2 * m].w : L.dr[2 * m], b = k ? r[k - 1][2 * m + 1].w : L.dr[2 * m + 1];
+      const x = { a, b, sa: '', sb: '', w: null, rid: `${L.s}.k${k}.${m}`, bye: false };
+      const res = a && b ? lgRes(L, x.rid) : null;
+      if (res && [a, b].includes(res.a) && [a, b].includes(res.b)) {
+        const af = res.a === a;
+        x.sa = af ? res.sa : res.sb; x.sb = af ? res.sb : res.sa; x.w = x.sa > x.sb ? a : b;
+      } else if (!k && !a !== !b) { x.w = a || b; x.bye = true; }                    // a bye in the first round
+      else if (a && b && gone(a) !== gone(b)) { x.w = gone(a) ? b : a; x.bye = true; }   // a walkover
+      round.push(x);
+    }
+    r.push(round);
+  }
+  return { size, r, champ: r[R - 1][0].w };
+}
+function lgChamp(L) {                            // the cup's winner (a round robin's is named when its season ends)
+  if (L.f !== 'kupa') return null;
+  const B = lgBracket(L);
+  return B ? B.champ : null;
+}
+// every match this phone knows of is played (another phone may still know of a member we have not met)
+function lgAllPlayed(L) { const fx = L.f === 'kupa' ? [] : lgFixtures(L); return fx.length > 0 && fx.every(x => x.res); }
+const lgLeader = L => lgSeasonRes(L).length ? lgTable(L)[0].p : null;
+// what is left to play: [{rid, a, b, label}]
+function lgOpenGames(L) {
+  if (L.f === 'kupa') {
+    const B = lgBracket(L), out = [];
+    if (B) B.r.forEach((round, k) => round.forEach(x => { if (x.w == null && x.a && x.b) out.push({ rid: x.rid, a: x.a, b: x.b, label: LG_ROUNDS[B.r.length][k] }); }));
+    return out;
+  }
+  return lgFixtures(L).filter(x => !x.res).map(x => ({ rid: x.rid, a: x.a, b: x.b, label: L.legs > 1 ? `${x.leg}. devre` : '' }));
+}
+function lgNextFor(L, p, q) {                     // the next match between these two, if any
+  if (!p || !q || p === q || !L.m[p] || !L.m[q] || L.m[p].x || L.m[q].x) return '';
+  const g = lgOpenGames(L).find(x => (x.a === p && x.b === q) || (x.a === q && x.b === p));
+  return g ? g.rid : '';
+}
+function lgRidLabel(L, rid) {
+  const pr = rid.split('.');
+  if (pr.length === 4) return L.legs > 1 ? `${pr[3]}. devre` : '';
+  const B = lgBracket(L);
+  return B ? LG_ROUNDS[B.r.length][+pr[1].slice(1)] || '' : '';
+}
+function lgRank(L, p) { const i = lgTable(L).findIndex(x => x.p === p); return i < 0 ? 0 : i + 1; }
+
+function lgQueue(L, op) { if (!L.q) L.q = []; if (!L.q.includes(op)) L.q.push(op); lgCloudSoon(L.id); }
+function lgChanged(L) { lgSave(); lgGossipPlan(); if (lg.open) lgRender(); }
+function lgNewId() { let id; do { id = Array.from({ length: 6 }, () => LG_ALPHA[Math.floor(Math.random() * LG_ALPHA.length)]).join(''); } while (lg.list[id]); return id; }
+function lgCreate(d) {
+  if (Object.keys(lg.list).length >= LG_LEAGUES) return null;
+  const now = Date.now(), id = lgNewId();
+  const L = { id, n: cleanLgName(d.n) || 'Arkadaş Ligi', f: d.f === 'kupa' ? 'kupa' : 'lig', legs: d.legs === 2 ? 2 : 1, tg: [3, 5, 7].includes(d.tg) ? d.tg : 5,
+    o: prog.pid, t: now, v: 1, s: 1, dr: null, ch: [], m: { [prog.pid]: { n: prog.name, t: now, u: now, x: 0 } }, r: {}, q: [], at: now, sy: 0 };
+  lg.list[id] = L;
+  lgQueue(L, 'd'); lgQueue(L, 'm'); lgSave();
+  return L;
+}
+function lgRecord(L, rid, a, b, sa, sb, h, u = Date.now()) {
+  L.r[rid] = { a, b, sa, sb, u, h, d: 0 };
+  lgQueue(L, 'r:' + rid);
+  lgChanged(L);
+}
+function lgBump(L) { L.v++; lgQueue(L, 'd'); lgChanged(L); }
+function lgDraw(L) {                              // the founder draws the cup: byes only ever meet a player
+  const ps = shuffle(lgActive(L)), n = ps.length;
+  if (L.f !== 'kupa' || L.o !== prog.pid || L.dr || n < 2) return false;
+  const size = n <= 2 ? 2 : n <= 4 ? 4 : 8, half = size / 2;
+  L.dr = shuffle(Array.from({ length: half }, (x, m) => [ps[m], ps[half + m] || null])).flat();
+  lgBump(L);
+  return true;
+}
+function lgNewSeason(L) {
+  if (L.o !== prog.pid) return;
+  const c = L.f === 'kupa' ? lgChamp(L) : lgLeader(L);
+  if (c) L.ch = [...L.ch, { s: L.s, p: c, n: lgName(L, c) }].slice(-10);
+  L.s = Math.min(999, L.s + 1); L.dr = null;
+  lgBump(L);
+}
+function lgKick(L, p) {
+  const e = L.m[p];
+  if (L.o !== prog.pid || !e || p === prog.pid) return;
+  e.x = 1; e.u = Date.now();
+  lgQueue(L, 'm:' + p); lgChanged(L);
+}
+function lgDelResult(L, rid) {
+  const e = L.r[rid];
+  if (L.o !== prog.pid || !e) return;
+  L.r[rid] = { ...e, d: 1, u: Date.now() };
+  lgQueue(L, 'r:' + rid); lgChanged(L);
+}
+function lgLeave(L) {                             // our membership ends (the others hear it), the league leaves this phone
+  const e = L.m[prog.pid];
+  if (e && !e.x) { e.x = 1; e.u = Date.now(); }
+  const id = L.id;
+  lgCloudWrite(L, 'm').catch(() => {}).finally(() => { delete lg.list[id]; lgSave(); if (lg.open) lgRender(); });
+  delete lg.list[id]; lgSave();
+}
+function lgSelfName(L) { const e = L.m[prog.pid]; if (e && !e.x && e.n !== prog.name) { e.n = prog.name; e.u = Date.now(); lgQueue(L, 'm'); } }
+
+// ——— invites: the code alone needs the cloud; the long invite carries the league's settings with it
+function lgToken(L) { return `${L.id}-${b64u(JSON.stringify([L.n, L.f, L.legs, L.tg, L.o, lgName(L, L.o), L.t, L.s]))}`; }
+function lgParseInvite(text) {
+  const s = String(text || '').trim();
+  const m = /([A-Z2-9]{6})-([A-Za-z0-9_-]{10,800})/.exec(s);
+  if (m) { try { const a = JSON.parse(unb64u(m[2])); if (Array.isArray(a)) return { id: m[1], def: a }; } catch (e) { /* not an invite */ } }
+  const c = s.toUpperCase().replace(/[^A-Z0-9]/g, '');
+  return LG_ID.test(c) ? { id: c } : null;
+}
+const lgLink = tok => /^https?:$/.test(location.protocol) && !window.claude ? `${location.origin}${location.pathname}#lig=${tok}` : '';
+async function lgJoin(text) {
+  const inv = lgParseInvite(text);
+  if (!inv) return lgMsg('Bu bir lig kodu ya da daveti değil.', true), null;
+  let L = lg.list[inv.id];
+  if (L && lgMine(L)) { lgOpenLeague(L.id); lgMsg('Bu ligde zaten varsın.'); return L; }
+  if (!L && Object.keys(lg.list).length >= LG_LEAGUES) return lgMsg(`En fazla ${LG_LEAGUES} ligde olabilirsin.`, true), null;
+  if (!L && inv.def) {
+    const [n, f, legs, tg, o, on, t, s] = inv.def;
+    L = lgClean({ id: inv.id, n, f, legs, tg, o, t, s, v: 0, m: LG_PID.test(o) ? { [o]: { n: on, t, u: 1 } } : {} }, true);
+  } else if (!L) {
+    lgMsg('Lig aranıyor…');
+    let got;
+    try { got = await lgCloudFetch(inv.id); } catch (e) { got = undefined; }
+    if (got === undefined) return lgMsg('Buluta ulaşılamadı. Kısa kod yerine davet bağlantısını ya da uzun davet kodunu kullan.', true), null;
+    if (!got) return lgMsg('Bu kodla bir lig bulunamadı.', true), null;
+    L = got;
+  }
+  if (!L) return lgMsg('Davet okunamadı.', true), null;
+  if (lgActive(L).length >= LG_MAX[L.f]) return lgMsg('Bu lig dolu.', true), null;
+  const now = Date.now();
+  L.m[prog.pid] = { n: prog.name, t: now, u: now, x: 0 };
+  L.at = now; L.sy = 0;
+  lg.list[L.id] = L;
+  lgQueue(L, 'm'); lgSave();
+  lgMsg('');
+  lgOpenLeague(L.id, 'table');
+  toast(`${L.n} · katıldın!`, 2200);
+  return L;
+}
+
+// ——— the cloud (Firebase): leagues/{code}, its members/{account} and results/{match}
+const fsVal = v => v == null ? { nullValue: null } : typeof v === 'boolean' ? { booleanValue: v } : typeof v === 'number' ? { integerValue: String(Math.round(v)) }
+  : typeof v === 'string' ? { stringValue: v } : Array.isArray(v) ? { arrayValue: { values: v.map(fsVal) } } : { mapValue: { fields: fsFields(v) } };
+const fsFields = o => Object.fromEntries(Object.entries(o).map(([k, v]) => [k, fsVal(v)]));
+const fsJs = x => !x || 'nullValue' in x ? null : 'booleanValue' in x ? x.booleanValue : 'integerValue' in x ? +x.integerValue : 'doubleValue' in x ? x.doubleValue
+  : 'stringValue' in x ? x.stringValue : 'arrayValue' in x ? (x.arrayValue.values || []).map(fsJs) : 'mapValue' in x ? fsObj(x.mapValue.fields) : null;
+const fsObj = f => Object.fromEntries(Object.entries(f || {}).map(([k, v]) => [k, fsJs(v)]));
+async function lgFs(method, path, body) {
+  const tok = await fbToken();
+  const r = await fetch(`${fbDocs()}/${path}`, { method, headers: { Authorization: 'Bearer ' + tok, ...(body ? { 'Content-Type': 'application/json' } : {}) }, body: body ? JSON.stringify(body) : undefined });
+  if (r.status === 404) return null;
+  if (!r.ok) { const e = new Error(method + ' ' + r.status); e.status = r.status; throw e; }
+  return r.json();
+}
+async function lgFsList(path, max) {
+  const out = [];
+  let tok = '';
+  do {
+    const j = await lgFs('GET', `${path}?pageSize=300${tok ? '&pageToken=' + encodeURIComponent(tok) : ''}`);
+    if (!j) break;
+    out.push(...(j.documents || [])); tok = j.nextPageToken || '';
+  } while (tok && out.length < max);
+  return out;
+}
+// null: no such league; throws when the cloud cannot be reached
+async function lgCloudFetch(id) {
+  if (!fbOn()) throw new Error('off');
+  const base = `leagues/${id}`, def = await lgFs('GET', base);
+  if (!def) return null;
+  const [ms, rs] = await Promise.all([lgFsList(base + '/members', 60), lgFsList(base + '/results', 900)]);
+  const d = fsObj(def.fields), o = { ...d, id, dr: Array.isArray(d.dr) && d.dr.length ? d.dr : null, m: {}, r: {} };
+  for (const doc of ms) { const x = fsObj(doc.fields); if (LG_PID.test(x.p)) o.m[x.p] = { ...x, g: doc.name.split('/').pop() }; }
+  for (const doc of rs) o.r[decodeURIComponent(doc.name.split('/').pop())] = fsObj(doc.fields);
+  return lgClean(o, true);
+}
+async function lgCloudWrite(L, op) {
+  if (!fbOn()) throw new Error('off');
+  await fbToken();
+  const base = `leagues/${L.id}`;
+  if (op === 'd') {
+    if (L.o !== prog.pid) return;
+    return lgFs('PATCH', base, { fields: fsFields({ n: L.n, f: L.f, legs: L.legs, tg: L.tg, o: L.o, ou: fb.uid, t: L.t, v: L.v, s: L.s, dr: L.dr || [], ch: L.ch }) });
+  }
+  if (op[0] === 'm') {
+    const p = op.length > 1 ? op.slice(2) : prog.pid, e = L.m[p], uid = p === prog.pid ? fb.uid : e && e.g;
+    if (!e || !uid) return;
+    return lgFs('PATCH', `${base}/members/${uid}`, { fields: fsFields({ p, n: e.n, t: e.t, u: e.u, x: e.x }) });
+  }
+  const rid = op.slice(2), e = L.r[rid];
+  if (!e) return;
+  return lgFs('PATCH', `${base}/results/${rid}`, { fields: fsFields({ s: +rid.split('.')[0], a: e.a, b: e.b, sa: e.sa, sb: e.sb, u: e.u, h: e.h, d: !!e.d }) });
+}
+function lgCloudSoon(id, ms = 1500) { if (fbOn()) setTimeout(() => lgCloudSync(id, true), ms); }
+// our writes first (the founder's settings, then memberships, then results), then everyone else's
+async function lgCloudSync(id, force) {
+  const C = lg.cloud, L0 = lg.list[id];
+  if (!L0 || !fbOn() || C.busy[id]) return;
+  if (!force && (Date.now() - (C.at[id] || 0) < 20e3 || (C.down && Date.now() - C.down < 60e3))) return;
+  C.busy[id] = true; C.at[id] = Date.now();
+  if (lg.open) lgRenderSync();
+  try {
+    const rank = op => op === 'd' ? 0 : op[0] === 'm' ? 1 : 2;
+    for (const op of (L0.q || []).slice().sort((a, b) => rank(a) - rank(b))) {
+      try { await lgCloudWrite(L0, op); } catch (e) { if (!e.status) throw e; }        // refused by the rules: that one is dropped
+      L0.q = L0.q.filter(x => x !== op);
+    }
+    lgSave();
+    const got = await lgCloudFetch(id), L = lg.list[id];
+    if (L) {
+      if (got) {
+        if (lgMerge(L, got)) lgGossipPlan();
+        if (L.o === prog.pid && got.v < L.v) lgQueue(L, 'd');
+        if (lgMine(L) && !got.m[prog.pid]) lgQueue(L, 'm');
+        for (const k in L.r) if (lgMine(L) && (!got.r[k] || (L.o === prog.pid && got.r[k].u < L.r[k].u))) lgQueue(L, 'r:' + k);   // what only we know
+      } else if (L.o === prog.pid) { lgQueue(L, 'd'); lgQueue(L, 'm'); for (const k in L.r) lgQueue(L, 'r:' + k); }   // not up there yet
+      L.sy = Date.now(); lgSave();
+    }
+    C.down = 0;
+  } catch (e) { C.down = Date.now(); }
+  finally { C.busy[id] = false; if (lg.open) lgRender(); }
+}
+
+// ——— phone to phone: when two members' phones meet online they compare leagues and fill each other in
+function lgNetReset() { net.lgx = { peer: '', peerH: null, peerKey: '', myAck: '', q: [], seq: 0, ack: 0, got: 0, sent: {}, match: null }; }
+const lgNetOn = () => !!(net.role && net.lgx && !net.p2 && !net.t && !net.bot && !net.spect);
+const lgMyH = () => Object.values(lg.list).map(L => [lgTag(L.id), lgHash(L)]);
+function lgPackets(L) {                           // the whole league, a few results at a time
+  const def = { id: L.id, n: L.n, f: L.f, legs: L.legs, tg: L.tg, o: L.o, t: L.t, v: L.v, s: L.s, dr: L.dr, ch: L.ch };
+  const rs = Object.entries(L.r), out = [];
+  for (let i = 0; i < Math.max(1, rs.length); i += 8) {
+    out.push({ ...def, m: i ? {} : Object.fromEntries(Object.entries(L.m).map(([p, e]) => [p, { n: e.n, t: e.t, u: e.u, x: e.x }])), r: Object.fromEntries(rs.slice(i, i + 8)) });
+  }
+  return out;
+}
+function lgGossipPlan() {
+  const G = net.lgx;
+  if (!G || !G.peerH || !lgNetOn()) return;
+  for (const L of Object.values(lg.list)) {
+    const t = lgTag(L.id), theirs = G.peerH[t];
+    if (theirs == null) continue;
+    const mine = lgHash(L), key = mine + '|' + theirs;
+    if (mine === theirs || G.sent[t] === key) continue;
+    G.sent[t] = key;
+    for (const p of lgPackets(L)) G.q.push({ s: ++G.seq, p });
+  }
+}
+// our side, added to each message: our leagues (as tags and versions) until the other phone has them, one packet at a time
+function lgOut() {
+  if (!lgNetOn()) return {};
+  const G = net.lgx, lh = lgMyH(), key = lgHashStr(JSON.stringify(lh)), o = { lpa: G.got, lha: G.peerKey };
+  if (G.myAck !== key) o.lh = lh;
+  const head = G.q.find(x => x.s > G.ack);
+  if (head) o.lp = [head.s, head.p];
+  if (net.role === 'guest') o.lm = prog.pid;
+  return o;
+}
+const lgKeyPart = () => { const G = net.lgx; if (!lgNetOn()) return ''; const head = G.q.find(x => x.s > G.ack); return [G.myAck, G.peerKey, G.got, head ? head.s : 0, Object.keys(lg.list).length].join(','); };
+function lgIn(d) {
+  if (!d || !lgNetOn()) return;
+  const G = net.lgx;
+  if (net.role === 'host' && typeof d.lm === 'string' && LG_PID.test(d.lm) && d.lm !== prog.pid) G.peer = d.lm;
+  if (typeof d.lha === 'string') G.myAck = d.lha;
+  if (typeof d.lpa === 'number') { G.ack = Math.max(G.ack, d.lpa); G.q = G.q.filter(x => x.s > G.ack); }
+  if (Array.isArray(d.lh)) {
+    const key = lgHashStr(JSON.stringify(d.lh));
+    if (key !== G.peerKey) {
+      G.peerKey = key; G.peerH = {};
+      for (const e of d.lh.slice(0, 16)) if (Array.isArray(e) && typeof e[0] === 'string' && typeof e[1] === 'string') G.peerH[e[0].slice(0, 12)] = e[1].slice(0, 12);
+      lgGossipPlan();
+    }
+  }
+  if (Array.isArray(d.lp) && (d.lp[0] | 0) > G.got) {
+    G.got = d.lp[0] | 0;
+    const I = lgClean(d.lp[1], false), L = I && lg.list[I.id];
+    if (L && lgMerge(L, I)) lgChanged(L);          // only a league we are in; never one we have not joined
+  }
+}
+
+// ——— league matches
+// online: the host of a league table plays the next match it has with whoever joins, if that is a member
+function lgKickoff() {
+  const G = net.lgx;
+  if (!G || net.role !== 'host' || !lgNetOn()) return;
+  G.match = null;
+  const L = lg.list[lg.table];
+  if (!L) return;
+  const peer = G.peer, shared = !!(G.peerH && G.peerH[lgTag(L.id)] != null);
+  let rid = '';
+  if (peer && shared && lgMine(L)) {
+    if (!L.m[peer]) { L.m[peer] = { n: cleanName(net.oppName) || 'Oyuncu', t: Date.now(), u: 1, x: 0 }; lgSave(); }   // a new member we have not heard of yet
+    rid = lgNextFor(L, prog.pid, peer);
+  }
+  if (rid) {
+    G.match = { id: L.id, rid, a: prog.pid, b: peer };
+    if (!lg.saved) lg.saved = { target: settings.target };
+    settings.target = L.tg;
+  }
+  pushEvent({ k: 'lg', id: rid ? L.id : '', rid, a: prog.pid, b: peer });
+}
+function lgKickToast() {
+  const G = net.lgx, M = G && G.match, L = M && lg.list[M.id];
+  if (L) { const lb = lgRidLabel(L, M.rid); toast(`🏅 ${L.n} · lig maçı${lb ? ' · ' + lb : ''} · ${L.tg} gole kadar`, 2800); }
+  else if (net.role === 'host' && lg.table && mode === 'online') toast('Aranızda oynanacak lig maçı yok · dostluk maçı', 2600);
+}
+function lgGuestKick(e) {
+  const G = net.lgx;
+  if (!G) return;
+  const L = e.id && lg.list[e.id];
+  G.match = L && LG_RID.test(e.rid) && LG_PID.test(e.a) && LG_PID.test(e.b) ? { id: L.id, rid: e.rid, a: e.a, b: e.b } : null;
+  const lb = G.match ? lgRidLabel(L, e.rid) : '';
+  const text = G.match ? `🏅 ${L.n} · lig maçı${lb ? ' · ' + lb : ''} · ${L.tg} gole kadar` : e.id === '' ? 'Aranızda oynanacak lig maçı yok · dostluk maçı' : '';
+  if (text) setTimeout(() => toast(text, 2800), 60);                      // after the serve's notice, which comes with it
+}
+function lgGuestResult(e) {
+  const G = net.lgx, M = G && G.match, L = M && lg.list[e.id];
+  if (!L || M.id !== e.id || M.rid !== e.rid || !Array.isArray(e.r)) return;
+  const [a, b, sa, sb, u] = e.r;
+  if (a !== M.a || b !== M.b) return;
+  const res = [e.rid, a, b, Math.max(0, Math.min(30, sa | 0)), Math.max(0, Math.min(30, sb | 0))];
+  lgRecord(L, e.rid, a, b, res[3], res[4], 'on', Math.max(0, +u || Date.now()));
+  M.done = true; M.res = res;
+  if (state === 'over' && !M.shown) { M.shown = true; lgResultChip(L, ...res); }   // (it usually comes just before the final whistle)
+}
+// one phone: two members, one screen; the names on the board are theirs
+function lgPlayHere(id, rid) {
+  const L = lg.list[id], g = L && lgOpenGames(L).find(x => x.rid === rid);
+  if (!g) return;
+  if (net.role) leaveOnline();
+  endCupContext(); endTourContext(); setPair(null);
+  if (!lg.saved) lg.saved = { target: settings.target };
+  lg.saved.names = lg.saved.names || NAMES.duo.slice();
+  settings.target = L.tg;
+  NAMES.duo[0] = lgName(L, g.a); NAMES.duo[1] = lgName(L, g.b);
+  lg.live = { id, rid, a: g.a, b: g.b, done: false };
+  lg.open = false; syncForm();
+  startMatch('duo');
+  toast(`🏅 ${L.n} · ${NAMES.duo[0]} – ${NAMES.duo[1]}${g.label ? ' · ' + g.label : ''}`, 2600);
+}
+function endLgContext() {
+  if (lg.saved) {
+    settings.target = lg.saved.target;
+    if (lg.saved.names) { NAMES.duo[0] = lg.saved.names[0]; NAMES.duo[1] = lg.saved.names[1]; }
+    lg.saved = null; syncForm();
+  }
+  lg.live = null;
+}
+function lgAfterMatch(winner) {
+  if (lg.live && !lg.live.done && mode === 'duo') {
+    const V = lg.live, L = lg.list[V.id];
+    V.done = true;
+    if (!L) return;
+    lgRecord(L, V.rid, V.a, V.b, score[BLUE], score[RED], 'tel');
+    lgResultChip(L, V.rid, V.a, V.b, score[BLUE], score[RED]);
+    $('againBtn').textContent = '▶ Lig'; $('againBtn').setAttribute('aria-label', 'Lige dön');
+    return;
+  }
+  const G = net.lgx, M = G && G.match;
+  if (M && net.role === 'guest' && M.res && !M.shown && lg.list[M.id]) { M.shown = true; lgResultChip(lg.list[M.id], ...M.res); }
+  if (!M || M.done || net.role !== 'host') return;                    // the guest writes it down when the host's result comes
+  const L = lg.list[M.id];
+  M.done = true;
+  if (!L) return;
+  const u = Date.now(), sa = score[BLUE], sb = score[RED];
+  lgRecord(L, M.rid, M.a, M.b, sa, sb, 'on', u);
+  pushEvent({ k: 'lgr', id: M.id, rid: M.rid, r: [M.a, M.b, sa, sb, u] });
+  lgResultChip(L, M.rid, M.a, M.b, sa, sb);
+}
+function lgResultChip(L, rid, a, b, sa, sb) {
+  const w = sa > sb ? a : b, c = lgChamp(L);
+  let text;
+  if (c) text = `🏆 ${L.n} şampiyonu: ${lgName(L, c)}!`;
+  else if (L.f === 'kupa') text = `🏅 ${L.n} · ${lgName(L, w)} tur atladı`;
+  else if (lgAllPlayed(L)) text = `🏅 ${L.n} · bütün maçlar bitti · lider: ${lgName(L, lgLeader(L))}`;
+  else { const r = lgMine(L) ? lgRank(L, prog.pid) : 0; text = `🏅 ${L.n} · ${lgName(L, w)} kazandı` + (r ? ` · sıran: ${r}.` : ''); }
+  overRew.push({ k: 'c', text });
+  renderRewards();
+  $('overEyebrow').textContent = `Lig maçı · ${L.n}`;
+  if (c) Sound.fanfare(true);
+}
+function lgHost(id) {
+  if (!lg.list[id]) return;
+  lg.open = false; openOnline();
+  hostTable('1v1');
+  lg.table = id;                                  // (after hostTable: it leaves any old table first)
+}
+function lgJoinTable() {
+  lg.open = false; openOnline();
+  $('onChoose').hidden = true; $('onJoin').hidden = false;
+  setNetStatus('Lig maçı: rakibinin açtığı masanın 4 harflik kodunu gir.');
+  $('joinCode').focus();
+}
+function lgBack() { const id = lg.live && lg.live.id; attract(); if (id) lgOpenLeague(id, 'games'); }
+
+// ——— the screens
+function lgMsg(text, err) { lg.msg = text; lg.err = !!err; const el = $('lgMsg'); if (el) { el.textContent = text; el.classList.toggle('err', !!err); el.hidden = !text; } }
+function lgOpenList() { Sound.unlock(); lg.open = true; lg.view = 'list'; lg.sure = ''; lgMsg(''); lgRender(); setUI(); for (const id in lg.list) lgCloudSync(id); lgTimer(); }
+function lgOpenLeague(id, tab) {
+  const L = lg.list[id];
+  if (!L) return lgOpenList();
+  Sound.unlock();
+  lg.open = true; lg.view = 'detail'; lg.cur = id; lg.tab = tab || 'table'; lg.sure = '';
+  L.at = Date.now(); lgSelfName(L); lgSave();
+  lgRender(); setUI(); lgCloudSync(id, true); lgTimer();
+}
+function lgClose() { lg.open = false; lg.sure = ''; clearInterval(lg.timer); lg.timer = 0; setUI(); }
+function lgTimer() {
+  clearInterval(lg.timer);
+  lg.timer = setInterval(() => {
+    if (!lg.open) { clearInterval(lg.timer); lg.timer = 0; return; }
+    if (lg.view === 'detail') lgCloudSync(lg.cur); else for (const id in lg.list) lgCloudSync(id);
+  }, 30e3);
+}
+function lgRender() {
+  if (lg.view === 'detail' && !lg.list[lg.cur]) lg.view = 'list';
+  for (const v of ['list', 'new', 'detail']) $('lg' + v[0].toUpperCase() + v.slice(1)).hidden = lg.view !== v;
+  if (lg.view === 'list') lgRenderList();
+  else if (lg.view === 'new') lgRenderNew();
+  else lgRenderDetail();
+  lgMsg(lg.msg, lg.err);
+}
+function lgFmtText(L) { return L.f === 'kupa' ? 'Eleme kupası' : 'Herkes herkesle' + (L.legs > 1 ? ' · çift devre' : ''); }
+function lgRenderList() {
+  $('lgEyebrow').textContent = 'Arkadaşlar · iş yeri'; $('lgTitle').textContent = 'Özel ligler'; $('lgMeta').textContent = '';
+  const rows = Object.values(lg.list).sort((a, b) => b.at - a.at), box = $('lgRows');
+  box.innerHTML = rows.map(L => {
+    const n = lgActive(L).length, c = lgChamp(L), mine = lgMine(L) ? lgOpenGames(L).filter(g => g.a === prog.pid || g.b === prog.pid).length : 0;
+    const note = !lgMine(L) ? 'Artık bu ligde değilsin' : c ? `🏆 Şampiyon: ${lgName(L, c)}` : L.f === 'kupa' && !L.dr ? 'Kura bekleniyor'
+      : lgAllPlayed(L) ? `Maçlar bitti · lider: ${lgName(L, lgLeader(L))}` : mine ? `${mine} maçın var` : 'Maçın kalmadı';
+    return `<button type="button" class="lgrow" data-id="${L.id}"><b>${lgEsc(L.n)}</b><span>${lgFmtText(L)} · ${n} üye · ${L.s}. sezon</span><i>${lgEsc(note)}</i></button>`;
+  }).join('');
+  $('lgEmpty').hidden = rows.length > 0;
+  $('lgNewBtn').disabled = rows.length >= LG_LEAGUES;
+}
+function lgRenderNew() {
+  const D = lg.draft;
+  $('lgEyebrow').textContent = 'Özel lig'; $('lgTitle').textContent = 'Yeni lig'; $('lgMeta').textContent = '';
+  for (const b of document.querySelectorAll('#lgFmt [data-v]')) b.setAttribute('aria-pressed', String(b.dataset.v === D.f));
+  for (const b of document.querySelectorAll('#lgLegs [data-v]')) b.setAttribute('aria-pressed', String(+b.dataset.v === D.legs));
+  for (const b of document.querySelectorAll('#lgTg [data-v]')) b.setAttribute('aria-pressed', String(+b.dataset.v === D.tg));
+  $('lgLegsOpt').hidden = D.f === 'kupa';
+  $('lgNewNote').textContent = D.f === 'kupa'
+    ? `En fazla ${LG_MAX.kupa} kişi. Herkes katılınca kurayı sen çekersin; eşleşmeler eleme usulü, kaybeden elenir. Tek kalana bay geçer.`
+    : `En fazla ${LG_MAX.lig} kişi. Herkes herkesle ${D.legs > 1 ? 'iki kez' : 'bir kez'} oynar; galibiyet 3 puan. Sonradan katılanın maçları da eklenir.`;
+}
+function lgRenderDetail() {
+  const L = lg.list[lg.cur], n = lgActive(L).length, owner = L.o === prog.pid;
+  $('lgEyebrow').textContent = `Özel ${L.f === 'kupa' ? 'kupa' : 'lig'} · kod ${L.id}`;
+  $('lgTitle').textContent = L.n;
+  $('lgMeta').textContent = `${lgFmtText(L)} · ${L.tg} gole kadar · ${n} üye · ${L.s}. sezon` + (owner ? ' · kurucusun' : '');
+  for (const b of document.querySelectorAll('#lgTabs [role=tab]')) b.setAttribute('aria-selected', String(b.dataset.tab === lg.tab));
+  $('lgMCount').textContent = n;
+  $('lgInvite').hidden = lg.tab === 'members';
+  const P = $('lgPanel'), keep = P.dataset.k === L.id + lg.tab ? P.scrollTop : 0;
+  P.dataset.k = L.id + lg.tab;
+  P.innerHTML = lg.tab === 'games' ? lgGamesHtml(L, owner) : lg.tab === 'members' ? lgMembersHtml(L, owner) : lgTableHtml(L, owner);
+  const bb = $('lgBracket');
+  if (bb) {
+    const B = lgBracket(L), nx = lgNextBox(B);
+    drawBracket(bb, B, LG_ROUNDS[B.r.length], nx, p => p ? lgName(L, p) : '—', p => p === prog.pid ? ' human me' : p ? ' human' : '');
+  }
+  P.scrollTop = keep;
+  lgRenderSync();
+}
+function lgNextBox(B) {
+  let first = null;
+  for (let r = 0; r < B.r.length; r++) for (let m = 0; m < B.r[r].length; m++) {
+    const x = B.r[r][m];
+    if (x.w != null || !x.a || !x.b) continue;
+    if (x.a === prog.pid || x.b === prog.pid) return { r, m };
+    first = first || { r, m };
+  }
+  return first;
+}
+function lgRenderSync() {
+  const el = $('lgSync'), L = lg.list[lg.cur];
+  if (!el) return;
+  const C = lg.cloud, q = L && L.q ? L.q.length : 0;
+  el.textContent = !fbOn() ? '' : lg.view === 'detail' && L && C.busy[L.id] ? '☁️ Eşitleniyor…'
+    : C.down ? '📶 Bulut yok: sonuçlar bu telefonda durur, üyeler online oynadıkça telefonlar birbirini günceller.'
+    : lg.view === 'detail' && L && L.sy ? `☁️ Bulutla eşit · ${new Date(L.sy).toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' })}` + (q ? ` · ${q} değişiklik gönderilecek` : '') : '';
+}
+const lgSureBtn = (act, label, sureLabel, cls = 'ghost', extra = '') => `<button type="button" class="${cls}" data-act="${act}"${extra}>${lg.sure === act + extra ? sureLabel : label}</button>`;
+function lgTableHtml(L, owner) {
+  const c = lgChamp(L);
+  const hist = L.ch.length ? `<p class="gnote lghist">Geçmiş şampiyonlar: ${L.ch.slice().reverse().map(x => `${x.s}. sezon ${lgEsc(x.n)}`).join(' · ')}</p>` : '';
+  const done = L.f !== 'kupa' && lgAllPlayed(L), ld = done && lgLeader(L);
+  const champ = ld ? `<div class="lgchamp"><span aria-hidden="true">🏆</span><b>${lgEsc(lgName(L, ld))}</b><small>Bütün maçlar bitti, lider bu. ${owner ? 'Üyeler sekmesinden sezonu bitirince şampiyon ilan edilir.' : 'Kurucu sezonu bitirince şampiyon ilan edilir.'}</small></div>` : '';
+  const cupDone = c ? `<p class="gnote">🏆 ${lgEsc(lgName(L, c))} ${L.s}. sezonun şampiyonu!${owner ? ' Yeni sezon için: Üyeler → Sezonu bitir.' : ''}</p>` : '';
+  if (L.f === 'kupa') {
+    if (!L.dr) {
+      const n = lgActive(L).length;
+      return `<div class="lgwait"><b>Kura bekleniyor · ${n} üye</b><span>${owner ? (n < 2 ? 'Kura için en az 2 üye gerekir. Davet et ile arkadaşlarını çağır.' : 'Herkes katılınca kurayı çek. Kuradan sonra katılanlar bir sonraki sezonda oynar.') : 'Kurayı ligin kurucusu çeker.'}</span>${owner ? `<button type="button" class="cta" data-act="draw"${n < 2 ? ' disabled' : ''}>Kura çek</button>` : ''}</div>` + hist;
+    }
+    const late = lgActive(L).filter(p => !L.dr.includes(p)).length;
+    return cupDone + `<div class="bracket2 lgbracket" id="lgBracket"></div>` + (late ? `<p class="gnote">${late} üye kuradan sonra katıldı; yeni sezonda oynar.</p>` : '') + hist;
+  }
+  const T = lgTable(L), left = lgFixtures(L).filter(x => !x.res).length;
+  const rows = T.map((r, i) => `<tr class="${r.p === prog.pid ? 'me' : ''}${L.m[r.p] && L.m[r.p].x ? ' gone' : ''}"><td>${i + 1}</td><td class="nm">${lgEsc(lgName(L, r.p))}${r.p === prog.pid ? ' <small>(sen)</small>' : ''}</td><td>${r.o}</td><td>${r.w}</td><td>${r.l}</td><td>${r.gf - r.ga > 0 ? '+' : ''}${r.gf - r.ga}</td><td class="p">${r.pts}</td></tr>`).join('');
+  return champ + `<table class="lgtab"><thead><tr><th>#</th><th class="nm">Oyuncu</th><th title="Oynanan">O</th><th title="Galibiyet">G</th><th title="Mağlubiyet">M</th><th title="Averaj">AV</th><th title="Puan">P</th></tr></thead><tbody>${rows}</tbody></table>`
+    + `<p class="gnote">Galibiyet 3 puan. Eşitlikte averaj, sonra atılan gol. ${T.length < 2 ? 'Maçlar ikinci üye katılınca başlar.' : left ? `${left} maç kaldı.` : 'Bütün maçlar oynandı.'}</p>` + hist;
+}
+function lgGamesHtml(L, owner) {
+  const me = prog.pid, open = lgOpenGames(L), mine = open.filter(g => g.a === me || g.b === me), rest = open.filter(g => g.a !== me && g.b !== me);
+  const game = (g, you) => {
+    const opp = g.a === me ? g.b : g.a;
+    return `<div class="lggame${you ? ' you' : ''}"><span class="vs">${you ? `Sen – <b>${lgEsc(lgName(L, opp))}</b>` : `${lgEsc(lgName(L, g.a))} – ${lgEsc(lgName(L, g.b))}`}</span>${g.label ? `<small>${g.label}</small>` : ''}<button type="button" class="ghost" data-act="here" data-rid="${g.rid}" aria-label="Bu telefonda oyna">📱 Bu telefonda</button></div>`;
+  };
+  const res = Object.entries(L.r).filter(([k, r]) => !r.d && k.startsWith(L.s + '.')).sort((a, b) => b[1].u - a[1].u).slice(0, 40);
+  const resRow = ([k, r]) => `<div class="lgres"><span>${lgEsc(lgName(L, r.a))} <b>${r.sa}–${r.sb}</b> ${lgEsc(lgName(L, r.b))}</span><small>${r.h === 'tel' ? 'tek telefon' : 'online'} · ${lgDate(r.u)}${lgRidLabel(L, k) ? ' · ' + lgRidLabel(L, k) : ''}</small>${owner ? lgSureBtn('del', 'Sil', 'Emin misin?', 'ghost sm', ` data-rid="${k}"`) : ''}</div>`;
+  let h = '';
+  if (lgMine(L)) h += `<div class="lgonline"><p><b>Online lig maçı</b><span>Rakibinle aynı anda: biri masa açar, diğeri kodu girer. Aranızdaki sıradaki maç sayılır.</span></p><button type="button" class="cta" data-act="host">🌐 Masa aç</button><button type="button" class="ghost" data-act="join">🔑 Koda katıl</button></div>`;
+  if (L.f === 'kupa' && !L.dr) h += '<p class="gnote">Kura çekilince maçlar burada görünür.</p>';
+  else if (!open.length) h += `<p class="gnote">${lgChamp(L) || lgAllPlayed(L) ? 'Bu sezonun bütün maçları oynandı.' : 'Oynanacak maç yok.'}</p>`;
+  if (mine.length) h += `<p class="tlab">Senin maçların · ${mine.length}</p>` + mine.map(g => game(g, true)).join('');
+  if (rest.length) h += `<p class="tlab">Diğer maçlar · ${rest.length}</p>` + rest.slice(0, 30).map(g => game(g, false)).join('');
+  if (res.length) h += `<p class="tlab">Sonuçlar</p>` + res.map(resRow).join('');
+  return h;
+}
+function lgMembersHtml(L, owner) {
+  const tok = lgToken(L);
+  const ms = Object.keys(L.m).sort((a, b) => L.m[a].x - L.m[b].x || L.m[a].t - L.m[b].t).map(p => {
+    const e = L.m[p], tags = [p === prog.pid ? 'sen' : '', p === L.o ? 'kurucu' : '', e.x ? 'ayrıldı' : ''].filter(Boolean).join(' · ');
+    return `<li class="${e.x ? 'gone' : ''}${p === prog.pid ? ' me' : ''}"><b>${lgEsc(lgName(L, p))}</b><small>${tags ? tags + ' · ' : ''}${lgDate(e.t || L.t)}</small>${owner && p !== prog.pid && !e.x ? lgSureBtn('kick', 'Çıkar', 'Emin misin?', 'ghost sm', ` data-p="${p}"`) : ''}</li>`;
+  }).join('');
+  return `<div class="lginvite"><div class="lgcode"><span class="tlab">Lig kodu</span><b>${L.id}</b></div><label class="lgtok"><span class="tlab">Davet</span><input id="lgTok" readonly value="${lgEsc(tok)}" aria-label="Davet kodu"></label><button type="button" class="cta" data-act="share">📨 Davet et</button></div>`
+    + `<p class="gnote">Davet et, ligin bağlantısını ve uzun davet kodunu paylaşır; bunlar her zaman çalışır. 6 harflik kod, oyun buluta bağlanabildiğinde tek başına yeter.</p>`
+    + `<ul class="lgmembers">${ms}</ul>`
+    + `<div class="tbtns">${owner ? lgSureBtn('season', 'Sezonu bitir', 'Emin misin? Lider şampiyon olur, tablo sıfırlanır') : ''}${lgSureBtn('leave', owner ? 'Ligi bırak' : 'Ligden çık', 'Emin misin?')}</div>`;
+}
+async function lgShare(L) {
+  const tok = lgToken(L), link = lgLink(tok);
+  const text = `🏅 Cep Langırtı: seni "${L.n}" adlı ${L.f === 'kupa' ? 'kupaya' : 'lige'} davet ediyorum!\n` + (link ? `${link}\n` : '') + `Oyunda 👥 Lig → Katıl kısmına yapıştır: ${tok}\nKısa kod: ${L.id}`;
+  try { if (navigator.share) { await navigator.share({ title: L.n, text }); return; } } catch (e) { if (e && e.name === 'AbortError') return; }
+  try { await navigator.clipboard.writeText(text); toast('Davet kopyalandı · WhatsApp ya da e-postaya yapıştır', 2600); }
+  catch (e) { lg.tab = 'members'; lgRender(); const i = $('lgTok'); if (i) { i.focus(); i.select(); } toast('Davet kodunu seçip kopyala', 2400); }
+}
+function lgAct(act, b) {
+  const L = lg.list[lg.cur];
+  if (!L) return;
+  const key = act + (b.dataset.rid ? ` data-rid="${b.dataset.rid}"` : b.dataset.p ? ` data-p="${b.dataset.p}"` : '');
+  const sure = () => { if (lg.sure === key) { lg.sure = ''; return true; } lg.sure = key; lgRender(); return false; };
+  switch (act) {
+    case 'host': return lgHost(L.id);
+    case 'join': return lgJoinTable();
+    case 'here': return lgPlayHere(L.id, b.dataset.rid);
+    case 'share': return lgShare(L);
+    case 'draw': if (lgDraw(L)) { Sound.tock(.5); toast('Kura çekildi', 1800); } return;
+    case 'del': if (sure()) lgDelResult(L, b.dataset.rid); return;
+    case 'kick': if (sure()) lgKick(L, b.dataset.p); return;
+    case 'season': if (sure()) { lgNewSeason(L); lg.tab = 'table'; lgRender(); toast(`${L.s}. sezon başladı`, 2000); } return;
+    case 'leave': if (sure()) { lgLeave(L); lg.view = 'list'; lgRender(); } return;
+  }
+}
+
+$('lgBtn').addEventListener('click', lgOpenList);
+$('tourLg').addEventListener('click', () => { closeTour(); lgOpenList(); });
+$('lgClose').addEventListener('click', () => { if (lg.view === 'new') { lg.view = 'list'; lgRender(); } else if (lg.view === 'detail') { lg.view = 'list'; lg.sure = ''; lgRender(); } else lgClose(); });
+$('lgRows').addEventListener('click', e => { const b = e.target.closest('[data-id]'); if (b) lgOpenLeague(b.dataset.id); });
+$('lgNewBtn').addEventListener('click', () => { lg.view = 'new'; lg.draft.n = ''; $('lgNameIn').value = ''; $('lgNameIn').placeholder = `${prog.name} ve arkadaşları`; lgMsg(''); lgRender(); });
+$('lgNewBack').addEventListener('click', () => { lg.view = 'list'; lgRender(); });
+for (const [id, k, num] of [['lgFmt', 'f', false], ['lgLegs', 'legs', true], ['lgTg', 'tg', true]]) {
+  $(id).addEventListener('click', e => { const b = e.target.closest('[data-v]'); if (b) { lg.draft[k] = num ? +b.dataset.v : b.dataset.v; lgRenderNew(); } });
+}
+$('lgNew').addEventListener('submit', e => {
+  e.preventDefault();
+  const L = lgCreate({ ...lg.draft, n: $('lgNameIn').value || $('lgNameIn').placeholder });
+  if (!L) return lgMsg(`En fazla ${LG_LEAGUES} ligde olabilirsin.`, true);
+  Sound.tock(.5);
+  lgOpenLeague(L.id, 'members');
+  toast('Lig kuruldu · şimdi arkadaşlarını davet et', 2400);
+});
+$('lgJoinForm').addEventListener('submit', e => { e.preventDefault(); lgJoin($('lgJoinIn').value).then(L => { if (L) $('lgJoinIn').value = ''; }); });
+$('lgTabs').addEventListener('click', e => { const b = e.target.closest('[role=tab]'); if (b) { lg.tab = b.dataset.tab; lg.sure = ''; lgRender(); } });
+$('lgInvite').addEventListener('click', () => { const L = lg.list[lg.cur]; if (L) lgShare(L); });
+$('lgPanel').addEventListener('click', e => { const b = e.target.closest('[data-act]'); if (b && !b.disabled) lgAct(b.dataset.act, b); });
+lgLoad(); lgNetReset();
+// an invite link: #lig=<invite> joins that league
+if (/^#lig=/.test(location.hash)) {
+  const inv = decodeURIComponent(location.hash.slice(5));
+  try { history.replaceState(null, '', location.pathname + location.search); } catch (e) { /* ignore */ }
+  setTimeout(() => { lgOpenList(); lgJoin(inv); }, 300);
+}
+
+window.langirt = { lg, lgCreate, lgJoin, lgRecord, lgTable, lgBracket, lgMerge, lgClean, lgToken, lgHash, lgDraw, lgNewSeason, lgFixtures, lgOpenGames, lgOpenList, lgOpenLeague, lgCloudSync, lgCloudFetch, lgPlayHere, lgHost, lgSave, lgLoad, lgChamp, FORMATIONS, setFormation, chooseFormation, openFormations, teams, rods, ball, score, settings, update, startMatch, attract, net, hostTable, joinTable, sendEmote, EMOTES, stats, card, cardStory, drawCard, recordMatch, todayQuests, QUESTS, BADGES, BALLS, TABLES, PAL, clock, MATCH_TIME, MM, mm, findRival, tour, tourNext, openTour, playTour, tourSim, TEAM_COLORS, CRESTS, resolvePals, teamPal, colorDist, applyTeams, KITS, FXS, ITEMS, BUNDLES, store, openStore, storeBuy, storePick, storeCat, priceOf, bundlePrice, rollDeals, lookOf, spawnFx, particles, pv, drawStatic, startCup, cupRule, weekKey, mergeBoard, boardPayload, RULES, cup, FIREBASE, fb, fbPush, fbFetch, fbOn, renderBoard, spk, say, levelOf, xpOf, renderProfile, skillPoints, perksOf, applyPerks, PERK_NODES, UNITS, setPair, tryGiant, trySkill, press(k, down) { if (down) kbHeld.add(k); else kbHeld.delete(k); syncInput(); }, get pair() { return pair; }, get ctls() { return ctls; }, get prog() { return prog; }, get state() { return state; }, get mode() { return mode; }, get me() { return me; } };
 
 const hot = window.claude && window.claude.hot;
 if (hot && typeof hot.snapshot === 'function') {

@@ -348,7 +348,7 @@ Oyun `ceplangirti` Firebase projesine bağlı; aşağıdaki adımlar bu proje i�
 1. [console.firebase.google.com](https://console.firebase.google.com) adresinde **Proje oluştur**'a bas, projeye bir ad ver (örneğin `cep-langirti`). Google Analytics'i kapatabilirsin.
 2. **Authentication → Başlayın → Sign-in method** bölümünde **Anonim** (Anonymous) girişi aç ve kaydet.
 3. **Firestore Database → Veritabanı oluştur** de; konumu Avrupa seç (örneğin `eur3` ya da `europe-west1`), **production mode** ile başlat.
-4. Firestore'un **Kurallar** (Rules) sekmesine bu depodaki [`firestore.rules`](firestore.rules) dosyasının içeriğini yapıştırıp **Yayınla**'ya bas.
+4. Firestore'un **Kurallar** (Rules) sekmesine bu depodaki [`firestore.rules`](firestore.rules) dosyasının içeriğini yapıştırıp **Yayınla**'ya bas. Kurallar değişince (örneğin özel ligler eklenince) bu adım yeniden yapılır; yapılmazsa ligler bulutsuz, telefondan telefona çalışmaya devam eder.
 5. **Proje ayarları** (dişli simgesi) → **Genel → Uygulamalarınız** bölümünde web simgesine (`</>`) basıp bir web uygulaması ekle; hosting gerekmez. Çıkan `firebaseConfig` içindeki **apiKey** ve **projectId** değerleri, `index.html` içindeki `FIREBASE` satırına yazılır. Bu değerler her web uygulamasında herkese açıktır, gizli değildir; verileri koruyan 4. adımdaki kurallardır.
 6. İstersen Google Cloud Console'da **API'ler ve Hizmetler → Kimlik bilgileri** bölümünden bu anahtarı yalnızca `https://resat2148-arch.github.io/*` adresinden kullanılacak şekilde (HTTP referrer) kısıtlayabilirsin.
 
@@ -372,6 +372,39 @@ Menüdeki **Turnuva** düğmesi, arkadaşlarla tek telefonda oynanan bir eleme t
 - **Final:** Final bitince spiker şampiyonu ilan eder ve ağaçta 🏆 şampiyonun adıyla parlar.
 - **Kayıt:** Turnuva ilerlemeyle birlikte saklanır. Menüye dönülüp başka gün devam edilebilir: Turnuva düğmesi ağacı açar. Yarıda bırakılan maç yeniden oynanır. Süren bir turnuvada **Yeni turnuva** bir kez onay ister.
 - **İlerleme:** Görevlere, profile, yeteneklere ve forma/takım görünümüne yalnızca senin bilgisayara karşı maçların sayılır. İki kişilik maçlar ve başka oyuncuların bilgisayara karşı maçları sayılmaz. Haftalık kupa ayrıdır.
+
+### Özel lig (arkadaşlar, iş yeri)
+
+Menünün üstündeki **👥** düğmesi (ya da turnuva kurulumundaki **👥 Özel lig**) arkadaş grubuna ya da iş yerine özel, uzun soluklu bir lig ya da kupa kurar. Turnuvadan farkı şu: herkes kendi telefonundan katılır ve maçlar günlere yayılır.
+
+- **Kurmak:** **+ Yeni lig kur** ile bir ad verilir ve biçim seçilir.
+  - **Lig:** Herkes herkesle oynar. Tek devrede her ikili bir kez, çift devrede iki kez karşılaşır. En fazla 12 kişi.
+  - **Kupa (eleme):** En fazla 8 kişi. Herkes katılınca kurayı kurucu çeker. Kaybeden elenir; sayı tutmazsa bazı oyunculara ilk turda bay geçer.
+  - Maçların kaç gole kadar oynanacağı (3, 5 ya da 7) lig için bir kez seçilir. Her maç yine 90 saniyedir.
+- **Davet:** Her ligin 6 harflik bir kodu vardır (ör. `K7M2PX`). **📨 Davet et** ligin bağlantısını ve uzun davet kodunu WhatsApp, e-posta gibi uygulamalarla paylaşır; paylaşma yoksa panoya kopyalar.
+  - Bağlantıyı açan ya da uzun kodu **Katıl** kutusuna yapıştıran lige girer. Bu her zaman çalışır.
+  - 6 harflik kod tek başına, oyun buluta (Firebase) bağlanabildiğinde yeter.
+  - Bir telefon en fazla 8 ligde olabilir.
+- **Tablo:** O (oynanan), G, M, AV (averaj) ve P (puan). Galibiyet 3 puandır; eşitlikte averaja, sonra atılan gole bakılır. Kupada tablo yerine eleme ağacı görünür.
+- **Maçlar:** **Maçlar** sekmesinde önce senin kalan maçların, sonra diğerleri ve sonuçlar durur. Bir lig maçı iki şekilde oynanır:
+  - **🌐 Online:** Rakibinle aynı anda biriniz **Masa aç** der, diğeri **Koda katıl** ile masanın kodunu girer. Maç kendiliğinden lig maçı olur: aranızdaki sıradaki maç sayılır, gol hedefi ligin ayarıdır. İki telefon da maç başında "🏅 lig maçı" yazar ve sonucu kaydeder. Aranızda oynanacak maç kalmadıysa maç dostluk maçı sayılır. Çift devrede rövanş ikinci devre olur.
+  - **📱 Bu telefonda:** İki üye aynı telefonda 2 kişilik oynar; skor tablosunda ikisinin adı yazar. Bunu her maç için, başka iki üyenin maçı için de yapabilirsin; ofiste tek telefonla oynayanlar için. Maç sonunda **▶ Lig** lige döner.
+- **Sonuç ekranı:** Lig maçından sonra ligin adı ve senin sıran yazar (ör. "🏅 Ofis Ligi · Ayşe kazandı · sıran: 2.").
+- **Sezon:** Ligde bütün maçlar oynanınca lider öne çıkar. Kurucu **Üyeler → Sezonu bitir** deyince lider şampiyon ilan edilir, tablo sıfırlanır ve yeni sezon başlar. Kupada finali kazanan şampiyondur; yeni sezonda kura yeniden çekilir. Eski şampiyonlar tablonun altında listelenir.
+- **Kurucunun yetkileri:** Yanlış girilmiş bir sonucu silebilir (maç yeniden oynanır), bir üyeyi ligden çıkarabilir, kupada kurayı çeker ve sezonu bitirir. Silme ve çıkarma bir kez onay ister.
+- **Ayrılmak:** **Ligden çık** ligi bu telefondan kaldırır. Oynadığın maçlar tabloda kalır, oynanmamış maçların düşer. Kupada ayrılan oyuncunun rakibi hükmen tur atlar.
+- **Telefonlar nasıl eşitlenir:**
+  - Her üyenin telefonu ligin tamamını saklar. İnternet olmasa da sonuçlar kaybolmaz.
+  - **Bulut:** Oyun Firebase'e ulaşabildiğinde (GitHub Pages adresi) kurucunun ayarları, üyeler ve sonuçlar buluta yazılır. Lig ekranı açıkken her 30 saniyede bir güncellenir; sonuçlar herkese birkaç saniyede ulaşır.
+  - **Telefondan telefona:** İki üye online oynadığında (lig maçı olsun olmasın) telefonlar ortak liglerini karşılaştırır. Eksik üyeleri ve sonuçları birbirine aktarırlar, her kayıt için daha yeni olan kalır. Bulutun olmadığı claude.ai sayfasında ligler bu yolla yayılır: kim kiminle oynarsa, bildiği sonuçlar ona geçer.
+  - Bir telefon diğer üyelerin hepsinden haber almamış olabilir. Bu yüzden ligde şampiyonu tablo değil, kurucunun sezonu bitirmesi belirler.
+  - Başka telefonlara liglerin kendisi değil, yalnızca karıştırılmış kimlikleri gider. Bir lig, yalnızca iki telefon da o ligin üyesiyse aktarılır.
+- **Güvenlik** ([`firestore.rules`](firestore.rules)):
+  - Bir lig yalnızca kodunu bilen tarafından okunabilir; ligler listelenemez.
+  - Ayarları yalnızca kurucu değiştirir. Herkes yalnızca kendi üyeliğini yazar; kurucu bir üyeyi çıkarabilir.
+  - Sonuçları üyeler yazar. Yazılmış bir sonucu yalnızca kurucu değiştirebilir ya da silebilir.
+  - Adlar ve sayılar sınırlıdır (ad en fazla 24 karakter, skor 0–30).
+  - Arkadaş ligi olduğu için değiştirilmiş bir oyunla sahte sonuç girmek yine de mümkündür. Kurucu yanlış sonucu silebilir.
 
 ### 2v2 (rol paylaşımı)
 
@@ -527,4 +560,4 @@ Rakip, aktif çubuğunu topun o çubuğun hizasından geçeceği noktaya getirir
 - `manifest.webmanifest`, `icon.svg`: ana ekrana eklemek için
 - `peerjs.min.js`: online oyun için PeerJS 1.5.5 (MIT lisansı, © Michelle Bu ve Eric Zhang)
 - `.nojekyll`: GitHub Pages dosyaları olduğu gibi sunsun diye
-- `firestore.rules`: dünya tablosu için Firestore güvenlik kuralları
+- `firestore.rules`: dünya tablosu ve özel ligler için Firestore güvenlik kuralları

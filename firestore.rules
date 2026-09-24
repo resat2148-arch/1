@@ -1,6 +1,6 @@
 rules_version = '2';
 
-// Cep Langırtı: the world table.
+// Cep Langırtı: the world table and private leagues.
 // One document per player per week: weeks/{2026-H39}/players/{uid}, uid = the player's anonymous
 // Firebase account. Anyone may read the table; a player may write only their own document, with
 // sane values, at most every 10 seconds, and a week's points only ever go up.
@@ -35,6 +35,72 @@ service cloud.firestore {
         && d.w is int && d.w >= 0 && d.w <= 500
         && d.l is int && d.l >= 0 && d.l <= 500
         && d.t == request.time;
+    }
+
+    // Private leagues: leagues/{code}, with members/{uid} (one per player's anonymous account) and
+    // results/{match}. A league is read only by someone who knows its code (no listing); only its founder
+    // changes its settings; each player writes their own membership; members write results. A result
+    // already written can be changed only by the founder (or rewritten unchanged, or a deleted one replayed).
+    match /leagues/{id} {
+      allow get: if signedIn();
+      allow list: if false;
+      allow create: if signedIn() && id.matches('^[A-Z2-9]{6}$') && validLeague()
+        && request.resource.data.ou == request.auth.uid;
+      allow update: if signedIn() && resource.data.ou == request.auth.uid && validLeague()
+        && request.resource.data.ou == resource.data.ou
+        && request.resource.data.v > resource.data.v;
+      allow delete: if false;
+
+      match /members/{uid} {
+        allow read: if signedIn();
+        allow create, update: if signedIn() && validMember()
+          && exists(/databases/$(database)/documents/leagues/$(id))
+          && (request.auth.uid == uid || isFounder(id));
+        allow delete: if false;
+      }
+      match /results/{rid} {
+        allow read: if signedIn();
+        allow create: if isMember(id) && validResult(rid);
+        allow update: if isMember(id) && validResult(rid)
+          && (isFounder(id) || resource.data.d == true || request.resource.data == resource.data);
+        allow delete: if false;
+      }
+    }
+
+    function signedIn() {
+      return request.auth != null;
+    }
+    function isFounder(id) {
+      return signedIn() && get(/databases/$(database)/documents/leagues/$(id)).data.ou == request.auth.uid;
+    }
+    function isMember(id) {
+      return signedIn() && get(/databases/$(database)/documents/leagues/$(id)/members/$(request.auth.uid)).data.x == 0;
+    }
+    function validLeague() {
+      let d = request.resource.data;
+      return d.keys().hasOnly(['n', 'f', 'legs', 'tg', 'o', 'ou', 't', 'v', 's', 'dr', 'ch'])
+        && d.keys().hasAll(['n', 'f', 'legs', 'tg', 'o', 'ou', 't', 'v', 's', 'dr', 'ch'])
+        && d.n is string && d.n.size() >= 1 && d.n.size() <= 24
+        && d.f in ['lig', 'kupa'] && d.legs in [1, 2] && d.tg in [3, 5, 7]
+        && d.o is string && d.o.size() <= 16 && d.ou is string
+        && d.t is int && d.v is int && d.s is int && d.s >= 1 && d.s <= 999
+        && d.dr is list && d.dr.size() <= 8 && d.ch is list && d.ch.size() <= 10;
+    }
+    function validMember() {
+      let d = request.resource.data;
+      return d.keys().hasOnly(['p', 'n', 't', 'u', 'x']) && d.keys().hasAll(['p', 'n', 't', 'u', 'x'])
+        && d.p is string && d.p.size() >= 6 && d.p.size() <= 16
+        && d.n is string && d.n.size() >= 1 && d.n.size() <= 14
+        && d.t is int && d.u is int && d.x in [0, 1];
+    }
+    function validResult(rid) {
+      let d = request.resource.data;
+      return rid.matches('^[0-9]{1,3}[.]([a-z0-9]{6,16}[.][a-z0-9]{6,16}[.][12]|k[0-2][.][0-3])$')
+        && d.keys().hasOnly(['s', 'a', 'b', 'sa', 'sb', 'u', 'h', 'd']) && d.keys().hasAll(['s', 'a', 'b', 'sa', 'sb', 'u', 'h', 'd'])
+        && d.s is int && d.a is string && d.b is string && d.a != d.b
+        && d.a.size() <= 16 && d.b.size() <= 16
+        && d.sa is int && d.sa >= 0 && d.sa <= 30 && d.sb is int && d.sb >= 0 && d.sb <= 30
+        && d.u is int && d.h in ['on', 'tel'] && d.d is bool;
     }
 
     match /{document=**} {
