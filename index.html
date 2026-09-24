@@ -475,6 +475,16 @@ button:focus-visible,.seg input:focus-visible+label{outline:2px solid var(--bras
 .side button.me{background:rgba(214,165,72,.16);border-color:var(--brass)}
 .side button:disabled{cursor:default}
 .side button:not(:disabled):hover{border-color:var(--brass)}
+#onChoose{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;width:100%}
+#onChoose #findBtn{grid-column:1/-1}
+#onChoose .ghost{padding:11px 6px;white-space:nowrap}
+@container (max-height:460px){
+  #online .big{display:none}                     /* the eyebrow says where we are */
+}
+.search{display:grid;justify-items:center;gap:10px;padding:6px 0}
+.spin{width:44px;height:44px;border-radius:50%;border:4px solid rgba(242,233,216,.12);border-top-color:var(--brass);animation:spin 1s linear infinite}
+@keyframes spin{to{rotate:1turn}}
+.search b{font-variant-numeric:tabular-nums;color:var(--chalk)}
 #lobStart:disabled,#tlStart:disabled{opacity:.45;cursor:default;box-shadow:none}
 .tlist{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:5px;text-align:left}
 .tlist li{padding:6px 10px;border-radius:10px;border:1px solid var(--chalk-3);background:rgba(242,233,216,.05);font:700 14px/1.2 var(--ui);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -921,10 +931,11 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
       <p class="eyebrow"><span lang="en">Online</span> · iki ile sekiz telefon</p>
       <h2 class="big"><span lang="en">Online</span> maç</h2>
       <div class="row" id="onChoose">
-        <button class="cta" id="hostBtn">Masa aç</button>
-        <button class="cta alt" id="host2Btn">2v2 masa aç</button>
-        <button class="cta alt" id="hostTBtn">Turnuva masası aç</button>
-        <button class="ghost" id="joinShow">Masaya katıl</button>
+        <button class="cta" id="findBtn">Rakip bul</button>
+        <button class="ghost" id="hostBtn" aria-label="Arkadaşın için masa aç">Masa aç</button>
+        <button class="ghost" id="host2Btn" aria-label="2v2 masası aç">2v2 masa</button>
+        <button class="ghost" id="hostTBtn" aria-label="Turnuva masası aç">Turnuva</button>
+        <button class="ghost" id="joinShow" aria-label="Kodla masaya katıl">Katıl</button>
       </div>
       <div class="join" id="onHost" hidden>
         <p class="sub">Arkadaşın bu kodu girsin</p>
@@ -949,6 +960,10 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
         </div>
         <button class="cta" id="lobStart">Maçı başlat</button>
         <p class="sub" id="lobWait">Masayı açan başlatınca maç başlar.</p>
+      </div>
+      <div class="search" id="onSearch" hidden>
+        <span class="spin" aria-hidden="true"></span>
+        <p class="sub" role="status">Rakip aranıyor… <b id="searchTime">0:00</b></p>
       </div>
       <div class="lobby" id="onTour" hidden>
         <p class="lobhead">Turnuva masası <b class="lobcode" id="tlCode">····</b><span id="tlCount"></span></p>
@@ -1758,7 +1773,7 @@ function scoreGoal(scorer, side) {
   goalBanner(scorer, own, superGoal);
   spkGoal(scorer, own, superGoal);
   emoteHint(scorer);
-  if (mode === 'cpu') cpuReact(scorer === RED ? (own ? 'own' : 'scored') : own ? '' : 'conceded');
+  if (mode === 'cpu' || net.bot) cpuReact(scorer === RED ? (own ? 'own' : 'scored') : own ? '' : 'conceded');
   pushEvent({ k: 'goal', s: scorer, o: own ? 1 : 0, u: superGoal ? 1 : 0, x: side ? W : 0, y: Math.round(ball.y) });
   vibrate(mode === 'duo' ? 60 : scorer === me ? [30, 40, 60] : 80);
   if (score[scorer] >= settings.target) later(1.7, () => endMatch(scorer));
@@ -2062,7 +2077,7 @@ function sendEmote(team, id) {
   emoBtn.forEach((b, i) => { if (emoSlotTeam(i) === team) { closeTray(i); b.classList.remove('hot'); emo.hintT[i] = 0; } });
   showEmote(team, id);
   if (net.role === 'guest') { net.emN++; net.emId = id; sendGuestInput(true); }
-  else if (net.role === 'host') pushEvent({ k: 'emo', t: team, e: id, s: net.p2 ? net.mySeat : undefined });
+  else if (net.role === 'host') { pushEvent({ k: 'emo', t: team, e: id, s: net.p2 ? net.mySeat : undefined }); if (net.bot) cpuReact('taunted'); }
   else if (mode === 'cpu') cpuReact('taunted');
   recordEvent('emote');
   return true;
@@ -2076,14 +2091,14 @@ function remoteEmote(team, id, seat) {
   pushEvent({ k: 'emo', t: team, e: id, s: seat });
 }
 function cpuReact(kind) {
-  const talk = mode === 'cpu' && settings.emotes && CPU_TALK[settings.level][kind];
-  if (!talk || Math.random() > talk[0]) return;
+  const talk = (mode === 'cpu' || net.bot) && settings.emotes && CPU_TALK[net.bot ? net.bot.talk : settings.level][kind];
+  if (!talk || Math.random() > talk[0] * (net.bot ? .6 : 1)) return;             // a stand-in talks a little less
   const end = kind === 'won' || kind === 'lost';
   if (!end && (state !== 'play' || simT - emo.cpuT < EMOTE.cpuGap)) return;
   emo.cpuT = simT;
   const id = talk[1][Math.floor(Math.random() * talk[1].length)];
   // it takes a moment to "type", except the warning that goes with a loaded süper şut
-  later(kind === 'armed' ? .1 : rand(.6, 1.2), () => { if (mode === 'cpu' && (state === 'play' || state === 'over')) showEmote(RED, id); });
+  later(kind === 'armed' ? .1 : rand(.6, 1.2), () => { if ((mode === 'cpu' || net.bot) && (state === 'play' || state === 'over')) showEmote(RED, id); });
 }
 // after a goal your 💬 glows for a moment: the best time for a word
 function emoteHint(team) {
@@ -3097,6 +3112,7 @@ function startMatch(m) {
   state = 'play'; paused = false;
   teams[BLUE].ai = null; teams[RED].ai = mode === 'cpu' ? LEVELS[settings.level] : null;
   if (pair) setupPair();
+  if (net.bot) teams[RED].ai = net.bot.level;
   if (tour.live && tour.live.net) for (const t of teams) { const x = tourSlot(t.id === BLUE ? tour.live.blue : tour.live.red); t.ai = x.c ? LEVELS[x.c] : null; }   // computer teams at their level
   applyTeams();
   resetTable(); clearInput(); applyControls(); renderHud();
@@ -3135,7 +3151,8 @@ function endMatch(winner) {
   spkEnd(winner);
   stats.dur = simT - stats.t0;
   showResult(winner);
-  if (mode === 'cpu') cpuReact(winner === RED ? 'won' : 'lost');
+  if (mode === 'cpu' || net.bot) cpuReact(winner === RED ? 'won' : 'lost');
+  if (net.bot) botAfterMatch();
   pushEvent({ k: 'end', w: winner, st: { d: Math.round(stats.dur), g: stats.goals.map(g => g.s | g.o << 1 | g.u << 2), sv: [...stats.saves], gi: [...stats.giants], bs: [...stats.bigSaves] } });
   state = 'over'; paused = false; clearInput();
   for (const t of teams) t.ai = LEVELS.kulup;
@@ -4967,6 +4984,7 @@ $('resumeBtn').addEventListener('click', resumeGame);
 $('restartBtn').addEventListener('click', () => startMatch());
 $('onlineBtn').addEventListener('click', openOnline);
 $('hostBtn').addEventListener('click', () => hostTable('1v1'));
+$('findBtn').addEventListener('click', () => { Sound.unlock(); findRival(); });
 $('host2Btn').addEventListener('click', () => hostTable('2v2'));
 $('hostTBtn').addEventListener('click', () => hostTable('tour'));
 $('tlStart').addEventListener('click', drawTourNet);
@@ -5029,7 +5047,7 @@ const net = { role: null, kind: '', code: '', tr: null, connected: false, lastHe
   again: 0, lastAgain: 0, saved: null, forced: null, peerOpts: null, sfxT: {}, waitT: 0, emN: 0, emId: 0, seenEm: 0,
   bdGot: -1, bdAck: -1, brdV: -1, oppLook: null,
   gid: '', guestG: '', p2: false, seats: [null, null, null, null], guests: {}, mySeat: -1, want: -1, sideLook: [null, null], lobT: 0,   // online 2v2
-  t: false, tour: null, players: [], tbV: 0, tbKey: '', tlKey: '', spect: false, myTeam: BLUE, leftBracket: false };                   // online tournament      // table versions: received from the guest / acknowledged by the host / last sent by the host
+  t: false, tour: null, players: [], tbV: 0, tbKey: '', tlKey: '', spect: false, myTeam: BLUE, leftBracket: false, bot: null };                   // online tournament      // table versions: received from the guest / acknowledged by the host / last sent by the host
 let onlineOpen = false, pairOpen = false;
 // the 2v2 chooser: a little table for each choice, your rods lit
 function pairSvg(role) {
@@ -5100,6 +5118,10 @@ async function roomTransport() {
       room.presence({ cepl: { code, role, d: null } }).catch(() => {});
     },
     send(d) { room.presence({ cepl: { code, role, d } }).catch(() => {}); },
+    match(mine, onJoin) {
+      return presenceMatch(e => room.presence({ cepq: e }).catch(() => {}),
+        cb => room.onPeers(ch => cb(ch.peers.filter(p => !p.sameTab).map(p => p.presence && p.presence.cepq))), mine, onJoin);
+    },
     close() { off.forEach(f => f()); off = []; room.presence({ cepl: null }).catch(() => {}); },
   };
 }
@@ -5127,6 +5149,36 @@ async function peerTransport() {
       else peer.on('open', () => wire(peer.connect(id, { serialization: 'json', reliable: true })));
     },
     send(d) { for (const c of conns) if (c.open) c.send(d); },
+    // the first searcher holds a shared lobby id and hands its table's code to the next one
+    match(mine, onJoin) {
+      const LOBBY = 'cep-langirti-lobby';
+      let lob = null, stopped = false, timer = 0;
+      const clear = () => { if (lob) { try { lob.destroy(); } catch (e) { /* gone */ } lob = null; } };
+      const again = ms => { clear(); if (!stopped) timer = setTimeout(attempt, ms); };
+      const attempt = () => {
+        if (stopped) return;
+        const L = lob = new window.Peer(LOBBY, opts);
+        L.on('open', () => L.on('connection', c => c.on('open', () => {
+          if (L.paired) { c.close(); return; }
+          L.paired = true; c.send({ join: mine });
+          setTimeout(() => { if (lob === L) again(5000); }, 400);            // free the lobby; hold it again if they never come
+        })));
+        L.on('error', e => {
+          if (lob !== L) return;
+          if (!(e && e.type === 'unavailable-id')) return again(rand(1000, 2000));
+          try { L.destroy(); } catch (x) { /* gone */ }
+          const A = lob = new window.Peer(opts);                              // someone holds it: ask them
+          A.on('open', () => {
+            const c = A.connect(LOBBY, { serialization: 'json', reliable: true });
+            c.on('data', d => { if (d && typeof d.join === 'string' && d.join !== mine && !stopped) onJoin(d.join); });
+            c.on('close', () => { if (lob === A) again(rand(600, 1400)); });
+          });
+          A.on('error', () => { if (lob === A) again(rand(800, 1600)); });
+        });
+      };
+      attempt();
+      return () => { stopped = true; clearTimeout(timer); clear(); };
+    },
     close() { try { for (const c of conns) c.close(); if (peer) peer.destroy(); } catch (e) { /* already gone */ } conns = []; peer = null; },
   };
 }
@@ -5139,6 +5191,16 @@ function tabTransport() {            // two tabs of one browser; used for testin
     kind: 'tab',
     open(r, c, onState) { role = r; code = c; onS = onState; },
     send(d) { ch.postMessage({ role, code, d }); },
+    match(mine, onJoin) {
+      const q = new BroadcastChannel('cep-langirti-q'), seen = new Map();
+      let me = null, hb = 0;
+      q.onmessage = e => { const m = e.data; if (m && m.code) { if (m.e) seen.set(m.code, { e: m.e, at: Date.now() }); else seen.delete(m.code); } };
+      return presenceMatch(e => { me = e; try { q.postMessage(e ? { code: mine, e } : { code: mine }); } catch (x) { /* closed */ } },
+        cb => {
+          hb = setInterval(() => { if (me) q.postMessage({ code: mine, e: me }); const now = Date.now(); cb([...seen.values()].filter(x => now - x.at < 1500).map(x => x.e)); }, 300);
+          return () => { clearInterval(hb); setTimeout(() => q.close(), 50); };
+        }, mine, onJoin);
+    },
     close() { onS = null; ch.close(); },
   };
 }
@@ -5160,16 +5222,17 @@ function openOnline() {
   onlineOpen = true;
   $('onChoose').hidden = false; $('onHost').hidden = true; $('onJoin').hidden = true; $('onLobby').hidden = true; $('onTour').hidden = true; $('joinCode').value = '';
   $('online').classList.remove('inlobby');
-  setNetStatus('Biri masa açsın, diğerleri koduyla katılsın. 2v2 masasına dört, turnuva masasına sekiz telefon oturur.');
+  setNetStatus('Rakip bul ile rastgele biriyle eşleş; arkadaşınla oynamak için biri masa açsın, diğeri koduyla katılsın.');
   setUI(); Sound.unlock();
 }
-function closeOnline() { leaveOnline(); onlineOpen = false; setUI(); }
+function closeOnline() { stopSearch(); leaveOnline(); onlineOpen = false; setUI(); }
 function leaveOnline() {
+  if (mm.on) stopSearch();
   if (net.tr) { try { net.tr.close(); } catch (e) { /* already closed */ } }
   const wasGuest = net.role === 'guest';
   Object.assign(net, { tr: null, role: null, connected: false, snaps: [], events: [], again: 0, lastAgain: 0, oppName: '', oppLook: null, lookKey: '',
     guestG: '', p2: false, seats: [null, null, null, null], guests: {}, mySeat: -1, want: -1, sideLook: [null, null],
-    t: false, tour: null, players: [], tbKey: '', tlKey: '', spect: false, leftBracket: false });
+    t: false, tour: null, players: [], tbKey: '', tlKey: '', spect: false, leftBracket: false, bot: null });
   stage.classList.remove('spect'); $('onTour').hidden = true;
   if (tourOpen) tourOpen = false;
   $('onLobby').hidden = true; $('online').classList.remove('inlobby');
@@ -5190,6 +5253,7 @@ function partnerGone() {
 function failJoin(text) {
   if (net.tr) { try { net.tr.close(); } catch (e) { /* ignore */ } }
   Object.assign(net, { tr: null, role: null, connected: false });
+  if (mm.on && mm.joining) { mm.joining = false; setTimeout(() => { if (mm.on && !net.tr) hostForSearch(); }, 50); return; }   // searching: back to our own table
   setNetStatus(text, true);
 }
 
@@ -5489,6 +5553,113 @@ function guestTourState(d) {
   }
   return true;
 }
+/* ——— Rakip bul: a random opponent ———
+   The phone opens a table of its own under a private code and looks for anyone else searching: on the
+   claude.ai room (and between tabs) the searchers see one another and the newer one joins the older
+   one's table; over PeerJS the first searcher holds a shared "lobby" id and hands its code to the next
+   one. If nobody turns up within some seconds, a stand-in rival takes the empty seat and plays as an
+   online opponent would: a player's name, sometimes its own kit, a level near the player's, a few
+   emotes, and now and then it leaves after a match. Its matches count like any other online match. */
+const MM = { wait: [7, 13], joinWait: 4000 };        // seconds before the stand-in comes; ms to reach a table
+const mm = { on: false, t: 0, until: 0, tick: 0, stop: null, joining: false };
+const BOT_NAMES = ['Emre', 'Zeynep', 'Mert_34', 'elif.k', 'Kaan', 'Buse', 'Oğuz07', 'Burak', 'Selin', 'Arda', 'can1905', 'Yusuf',
+  'Melis', 'golcu_ali', 'Kerem', 'Ayşegül', 'Tolga', 'Nehir', 'Berk', 'İrem', 'efe_k', 'Sude', 'Barış', 'Ceren', 'hakan.44', 'Ozan',
+  'Defne', 'Umut', 'Eylül', 'batu', 'Serkan', 'Gizem', 'Onur', 'Ada', 'Cem'];
+function presenceMatch(publish, subscribe, code, onJoin) {
+  const me = { code, t: mm.t };
+  publish(me);
+  const stop = subscribe(list => {
+    // the newer searcher joins the older one's table (equal times: the smaller code waits)
+    const older = list.filter(e => e && e.code && e.code !== code && (e.t < me.t || (e.t === me.t && e.code < code))).sort((a, b) => a.t - b.t)[0];
+    if (older) onJoin(older.code);
+  });
+  return () => { stop(); publish(null); };
+}
+function stopSearch() {
+  mm.on = false; mm.joining = false;
+  clearInterval(mm.tick); mm.tick = 0;
+  if (mm.stop) { try { mm.stop(); } catch (e) { /* already gone */ } mm.stop = null; }
+  $('onSearch').hidden = true;
+}
+async function findRival() {
+  if (net.tr) leaveOnline();
+  stopSearch();
+  $('onChoose').hidden = true; $('onSearch').hidden = false;
+  setNetStatus('');
+  mm.on = true; mm.t = Date.now(); mm.until = performance.now() + rand(MM.wait[0], MM.wait[1]) * 1000;
+  renderSearch();
+  mm.tick = setInterval(searchTick, 250);
+  await hostForSearch();
+}
+// our own table, open for whoever finds us
+async function hostForSearch() {
+  const tr = await getTransport();
+  if (!mm.on) { if (tr) tr.close(); return; }
+  if (!tr) { stopSearch(); $('onChoose').hidden = false; return setNetStatus(NO_NET, true); }
+  const code = makeCode();
+  Object.assign(net, { tr, role: 'host', kind: tr.kind, code, connected: false, seq: 0, events: [], evId: 0,
+    seen: { p: 0, s: 0, g: 0, pending: false }, lastAgain: 0, seenEm: 0, bdGot: -1, brdV: -1, gid: 'host', guestG: '', p2: false, t: false });
+  mm.joining = false;
+  tr.open('host', code, hostOnState, partnerGone, err => { if (err === 'unavailable-id' && mm.on) { tr.close(); net.tr = null; hostForSearch(); } });
+  mm.stop = tr.match ? tr.match(code, other => joinFromSearch(other)) : null;
+}
+function joinFromSearch(code) {
+  if (!mm.on || mm.joining || net.connected) return;
+  if (mm.stop) { mm.stop(); mm.stop = null; }
+  if (net.tr) { try { net.tr.close(); } catch (e) { /* ignore */ } }
+  Object.assign(net, { tr: null, role: null, connected: false });
+  mm.joining = true;
+  joinTable(code, true);
+}
+function searchTick() {
+  if (!mm.on) return;
+  renderSearch();
+  if (net.connected) { stopSearch(); return; }                         // a real player: the match is on
+  if (mm.joining && net.role === 'guest' && performance.now() - net.joinT > MM.joinWait) {   // their table did not answer
+    failJoin('');                                                    // (the search goes on from there)
+    return;
+  }
+  if (performance.now() >= mm.until && !mm.joining) botFound();
+}
+function renderSearch() {
+  const s = Math.floor((Date.now() - mm.t) / 1000);
+  $('searchTime').textContent = `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
+}
+// the stand-in: a level near the player's, judged by how their online matches went
+function blendLevel(t) {
+  const lo = t < .5 ? LEVELS.acemi : LEVELS.kulup, hi = t < .5 ? LEVELS.kulup : LEVELS.usta, q = t < .5 ? t * 2 : t * 2 - 1, o = {};
+  for (const k in lo) o[k] = Array.isArray(lo[k]) ? lo[k].map((v, i) => lerp(v, hi[k][i], q)) : lerp(lo[k], hi[k], q);
+  return o;
+}
+function botLook() {
+  const pick = a => a[Math.floor(Math.random() * a.length)];
+  const kit = Math.random() < .45 ? pick(KITS).id : 'klasik', fx = Math.random() < .35 ? pick(FXS).id : 'konfeti';
+  let team = null;
+  if (Math.random() < .25) {
+    const name = pick(['Kartallar', 'Şimşekler', 'Aslanlar', 'Yıldızlar', 'Fırtına', 'Dalga', 'Kurtlar', 'Efsaneler']) + ' ' + pick(['FK', 'SK', 'Spor', '']);
+    team = cleanTeam({ name: name.trim(), c1: pick(TEAM_COLORS)[0], c2: pick(TEAM_COLORS)[0], crest: pick(CRESTS), auto: true });
+  }
+  return { kit, fx, team };
+}
+function botFound() {
+  if (net.tr) { try { net.tr.close(); } catch (e) { /* ignore */ } }
+  stopSearch();
+  const rec = prog.life.rec.online, rate = (rec[0] + 1) / (rec[0] + rec[1] + 2);
+  const t = clamp(.35 + (rate - .5) * .8 + rand(-.12, .12), .12, .88);
+  const name = BOT_NAMES.filter(n => n !== prog.name)[Math.floor(Math.random() * (BOT_NAMES.length - 1))];
+  Object.assign(net, { tr: { kind: 'bot', send() {}, close() {} }, role: 'host', kind: 'bot', code: '', connected: true, events: [], evId: 0,
+    oppName: name, oppLook: botLook(), lastHeard: performance.now(), guestG: '', p2: false, t: false,
+    bot: { level: blendLevel(t), talk: t < .35 ? 'acemi' : t < .7 ? 'kulup' : 'usta', left: 0 } });
+  applyTeams();
+  setNetStatus(`Rakip bulundu: ${name}`);
+  setTimeout(() => { if (net.bot && state === 'menu') { onlineOpen = false; startMatch('online'); } }, rand(600, 1400));
+}
+// after a match a stand-in stays for the rematch most of the time, as people do
+function botAfterMatch() {
+  if (!net.bot || Math.random() > .2) return;
+  const n = ++net.bot.left;
+  setTimeout(() => { if (net.bot && state === 'over' && net.bot.left === n) partnerGone(); }, rand(4000, 9000));
+}
 function makeSnap() {
   const r = [];
   for (const rod of rods) r.push(r1(rod.p), r3(rod.th), r2(rod.big));
@@ -5507,18 +5678,18 @@ function makeSnap() {
   };
 }
 
-async function joinTable(raw) {
+async function joinTable(raw, quiet) {
   const code = String(raw || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
   if (code.length !== 4) return setNetStatus('Kod 4 karakter olmalı.', true);
   if (net.tr) leaveOnline();
-  setNetStatus('Bağlanıyor…');
+  if (!quiet) setNetStatus('Bağlanıyor…');
   const tr = await getTransport();
-  if (!tr) return setNetStatus(NO_NET, true);
+  if (!tr) return quiet ? failJoin('') : setNetStatus(NO_NET, true);
   Object.assign(net, { tr, role: 'guest', kind: tr.kind, code, connected: false, lastN: 0, lastEv: 0, snaps: [], joinT: performance.now(),
     cnt: { p: 0, s: 0, g: 0 }, again: 0, inKey: '', emN: 0, bdAck: -1, gid: Math.random().toString(36).slice(2, 10), p2: false, mySeat: -1, want: -1 });
-  tr.open('guest', code, guestOnState, partnerGone, err => failJoin(netErrorText(err)));
+  tr.open('guest', code, guestOnState, () => { if (mm.on) failJoin(''); else partnerGone(); }, err => failJoin(netErrorText(err)));
   sendGuestInput(true);
-  setNetStatus('Masa aranıyor…');
+  if (!quiet) setNetStatus('Masa aranıyor…');
 }
 function sendGuestInput(force) {
   if (net.role !== 'guest' || !net.tr) return;
@@ -5622,6 +5793,7 @@ function guestUpdate(dt) {
 }
 function netTick(dt) {
   const now = performance.now();
+  if (net.bot) { net.lastHeard = now; return; }                  // nothing goes out; nobody to wait for
   if (net.role === 'host') {
     net.sendAcc += dt;
     if (net.connected && net.brdV !== board.v) { net.brdV = board.v; pushEvent({ k: 'brd', b: boardPayload() }); }   // our table, whenever it changes
@@ -5671,7 +5843,7 @@ function boot(data) {
 }
 
 // handle for experimenting from the console
-window.langirt = { teams, rods, ball, score, settings, update, startMatch, attract, net, hostTable, joinTable, sendEmote, EMOTES, stats, card, cardStory, drawCard, recordMatch, todayQuests, QUESTS, BADGES, BALLS, TABLES, PAL, tour, tourNext, openTour, playTour, tourSim, TEAM_COLORS, CRESTS, resolvePals, teamPal, colorDist, applyTeams, KITS, FXS, ITEMS, BUNDLES, store, openStore, storeBuy, storePick, storeCat, priceOf, bundlePrice, rollDeals, lookOf, spawnFx, particles, pv, drawStatic, startCup, cupRule, weekKey, mergeBoard, boardPayload, RULES, cup, FIREBASE, fb, fbPush, fbFetch, fbOn, renderBoard, spk, say, levelOf, xpOf, renderProfile, skillPoints, perksOf, applyPerks, PERK_NODES, UNITS, setPair, tryGiant, trySkill, press(k, down) { if (down) kbHeld.add(k); else kbHeld.delete(k); syncInput(); }, get pair() { return pair; }, get ctls() { return ctls; }, get prog() { return prog; }, get state() { return state; }, get mode() { return mode; }, get me() { return me; } };
+window.langirt = { teams, rods, ball, score, settings, update, startMatch, attract, net, hostTable, joinTable, sendEmote, EMOTES, stats, card, cardStory, drawCard, recordMatch, todayQuests, QUESTS, BADGES, BALLS, TABLES, PAL, MM, mm, findRival, tour, tourNext, openTour, playTour, tourSim, TEAM_COLORS, CRESTS, resolvePals, teamPal, colorDist, applyTeams, KITS, FXS, ITEMS, BUNDLES, store, openStore, storeBuy, storePick, storeCat, priceOf, bundlePrice, rollDeals, lookOf, spawnFx, particles, pv, drawStatic, startCup, cupRule, weekKey, mergeBoard, boardPayload, RULES, cup, FIREBASE, fb, fbPush, fbFetch, fbOn, renderBoard, spk, say, levelOf, xpOf, renderProfile, skillPoints, perksOf, applyPerks, PERK_NODES, UNITS, setPair, tryGiant, trySkill, press(k, down) { if (down) kbHeld.add(k); else kbHeld.delete(k); syncInput(); }, get pair() { return pair; }, get ctls() { return ctls; }, get prog() { return prog; }, get state() { return state; }, get mode() { return mode; }, get me() { return me; } };
 
 const hot = window.claude && window.claude.hot;
 if (hot && typeof hot.snapshot === 'function') {

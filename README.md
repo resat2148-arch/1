@@ -401,6 +401,23 @@ Bilgisayara karşı modda klavyeyle de oynanır: `↑ ↓` ya da `W S` aktif çu
 
 Oyun yatay ekran için tasarlandı. Telefon dik tutulursa sahne kendiliğinden 90° döner; telefonu yan çevirmen yeterli.
 
+#### Rakip bul (rastgele eşleşme)
+
+Online ekranındaki **Rakip bul**, kod paylaşmadan rastgele biriyle eşleştirir. Arama sırasında dönen bir halka ve geçen süre görünür; **Geri** aramayı bırakır.
+- **Nasıl eşleşir:** Arayan telefon kendine özel kodla bir masa açar ve o sırada arayan başka birini bekler.
+  - claude.ai odasında (ve aynı tarayıcının sekmeleri arasında) arayanlar birbirini görür; sonra gelen, önce gelenin masasına oturur.
+  - PeerJS'te ilk arayan ortak bir "lobi" kimliğini tutar ve masasının kodunu sonraki arayana verir.
+  - Eşleşince normal 1v1 online maç başlar; önce aramaya başlayan masayı açan olur.
+- **Kimse yoksa:** 7–13 saniye içinde gerçek bir rakip bulunamazsa "Rakip bulundu: …" diye bir yedek rakip gelir. Oyuncuya o da gerçek bir online rakip gibi görünür:
+  - bir oyuncu adı, bazen kendi forması, gol şovu ya da takımı
+  - "Sen – Rakip" skor tablosu, "Maç bitti · Online", spikerde adı, ifadeler ve maç sonu ifade şeridi
+  - Rövanşı çoğu zaman kabul eder; arada bir maçtan sonra "Rakibin bağlantısı koptu" diye ayrılır.
+  - Gücü, oyuncunun online galibiyet oranına göre Acemi ile Usta arasında ayarlanır; ifadeleri bilgisayar rakibinkinden biraz seyrektir.
+  - İnternet yoksa yedek rakip de gelmez; "bağlantı kurulamadı" hatası görünür.
+- **Sayılma:** Yedek rakiple oynanan maç, profil, görevler, rozetler ve haftalık "Online lig" için normal bir online maç sayılır.
+- **Bilinen fark:** Yedek rakip "Arkadaşlar" tablosuna satır göndermez; gerçek bir rakibin satırı maçtan sonra orada belirir.
+- **Ayar:** Bekleme süresi kodda `MM.wait`'tedir.
+
 #### Online 2v2 (dört telefon)
 
 Online ekranındaki **2v2 masa aç** dört koltuklu bir masa açar: Mavi savunma, Mavi hücum, Kırmızı savunma, Kırmızı hücum. Diğerleri aynı **Masaya katıl** ile masa koduyla girer.
