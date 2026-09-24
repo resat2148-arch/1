@@ -380,6 +380,21 @@ Bilgisayara karşı modda klavyeyle de oynanır: `↑ ↓` ya da `W S` aktif çu
 
 Oyun yatay ekran için tasarlandı. Telefon dik tutulursa sahne kendiliğinden 90° döner; telefonu yan çevirmen yeterli.
 
+#### Online 2v2 (dört telefon)
+
+Online ekranındaki **2v2 masa aç** dört koltuklu bir masa açar: Mavi savunma, Mavi hücum, Kırmızı savunma, Kırmızı hücum. Diğerleri aynı **Masaya katıl** ile masa koduyla girer.
+- **Koltuklar:** Masayı açan mavi savunmada oturur; mavi hücuma geçebilir. Gelenler önce karşı takıma, sonra boş yerlere oturur, yani iki telefon birbirine karşı oynar. Herkes boş bir koltuğa dokunarak yer değiştirebilir. Koltuklarda oyuncuların adları görünür.
+- **Başlatma:** Masada en az iki kişi olunca masayı açan **Maçı başlat**'a basar. Boş koltuklarda bilgisayar oynar (masayı açanın seçtiği seviyede); gol hedefi de onun ayarıdır. Böylece 2v2 iki, üç ya da dört telefonla oynanabilir.
+- **Maçta:** Herkes yalnızca kendi iki çubuğunu yönetir. Dev kaleci savunmacının, süper şut hücumcunun düğmesidir.
+  - Kırmızı takımdakilerin ekranı ters döner; herkes kendi kalesini solda görür.
+  - Skor tablosunda kendi takımın "Siz" diye yazar. Spiker iki takımın oyuncularını adlarıyla anar.
+  - İfadeleri dört oyuncu da görür.
+  - Her takım, ilk oyuncusunun (savunmacı, yoksa hücumcu) takımını, formasını ve gol şovunu giyer.
+- **Bağlantı kopunca:** Maç sırasında bağlantısı kopan oyuncunun koltuğuna bilgisayar geçer ve maç sürer. Lobiden ayrılanın koltuğu boşalır.
+- **Maç sonu:** Rövanş aynı koltuklarla oynanır. Masayı açanın **Menü** düğmesi herkesi koltuklara geri götürür; orada yer değiştirip yeni maça başlanabilir. Masayı açan moladan "Menüye dön" derse masa kapanır.
+- 2v2 online maçları online maç sayılır; kazanan takımdakiler galibiyet, kaybedenler mağlubiyet alır.
+- Bağlantı 1v1 ile aynıdır: claude.ai odası ya da PeerJS. Masa en çok dört telefonu alır; dolu bir masaya giren "Bu masa dolu" mesajını görür.
+
 ## Telefonda açmak
 
 - **GitHub Pages:** Depo ayarlarında *Settings → Pages* bölümünden bu dalı ve kök klasörü (`/`) seç. Verilen adresi telefonda aç.
