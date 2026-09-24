@@ -220,8 +220,8 @@ button:focus-visible,.seg input:focus-visible+label{outline:2px solid var(--bras
 .rw{display:inline-flex;align-items:center;gap:5px;padding:5px 11px;border-radius:999px;border:1px solid var(--chalk-3);background:rgba(242,233,216,.06);font:700 12.5px/1.15 var(--ui);white-space:nowrap}
 .rw.q{border-color:var(--brass);background:rgba(214,165,72,.15)}
 .rw.b{border-color:#e2b457;background:linear-gradient(180deg,rgba(226,180,87,.38),rgba(226,180,87,.12));animation:rwIn .6s cubic-bezier(.2,.8,.2,1) both}
-.rw.q,.rw.a{animation:rwIn .45s cubic-bezier(.2,.8,.2,1) both}
-.rw.a{border-color:#f08a2c;background:rgba(240,138,44,.18)}
+.rw.q,.rw.a,.rw.l{animation:rwIn .45s cubic-bezier(.2,.8,.2,1) both}
+.rw.a,.rw.l{border-color:#f08a2c;background:rgba(240,138,44,.18)}
 @keyframes rwIn{0%{opacity:0;scale:.6}60%{scale:1.08}100%{opacity:1;scale:1}}
 @container (max-height:460px){
   .binfo{min-height:1.35em}
@@ -475,11 +475,25 @@ button:focus-visible,.seg input:focus-visible+label{outline:2px solid var(--bras
 .side button.me{background:rgba(214,165,72,.16);border-color:var(--brass)}
 .side button:disabled{cursor:default}
 .side button:not(:disabled):hover{border-color:var(--brass)}
-#lobStart:disabled{opacity:.45;cursor:default;box-shadow:none}
+#lobStart:disabled,#tlStart:disabled{opacity:.45;cursor:default;box-shadow:none}
+.tlist{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:5px;text-align:left}
+.tlist li{padding:6px 10px;border-radius:10px;border:1px solid var(--chalk-3);background:rgba(242,233,216,.05);font:700 14px/1.2 var(--ui);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tlist li.me{border-color:var(--brass);background:rgba(214,165,72,.16)}
+.tlopts{justify-content:center}
+.tseg button:disabled{cursor:default}
+.tseg button:disabled:not([aria-pressed=true]){opacity:.45}
+.brow.me .bn::after{content:" (sen)";color:var(--brass);font-weight:600}
+/* watching a match of the online tournament: no buttons to press */
+#stage.spect .pad,#stage.spect .shoot,#stage.spect .skill,#stage.spect .emo{display:none!important}
+#stage.spect.match::after{content:"👁 İzliyorsun";position:absolute;left:calc(var(--sl) + 14px);bottom:12px;padding:6px 12px;border-radius:999px;
+  background:var(--glass);border:1px solid var(--chalk-3);color:var(--chalk-2);font:700 12px/1 var(--ui);letter-spacing:.08em;pointer-events:none}
 @container (max-height:460px){
   .side button{padding:6px 9px}
   .side .sn{font-size:16px}
   .lobcode{font-size:24px}
+  #onTour{gap:7px}
+  .tlist li{padding:4px 9px;font-size:13px}
+  #online.inlobby .card{gap:7px}
 }
 @container (max-height:380px){
   #online.inlobby .eyebrow,#online.inlobby #lobWait{display:none}
@@ -904,11 +918,12 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
 
   <section class="overlay" id="online" hidden>
     <div class="card">
-      <p class="eyebrow"><span lang="en">Online</span> · iki ya da dört telefon</p>
+      <p class="eyebrow"><span lang="en">Online</span> · iki ile sekiz telefon</p>
       <h2 class="big"><span lang="en">Online</span> maç</h2>
       <div class="row" id="onChoose">
         <button class="cta" id="hostBtn">Masa aç</button>
         <button class="cta alt" id="host2Btn">2v2 masa aç</button>
+        <button class="cta alt" id="hostTBtn">Turnuva masası aç</button>
         <button class="ghost" id="joinShow">Masaya katıl</button>
       </div>
       <div class="join" id="onHost" hidden>
@@ -934,6 +949,17 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
         </div>
         <button class="cta" id="lobStart">Maçı başlat</button>
         <p class="sub" id="lobWait">Masayı açan başlatınca maç başlar.</p>
+      </div>
+      <div class="lobby" id="onTour" hidden>
+        <p class="lobhead">Turnuva masası <b class="lobcode" id="tlCode">····</b><span id="tlCount"></span></p>
+        <ol class="tlist" id="tlList"></ol>
+        <div class="topts tlopts">
+          <div class="topt"><span class="tlab">Takım</span><div class="tseg" id="tlSize" role="group" aria-label="Takım sayısı"><button type="button" data-v="4">4</button><button type="button" data-v="8">8</button></div></div>
+          <div class="topt"><span class="tlab">Bilgisayarlar</span><div class="tseg" id="tlLv" role="group" aria-label="Bilgisayar takımlarının seviyesi"><button type="button" data-v="karisik">Karışık</button><button type="button" data-v="acemi">Acemi</button><button type="button" data-v="kulup">Kulüp</button><button type="button" data-v="usta">Usta</button></div></div>
+        </div>
+        <p class="gnote" id="tlNote"></p>
+        <div class="row"><button class="cta" id="tlStart">Kura çek ve başla</button><button class="ghost" id="tlBracket" hidden>Ağacı göster</button></div>
+        <p class="sub" id="tlWait">Masayı açan kurayı çekince turnuva başlar.</p>
       </div>
       <p class="netstat" id="onStatus" role="status"></p>
       <button class="ghost" id="onBack">Geri</button>
@@ -1206,7 +1232,7 @@ const PAIR_HINT = { def: 'Sen: kaleci + 2\'li defans', att: 'Sen: 5\'li orta sah
 // online 2v2: four seats, one per player; seat i plays unit SEATS[i] and reads input slot i
 const SEATS = [[BLUE, 'def'], [BLUE, 'att'], [RED, 'def'], [RED, 'att']];
 const seatUnit = s => UNITS[SEATS[s][0]][SEATS[s][1] === 'def' ? 0 : 1];
-const isLocal = t => mode !== 'online' || (pair ? !!t.local : t.id === me);   // played with this screen's buttons
+const isLocal = t => mode !== 'online' || (!net.spect && (pair ? !!t.local : t.id === me));   // played with this screen's buttons
 function setPair(p) {
   pair = p;
   ctls = p ? UNITS.flat() : teams;
@@ -1270,7 +1296,7 @@ let mode = 'cpu';                   // cpu: you against the computer · duo: two
 const NAMES = { cpu: ['Sen', 'CPU'], duo: ['Mavi', 'Kırmızı'] };
 let me = BLUE;                      // the team this screen plays (the online guest plays red)
 let flip = false;                   // the online guest sees the table turned 180°
-const teamName = id => tour.live && mode !== 'online' ? slotTag(tourSlot(id === BLUE ? tour.live.blue : tour.live.red)) : mode === 'online' ? (id === me ? (net.p2 ? 'Siz' : 'Sen') : 'Rakip') : NAMES[mode][id];
+const teamName = id => tour.live ? slotTag(tourSlot(id === BLUE ? tour.live.blue : tour.live.red)) : mode === 'online' ? (id === me ? (net.p2 ? 'Siz' : 'Sen') : 'Rakip') : NAMES[mode][id];
 const hudName = id => { const t = sideTeam(id); return t ? `${t.crest} ${t.short}` : teamName(id); };
 let paused = false;
 const score = [0, 0];
@@ -2422,7 +2448,7 @@ function spkGoal(scorer, own, sup) {
 }
 function spkEnd(winner) {
   const n = spkName(winner), a = score[winner], b = score[1 - winner];
-  if (tour.live && tour.live.r === prog.tour.r.length - 1) return say(`Son düdük! Turnuvanın şampiyonu ${n}! Skor ${spkScore(a, b)}.`, 3);
+  if (tour.live && tour.live.r === curTour().r.length - 1) return say(`Son düdük! Turnuvanın şampiyonu ${n}! Skor ${spkScore(a, b)}.`, 3);
   if (cup.active && mode === 'cpu' && winner === me && prog.cup.round === CUP_ROUNDS.length - 1) return say(`Son düdük! ${cupRule().name} şampiyonu ${n}! Skor ${spkScore(a, b)}.`, 3);
   say(b === 0 ? spkPick('end0', [`Son düdük! ${n} gol yemeden kazandı, ${spkScore(a, b)}!`, `Maç bitti! ${n}, rakibine gol izni vermedi: ${spkScore(a, b)}.`])
     : a - b === 1 ? spkPick('end1', [`Son düdük! Kıl payı bir galibiyet: ${n} ${spkScore(a, b)} kazanıyor!`, `Maç bitti! ${n} nefes kesen maçı ${spkScore(a, b)} aldı!`])
@@ -3071,6 +3097,7 @@ function startMatch(m) {
   state = 'play'; paused = false;
   teams[BLUE].ai = null; teams[RED].ai = mode === 'cpu' ? LEVELS[settings.level] : null;
   if (pair) setupPair();
+  if (tour.live && tour.live.net) for (const t of teams) { const x = tourSlot(t.id === BLUE ? tour.live.blue : tour.live.red); t.ai = x.c ? LEVELS[x.c] : null; }   // computer teams at their level
   applyTeams();
   resetTable(); clearInput(); applyControls(); renderHud();
   applyPerks();
@@ -3515,7 +3542,7 @@ function recordMatch(winner) {
     advance(q => q.m ? q.m(m) : 0, overRew);
     checkBadges(overRew);
     const lv1 = levelOf(xpOf(L));
-    if (lv1.lv > lv0) overRew.push({ k: 'a', text: `⬆️ Seviye ${lv1.lv}: ${lv1.title}! +${lv1.lv - lv0} yetenek puanı`, lvup: 1 });
+    if (lv1.lv > lv0) overRew.push({ k: 'l', text: `⬆️ Seviye ${lv1.lv}: ${lv1.title}! +${lv1.lv - lv0} yetenek puanı`, lvup: 1 });
     saveProg(); renderProfChip();
     if (overRew.length) setTimeout(() => Sound.reward(), 900);   // after the final whistle
   }
@@ -3544,7 +3571,7 @@ function renderRewards() {
   const qs = overRew.filter(r => r.k === 'q'), all = overRew.find(r => r.k === 'a'), bs = overRew.filter(r => r.k === 'b');
   const stars = [...qs, ...(all ? [all] : [])].reduce((n, r) => n + (r.s || 0), 0);
   const list = [
-    ...overRew.filter(r => r.k === 'c'),
+    ...overRew.filter(r => r.k === 'c' || r.k === 'l'),
     ...(all ? [{ k: 'a', text: `🔥 Günün bütün görevleri · +${stars}⭐`, title: qs.map(r => r.text).join(', ') }]
       : qs.length > 1 ? [{ k: 'q', text: `✓ ${qs.length} görev tamam · +${stars}⭐`, title: qs.map(r => r.text).join(', ') }] : qs),
     ...(bs.length > 1 ? [{ k: 'b', text: `🏅 ${bs.length} yeni rozet: ${bs.map(r => r.icon).join(' ')}`, title: bs.map(r => r.text).join(', ') }] : bs),
@@ -3741,7 +3768,7 @@ const kindName = it => SHOP[it.kind].name.toLocaleLowerCase('tr-TR');
 // an online rival in the kit its phone sent
 function lookOf(team) {
   if (mode === 'duo') return NO_LOOK;
-  if (mode === 'online' && net.role) return net.p2 ? net.sideLook[team] || NO_LOOK : team === me ? prog : net.oppLook || NO_LOOK;
+  if (mode === 'online' && net.role) return net.p2 || net.t ? net.sideLook[team] || NO_LOOK : team === me ? prog : net.oppLook || NO_LOOK;
   return team === BLUE && (!tour.live || tour.live.ownerBlue) ? prog : NO_LOOK;
 }
 function parseLook(a) {
@@ -4457,9 +4484,10 @@ const TOUR_CPU = [['Demir Bilekler', '🦾'], ['Kara Şimşekler', '⚡'], ['Yı
   ['Gece Kurtları', '🐺'], ['Ateş Topları', '🔥'], ['Çelik Duvar', '🧱'], ['Rüzgâr Gülü', '🌀'], ['Altın Ayaklar', '👟'], ['Köpek Balıkları', '🦈']];
 const TOUR_ROUNDS = { 4: ['Yarı final', 'Final'], 8: ['Çeyrek final', 'Yarı final', 'Final'] };
 const TOUR_POWER = { acemi: 1, kulup: 1.8, usta: 3 };
-const tour = { live: null, saved: null, setup: { size: 8, lv: 'karisik', names: [] }, sure: false };
+const tour = { live: null, saved: null, setup: { size: 8, lv: 'karisik', names: [], onSize: 4, onLv: 'karisik' }, sure: false };
 const shuffle = a => { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
-const tourSlot = i => prog.tour.slots[i];
+const curTour = () => net.t && net.tour ? net.tour : prog.tour;   // online, the table's bracket
+const tourSlot = i => curTour().slots[i];
 const slotName = s => s.c ? `${s.e} ${s.n}` : s.n;
 const slotTag = s => (s.c ? s.e + ' ' : '') + s.n.split(' ')[0].slice(0, 9);
 function newTour(size, names, lv, target) {
@@ -4474,7 +4502,7 @@ function newTour(size, names, lv, target) {
   prog.tour = { size, target, slots, r, champ: null, t: Date.now() };
   saveProg();
 }
-function tourNext(T = prog.tour) {
+function tourNext(T = curTour()) {
   if (!T) return null;
   for (let r = 0; r < T.r.length; r++) for (let m = 0; m < T.r[r].length; m++) {
     const x = T.r[r][m];
@@ -4483,20 +4511,20 @@ function tourNext(T = prog.tour) {
   return null;
 }
 function tourWin(r, m, w, sa, sb) {
-  const T = prog.tour, x = T.r[r][m];
+  const T = curTour(), x = T.r[r][m];
   Object.assign(x, { w, sa, sb });
   if (r + 1 < T.r.length) T.r[r + 1][m >> 1][m % 2 ? 'b' : 'a'] = w;
   else T.champ = w;
-  saveProg();
+  if (T === prog.tour) saveProg(); else net.tbV++;
 }
 // two computer teams: the stronger wins more often; the loser's goals lean low
 function tourSim(r, m) {
-  const T = prog.tour, x = T.r[r][m], A = tourSlot(x.a), B = tourSlot(x.b);
+  const T = curTour(), x = T.r[r][m], A = tourSlot(x.a), B = tourSlot(x.b);
   const pa = TOUR_POWER[A.c] ** 1.5, pb = TOUR_POWER[B.c] ** 1.5, aWins = Math.random() < pa / (pa + pb);
   const lose = Math.floor(Math.random() ** 1.6 * T.target);
   tourWin(r, m, aWins ? x.a : x.b, aWins ? T.target : lose, aWins ? lose : T.target);
 }
-const tourRoundName = r => TOUR_ROUNDS[prog.tour.size][r];
+const tourRoundName = r => TOUR_ROUNDS[curTour().size][r];
 function playTour() {
   const nx = tourNext();
   if (!nx) return;
@@ -4521,7 +4549,7 @@ function endTourContext() {
 function tourAfterMatch(winner) {
   const L = tour.live;
   if (!L || L.done) return;
-  const T = prog.tour, x = T.r[L.r][L.m], ws = winner === BLUE ? L.blue : L.red;
+  const T = curTour(), x = T.r[L.r][L.m], ws = winner === BLUE ? L.blue : L.red;
   const sBlue = score[BLUE], sRed = score[RED];
   tourWin(L.r, L.m, ws, x.a === L.blue ? sBlue : sRed, x.a === L.blue ? sRed : sBlue);
   L.done = true;
@@ -4540,7 +4568,7 @@ let tourOpen = false;
 function openTour(view) {
   Sound.unlock();
   tourOpen = true; tour.sure = false;
-  const T = prog.tour;
+  const T = curTour();
   tour.view = view || (T ? 'bracket' : 'setup');
   if (tour.view === 'setup' && !tour.setup.names.length) tour.setup.names = [prog.name];
   renderTour(); setUI();
@@ -4578,7 +4606,7 @@ function renderTourSetup() {
     : 'Bütün yerler oyuncularla dolu; maçlar bu telefonda 2 kişilik oynanır.';
 }
 function renderBracket() {
-  const T = prog.tour, nx = tourNext(), rounds = TOUR_ROUNDS[T.size];
+  const T = curTour(), nx = tourNext(), rounds = TOUR_ROUNDS[T.size];
   $('tourTitle').textContent = T.champ != null ? `🏆 ${slotName(tourSlot(T.champ))}` : nx ? rounds[nx.r] : 'Turnuva';
   $('tourMeta').textContent = `${T.size} takım · ${T.target} gole kadar` + (T.champ != null ? ' · şampiyon belli oldu!' : '');
   const box = $('bracket');
@@ -4603,20 +4631,26 @@ function renderBracket() {
   c.lastChild.textContent = T.champ != null ? slotName(tourSlot(T.champ)) : '?';
   body.appendChild(c); col.appendChild(body); box.appendChild(col);
   // what comes next
-  const go = $('tourGo');
-  go.hidden = !nx;
+  const go = $('tourGo'), online = !!net.t, host = net.role === 'host';
+  go.hidden = !nx || (online && !host);
+  $('tourNew').hidden = online;
   $('tourNew').textContent = tour.sure ? 'Emin misin? Yeni turnuva' : 'Yeni turnuva';
   if (!nx) { $('tourNext').textContent = T.champ != null ? `Tebrikler ${slotName(tourSlot(T.champ))}! Yeni bir turnuva kurabilirsin.` : ''; return; }
   const A = tourSlot(nx.x.a), B = tourSlot(nx.x.b);
-  $('tourNext').textContent = `Sıradaki · ${rounds[nx.r]}: ${slotName(A)} – ${slotName(B)}` + (A.c && B.c ? ' (bilgisayar maçı)' : !A.c && !B.c ? ' (2 kişi)' : ` (${LEVEL_NAME[(A.c ? A : B).c]})`);
+  $('tourNext').textContent = `Sıradaki · ${rounds[nx.r]}: ${slotName(A)} – ${slotName(B)}` + (A.c && B.c ? ' (bilgisayar maçı)' : !A.c && !B.c ? (net.t ? '' : ' (2 kişi)') : ` (${LEVEL_NAME[(A.c ? A : B).c]})`);
   go.textContent = A.c && B.c ? 'Bilgisayar maçlarını oynat' : 'Maça başla';
+  if (online) {
+    const meIn = [A, B].some(s => s.g === net.gid);
+    $('tourNext').textContent += host ? (meIn ? ' · sen oynuyorsun' : ' · sen izleyeceksin') : meIn ? ' · sıra sende! Masayı açan başlatınca maç açılır.' : ' · masayı açan başlatınca izleyeceksin.';
+  }
 }
 function matchBox(x, next, joined) {
+  const mine = i => i != null && net.t && tourSlot(i).g === net.gid;
   const el = document.createElement('div');
   el.className = 'bm' + (next ? ' next' : '') + (x.w != null ? ' done' : '') + (joined ? ' joined' : '');
   for (const [k, sc] of [['a', 'sa'], ['b', 'sb']]) {
     const i = x[k], row = document.createElement('div');
-    row.className = 'brow' + (x.w != null && x.w === i ? ' win' : x.w != null ? ' out' : '') + (i != null && !tourSlot(i).c ? ' human' : '');
+    row.className = 'brow' + (x.w != null && x.w === i ? ' win' : x.w != null ? ' out' : '') + (i != null && !tourSlot(i).c ? ' human' : '') + (mine(i) ? ' me' : '');
     const n = document.createElement('span'); n.className = 'bn'; n.textContent = i == null ? '—' : slotName(tourSlot(i));
     const s = document.createElement('b'); s.className = 'bs'; s.textContent = x.w != null ? x[sc] : '';
     row.append(n, s); el.appendChild(row);
@@ -4631,12 +4665,12 @@ function simTour() {
   renderBracket();
   const el = $('bracket').querySelectorAll('.bcol')[nx.r].querySelectorAll('.bm')[nx.m];
   if (el) el.classList.add('just');
-  if (prog.tour.champ != null) { Sound.fanfare(true); return; }
+  if (curTour().champ != null) { Sound.fanfare(true); return; }
   const n2 = tourNext();
   if (n2 && tourSlot(n2.x.a).c && tourSlot(n2.x.b).c) { $('tourGo').disabled = true; setTimeout(() => { $('tourGo').disabled = false; if (tourOpen) simTour(); }, 450); }
 }
 $('tourBtn').addEventListener('click', () => openTour());
-$('tourClose').addEventListener('click', closeTour);
+$('tourClose').addEventListener('click', () => { if (net.t && state === 'menu') { tourOpen = false; net.leftBracket = true; showTourLobby(); } else closeTour(); });
 $('tourSize').addEventListener('click', e => { const b = e.target.closest('[data-v]'); if (b) { tour.setup.size = +b.dataset.v; renderTourSetup(); } });
 $('tourLv').addEventListener('click', e => { const b = e.target.closest('[data-v]'); if (b) { tour.setup.lv = b.dataset.v; renderTourSetup(); } });
 $('tourNames').addEventListener('input', e => { const i = e.target.dataset.i; if (i != null) tour.setup.names[+i] = e.target.value; });
@@ -4658,6 +4692,7 @@ $('tourGo').addEventListener('click', () => {
   const nx = tourNext();
   if (!nx) return;
   if (tourSlot(nx.x.a).c && tourSlot(nx.x.b).c) simTour();
+  else if (net.t) playTourNet();
   else playTour();
 });
 $('tourNew').addEventListener('click', () => {
@@ -4931,8 +4966,13 @@ $('pauseBtn').addEventListener('click', pauseGame);
 $('resumeBtn').addEventListener('click', resumeGame);
 $('restartBtn').addEventListener('click', () => startMatch());
 $('onlineBtn').addEventListener('click', openOnline);
-$('hostBtn').addEventListener('click', () => hostTable(false));
-$('host2Btn').addEventListener('click', () => hostTable(true));
+$('hostBtn').addEventListener('click', () => hostTable('1v1'));
+$('host2Btn').addEventListener('click', () => hostTable('2v2'));
+$('hostTBtn').addEventListener('click', () => hostTable('tour'));
+$('tlStart').addEventListener('click', drawTourNet);
+$('tlBracket').addEventListener('click', () => { net.leftBracket = false; onlineOpen = false; openTour('bracket'); });
+$('tlSize').addEventListener('click', e => { const b = e.target.closest('[data-v]'); if (b && !b.disabled) { tour.setup.onSize = +b.dataset.v; renderTourLobby(); } });
+$('tlLv').addEventListener('click', e => { const b = e.target.closest('[data-v]'); if (b && !b.disabled) { tour.setup.onLv = b.dataset.v; renderTourLobby(); } });
 $('lobStart').addEventListener('click', startOnline2);
 $('onLobby').addEventListener('click', e => {
   const b = e.target.closest('[data-seat]');
@@ -4946,12 +4986,13 @@ $('onJoin').addEventListener('submit', e => { e.preventDefault(); joinTable($('j
 $('onBack').addEventListener('click', closeOnline);
 $('quitBtn').addEventListener('click', () => attract());
 $('againBtn').addEventListener('click', () => {
-  if (net.role === 'guest') { net.again++; sendGuestInput(true); toast('Rövanş isteği gönderildi'); }
+  if (net.t) { if (net.role === 'host') backToBracket(); else { net.leftBracket = false; openTour('bracket'); } }
+  else if (net.role === 'guest') { net.again++; sendGuestInput(true); toast('Rövanş isteği gönderildi'); }
   else if (cup.active) startCup();
   else if (tour.live && tour.live.done) openTour('bracket');
   else startMatch();
 });
-$('menuBtn').addEventListener('click', () => net.p2 && net.role === 'host' ? backToLobby() : attract());
+$('menuBtn').addEventListener('click', () => net.t ? (net.role === 'host' ? backToBracket() : openTour('bracket')) : net.p2 && net.role === 'host' ? backToLobby() : attract());
 $('shareBtn').addEventListener('click', shareCard);
 $('cardClose').addEventListener('click', closeCardView);
 $('cardDl').addEventListener('click', countShare);
@@ -4987,7 +5028,8 @@ const net = { role: null, kind: '', code: '', tr: null, connected: false, lastHe
   events: [], evId: 0, lastEv: 0, sendAcc: 0, inSeq: 0, inKey: '', inT: 0, cnt: { p: 0, s: 0, g: 0 }, seen: { p: 0, s: 0, g: 0, pending: false },
   again: 0, lastAgain: 0, saved: null, forced: null, peerOpts: null, sfxT: {}, waitT: 0, emN: 0, emId: 0, seenEm: 0,
   bdGot: -1, bdAck: -1, brdV: -1, oppLook: null,
-  gid: '', guestG: '', p2: false, seats: [null, null, null, null], guests: {}, mySeat: -1, want: -1, sideLook: [null, null], lobT: 0 };   // online 2v2      // table versions: received from the guest / acknowledged by the host / last sent by the host
+  gid: '', guestG: '', p2: false, seats: [null, null, null, null], guests: {}, mySeat: -1, want: -1, sideLook: [null, null], lobT: 0,   // online 2v2
+  t: false, tour: null, players: [], tbV: 0, tbKey: '', tlKey: '', spect: false, myTeam: BLUE, leftBracket: false };                   // online tournament      // table versions: received from the guest / acknowledged by the host / last sent by the host
 let onlineOpen = false, pairOpen = false;
 // the 2v2 chooser: a little table for each choice, your rods lit
 function pairSvg(role) {
@@ -5081,7 +5123,7 @@ async function peerTransport() {
       };
       peer = role === 'host' ? new window.Peer(id, opts) : new window.Peer(opts);
       peer.on('error', e => onError((e && e.type) || 'error'));
-      if (role === 'host') peer.on('connection', c => { if (conns.filter(x => x.open).length >= (multi ? 3 : 1)) c.close(); else wire(c); });
+      if (role === 'host') peer.on('connection', c => { if (conns.filter(x => x.open).length >= (multi || 1)) c.close(); else wire(c); });
       else peer.on('open', () => wire(peer.connect(id, { serialization: 'json', reliable: true })));
     },
     send(d) { for (const c of conns) if (c.open) c.send(d); },
@@ -5116,9 +5158,9 @@ function makeCode() { const A = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789'; let c = ''; f
 
 function openOnline() {
   onlineOpen = true;
-  $('onChoose').hidden = false; $('onHost').hidden = true; $('onJoin').hidden = true; $('onLobby').hidden = true; $('joinCode').value = '';
+  $('onChoose').hidden = false; $('onHost').hidden = true; $('onJoin').hidden = true; $('onLobby').hidden = true; $('onTour').hidden = true; $('joinCode').value = '';
   $('online').classList.remove('inlobby');
-  setNetStatus('Biri masa açsın, diğerleri koduyla katılsın. 2v2 masasına dört telefon oturur.');
+  setNetStatus('Biri masa açsın, diğerleri koduyla katılsın. 2v2 masasına dört, turnuva masasına sekiz telefon oturur.');
   setUI(); Sound.unlock();
 }
 function closeOnline() { leaveOnline(); onlineOpen = false; setUI(); }
@@ -5126,7 +5168,10 @@ function leaveOnline() {
   if (net.tr) { try { net.tr.close(); } catch (e) { /* already closed */ } }
   const wasGuest = net.role === 'guest';
   Object.assign(net, { tr: null, role: null, connected: false, snaps: [], events: [], again: 0, lastAgain: 0, oppName: '', oppLook: null, lookKey: '',
-    guestG: '', p2: false, seats: [null, null, null, null], guests: {}, mySeat: -1, want: -1, sideLook: [null, null] });
+    guestG: '', p2: false, seats: [null, null, null, null], guests: {}, mySeat: -1, want: -1, sideLook: [null, null],
+    t: false, tour: null, players: [], tbKey: '', tlKey: '', spect: false, leftBracket: false });
+  stage.classList.remove('spect'); $('onTour').hidden = true;
+  if (tourOpen) tourOpen = false;
   $('onLobby').hidden = true; $('online').classList.remove('inlobby');
   if (wasGuest && net.saved) { Object.assign(settings, net.saved); net.saved = null; syncForm(); }
   me = BLUE;
@@ -5148,24 +5193,31 @@ function failJoin(text) {
   setNetStatus(text, true);
 }
 
-async function hostTable(p2) {
+async function hostTable(kind) {
   if (net.tr) leaveOnline();
   $('onChoose').hidden = true;
   setNetStatus('Bağlanıyor…');
   const tr = await getTransport();
   if (!tr) { $('onChoose').hidden = false; return setNetStatus(NO_NET, true); }
-  p2 = p2 === true;
+  const p2 = kind === '2v2', t = kind === 'tour';
   Object.assign(net, { tr, role: 'host', kind: tr.kind, code: makeCode(), connected: false, seq: 0, events: [], evId: 0,
     seen: { p: 0, s: 0, g: 0, pending: false }, lastAgain: 0, seenEm: 0, bdGot: -1, brdV: -1,
-    gid: 'host', guestG: '', p2, guests: {}, seats: [p2 ? { g: 'host', name: prog.name } : null, null, null, null], mySeat: p2 ? 0 : -1 });
+    gid: 'host', guestG: '', p2, guests: {}, seats: [p2 ? { g: 'host', name: prog.name } : null, null, null, null], mySeat: p2 ? 0 : -1,
+    t, tour: null, players: t ? [{ g: 'host', name: prog.name }] : [], tbV: 0 });
   const retry = err => {
-    if (err === 'unavailable-id') { tr.close(); net.tr = null; hostTable(p2); }   // someone has this code: pick another
+    if (err === 'unavailable-id') { tr.close(); net.tr = null; hostTable(kind); }   // someone has this code: pick another
     else setNetStatus(netErrorText(err), true);
   };
   const where = tr.kind === 'room' ? 'bu sayfayı claude.ai hesabıyla açıp (hesabı yoksa oyunun herkese açık adresiyle)' : 'aynı adresi açıp';
+  if (t) {
+    net.connected = true;
+    tr.open('host', net.code, hostOnState, () => {}, retry, 7);
+    showTourLobby();
+    return setNetStatus(`Arkadaşların ${where} kodu girsin. En az iki kişiyle kura çekilebilir; boş yerleri bilgisayar takımları doldurur.`);
+  }
   if (p2) {
     net.connected = true;                           // the lobby goes out to whoever joins
-    tr.open('host', net.code, hostOnState, () => {}, retry, true);
+    tr.open('host', net.code, hostOnState, () => {}, retry, 3);
     $('lobCode').textContent = net.code; $('onLobby').hidden = false;
     renderLobby();
     return setNetStatus(`Arkadaşların ${where} kodu girsin. Boş koltuklarda bilgisayar oynar.`);
@@ -5177,6 +5229,7 @@ async function hostTable(p2) {
 function hostOnState(d) {
   if (!d || !Array.isArray(d.in)) return;
   if (net.p2) return host2OnState(d);
+  if (net.t) return hostTOnState(d);
   if (d.g) { if (!net.guestG) net.guestG = String(d.g); else if (d.g !== net.guestG) return; }   // one guest; a second phone finds the table full
   if (Array.isArray(d.bd) && Array.isArray(d.bd[0])) net.oppName = cleanName(d.bd[0][1]) || net.oppName;   // their own row comes first
   if (Array.isArray(d.lk)) { const k = JSON.stringify(d.lk); if (k !== net.lookKey) { net.lookKey = k; net.oppLook = parseLook(d.lk); applyTeams(); } }
@@ -5294,13 +5347,157 @@ function renderLobby() {
   $('lobWait').hidden = host;
   $('lobCount').textContent = `${full}/4 oyuncu`;
 }
+/* ——— Online tournament ———
+   Up to eight phones at one table: the host sits everyone down, sets the size and the computer teams'
+   level and draws the bracket; computer teams fill the rest. The matches are played one at a time on
+   the host's table: the two players in it drive their teams from their own phones (a player against
+   the computer plays that level), and everyone else watches it live. The host starts each match and
+   settles the computer-only ones; afterwards everyone is back at the bracket. A player who drops out
+   is replaced by a computer team under their name. */
+const tbWire = T => T && { s: T.size, tg: T.target, sl: T.slots.map(x => [x.n, x.c, x.e || '', x.g || '']), r: T.r.map(round => round.map(x => [x.a, x.b, x.sa, x.sb, x.w])), ch: T.champ };
+function tbParse(w) {
+  if (!w || ![4, 8].includes(w.s) || !Array.isArray(w.sl) || !Array.isArray(w.r)) return null;
+  const idx = v => Number.isInteger(v) && v >= 0 && v < w.s ? v : null;
+  return { size: w.s, target: [3, 5, 7].includes(w.tg) ? w.tg : 5, net: true, champ: idx(w.ch),
+    slots: w.sl.map(x => ({ n: cleanName(x[0]) || 'Takım', c: TOUR_POWER[x[1]] ? x[1] : '', e: String(x[2] || '').slice(0, 4), g: String(x[3] || '') })),
+    r: w.r.map(round => round.map(x => ({ a: idx(x[0]), b: idx(x[1]), sa: x[2] | 0, sb: x[3] | 0, w: idx(x[4]) }))) };
+}
+function hostTOnState(d) {
+  const g = String(d.g || ''), now = performance.now();
+  if (!g) return;
+  let G = net.guests[g];
+  if (!G) {
+    const back = net.tour && net.tour.slots.some(x => x.g === g);                 // a player coming back after a drop
+    if (!back && (net.tour || net.players.length >= 8)) return;                  // drawn already, or full
+    G = net.guests[g] = { seen: { p: 0, s: 0, g: 0, pending: false }, seenEm: d.em ? d.em[0] | 0 : 0, bdGot: -1, lk: null };
+    if (!back) net.players.push({ g, name: 'Oyuncu' });
+    Sound.tock(.4);
+  }
+  G.lastHeard = now;
+  const name = cleanName(d.nm) || 'Oyuncu', pl = net.players.find(x => x.g === g);
+  if (pl && pl.name !== name && !net.tour) { pl.name = name; renderTourLobby(); }
+  if (Array.isArray(d.lk)) G.lk = d.lk;
+  if (!net.tour) renderTourLobby();
+  const L = tour.live, side = L && state === 'play' ? [L.blue, L.red].findIndex(i => tourSlot(i).g === g) : -1;
+  if (side >= 0) {
+    applyRemoteInput(teams[side], d.in, G.seen);
+    if (Array.isArray(d.em) && (d.em[0] | 0) > G.seenEm) { G.seenEm = d.em[0] | 0; remoteEmote(side, d.em[1] | 0); }
+  } else if (Array.isArray(d.em)) G.seenEm = Math.max(G.seenEm, d.em[0] | 0);
+  if (Array.isArray(d.bd)) { mergeBoard(d.bd); G.bdGot = d.bv | 0; }
+}
+function dropTourGuest(g) {
+  const G = net.guests[g];
+  if (!G) return;
+  delete net.guests[g];
+  if (!net.tour) { net.players = net.players.filter(x => x.g !== g); renderTourLobby(); return; }
+  const i = net.tour.slots.findIndex(x => x.g === g);
+  if (i < 0) return;
+  const s = net.tour.slots[i];
+  Object.assign(s, { c: 'kulup', e: '🤖', g: '' }); net.tbV++;                 // the computer plays on under their name
+  const L = tour.live;
+  if (L && state !== 'menu' && (L.blue === i || L.red === i)) teams[L.blue === i ? BLUE : RED].ai = LEVELS.kulup;
+  toast(`${s.n} ayrıldı · yerine bilgisayar oynuyor`, 2600);
+  if (tourOpen) renderBracket();
+}
+function drawTourNet() {
+  if (net.role !== 'host' || !net.t || net.players.length < 2) return;
+  const size = net.players.length > 4 ? 8 : tour.setup.onSize, lv = tour.setup.onLv;
+  tour.localBack = prog.tour;
+  newTour(size, net.players.map(x => x.name), lv, settings.target);
+  const T = prog.tour;                            // made like a local one, then moved to the table
+  prog.tour = tour.localBack; tour.localBack = null; saveProg();
+  T.slots.forEach((x, i) => { if (!x.c) x.g = net.players[i].g; delete x.o; });
+  net.tour = T; net.tbV++;
+  onlineOpen = false; openTour('bracket');
+}
+const lookWireOf = x => x.c ? 0 : x.g === 'host' ? [prog.kit, prog.fx, teamWire()] : (net.guests[x.g] || {}).lk || 0;
+function playTourNet() {
+  const nx = tourNext();
+  if (!nx || net.role !== 'host') return;
+  const { r, m, x } = nx, A = tourSlot(x.a), B = tourSlot(x.b);
+  let blue = x.a, red = x.b;
+  if (B.g === 'host' || (A.c && !B.c)) [blue, red] = [red, blue];               // the host, else a player, in blue
+  const hostIn = A.g === 'host' || B.g === 'host';
+  tour.live = { r, m, blue, red, done: false, net: true, ownerIn: hostIn, ownerBlue: tourSlot(blue).g === 'host' };
+  const lk = [blue, red].map(i => lookWireOf(tourSlot(i)));
+  net.sideLook = lk.map(w => w ? parseLook(w) : null);
+  setSpect(!hostIn); me = BLUE;
+  tourOpen = false;
+  startMatch('online');
+  pushEvent({ k: 'lk2', l: lk });
+  toast(`${tourRoundName(r)} · ${slotName(tourSlot(blue))} – ${slotName(tourSlot(red))}` + (hostIn ? '' : ' · izliyorsun'), 2400);
+}
+function setSpect(on) { net.spect = on; stage.classList.toggle('spect', on); }
+// after a match the host goes back to the bracket; the guests follow with the next snapshot
+function backToBracket() { attract(true); setSpect(false); openTour('bracket'); }
+function showTourLobby() {
+  onlineOpen = true;
+  for (const id of ['onChoose', 'onHost', 'onJoin', 'onLobby']) $(id).hidden = true;
+  $('onTour').hidden = false;
+  renderTourLobby(); setUI();
+}
+function renderTourLobby() {
+  if (!net.t) return;
+  $('online').classList.add('inlobby');
+  const host = net.role === 'host', n = net.players.length;
+  $('tlCode').textContent = net.code;
+  $('tlCount').textContent = `${n}/8 oyuncu`;
+  const ol = $('tlList');
+  ol.textContent = '';
+  for (const x of net.players) {
+    const li = document.createElement('li'); li.textContent = x.name + (x.g === net.gid ? ' (sen)' : x.g === 'host' ? ' · masa' : '');
+    if (x.g === net.gid) li.className = 'me';
+    ol.appendChild(li);
+  }
+  if (n > 4) tour.setup.onSize = 8;
+  for (const b of document.querySelectorAll('#tlSize [data-v]')) { b.setAttribute('aria-pressed', String(+b.dataset.v === tour.setup.onSize)); b.disabled = !host || (+b.dataset.v === 4 && n > 4); }
+  for (const b of document.querySelectorAll('#tlLv [data-v]')) { b.setAttribute('aria-pressed', String(b.dataset.v === tour.setup.onLv)); b.disabled = !host; }
+  $('tlStart').hidden = !host; $('tlStart').disabled = n < 2 || !!net.tour;
+  $('tlWait').hidden = host;
+  $('tlBracket').hidden = !net.tour;
+  const cpu = tour.setup.onSize - n;
+  $('tlNote').textContent = net.tour ? 'Kura çekildi.' : cpu > 0 ? `${cpu} yeri bilgisayar takımları doldurur · ${settings.target} gole kadar` : `${settings.target} gole kadar`;
+}
+// a guest: the table's lobby or bracket between matches, a match (ours or one to watch) during one
+function guestTourState(d) {
+  if (d.tb) { const k = JSON.stringify(d.tb); if (k !== net.tbKey) { net.tbKey = k; net.tour = tbParse(d.tb); if (tourOpen && tour.view === 'bracket') renderBracket(); } }
+  if (Array.isArray(d.ts)) { tour.setup.onSize = d.ts[0] === 8 ? 8 : 4; if (TOUR_POWER[d.ts[1]] || d.ts[1] === 'karisik') tour.setup.onLv = d.ts[1]; }   // the host's choices
+  if (Array.isArray(d.pl)) net.players = d.pl.filter(Array.isArray).map(x => ({ g: String(x[0]), name: cleanName(x[1]) || 'Oyuncu' }));
+  if (d.lob) {
+    if (net.connected) { net.connected = false; net.snaps = []; net.tlKey = ''; attract(true); if (flip) setFlip(false); setSpect(false); }
+    if (d.ev) net.lastEv = Math.max(net.lastEv, ...d.ev.map(e => e.i));
+    if (!net.players.some(x => x.g === net.gid) && !(net.tour && net.tour.slots.some(x => x.g === net.gid))) {
+      if (net.players.length >= 8 || net.tour) failJoin(net.tour ? 'Bu turnuva başlamış.' : 'Bu masa dolu.');
+      return false;
+    }
+    if (net.tour) { if (!tourOpen && !net.leftBracket) { onlineOpen = false; openTour('bracket'); } else if (!tourOpen) renderTourLobby(); }
+    else if (!onlineOpen || $('onTour').hidden) { setNetStatus('Masadasın.'); showTourLobby(); Sound.unlock(); }
+    else renderTourLobby();
+    return false;
+  }
+  if (!net.tour || !Array.isArray(d.tl)) return false;
+  const key = d.tl.join();
+  if (key !== net.tlKey) {                        // a new match: are we in it?
+    net.tlKey = key;
+    const [r, m, blue, red] = d.tl, sb = tourSlot(blue), sr = tourSlot(red);
+    if (!sb || !sr) return false;
+    const mine = sb.g === net.gid ? BLUE : sr.g === net.gid ? RED : -1;
+    tour.live = { r, m, blue, red, done: false, net: true, ownerIn: mine >= 0, ownerBlue: mine === BLUE };
+    setSpect(mine < 0); net.myTeam = mine < 0 ? BLUE : mine;
+    tourOpen = false; onlineOpen = false;
+    if (net.connected) { me = net.myTeam; setFlip(me === RED); setUI(); }
+  }
+  return true;
+}
 function makeSnap() {
   const r = [];
   for (const rod of rods) r.push(r1(rod.p), r3(rod.th), r2(rod.big));
   if (net.p2 && state === 'menu') return { n: ++net.seq, p2: 1, lob: 1, seats: seatWire(), tg: settings.target, lv: settings.level, ev: net.events.slice(-12) };
+  if (net.t && state === 'menu') return { n: ++net.seq, t: 1, lob: 1, pl: net.players.map(x => [x.g, x.name]), ts: [tour.setup.onSize, tour.setup.onLv], tb: tbWire(net.tour), tg: settings.target, ev: net.events.slice(-12) };
   const bd = {};
   for (const g in net.guests) bd[g] = net.guests[g].bdGot;
   return {
+    ...(net.t ? { t: 1, tl: tour.live ? [tour.live.r, tour.live.m, tour.live.blue, tour.live.red] : null, tb: state !== 'play' && net.seq % 6 === 0 ? tbWire(net.tour) : undefined } : {}),
     ...(net.p2 ? { p2: 1, seats: seatWire(), u: UNITS.flat().map(u => [u.active && !u.together ? u.active.i : -1, u.k.phase === 'windup' ? r2(u.k.charge) : 0]) } : { to: net.guestG || undefined }),
     n: ++net.seq, st: state, sc: [score[0], score[1]], tg: settings.target, sp: settings.superShot ? 1 : 0, gg: settings.giantGoalie ? 1 : 0,
     b: [r1(ball.x), r1(ball.y), Math.round(ball.vx), Math.round(ball.vy), ball.show ? 1 : 0, r2(ball.alpha), r2(ball.scale), ball.superT > 0 ? 1 : 0, ball.superTeam],
@@ -5337,6 +5534,10 @@ function sendGuestInput(force) {
 }
 function guestOnState(d) {
   if (!d || !d.n || d.n <= net.lastN) return;
+  if (d.t) {                                         // a tournament table
+    net.t = true; net.lastN = d.n; net.lastHeard = performance.now();
+    if (!guestTourState(d) || !d.b) return;
+  } else
   if (d.p2) {                                        // a 2v2 table: the lobby, or a match with our seat in it
     const seats = Array.isArray(d.seats) ? d.seats : [];
     net.lastN = d.n; net.lastHeard = performance.now(); net.p2 = true;
@@ -5366,9 +5567,9 @@ function enterGuest(d) {
   net.connected = true; onlineOpen = false;
   net.saved = { ...settings };
   if ([3, 5, 7].includes(d.tg)) settings.target = d.tg;          // the host's rules, before anyone announces them
-  me = net.p2 ? SEATS[net.mySeat][0] : RED;
+  me = net.p2 ? SEATS[net.mySeat][0] : net.t ? net.myTeam : RED;
   if (net.p2) setPair({ role: 'net', seat: net.mySeat });
-  setMode('online'); setFlip(me === RED); applyTeams();
+  setMode('online'); setFlip(me === RED && !net.spect); applyTeams();
   resetTable();
   for (const t of [...teams, ...UNITS.flat()]) { if (!net.p2) t.ai = null; t.keeper = false; t.together = false; }
   net.lastEv = Math.max(0, ...(d.ev || []).map(e => e.i));      // what happened before we arrived is old news,
@@ -5387,7 +5588,7 @@ function guestEvent(e) {
     case 'lk': net.oppLook = parseLook(e.l); applyTeams(); renderHud(); break;
     case 'sv': spkSave(e.t); break;
     case 'gi': spkGiant(e.t); break;
-    case 'srv': toast(e.t === me ? 'Servis sende' : 'Servis rakipte'); spkKickoff(); break;
+    case 'srv': toast(net.spect ? `Servis: ${teamName(e.t)} · izliyorsun` : e.t === me ? 'Servis sende' : 'Servis rakipte'); spkKickoff(); break;
     case 'dead': toast('Ölü top · yeniden servis'); spkDead(); break;
     case 'sup': shake(7); flashOn(.22, '255,170,80'); spkSuper(e.t); break;
     case 'end':
@@ -5424,12 +5625,13 @@ function netTick(dt) {
   if (net.role === 'host') {
     net.sendAcc += dt;
     if (net.connected && net.brdV !== board.v) { net.brdV = board.v; pushEvent({ k: 'brd', b: boardPayload() }); }   // our table, whenever it changes
-    if (net.connected && net.sendAcc >= (net.p2 && state === 'menu' ? .2 : NET_SEND)) { net.sendAcc = 0; net.tr.send(makeSnap()); }
+    if (net.connected && net.sendAcc >= ((net.p2 || net.t) && state === 'menu' ? .2 : NET_SEND)) { net.sendAcc = 0; net.tr.send(makeSnap()); }
     if (net.p2) { for (const g in net.guests) if (now - net.guests[g].lastHeard > NET_TIMEOUT) dropGuest(g); }
+    else if (net.t) { for (const g in net.guests) if (now - net.guests[g].lastHeard > NET_TIMEOUT) dropTourGuest(g); }
     else if (net.connected && now - net.lastHeard > NET_TIMEOUT) partnerGone();
   } else if (net.role === 'guest') {
     if (now - net.inT > 200) sendGuestInput(true);                  // keep-alive
-    if (net.p2 && !net.connected && net.mySeat >= 0) {             // waiting in the lobby
+    if ((net.p2 && !net.connected && net.mySeat >= 0) || (net.t && !net.connected)) {   // waiting in the lobby
       if (now - net.lastHeard > NET_TIMEOUT) { failJoin('Masa kapandı.'); $('onLobby').hidden = true; $('onChoose').hidden = false; }
     } else if (net.connected) {
       if (now - net.lastHeard > NET_TIMEOUT) partnerGone();

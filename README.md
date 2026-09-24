@@ -416,6 +416,27 @@ Online ekranındaki **2v2 masa aç** dört koltuklu bir masa açar: Mavi savunma
 - 2v2 online maçları online maç sayılır; kazanan takımdakiler galibiyet, kaybedenler mağlubiyet alır.
 - Bağlantı 1v1 ile aynıdır: claude.ai odası ya da PeerJS. Masa en çok dört telefonu alır; dolu bir masaya giren "Bu masa dolu" mesajını görür.
 
+#### Online turnuva (sekiz telefona kadar)
+
+Online ekranındaki **Turnuva masası aç** herkesin kendi telefonundan katıldığı bir eleme turnuvası açar. Diğerleri **Masaya katıl** ile masa koduyla girer.
+- **Masa:**
+  - Katılanların adları listelenir; en çok sekiz kişi oturabilir.
+  - Masayı açan takım sayısını (4 ya da 8; dörtten fazla kişi varsa 8) ve bilgisayar takımlarının seviyesini seçer. Diğerleri bu seçimi görür.
+  - En az iki kişiyle **Kura çek ve başla** ağacı çeker; boş yerleri adlı bilgisayar takımları doldurur.
+  - Kura çekildikten sonra masaya yeni oyuncu alınmaz.
+- **Maçlar:** Maçlar sırayla, masayı açan telefonun masasında oynanır.
+  - Sıradaki maçın iki oyuncusu kendi telefonlarından oynar. Bilgisayar takımına karşı oynayan, o takımın seviyesiyle karşılaşır.
+  - Masadaki herkes maçı canlı izler: izleyenlerin tuşları gizlenir ve köşede "👁 İzliyorsun" yazar.
+  - Masayı açan da kendi maçı yoksa izler.
+  - Kırmızı taraftaki oyuncunun ekranı ters döner. Skor tablosunda ve spikerde takım adları geçer.
+- **Akış:**
+  - Ağaç herkesin ekranında aynıdır. Sıradaki maçı yalnızca masayı açan başlatır; bilgisayar – bilgisayar maçlarını da o sonuçlandırır.
+  - Ağaçta kendi adının yanında "(sen)" yazar; alttaki satır sıranın sende mi olduğunu, yoksa izleyeceğini söyler.
+  - Maç bitince masayı açan **▶ Turnuva ağacı** ile herkesi ağaca döndürür. Final bitince herkes şampiyonu görür.
+  - Ağaç kapatılırsa oyuncu listesine dönülür; **Ağacı göster** ağacı yeniden açar.
+- **Bağlantı kopunca:** Kopan oyuncunun yerine, onun adıyla 🤖 bir bilgisayar takımı (Kulüp) oynar. Maç sırasındaysa maç sürer.
+- **İlerleme:** Her telefon yalnızca kendi oynadığı maçları online maç olarak sayar; izlenen maçlar sayılmaz. Masayı açanın telefonda süren tek telefonluk turnuvası bozulmaz.
+
 ## Telefonda açmak
 
 - **GitHub Pages:** Depo ayarlarında *Settings → Pages* bölümünden bu dalı ve kök klasörü (`/`) seç. Verilen adresi telefonda aç.
