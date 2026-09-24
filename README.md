@@ -319,6 +319,27 @@ Oyun `ceplangirti` Firebase projesine bağlı; aşağıdaki adımlar bu proje i�
 5. **Proje ayarları** (dişli simgesi) → **Genel → Uygulamalarınız** bölümünde web simgesine (`</>`) basıp bir web uygulaması ekle; hosting gerekmez. Çıkan `firebaseConfig` içindeki **apiKey** ve **projectId** değerleri, `index.html` içindeki `FIREBASE` satırına yazılır. Bu değerler her web uygulamasında herkese açıktır, gizli değildir; verileri koruyan 4. adımdaki kurallardır.
 6. İstersen Google Cloud Console'da **API'ler ve Hizmetler → Kimlik bilgileri** bölümünden bu anahtarı yalnızca `https://resat2148-arch.github.io/*` adresinden kullanılacak şekilde (HTTP referrer) kısıtlayabilirsin.
 
+### Turnuva (eleme ağacı)
+
+Menüdeki **Turnuva** düğmesi, arkadaşlarla tek telefonda oynanan bir eleme turnuvası kurar.
+- **Kurulum:**
+  - **4** ya da **8** takım seçilir.
+  - Oyuncuların adları yazılır: sen ⭐ ile başta durursun, **+ Oyuncu ekle** ile diğerleri eklenir.
+  - Kalan yerleri adlı bilgisayar takımları doldurur (⚡ Kara Şimşekler, 🐺 Gece Kurtları, 🦈 Köpek Balıkları…). Bu takımların seviyesi seçilebilir: karışık, Acemi, Kulüp ya da Usta.
+  - Gol hedefi menüdeki ayardır.
+  - **Kura çek ve başla** eşleşmeleri rastgele çeker.
+- **Ağaç:**
+  - 8 takımda çeyrek final, yarı final ve final; 4 takımda yarı final ve final sütunları vardır, en sağda şampiyon kutusu durur.
+  - Her maç kutusunda iki takım ve skor yazar. Kazanan parlak, elenen soluk görünür; oyuncuların adları sarıdır. Sıradaki maçın çerçevesi yanar.
+- **Maçlar:**
+  - **Oyuncu – bilgisayar:** Oyuncu mavide, bilgisayar takımın seviyesinde oynar.
+  - **Oyuncu – oyuncu:** Bu telefonda 2 kişilik oynanır.
+  - **Bilgisayar – bilgisayar:** **Bilgisayar maçlarını oynat** ile sonuçlar birer birer gelir. Güçlü takım daha sık kazanır.
+- **Maçta:** Skor tablosunda, spikerde ve paylaşım kartında takımların adları geçer ("Turnuva · Yarı final"). Maç sonunda "🏟️ Ali finalde" yazar; **▶ Turnuva ağacı** ağaca döndürür.
+- **Final:** Final bitince spiker şampiyonu ilan eder ve ağaçta 🏆 şampiyonun adıyla parlar.
+- **Kayıt:** Turnuva ilerlemeyle birlikte saklanır. Menüye dönülüp başka gün devam edilebilir: Turnuva düğmesi ağacı açar. Yarıda bırakılan maç yeniden oynanır. Süren bir turnuvada **Yeni turnuva** bir kez onay ister.
+- **İlerleme:** Görevlere, profile, yeteneklere ve forma/takım görünümüne yalnızca senin bilgisayara karşı maçların sayılır. İki kişilik maçlar ve başka oyuncuların bilgisayara karşı maçları sayılmaz. Haftalık kupa ayrıdır.
+
 ### 2v2 (rol paylaşımı)
 
 Gerçek turnuvalardaki kural: her takımda iki oyuncu vardır ve takımın dört çubuğu ikiye bölünür.

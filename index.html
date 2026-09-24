@@ -382,6 +382,77 @@ button:focus-visible,.seg input:focus-visible+label{outline:2px solid var(--bras
   .lrow{padding:5px 10px}
 }
 
+/* ——— tournament ——— */
+.card.tourcard{width:min(900px,100%);justify-items:stretch;text-align:left;gap:10px}
+.thead{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.thead .eyebrow{margin:0 0 4px}
+.ttitle{margin:0;font:900 clamp(26px,8cqh,40px)/1 var(--display);letter-spacing:.03em;text-transform:uppercase}
+.tmeta{margin:3px 0 0;color:var(--chalk-2);font-size:13px}
+.tsetup,.tbracket{display:grid;gap:9px;min-width:0}
+.topts{display:flex;flex-wrap:wrap;gap:10px 22px}
+.topt{display:grid;gap:5px}
+.tlab{font:700 11px/1 var(--ui);letter-spacing:.16em;text-transform:uppercase;color:var(--chalk-2)}
+.tseg{display:flex;gap:4px;padding:4px;border-radius:11px;background:rgba(242,233,216,.06)}
+.tseg button{appearance:none;border:0;border-radius:8px;padding:7px 12px;background:transparent;color:var(--chalk-2);font:700 14px/1 var(--ui);cursor:pointer}
+.tseg button[aria-pressed=true]{background:var(--chalk);color:var(--ink)}
+.tplayers{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:6px;max-height:34cqh;overflow:auto;touch-action:pan-y}
+.tname{display:flex;align-items:center;gap:6px;padding:3px 4px 3px 9px;border-radius:10px;border:1px solid var(--chalk-3);background:rgba(242,233,216,.05)}
+.tname input{flex:1;min-width:0;padding:6px 2px;border:0;background:transparent;color:var(--chalk);font:700 15px/1 var(--ui);-webkit-user-select:text;user-select:text;touch-action:manipulation}
+.tname input:focus{outline:none}
+.tname:focus-within{border-color:var(--brass)}
+.tno{font-size:13px}
+.tdel{appearance:none;width:26px;height:26px;border-radius:50%;border:0;background:rgba(242,233,216,.08);color:var(--chalk-2);font:700 16px/1 var(--ui);cursor:pointer;padding:0}
+.tbtns,.tfoot{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:flex-end}
+.tbtns .cta,.tfoot .cta{font-size:18px;padding:11px 16px}
+.tbtns .ghost,.tfoot .ghost{padding:10px 12px}
+.tnext{margin:0 auto 0 0;flex:1 1 220px;color:var(--chalk-2);font-size:13.5px}
+#tourGo:disabled{opacity:.5}
+.bracket2{display:grid;grid-template-columns:repeat(var(--cols),minmax(0,1fr));gap:0 18px;min-height:0}
+.bcol{display:flex;flex-direction:column;min-width:0}
+.bhead{margin:0 0 6px;font:700 10.5px/1 var(--ui);letter-spacing:.16em;text-transform:uppercase;color:var(--chalk-2);text-align:center}
+.bbody{flex:1;display:flex;flex-direction:column;justify-content:space-around;gap:6px}
+.bpair{position:relative;flex:1;display:flex;flex-direction:column;justify-content:space-around;gap:6px}
+.bpair:not(.single)::after{content:"";position:absolute;right:-10px;top:25%;bottom:25%;border-right:1.5px solid rgba(242,233,216,.25)}
+.bm{position:relative;border-radius:9px;border:1px solid var(--chalk-3);background:rgba(10,7,5,.6);overflow:visible}
+.bm::after{content:"";position:absolute;right:-10px;top:50%;width:10px;border-top:1.5px solid rgba(242,233,216,.25)}
+.bm.joined::before{content:"";position:absolute;left:-9px;top:50%;width:9px;border-top:1.5px solid rgba(242,233,216,.25)}
+.bm.next{border-color:var(--brass);box-shadow:0 0 0 1px var(--brass),0 0 16px rgba(214,165,72,.25)}
+.bm.just{animation:rwIn .5s cubic-bezier(.2,.8,.2,1)}
+.brow{display:flex;align-items:center;gap:6px;padding:4px 8px;min-width:0}
+.brow + .brow{border-top:1px solid rgba(242,233,216,.08)}
+.bn{flex:1;min-width:0;font:600 12.5px/1.15 var(--ui);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brow.human .bn{color:#ffe1a8}
+.brow.win .bn{font-weight:700;color:var(--chalk)}
+.brow.win.human .bn{color:#ffd27a}
+.brow.out{opacity:.45}
+.bs{font:900 15px/1 var(--display);min-width:.8em;text-align:right}
+.brow.win .bs{color:var(--brass)}
+.bchamp{margin:auto 0;display:grid;justify-items:center;gap:4px;padding:10px 6px;border-radius:12px;border:1px dashed var(--chalk-3);text-align:center}
+.bchamp .cup{font-size:30px;filter:grayscale(1);opacity:.4}
+.bchamp .cn{font:900 16px/1.1 var(--display);letter-spacing:.03em;color:var(--chalk-2);overflow-wrap:anywhere}
+.bchamp.won{border:1px solid #e2b457;background:radial-gradient(circle at 50% 30%,rgba(226,180,87,.3),rgba(226,180,87,.06));box-shadow:0 0 22px rgba(226,180,87,.3)}
+.bchamp.won .cup{filter:none;opacity:1;animation:rwIn .7s cubic-bezier(.2,.8,.2,1)}
+.bchamp.won .cn{color:#ffe1a8}
+@container (max-height:460px){
+  .card.tourcard{gap:7px;padding-block:12px}
+  .brow{padding:3px 7px}
+  .bn{font-size:12px}
+  .tbtns .cta,.tfoot .cta{font-size:16px;padding:9px 13px}
+  .tbtns .ghost,.tfoot .ghost{padding:8px 10px}
+  .ttitle{font-size:26px}
+  .tseg button{padding:6px 10px}
+  .tname input{padding:4px 2px;font-size:14px}
+  .tplayers{max-height:26cqh}
+  .tsetup{gap:7px}
+}
+@container (max-height:380px){
+  .tourcard .eyebrow,#tourSetup ~ * .tmeta{display:none}
+  .tplayers{max-height:20cqh}
+  .topt{grid-auto-flow:column;align-items:center;gap:8px}   /* labels beside their choices */
+  .brow{padding:2px 6px}
+  .bhead{margin-bottom:3px}
+}
+
 /* ——— online 2v2 lobby ——— */
 #online.inlobby .big{display:none}
 #online.inlobby .card{width:min(560px,100%)}
@@ -609,7 +680,7 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
 .ghost{appearance:none;border:1px solid var(--chalk-3);background:rgba(242,233,216,.05);color:var(--chalk);border-radius:12px;padding:12px 14px;font:600 15px/1.1 var(--ui);cursor:pointer}
 .kb{margin:0;font-size:12px;color:var(--chalk-2)}
 .starts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
-.starts #startBtn{grid-column:1/-1}                  /* the main button on its own row, the other three below */
+.starts #startBtn{grid-column:span 2}                 /* the main button and the tournament, the other three below */
 .starts .cta{font-size:17px;padding:13px 8px;letter-spacing:.04em}
 .cta.alt{background:transparent;color:var(--chalk);border:1.5px solid var(--brass);box-shadow:none}
 .switch{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:center;cursor:pointer}
@@ -766,6 +837,7 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
         </div>
         <div class="starts">
           <button class="cta" type="submit" id="startBtn">Bilgisayara karşı</button>
+          <button class="cta alt" type="button" id="tourBtn">Turnuva</button>
           <button class="cta alt" type="button" id="pairBtn" aria-label="2v2: rol paylaşımı">2v2</button>
           <button class="cta alt" type="button" id="duoBtn">2 kişi</button>
           <button class="cta alt" type="button" id="onlineBtn" lang="en">Online</button>
@@ -789,6 +861,29 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
         <button class="ghost" id="keeperBtn">Oto kaleci: açık</button>
         <button class="ghost" id="restartBtn">Baştan başlat</button>
         <button class="ghost wide" id="quitBtn">Menüye dön</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="overlay" id="tour" hidden>
+    <div class="card tourcard">
+      <div class="thead">
+        <div><p class="eyebrow">Turnuva · eleme ağacı</p><h2 class="ttitle" id="tourTitle">Turnuva</h2><p class="tmeta" id="tourMeta"></p></div>
+        <button type="button" class="gclose" id="tourClose" aria-label="Kapat"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button>
+      </div>
+      <div class="tsetup" id="tourSetup">
+        <div class="topts">
+          <div class="topt"><span class="tlab">Takım sayısı</span><div class="tseg" id="tourSize" role="group" aria-label="Takım sayısı"><button type="button" data-v="4">4</button><button type="button" data-v="8">8</button></div></div>
+          <div class="topt"><span class="tlab">Bilgisayar takımları</span><div class="tseg" id="tourLv" role="group" aria-label="Bilgisayar takımlarının seviyesi"><button type="button" data-v="karisik">Karışık</button><button type="button" data-v="acemi">Acemi</button><button type="button" data-v="kulup">Kulüp</button><button type="button" data-v="usta">Usta</button></div></div>
+        </div>
+        <span class="tlab">Oyuncular</span>
+        <div class="tplayers" id="tourNames"></div>
+        <p class="gnote" id="tourNote"></p>
+        <div class="tbtns"><button type="button" class="ghost" id="tourAdd">+ Oyuncu ekle</button><button type="button" class="cta" id="tourStart">Kura çek ve başla</button></div>
+      </div>
+      <div class="tbracket" id="tourBracket" hidden>
+        <div class="bracket2" id="bracket"></div>
+        <div class="tfoot"><p class="tnext" id="tourNext"></p><button type="button" class="ghost" id="tourNew">Yeni turnuva</button><button type="button" class="cta" id="tourGo">Maça başla</button></div>
       </div>
     </div>
   </section>
@@ -1175,7 +1270,7 @@ let mode = 'cpu';                   // cpu: you against the computer · duo: two
 const NAMES = { cpu: ['Sen', 'CPU'], duo: ['Mavi', 'Kırmızı'] };
 let me = BLUE;                      // the team this screen plays (the online guest plays red)
 let flip = false;                   // the online guest sees the table turned 180°
-const teamName = id => mode === 'online' ? (id === me ? (net.p2 ? 'Siz' : 'Sen') : 'Rakip') : NAMES[mode][id];
+const teamName = id => tour.live && mode !== 'online' ? slotTag(tourSlot(id === BLUE ? tour.live.blue : tour.live.red)) : mode === 'online' ? (id === me ? (net.p2 ? 'Siz' : 'Sen') : 'Rakip') : NAMES[mode][id];
 const hudName = id => { const t = sideTeam(id); return t ? `${t.crest} ${t.short}` : teamName(id); };
 let paused = false;
 const score = [0, 0];
@@ -1866,6 +1961,7 @@ window.addEventListener('keydown', e => {
   if (e.code === 'Escape' && goalsOpen) { closeGoals(); return; }
   if (e.code === 'Escape' && store.open) { closeStore(); return; }
   if (e.code === 'Escape' && pairOpen) { pairOpen = false; setUI(); return; }
+  if (e.code === 'Escape' && tourOpen) { closeTour(); return; }
   if (e.code === 'KeyP' || e.code === 'Escape') {
     if (state === 'play') { e.preventDefault(); paused ? resumeGame() : pauseGame(); }
     return;
@@ -2179,7 +2275,7 @@ const spentPoints = () => PERK_NODES.reduce((n, p) => n + Math.min(prog.perks[p.
 const skillPoints = () => Math.max(0, levelOf(xpOf(prog.life)).lv - 1 - spentPoints());
 // who plays with their skills this match: only a human against the computer (the cup included)
 function applyPerks() {
-  for (const t of teams) { t.perk = !t.ai && mode === 'cpu' && state === 'play' ? perksOf(prog.perks) : NO_PERK; t.lastStand = false; }
+  for (const t of teams) { t.perk = !t.ai && mode === 'cpu' && state === 'play' && (!tour.live || tour.live.ownerBlue) ? perksOf(prog.perks) : NO_PERK; t.lastStand = false; }
 }
 let skSel = 'shot';
 function renderSkills() {
@@ -2288,6 +2384,7 @@ function say(text, pri) {
   } catch (e) { /* no speech: the caption stays */ }
 }
 function spkName(team) {
+  if (tour.live) return tourSlot(team === BLUE ? tour.live.blue : tour.live.red).n;
   if (mode === 'duo') return team === BLUE ? 'Mavi' : 'Kırmızı';
   if (mode === 'online' && net.p2) {                 // the team's players: "Ali ile Ayşe", or one of them and the computer
     const ns = SEATS.map((sd, i) => sd[0] === team && net.seats[i] ? net.seats[i].name : '').filter(Boolean);
@@ -2300,7 +2397,8 @@ const spkScore = (a, b) => `${SPK_NUM[a] || a} ${SPK_NUM[b] || b}`;
 function spkKickoff() {
   const n = spkName(me), o = spkName(1 - me), T = SPK_NUM[settings.target];
   let line;
-  if (cup.active && mode === 'cpu') line = `${cupRule().name}, ${CUP_ROUNDS[prog.cup.round].name}! ${n}, ${LEVEL_NAME[settings.level]} bilgisayara karşı. Başlıyoruz!`;
+  if (tour.live) line = `Turnuvada ${tourRoundName(tour.live.r).toLocaleLowerCase('tr-TR')} heyecanı! ${spkName(BLUE)} ile ${spkName(RED)} karşı karşıya. ${T} gole kadar!`;
+  else if (cup.active && mode === 'cpu') line = `${cupRule().name}, ${CUP_ROUNDS[prog.cup.round].name}! ${n}, ${LEVEL_NAME[settings.level]} bilgisayara karşı. Başlıyoruz!`;
   else if (mode === 'online' && net.p2) line = `İkiye iki online maç! Mavide ${spkName(BLUE)}, kırmızıda ${spkName(RED)}. ${T} gole kadar!`;
   else if (pair) line = pair.role === 'coop' ? `İkiye iki maç! Mavi takımda iki oyuncu yan yana: solda savunma, sağda hücum. ${T} gole kadar!`
     : `İkiye iki maç! ${n} ${pair.role === 'def' ? 'kalede ve defansta' : 'orta sahada ve forvette'}, takım arkadaşı bilgisayar. Rakip iki ${LEVEL_NAME[settings.level]} oyuncusu!`;
@@ -2324,6 +2422,7 @@ function spkGoal(scorer, own, sup) {
 }
 function spkEnd(winner) {
   const n = spkName(winner), a = score[winner], b = score[1 - winner];
+  if (tour.live && tour.live.r === prog.tour.r.length - 1) return say(`Son düdük! Turnuvanın şampiyonu ${n}! Skor ${spkScore(a, b)}.`, 3);
   if (cup.active && mode === 'cpu' && winner === me && prog.cup.round === CUP_ROUNDS.length - 1) return say(`Son düdük! ${cupRule().name} şampiyonu ${n}! Skor ${spkScore(a, b)}.`, 3);
   say(b === 0 ? spkPick('end0', [`Son düdük! ${n} gol yemeden kazandı, ${spkScore(a, b)}!`, `Maç bitti! ${n}, rakibine gol izni vermedi: ${spkScore(a, b)}.`])
     : a - b === 1 ? spkPick('end1', [`Son düdük! Kıl payı bir galibiyet: ${n} ${spkScore(a, b)} kazanıyor!`, `Maç bitti! ${n} nefes kesen maçı ${spkScore(a, b)} aldı!`])
@@ -2863,12 +2962,13 @@ function toast(msg, ms = 1600) {
 }
 function setUI() {
   if (state === 'play') goalsOpen = store.open = false;
-  $('menu').hidden = state !== 'menu' || onlineOpen || goalsOpen || store.open || pairOpen;
+  $('menu').hidden = state !== 'menu' || onlineOpen || goalsOpen || store.open || pairOpen || tourOpen;
   $('goals').hidden = !goalsOpen;
   $('store').hidden = !store.open;
   $('online').hidden = !onlineOpen;
   $('pairPick').hidden = !pairOpen || state !== 'menu';
-  $('over').hidden = state !== 'over' || goalsOpen || store.open;
+  $('tour').hidden = !tourOpen || state === 'play';
+  $('over').hidden = state !== 'over' || goalsOpen || store.open || tourOpen;
   if (state !== 'over') card.open = false;
   $('cardView').hidden = !card.open;
   $('pause').hidden = !(state === 'play' && paused);
@@ -2949,6 +3049,7 @@ function attract(keepNet) {
   if (pair) setPair(null);
   for (const t of teams) t.perk = NO_PERK;
   if (net.role && keepNet !== true) leaveOnline();
+  endTourContext();
   if (cup.active) { if (state === 'play') cupForfeit(); endCupContext(); }
   state = 'menu'; paused = false;
   applyTeams();
@@ -2977,7 +3078,7 @@ function startMatch(m) {
   Object.assign(stats, { t0: simT, dur: 0, goals: [], saves: [0, 0], giants: [0, 0], bigSaves: [0, 0] });
   const first = Math.random() < .5 ? BLUE : RED;
   queueServe(first, .9);
-  toast((mode === 'duo' ? `Servis: ${NAMES.duo[first]}` : first === me ? 'Servis sende' : 'Servis rakipte') + (pair ? ' · ' + PAIR_HINT[pair.role === 'net' ? SEATS[pair.seat][1] : pair.role] : ''), pair ? 2600 : undefined);
+  if (!tour.live) toast((mode === 'duo' ? `Servis: ${NAMES.duo[first]}` : first === me ? 'Servis sende' : 'Servis rakipte') + (pair ? ' · ' + PAIR_HINT[pair.role === 'net' ? SEATS[pair.seat][1] : pair.role] : ''), pair ? 2600 : undefined);
   pushEvent({ k: 'lk', l: [prog.kit, prog.fx, teamWire()] });                 // the host's kit and goal show, for the guest's screen
   pushEvent({ k: 'srv', t: first });
   setUI();
@@ -3001,6 +3102,7 @@ function showResult(winner) {
   prepareCard(winner);
   recordMatch(winner);
   if (cup.active && mode === 'cpu') cupAfterMatch(winner);
+  if (tour.live) tourAfterMatch(winner);
 }
 function endMatch(winner) {
   spkEnd(winner);
@@ -3066,7 +3168,7 @@ function cardStory(winner) {
   const { worst, run: streak } = goalArc(hero);
   let title, tag;
   if (duo) {
-    title = `${NAMES.duo[winner]} kazandı!`;
+    title = `${tour.live ? slotTag(tourSlot(winner === BLUE ? tour.live.blue : tour.live.red)) : NAMES.duo[winner]} kazandı!`;
     tag = b === 0 ? 'Gol yemeden kazandı!' : worst <= -2 ? 'Geriden gelip kazandı!' : margin === 1 ? 'Kıl payı!' : 'Aynı telefonda, kıyasıya.';
   } else if (won) {
     title = 'Kazandım!';
@@ -3076,12 +3178,12 @@ function cardStory(winner) {
     title = 'Kaybettim';
     tag = margin === -1 ? 'Kıl payı… rövanş şart!' : a === 0 ? 'Bugün günümde değildim.' : 'Rövanş geliyor…';
   }
-  const label = t => duo ? NAMES.duo[t] : sideTeam(t) ? sideTeam(t).name : t === me ? 'Ben' : mode === 'online' ? 'Rakip' : `CPU · ${lvl}`;
+  const label = t => tour.live ? tourSlot(t === BLUE ? tour.live.blue : tour.live.red).n : duo ? NAMES.duo[t] : sideTeam(t) ? sideTeam(t).name : t === me ? 'Ben' : mode === 'online' ? 'Rakip' : `CPU · ${lvl}`;
   const last = stats.goals[stats.goals.length - 1];
   const secs = Math.round(stats.dur), m = Math.floor(secs / 60), sec = secs % 60;
   return {
     winner, left, right: 1 - left, title, tag, a, b,
-    eyebrow: cup.active && mode === 'cpu' ? upTR(`${cupRule().name} · ${CUP_ROUNDS[prog.cup.round].name}`)
+    eyebrow: tour.live ? upTR(`Turnuva · ${tourRoundName(tour.live.r)}`) : cup.active && mode === 'cpu' ? upTR(`${cupRule().name} · ${CUP_ROUNDS[prog.cup.round].name}`)
       : upTR('Maç sonu · ' + (duo ? '2 kişi' : mode === 'online' ? '' : `Bilgisayara karşı · ${lvl}`)) + (mode === 'online' ? 'ONLINE' : ''),   // an English word: no dotted İ
     labels: [label(BLUE), label(RED)], score: [score[BLUE], score[RED]],
     goals: stats.goals.map(g => ({ ...g })), known: stats.goals.length === score[BLUE] + score[RED],
@@ -3310,7 +3412,7 @@ let prog = { day: '', q: [0, 0, 0], done: [false, false, false], bonus: false, s
   ball: 'klasik', table: 'klasik', kit: 'klasik', fx: 'konfeti', deals: null, dealSeen: '',          // what is in use, the day's deals
   cup: null, pid: '', name: '', board: {}, bt: 0,                   // weekly cup and table (filled in by loadProg)
   world: true, fbRefresh: '', fbUid: '', fbSent: '', fbSentWeek: '',  // the world table: shown there?, account, last row sent
-  avatar: '⚽', hist: [], perks: {}, team: null };                               // the profile: avatar, last results (newest first), skills
+  avatar: '⚽', hist: [], perks: {}, team: null, tour: null };     // tour: the bracket of a tournament in progress                               // the profile: avatar, last results (newest first), skills
 let goalsOpen = false, goalsTab = 'quests', overRew = [];
 
 const dayKey = (d = new Date()) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
@@ -3327,6 +3429,7 @@ function loadProg() {
         hist: Array.isArray(p.hist) ? p.hist.slice(0, 12) : [], avatar: AVATARS.includes(p.avatar) || owned.avatar.includes(p.avatar) ? p.avatar : '⚽',
         deals: p.deals && Array.isArray(p.deals.ids) ? { day: String(p.deals.day), ids: p.deals.ids.filter(k => ITEMS.has(k)) } : null,
         perks: p.perks && typeof p.perks === 'object' ? { ...p.perks } : {}, team: cleanTeam(p.team),
+        tour: p.tour && Array.isArray(p.tour.r) && Array.isArray(p.tour.slots) && [4, 8].includes(p.tour.size) ? p.tour : null,
         cup: p.cup && typeof p.cup === 'object' ? { ...blankCup(), ...p.cup } : null, board: p.board && typeof p.board === 'object' ? { ...p.board } : {} };
     }
   } catch (e) { /* storage blocked: start fresh */ }
@@ -3395,7 +3498,7 @@ function checkBadges(rew) {
 // a match that ended on this phone: lifetime numbers, quests and badges
 function recordMatch(winner) {
   overRew = [];
-  if (mode !== 'duo') {
+  if (mode !== 'duo' && !(tour.live && !tour.live.ownerIn)) {       // a tournament match of two other players is theirs
     const m = matchSummary(winner), L = prog.life, lv0 = levelOf(xpOf(L)).lv;
     recordProfile(winner, m);
     L.matches++; L.goals += m.goals; L.supers += m.supers; L.saves += m.saves; L.giantStops += m.giantStops;
@@ -3435,7 +3538,7 @@ function recordEvent(kind) {
 function renderRewards() {
   const el = $('overRewards');
   el.textContent = '';
-  el.hidden = mode === 'duo';
+  el.hidden = mode === 'duo' && !tour.live;         // a two-player tournament match still says who went through
   if (el.hidden) return;
   // four chips at most, so the buttons stay on screen: the cup, the quests (with the day's bonus), the badges, a theme
   const qs = overRew.filter(r => r.k === 'q'), all = overRew.find(r => r.k === 'a'), bs = overRew.filter(r => r.k === 'b');
@@ -3639,7 +3742,7 @@ const kindName = it => SHOP[it.kind].name.toLocaleLowerCase('tr-TR');
 function lookOf(team) {
   if (mode === 'duo') return NO_LOOK;
   if (mode === 'online' && net.role) return net.p2 ? net.sideLook[team] || NO_LOOK : team === me ? prog : net.oppLook || NO_LOOK;
-  return team === BLUE ? prog : NO_LOOK;
+  return team === BLUE && (!tour.live || tour.live.ownerBlue) ? prog : NO_LOOK;
 }
 function parseLook(a) {
   const t = Array.isArray(a[2]) ? cleanTeam({ name: a[2][0], short: a[2][1], c1: a[2][2], c2: a[2][3], crest: a[2][4] }) : null;
@@ -4283,6 +4386,7 @@ function mergeBoard(list) {
 function startCup() {
   if (net.role) return;
   setPair(null);                                   // the cup is one against one
+  endTourContext();
   rollWeek();
   const c = prog.cup;
   if (!c.inRun) Object.assign(c, { inRun: true, round: 0, pts: 0, won: [], runs: c.runs + 1 });
@@ -4341,6 +4445,225 @@ function cupAfterMatch(winner) {
   $('againBtn').textContent = cup.last.next ? `▶ ${cup.last.next}` : 'Yeni koşu';
   $('againBtn').setAttribute('aria-label', cup.last.next ? `Sonraki tur: ${cup.last.next}` : 'Kupaya yeniden başla');
 }
+
+/* ——— Tournament: a knock-out bracket on one phone ———
+   Four or eight teams: the players typed in (the phone's owner first) and computer teams with names and
+   levels for the rest, drawn at random into a bracket. A player against the computer plays it as a
+   normal match against that level; two players meet in the two-player mode on this phone; two computer
+   teams settle it at once, the stronger one more often. Winners go through until one lifts the trophy.
+   The bracket is kept with the progress, so a tournament can be finished another day. Only the owner's
+   own matches against the computer count for quests and the profile. */
+const TOUR_CPU = [['Demir Bilekler', '🦾'], ['Kara Şimşekler', '⚡'], ['Yıldız Takımı', '⭐'], ['Kum Kartalları', '🦅'], ['Mavi Dalga', '🌊'],
+  ['Gece Kurtları', '🐺'], ['Ateş Topları', '🔥'], ['Çelik Duvar', '🧱'], ['Rüzgâr Gülü', '🌀'], ['Altın Ayaklar', '👟'], ['Köpek Balıkları', '🦈']];
+const TOUR_ROUNDS = { 4: ['Yarı final', 'Final'], 8: ['Çeyrek final', 'Yarı final', 'Final'] };
+const TOUR_POWER = { acemi: 1, kulup: 1.8, usta: 3 };
+const tour = { live: null, saved: null, setup: { size: 8, lv: 'karisik', names: [] }, sure: false };
+const shuffle = a => { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const tourSlot = i => prog.tour.slots[i];
+const slotName = s => s.c ? `${s.e} ${s.n}` : s.n;
+const slotTag = s => (s.c ? s.e + ' ' : '') + s.n.split(' ')[0].slice(0, 9);
+function newTour(size, names, lv, target) {
+  const cpus = shuffle(TOUR_CPU.slice()), levels = lv === 'karisik' ? shuffle(['acemi', 'kulup', 'usta', 'kulup', 'usta', 'acemi', 'kulup', 'usta']) : [];
+  const slots = names.slice(0, size).map((n, i) => ({ n, c: '', o: i === 0 ? 1 : 0 }));
+  for (let k = 0; slots.length < size; k++) slots.push({ n: cpus[k][0], e: cpus[k][1], c: lv === 'karisik' ? levels[k % levels.length] : lv });
+  const order = shuffle(slots.map((s, i) => i));
+  const r = [];
+  for (let n = size / 2, first = true; n >= 1; n /= 2, first = false) {
+    r.push(Array.from({ length: n }, (x, m) => ({ a: first ? order[2 * m] : null, b: first ? order[2 * m + 1] : null, sa: 0, sb: 0, w: null })));
+  }
+  prog.tour = { size, target, slots, r, champ: null, t: Date.now() };
+  saveProg();
+}
+function tourNext(T = prog.tour) {
+  if (!T) return null;
+  for (let r = 0; r < T.r.length; r++) for (let m = 0; m < T.r[r].length; m++) {
+    const x = T.r[r][m];
+    if (x.a != null && x.b != null && x.w == null) return { r, m, x };
+  }
+  return null;
+}
+function tourWin(r, m, w, sa, sb) {
+  const T = prog.tour, x = T.r[r][m];
+  Object.assign(x, { w, sa, sb });
+  if (r + 1 < T.r.length) T.r[r + 1][m >> 1][m % 2 ? 'b' : 'a'] = w;
+  else T.champ = w;
+  saveProg();
+}
+// two computer teams: the stronger wins more often; the loser's goals lean low
+function tourSim(r, m) {
+  const T = prog.tour, x = T.r[r][m], A = tourSlot(x.a), B = tourSlot(x.b);
+  const pa = TOUR_POWER[A.c] ** 1.5, pb = TOUR_POWER[B.c] ** 1.5, aWins = Math.random() < pa / (pa + pb);
+  const lose = Math.floor(Math.random() ** 1.6 * T.target);
+  tourWin(r, m, aWins ? x.a : x.b, aWins ? T.target : lose, aWins ? lose : T.target);
+}
+const tourRoundName = r => TOUR_ROUNDS[prog.tour.size][r];
+function playTour() {
+  const nx = tourNext();
+  if (!nx) return;
+  const { r, m, x } = nx, A = tourSlot(x.a), B = tourSlot(x.b);
+  if (A.c && B.c) return;                          // the bracket settles those
+  endCupContext(); setPair(null);
+  if (!tour.saved) tour.saved = { target: settings.target, level: settings.level };
+  const cpu = A.c ? x.a : B.c ? x.b : null, human = cpu === x.a ? x.b : x.a;
+  const blue = cpu == null ? x.a : human, red = cpu == null ? x.b : cpu;
+  settings.target = prog.tour.target;
+  if (cpu != null) settings.level = tourSlot(cpu).c;
+  tour.live = { r, m, blue, red, done: false, ownerIn: !!(tourSlot(blue).o || tourSlot(red).o), ownerBlue: !!tourSlot(blue).o };
+  tourOpen = false; syncForm();
+  startMatch(cpu == null ? 'duo' : 'cpu');
+  toast(`${tourRoundName(r)} · ${slotName(tourSlot(blue))} – ${slotName(tourSlot(red))}`, 2400);
+}
+// leave the tournament's rules behind: back to the menu, or another kind of match
+function endTourContext() {
+  if (tour.saved) { Object.assign(settings, tour.saved); tour.saved = null; syncForm(); }
+  tour.live = null;
+}
+function tourAfterMatch(winner) {
+  const L = tour.live;
+  if (!L || L.done) return;
+  const T = prog.tour, x = T.r[L.r][L.m], ws = winner === BLUE ? L.blue : L.red;
+  const sBlue = score[BLUE], sRed = score[RED];
+  tourWin(L.r, L.m, ws, x.a === L.blue ? sBlue : sRed, x.a === L.blue ? sRed : sBlue);
+  L.done = true;
+  const name = slotName(tourSlot(ws)), last = L.r === T.r.length - 1;
+  overRew.push({ k: 'c', text: last ? `🏆 Turnuva şampiyonu: ${name}!` : `🏟️ ${name} ${TOUR_ROUNDS[T.size][L.r + 1].toLocaleLowerCase('tr-TR')}de` });
+  renderRewards();
+  $('overEyebrow').textContent = `Turnuva · ${tourRoundName(L.r)}`;
+  $('overTitle').textContent = `${slotTag(tourSlot(ws))} kazandı`;
+  $('againBtn').textContent = last ? '🏆 Ağaç' : '▶ Turnuva ağacı';
+  $('againBtn').setAttribute('aria-label', 'Turnuva ağacına dön');
+  if (last) Sound.fanfare(true);
+}
+
+/* the tournament screen: setting one up, or its bracket */
+let tourOpen = false;
+function openTour(view) {
+  Sound.unlock();
+  tourOpen = true; tour.sure = false;
+  const T = prog.tour;
+  tour.view = view || (T ? 'bracket' : 'setup');
+  if (tour.view === 'setup' && !tour.setup.names.length) tour.setup.names = [prog.name];
+  renderTour(); setUI();
+}
+function closeTour() { tourOpen = false; setUI(); }
+function renderTour() {
+  const setup = tour.view === 'setup';
+  $('tourSetup').hidden = !setup; $('tourBracket').hidden = setup;
+  if (setup) return renderTourSetup();
+  renderBracket();
+}
+function renderTourSetup() {
+  const S = tour.setup;
+  $('tourTitle').textContent = 'Yeni turnuva';
+  $('tourMeta').textContent = `Eleme usulü · ${settings.target} gole kadar`;
+  for (const b of document.querySelectorAll('#tourSize [data-v]')) b.setAttribute('aria-pressed', String(+b.dataset.v === S.size));
+  for (const b of document.querySelectorAll('#tourLv [data-v]')) b.setAttribute('aria-pressed', String(b.dataset.v === S.lv));
+  S.names.length = Math.min(S.names.length, S.size);
+  const list = $('tourNames');
+  if (list.children.length !== S.names.length) {
+    list.textContent = '';
+    S.names.forEach((n, i) => {
+      const row = document.createElement('div'); row.className = 'tname';
+      const inp = document.createElement('input'); inp.maxLength = 14; inp.value = n; inp.dataset.i = i; inp.enterKeyHint = 'done'; inp.spellcheck = false;
+      inp.setAttribute('aria-label', i ? `${i + 1}. oyuncunun adı` : 'Senin adın');
+      const tag = document.createElement('span'); tag.className = 'tno'; tag.textContent = i ? '👤' : '⭐';
+      row.append(tag, inp);
+      if (i) { const x = document.createElement('button'); x.type = 'button'; x.className = 'tdel'; x.dataset.del = i; x.textContent = '×'; x.setAttribute('aria-label', 'Oyuncuyu çıkar'); row.appendChild(x); }
+      list.appendChild(row);
+    });
+  }
+  $('tourAdd').disabled = S.names.length >= S.size;
+  const cpu = S.size - S.names.length;
+  $('tourNote').textContent = cpu ? `${cpu} yeri bilgisayar takımları doldurur. İki oyuncu karşılaşınca maç bu telefonda 2 kişilik oynanır.`
+    : 'Bütün yerler oyuncularla dolu; maçlar bu telefonda 2 kişilik oynanır.';
+}
+function renderBracket() {
+  const T = prog.tour, nx = tourNext(), rounds = TOUR_ROUNDS[T.size];
+  $('tourTitle').textContent = T.champ != null ? `🏆 ${slotName(tourSlot(T.champ))}` : nx ? rounds[nx.r] : 'Turnuva';
+  $('tourMeta').textContent = `${T.size} takım · ${T.target} gole kadar` + (T.champ != null ? ' · şampiyon belli oldu!' : '');
+  const box = $('bracket');
+  box.textContent = '';
+  box.style.setProperty('--cols', T.r.length + 1);
+  T.r.forEach((round, r) => {
+    const col = document.createElement('div'); col.className = 'bcol';
+    const h = document.createElement('p'); h.className = 'bhead'; h.textContent = rounds[r]; col.appendChild(h);
+    const body = document.createElement('div'); body.className = 'bbody';
+    for (let m = 0; m < round.length; m += 2) {
+      const pw = document.createElement('div'); pw.className = 'bpair' + (round.length > 1 ? '' : ' single');
+      for (const k of round.length > 1 ? [m, m + 1] : [m]) pw.appendChild(matchBox(round[k], nx && nx.r === r && nx.m === k, r > 0));
+      body.appendChild(pw);
+    }
+    col.appendChild(body); box.appendChild(col);
+  });
+  const col = document.createElement('div'); col.className = 'bcol champ';
+  const h = document.createElement('p'); h.className = 'bhead'; h.textContent = 'Şampiyon'; col.appendChild(h);
+  const body = document.createElement('div'); body.className = 'bbody';
+  const c = document.createElement('div'); c.className = 'bchamp' + (T.champ != null ? ' won' : '');
+  c.innerHTML = '<span class="cup" aria-hidden="true">🏆</span><span class="cn"></span>';
+  c.lastChild.textContent = T.champ != null ? slotName(tourSlot(T.champ)) : '?';
+  body.appendChild(c); col.appendChild(body); box.appendChild(col);
+  // what comes next
+  const go = $('tourGo');
+  go.hidden = !nx;
+  $('tourNew').textContent = tour.sure ? 'Emin misin? Yeni turnuva' : 'Yeni turnuva';
+  if (!nx) { $('tourNext').textContent = T.champ != null ? `Tebrikler ${slotName(tourSlot(T.champ))}! Yeni bir turnuva kurabilirsin.` : ''; return; }
+  const A = tourSlot(nx.x.a), B = tourSlot(nx.x.b);
+  $('tourNext').textContent = `Sıradaki · ${rounds[nx.r]}: ${slotName(A)} – ${slotName(B)}` + (A.c && B.c ? ' (bilgisayar maçı)' : !A.c && !B.c ? ' (2 kişi)' : ` (${LEVEL_NAME[(A.c ? A : B).c]})`);
+  go.textContent = A.c && B.c ? 'Bilgisayar maçlarını oynat' : 'Maça başla';
+}
+function matchBox(x, next, joined) {
+  const el = document.createElement('div');
+  el.className = 'bm' + (next ? ' next' : '') + (x.w != null ? ' done' : '') + (joined ? ' joined' : '');
+  for (const [k, sc] of [['a', 'sa'], ['b', 'sb']]) {
+    const i = x[k], row = document.createElement('div');
+    row.className = 'brow' + (x.w != null && x.w === i ? ' win' : x.w != null ? ' out' : '') + (i != null && !tourSlot(i).c ? ' human' : '');
+    const n = document.createElement('span'); n.className = 'bn'; n.textContent = i == null ? '—' : slotName(tourSlot(i));
+    const s = document.createElement('b'); s.className = 'bs'; s.textContent = x.w != null ? x[sc] : '';
+    row.append(n, s); el.appendChild(row);
+  }
+  return el;
+}
+// the computer's matches, one after another with a moment to see each result, up to the next player's match
+function simTour() {
+  const nx = tourNext();
+  if (!nx || !tourSlot(nx.x.a).c || !tourSlot(nx.x.b).c) { renderBracket(); return; }
+  tourSim(nx.r, nx.m); Sound.tock(.4);
+  renderBracket();
+  const el = $('bracket').querySelectorAll('.bcol')[nx.r].querySelectorAll('.bm')[nx.m];
+  if (el) el.classList.add('just');
+  if (prog.tour.champ != null) { Sound.fanfare(true); return; }
+  const n2 = tourNext();
+  if (n2 && tourSlot(n2.x.a).c && tourSlot(n2.x.b).c) { $('tourGo').disabled = true; setTimeout(() => { $('tourGo').disabled = false; if (tourOpen) simTour(); }, 450); }
+}
+$('tourBtn').addEventListener('click', () => openTour());
+$('tourClose').addEventListener('click', closeTour);
+$('tourSize').addEventListener('click', e => { const b = e.target.closest('[data-v]'); if (b) { tour.setup.size = +b.dataset.v; renderTourSetup(); } });
+$('tourLv').addEventListener('click', e => { const b = e.target.closest('[data-v]'); if (b) { tour.setup.lv = b.dataset.v; renderTourSetup(); } });
+$('tourNames').addEventListener('input', e => { const i = e.target.dataset.i; if (i != null) tour.setup.names[+i] = e.target.value; });
+$('tourNames').addEventListener('click', e => { const b = e.target.closest('[data-del]'); if (b) { tour.setup.names.splice(+b.dataset.del, 1); $('tourNames').textContent = ''; renderTourSetup(); } });
+$('tourAdd').addEventListener('click', () => {
+  const S = tour.setup;
+  if (S.names.length >= S.size) return;
+  S.names.push(`Oyuncu ${S.names.length + 1}`); renderTourSetup();
+  const inp = $('tourNames').lastChild.querySelector('input'); inp.focus(); inp.select();
+});
+$('tourStart').addEventListener('click', () => {
+  const S = tour.setup, seen = new Set();
+  // names as the table keeps them, each one different
+  const names = S.names.map((n, i) => { let v = cleanName(n) || (i ? `Oyuncu ${i + 1}` : prog.name); while (seen.has(v)) v = cleanName(v.slice(0, 12) + ' ' + (seen.size + 1)); seen.add(v); return v; });
+  newTour(S.size, names, S.lv, settings.target);
+  tour.view = 'bracket'; renderTour();
+});
+$('tourGo').addEventListener('click', () => {
+  const nx = tourNext();
+  if (!nx) return;
+  if (tourSlot(nx.x.a).c && tourSlot(nx.x.b).c) simTour();
+  else playTour();
+});
+$('tourNew').addEventListener('click', () => {
+  if (prog.tour && prog.tour.champ == null && tourNext() && !tour.sure) { tour.sure = true; renderBracket(); return; }   // one in progress: ask once
+  tour.setup.names = []; openTour('setup');
+});
 
 function renderCup() {
   rollWeek();
@@ -4602,8 +4925,8 @@ $('setup').addEventListener('change', e => {
   if (e.target.name === 'giantGoalie') settings.giantGoalie = e.target.checked;
   saveSettings(); syncForm();
 });
-$('setup').addEventListener('submit', e => { e.preventDefault(); setPair(null); startMatch('cpu'); });
-$('duoBtn').addEventListener('click', () => { setPair(null); startMatch('duo'); });
+$('setup').addEventListener('submit', e => { e.preventDefault(); setPair(null); endTourContext(); startMatch('cpu'); });
+$('duoBtn').addEventListener('click', () => { setPair(null); endTourContext(); startMatch('duo'); });
 $('pauseBtn').addEventListener('click', pauseGame);
 $('resumeBtn').addEventListener('click', resumeGame);
 $('restartBtn').addEventListener('click', () => startMatch());
@@ -4625,6 +4948,7 @@ $('quitBtn').addEventListener('click', () => attract());
 $('againBtn').addEventListener('click', () => {
   if (net.role === 'guest') { net.again++; sendGuestInput(true); toast('Rövanş isteği gönderildi'); }
   else if (cup.active) startCup();
+  else if (tour.live && tour.live.done) openTour('bracket');
   else startMatch();
 });
 $('menuBtn').addEventListener('click', () => net.p2 && net.role === 'host' ? backToLobby() : attract());
@@ -4685,6 +5009,7 @@ document.querySelector('.pairs').addEventListener('click', e => {
   const b = e.target.closest('.pairopt');
   if (!b) return;
   pairOpen = false;
+  endTourContext();
   setPair({ role: b.dataset.role });
   startMatch('cpu');
 });
@@ -5144,7 +5469,7 @@ function boot(data) {
 }
 
 // handle for experimenting from the console
-window.langirt = { teams, rods, ball, score, settings, update, startMatch, attract, net, hostTable, joinTable, sendEmote, EMOTES, stats, card, cardStory, drawCard, recordMatch, todayQuests, QUESTS, BADGES, BALLS, TABLES, PAL, TEAM_COLORS, CRESTS, resolvePals, teamPal, colorDist, applyTeams, KITS, FXS, ITEMS, BUNDLES, store, openStore, storeBuy, storePick, storeCat, priceOf, bundlePrice, rollDeals, lookOf, spawnFx, particles, pv, drawStatic, startCup, cupRule, weekKey, mergeBoard, boardPayload, RULES, cup, FIREBASE, fb, fbPush, fbFetch, fbOn, renderBoard, spk, say, levelOf, xpOf, renderProfile, skillPoints, perksOf, applyPerks, PERK_NODES, UNITS, setPair, tryGiant, trySkill, press(k, down) { if (down) kbHeld.add(k); else kbHeld.delete(k); syncInput(); }, get pair() { return pair; }, get ctls() { return ctls; }, get prog() { return prog; }, get state() { return state; }, get mode() { return mode; }, get me() { return me; } };
+window.langirt = { teams, rods, ball, score, settings, update, startMatch, attract, net, hostTable, joinTable, sendEmote, EMOTES, stats, card, cardStory, drawCard, recordMatch, todayQuests, QUESTS, BADGES, BALLS, TABLES, PAL, tour, tourNext, openTour, playTour, tourSim, TEAM_COLORS, CRESTS, resolvePals, teamPal, colorDist, applyTeams, KITS, FXS, ITEMS, BUNDLES, store, openStore, storeBuy, storePick, storeCat, priceOf, bundlePrice, rollDeals, lookOf, spawnFx, particles, pv, drawStatic, startCup, cupRule, weekKey, mergeBoard, boardPayload, RULES, cup, FIREBASE, fb, fbPush, fbFetch, fbOn, renderBoard, spk, say, levelOf, xpOf, renderProfile, skillPoints, perksOf, applyPerks, PERK_NODES, UNITS, setPair, tryGiant, trySkill, press(k, down) { if (down) kbHeld.add(k); else kbHeld.delete(k); syncInput(); }, get pair() { return pair; }, get ctls() { return ctls; }, get prog() { return prog; }, get state() { return state; }, get mode() { return mode; }, get me() { return me; } };
 
 const hot = window.claude && window.claude.hot;
 if (hot && typeof hot.snapshot === 'function') {
