@@ -574,13 +574,38 @@ button:focus-visible,.seg input:focus-visible+label{outline:2px solid var(--bras
 }
 
 /* ——— private leagues ——— */
-.lgpill{padding-inline:10px;gap:5px}
+.lgpill{position:relative;padding-inline:10px;gap:5px}
+.lgpill .sdot{top:-3px;right:-3px}
 .lgpill .lgpt{font:700 13px/1 var(--ui);letter-spacing:.02em}
 .card.lgcard{width:min(900px,100%);justify-items:stretch;text-align:left;gap:9px;max-height:100%;min-height:0;grid-template-rows:auto minmax(0,1fr) auto}
 .lghead{min-width:0}
 .lghead .ttitle{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .lgview{display:grid;gap:9px;min-width:0;min-height:0;align-content:start}
-#lgDetail{grid-template-rows:auto minmax(0,1fr) auto}
+#lgDetail{grid-template-rows:auto minmax(0,1fr) auto auto}
+.gtabs [role=tab] span.lgun{display:inline-grid !important;place-items:center;min-width:18px;height:18px;padding:0 5px;margin-left:2px;border-radius:9px;background:#f08a2c;color:#1b1206;font:800 11px/1 var(--ui);opacity:1}
+.gtabs [role=tab] span.lgun[hidden]{display:none !important}
+.lgrow em{font-style:normal;color:#ffb27a}
+#lgDetail.chat .lgpanel{gap:5px;align-content:start;padding:2px 4px 2px 2px}
+.lgday{margin:6px 0 2px;justify-self:center;font:700 10.5px/1 var(--ui);letter-spacing:.14em;text-transform:uppercase;color:var(--chalk-2)}
+.lgsys{margin:0;justify-self:center;max-width:92%;text-align:center;font-size:12px;color:var(--chalk-2)}
+.lgsys b{color:var(--brass);font:900 13px/1 var(--display)}
+.lgsys.hint{padding:14px 8px;font-size:13px}
+.lgsys.gone{opacity:.6}
+.lgm{justify-self:start;display:grid;grid-template-columns:auto auto;align-items:end;gap:1px 8px;max-width:min(78%,520px);padding:6px 10px 5px;border-radius:12px 12px 12px 4px;background:rgba(242,233,216,.09);border:1px solid var(--chalk-3);cursor:pointer;text-align:left}
+.lgm b{grid-column:1/-1;font:700 12px/1.1 var(--ui)}
+.lgm span{font:500 14.5px/1.3 var(--ui);color:var(--chalk);overflow-wrap:anywhere;white-space:pre-wrap}
+.lgm small{font-size:10.5px;color:var(--chalk-2);justify-self:end}
+.lgm.me{justify-self:end;border-radius:12px 12px 4px 12px;background:rgba(214,165,72,.2);border-color:rgba(214,165,72,.45)}
+.lgm.sel{box-shadow:0 0 0 2px var(--brass)}
+.lgm .ghost{grid-column:1/-1;justify-self:end;margin-top:4px}
+.lgsend{display:grid;gap:6px}
+.lgquick{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;touch-action:pan-x}
+.lgquick::-webkit-scrollbar{display:none}
+.lgquick .ghost{flex:none;white-space:nowrap}
+.lgsay{display:flex;gap:8px}
+.lgsay input{flex:1;min-width:0;padding:9px 12px;border-radius:10px;border:1px solid var(--chalk-3);background:rgba(10,7,5,.6);color:var(--chalk);font:500 15px/1.1 var(--ui);-webkit-user-select:text;user-select:text;touch-action:manipulation}
+.lgsay input:focus{outline:none;border-color:var(--brass)}
+.lgsay .cta{font-size:15px;padding:9px 14px}
 .lgrows{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px;max-height:46cqh;overflow:auto;touch-action:pan-y}
 .lgrows:empty{display:none}
 .lgrow{appearance:none;display:grid;gap:4px;text-align:left;min-width:0;padding:10px 12px;border-radius:12px;border:1px solid var(--chalk-3);background:rgba(242,233,216,.05);color:var(--chalk);cursor:pointer}
@@ -667,8 +692,12 @@ button:focus-visible,.seg input:focus-visible+label{outline:2px solid var(--bras
   .lgonline span{display:none}
   .lggame,.lgres{padding-block:3px}
   .lgcode b{font-size:22px}
+  .lgquick .ghost{padding:4px 8px;font-size:11.5px}
+  .lgsay input{padding:7px 10px}
+  .lgsay .cta{padding:7px 12px}
 }
 @container (max-height:360px){
+  .lgquick{display:none}                          /* the smallest phones: the typing line only */
   .lgcard .eyebrow{display:none}
   .lgcard .ttitle{font-size:22px}
   .lgbar .gtabs [role=tab]{padding:6px 9px}
@@ -958,7 +987,7 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
   <section class="overlay" id="menu">
     <div class="menu">
       <div class="brand">
-        <div class="brandtop"><button type="button" class="profchip" id="profBtn"><span class="pa" id="profAv" aria-hidden="true">⚽</span><span class="pn" id="profName">Oyuncu</span><span class="plv" id="profLv">Sv 1</span></button><span class="pills"><button type="button" class="goalspill cuppill teampill" id="teamBtn" aria-label="Takımım"><span id="teamCrest">🛡️</span></button><button type="button" class="goalspill lgpill" id="lgBtn" aria-label="Özel ligler"><span aria-hidden="true">👥</span><span class="lgpt">Lig</span></button><button type="button" class="goalspill cuppill" id="cupBtn" aria-label="Haftalık kupa ve liderlik tablosu">🏆</button><button type="button" class="goalspill cuppill storepill" id="storeBtn" aria-label="Mağaza">🛒<span class="sdot" id="storeDot" hidden></span></button><button type="button" class="goalspill" id="goalsBtn">🎯 <span id="goalsCount">0/3</span><span class="sep" aria-hidden="true">·</span>⭐ <span id="starCount">0</span></button></span></div>
+        <div class="brandtop"><button type="button" class="profchip" id="profBtn"><span class="pa" id="profAv" aria-hidden="true">⚽</span><span class="pn" id="profName">Oyuncu</span><span class="plv" id="profLv">Sv 1</span></button><span class="pills"><button type="button" class="goalspill cuppill teampill" id="teamBtn" aria-label="Takımım"><span id="teamCrest">🛡️</span></button><button type="button" class="goalspill lgpill" id="lgBtn" aria-label="Özel ligler"><span aria-hidden="true">👥</span><span class="lgpt">Lig</span><span class="sdot" id="lgDot" hidden></span></button><button type="button" class="goalspill cuppill" id="cupBtn" aria-label="Haftalık kupa ve liderlik tablosu">🏆</button><button type="button" class="goalspill cuppill storepill" id="storeBtn" aria-label="Mağaza">🛒<span class="sdot" id="storeDot" hidden></span></button><button type="button" class="goalspill" id="goalsBtn">🎯 <span id="goalsCount">0/3</span><span class="sep" aria-hidden="true">·</span>⭐ <span id="starCount">0</span></button></span></div>
         <h1><span class="cep">Cep</span><span class="rodline">Langırtı</span></h1>
         <ul class="how">
           <li><b>▲ ▼</b><span>Parlayan çubuğu kaydırır (aktif çubuk kapalıysa hepsini).</span></li>
@@ -1103,11 +1132,16 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
           <div class="gtabs" id="lgTabs" role="tablist" aria-label="Lig">
             <button type="button" role="tab" data-tab="table" aria-selected="true">Tablo</button>
             <button type="button" role="tab" data-tab="games" aria-selected="false">Maçlar</button>
+            <button type="button" role="tab" data-tab="chat" aria-selected="false">Sohbet <span class="lgun" id="lgUnread" hidden></span></button>
             <button type="button" role="tab" data-tab="members" aria-selected="false">Üyeler <span id="lgMCount"></span></button>
           </div>
           <button type="button" class="ghost lginv" id="lgInvite">📨 Davet et</button>
         </div>
         <div class="lgpanel" id="lgPanel"></div>
+        <form class="lgsend" id="lgSend" hidden>
+          <div class="lgquick" id="lgQuick" role="group" aria-label="Hazır mesajlar"></div>
+          <div class="lgsay"><input id="lgSay" maxlength="200" placeholder="Mesaj yaz…" aria-label="Mesaj" autocomplete="off" enterkeyhint="send" spellcheck="true"><button type="submit" class="cta">Gönder</button></div>
+        </form>
         <p class="lgsync" id="lgSync" aria-live="polite"></p>
       </div>
       <p class="lgmsg" id="lgMsg" aria-live="polite" hidden></p>
@@ -6228,7 +6262,9 @@ const LG_ALPHA = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
 const LG_ID = /^[A-Z2-9]{6}$/, LG_PID = /^[a-z0-9]{6,16}$/, LG_RID = /^\d{1,3}\.(?:[a-z0-9]{6,16}\.[a-z0-9]{6,16}\.[12]|k[0-2]\.[0-3])$/;
 const LG_ROUNDS = [[], ['Final'], ['Yarı final', 'Final'], ['Çeyrek final', 'Yarı final', 'Final']];
 const lg = { list: {}, open: false, view: 'list', cur: '', tab: 'table', live: null, saved: null, table: '', sure: '', msg: '', err: false,
-  draft: { n: '', f: 'lig', legs: 1, tg: 5 }, timer: 0, cloud: { down: 0, busy: {}, at: {} } };
+  draft: { n: '', f: 'lig', legs: 1, tg: 5 }, timer: 0, tick: 0, cloud: { down: 0, busy: {}, at: {} }, ver: 0, lastSay: 0, sel: '', pinged: {} };
+const LG_MID = /^[a-z0-9]{6,16}\.[a-z0-9]{1,12}$/, LG_CHAT = 200;
+const cleanMsg = v => String(v == null ? '' : v).replace(/[\u0000-\u001f\u007f-\u009f\u200b-\u200f\u202a-\u202e\u2066-\u2069]/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 200);
 const lgEsc = s => String(s).replace(/[&<>"']/g, c => '&#' + c.charCodeAt(0) + ';');
 const cleanLgName = v => String(v == null ? '' : v).replace(/[\u0000-\u001f\u007f-\u009f​-‏‪-‮⁦-⁩]/g, '').replace(/\s+/g, ' ').trim().slice(0, 24);
 const lgHashStr = s => { let h = 2166136261; for (let i = 0; i < s.length; i++) h = Math.imul(h ^ s.charCodeAt(i), 16777619); return (h >>> 0).toString(36); };
@@ -6262,7 +6298,14 @@ function lgClean(o, local) {
     if (pr.length === 4 && [e.a, e.b].sort().join('.') !== pr[1] + '.' + pr[2]) continue;     // a result for the pair its key names
     L.r[rid] = { a: e.a, b: e.b, sa: int(e.sa, 0, 30), sb: int(e.sb, 0, 30), u: int(e.u, 0, 1e14), h: e.h === 'tel' ? 'tel' : 'on', d: e.d ? 1 : 0 };
   }
-  if (local) { L.q = Array.isArray(o.q) ? o.q.filter(x => typeof x === 'string' && x.length < 60).slice(0, 500) : []; L.at = int(o.at, 0, 1e14); L.sy = int(o.sy, 0, 1e14); }
+  L.c = {};
+  const cs = Object.entries(o.c && typeof o.c === 'object' ? o.c : {}).filter(([id, e]) => LG_MID.test(id) && e && typeof e === 'object' && LG_PID.test(e.p) && id.startsWith(e.p + '.'))
+    .sort((a, b) => (+b[1].t || 0) - (+a[1].t || 0)).slice(0, LG_CHAT);
+  for (const [id, e] of cs) { const d = e.d ? 1 : 0, x = d ? '' : cleanMsg(e.x); if (d || x) L.c[id] = { p: e.p, t: int(e.t, 0, 1e14), x, u: int(e.u, 0, 1e14), d }; }
+  if (local) {
+    L.q = Array.isArray(o.q) ? o.q.filter(x => typeof x === 'string' && x.length < 60).slice(0, 500) : []; L.at = int(o.at, 0, 1e14); L.sy = int(o.sy, 0, 1e14);
+    L.rd = int(o.rd, 0, 1e14); L.cs = typeof o.cs === 'string' && /^[0-9TZ:.+-]{10,40}$/.test(o.cs) ? o.cs : '';
+  }
   return L;
 }
 function lgLoad() {
@@ -6271,10 +6314,11 @@ function lgLoad() {
   lg.list = {};
   for (const o of Array.isArray(raw) ? raw : []) { const L = lgClean(o, true); if (L) lg.list[L.id] = L; }
 }
-function lgSave() { try { localStorage.setItem(LG_KEY, JSON.stringify(Object.values(lg.list))); } catch (e) { /* storage blocked */ } }
+function lgSave() { lg.ver++; try { localStorage.setItem(LG_KEY, JSON.stringify(Object.values(lg.list))); } catch (e) { /* storage blocked */ } lgRoomStart(); }   // (a first league: the room too)
 function lgHash(L) {
   const m = Object.keys(L.m).sort().map(p => p + ':' + L.m[p].u).join(','), r = Object.keys(L.r).sort().map(k => k + ':' + L.r[k].u).join(',');
-  return lgHashStr(L.v + '|' + m + '|' + r);
+  const c = Object.keys(L.c).sort().map(k => k + ':' + L.c[k].u).join(',');
+  return lgHashStr(L.v + '|' + m + '|' + r + '|' + c);
 }
 // newer wins, item by item: the founder's settings by version, a member or a result by its time
 function lgMerge(L, I) {
@@ -6291,6 +6335,11 @@ function lgMerge(L, I) {
     const a = L.r[k], b = I.r[k];
     if (a ? b.u > a.u : Object.keys(L.r).length < 400) { L.r[k] = { ...b }; ch = true; }
   }
+  for (const k in I.c || {}) {
+    const a = L.c[k], b = I.c[k];
+    if (!a || b.u > a.u) { L.c[k] = { ...b }; ch = true; }
+  }
+  lgTrimChat(L);
   return ch;
 }
 const lgName = (L, p) => p === prog.pid ? prog.name : L.m[p] ? L.m[p].n : 'Oyuncu';
@@ -6370,14 +6419,19 @@ function lgRidLabel(L, rid) {
 }
 function lgRank(L, p) { const i = lgTable(L).findIndex(x => x.p === p); return i < 0 ? 0 : i + 1; }
 
-function lgQueue(L, op) { if (!L.q) L.q = []; if (!L.q.includes(op)) L.q.push(op); lgCloudSoon(L.id); }
-function lgChanged(L) { lgSave(); lgGossipPlan(); if (lg.open) lgRender(); }
+function lgQueue(L, op) {
+  if (!L.q) L.q = [];
+  if (!L.q.includes(op)) L.q.push(op);
+  if (L.q.length > 400) { const i = L.q.findIndex(x => x[0] === 'c'); if (i >= 0) L.q.splice(i, 1); }   // no cloud for a long while: old chat goes first
+  if (op[0] === 'c') lgChatSoon(L.id); else lgCloudSoon(L.id);
+}
+function lgChanged(L) { lgSave(); lgGossipPlan(); if (lg.open) lgRender(); lgDot(); lgRoomStart(); lgRoomSoon(); }
 function lgNewId() { let id; do { id = Array.from({ length: 6 }, () => LG_ALPHA[Math.floor(Math.random() * LG_ALPHA.length)]).join(''); } while (lg.list[id]); return id; }
 function lgCreate(d) {
   if (Object.keys(lg.list).length >= LG_LEAGUES) return null;
   const now = Date.now(), id = lgNewId();
   const L = { id, n: cleanLgName(d.n) || 'Arkadaş Ligi', f: d.f === 'kupa' ? 'kupa' : 'lig', legs: d.legs === 2 ? 2 : 1, tg: [3, 5, 7].includes(d.tg) ? d.tg : 5,
-    o: prog.pid, t: now, v: 1, s: 1, dr: null, ch: [], m: { [prog.pid]: { n: prog.name, t: now, u: now, x: 0 } }, r: {}, q: [], at: now, sy: 0 };
+    o: prog.pid, t: now, v: 1, s: 1, dr: null, ch: [], m: { [prog.pid]: { n: prog.name, t: now, u: now, x: 0 } }, r: {}, c: {}, q: [], at: now, sy: 0, rd: now, cs: '' };
   lg.list[id] = L;
   lgQueue(L, 'd'); lgQueue(L, 'm'); lgSave();
   return L;
@@ -6455,7 +6509,7 @@ async function lgJoin(text) {
   if (lgActive(L).length >= LG_MAX[L.f]) return lgMsg('Bu lig dolu.', true), null;
   const now = Date.now();
   L.m[prog.pid] = { n: prog.name, t: now, u: now, x: 0 };
-  L.at = now; L.sy = 0;
+  L.at = now; L.sy = 0; L.rd = now;
   lg.list[L.id] = L;
   lgQueue(L, 'm'); lgSave();
   lgMsg('');
@@ -6526,7 +6580,7 @@ async function lgCloudSync(id, force) {
   if (lg.open) lgRenderSync();
   try {
     const rank = op => op === 'd' ? 0 : op[0] === 'm' ? 1 : 2;
-    for (const op of (L0.q || []).slice().sort((a, b) => rank(a) - rank(b))) {
+    for (const op of (L0.q || []).filter(x => x[0] !== 'c').sort((a, b) => rank(a) - rank(b))) {
       try { await lgCloudWrite(L0, op); } catch (e) { if (!e.status) throw e; }        // refused by the rules: that one is dropped
       L0.q = L0.q.filter(x => x !== op);
     }
@@ -6534,11 +6588,15 @@ async function lgCloudSync(id, force) {
     const got = await lgCloudFetch(id), L = lg.list[id];
     if (L) {
       if (got) {
-        if (lgMerge(L, got)) lgGossipPlan();
+        if (lgMerge(L, got)) { lgGossipPlan(); lgPing(L); }
         if (L.o === prog.pid && got.v < L.v) lgQueue(L, 'd');
         if (lgMine(L) && !got.m[prog.pid]) lgQueue(L, 'm');
         for (const k in L.r) if (lgMine(L) && (!got.r[k] || (L.o === prog.pid && got.r[k].u < L.r[k].u))) lgQueue(L, 'r:' + k);   // what only we know
       } else if (L.o === prog.pid) { lgQueue(L, 'd'); lgQueue(L, 'm'); for (const k in L.r) lgQueue(L, 'r:' + k); }   // not up there yet
+      if (lgMine(L)) {
+        for (const op of L.q.filter(x => x[0] === 'c')) { try { await lgChatWrite(L, op.slice(2)); } catch (e) { if (!e.status) throw e; } L.q = L.q.filter(x => x !== op); }
+        try { if (await lgChatPull(L)) lgPing(L); } catch (e) { if (!e.status) throw e; }
+      }
       L.sy = Date.now(); lgSave();
     }
     C.down = 0;
@@ -6547,15 +6605,21 @@ async function lgCloudSync(id, force) {
 }
 
 // ——— phone to phone: when two members' phones meet online they compare leagues and fill each other in
-function lgNetReset() { net.lgx = { peer: '', peerH: null, peerKey: '', myAck: '', q: [], seq: 0, ack: 0, got: 0, sent: {}, match: null }; }
+function lgNetReset() { net.lgx = { peer: '', peerH: null, peerKey: '', myAck: '', q: [], seq: 0, ack: 0, got: 0, sent: {}, match: null }; setTimeout(() => lgRoomSoon(0)); }   // (the room hears us again after a match)
 const lgNetOn = () => !!(net.role && net.lgx && !net.p2 && !net.t && !net.bot && !net.spect);
-const lgMyH = () => Object.values(lg.list).map(L => [lgTag(L.id), lgHash(L)]);
+const lgHc = { v: -1, h: null, k: '' };
+function lgMyH() {
+  if (lgHc.v !== lg.ver) { lgHc.v = lg.ver; lgHc.h = Object.values(lg.list).map(L => [lgTag(L.id), lgHash(L)]); lgHc.k = lgHashStr(JSON.stringify(lgHc.h)); }
+  return lgHc.h;
+}
 function lgPackets(L) {                           // the whole league, a few results at a time
   const def = { id: L.id, n: L.n, f: L.f, legs: L.legs, tg: L.tg, o: L.o, t: L.t, v: L.v, s: L.s, dr: L.dr, ch: L.ch };
   const rs = Object.entries(L.r), out = [];
   for (let i = 0; i < Math.max(1, rs.length); i += 8) {
     out.push({ ...def, m: i ? {} : Object.fromEntries(Object.entries(L.m).map(([p, e]) => [p, { n: e.n, t: e.t, u: e.u, x: e.x }])), r: Object.fromEntries(rs.slice(i, i + 8)) });
   }
+  const cs = Object.entries(L.c).sort((a, b) => b[1].t - a[1].t).slice(0, 100);      // the newest hundred messages, a few at a time
+  for (let i = 0; i < cs.length; i += 5) out.push({ ...def, m: {}, r: {}, c: Object.fromEntries(cs.slice(i, i + 5)) });
   return out;
 }
 function lgGossipPlan() {
@@ -6573,7 +6637,7 @@ function lgGossipPlan() {
 // our side, added to each message: our leagues (as tags and versions) until the other phone has them, one packet at a time
 function lgOut() {
   if (!lgNetOn()) return {};
-  const G = net.lgx, lh = lgMyH(), key = lgHashStr(JSON.stringify(lh)), o = { lpa: G.got, lha: G.peerKey };
+  const G = net.lgx, lh = lgMyH(), key = lgHc.k, o = { lpa: G.got, lha: G.peerKey };
   if (G.myAck !== key) o.lh = lh;
   const head = G.q.find(x => x.s > G.ack);
   if (head) o.lp = [head.s, head.p];
@@ -6598,7 +6662,7 @@ function lgIn(d) {
   if (Array.isArray(d.lp) && (d.lp[0] | 0) > G.got) {
     G.got = d.lp[0] | 0;
     const I = lgClean(d.lp[1], false), L = I && lg.list[I.id];
-    if (L && lgMerge(L, I)) lgChanged(L);          // only a league we are in; never one we have not joined
+    if (L && lgMerge(L, I)) lgAfterMerge(L);       // only a league we are in; never one we have not joined
   }
 }
 
@@ -6731,10 +6795,13 @@ function lgOpenLeague(id, tab) {
 function lgClose() { lg.open = false; lg.sure = ''; clearInterval(lg.timer); lg.timer = 0; setUI(); }
 function lgTimer() {
   clearInterval(lg.timer);
+  lg.tick = 0;
   lg.timer = setInterval(() => {
     if (!lg.open) { clearInterval(lg.timer); lg.timer = 0; return; }
-    if (lg.view === 'detail') lgCloudSync(lg.cur); else for (const id in lg.list) lgCloudSync(id);
-  }, 30e3);
+    const full = ++lg.tick % 5 === 0;
+    if (lg.view === 'detail' && lg.tab === 'chat' && !full) lgChatPoll(lg.cur);
+    else if (full) { if (lg.view === 'detail') lgCloudSync(lg.cur); else for (const id in lg.list) lgCloudSync(id); }
+  }, 6e3);
 }
 function lgRender() {
   if (lg.view === 'detail' && !lg.list[lg.cur]) lg.view = 'list';
@@ -6752,7 +6819,8 @@ function lgRenderList() {
     const n = lgActive(L).length, c = lgChamp(L), mine = lgMine(L) ? lgOpenGames(L).filter(g => g.a === prog.pid || g.b === prog.pid).length : 0;
     const note = !lgMine(L) ? 'Artık bu ligde değilsin' : c ? `🏆 Şampiyon: ${lgName(L, c)}` : L.f === 'kupa' && !L.dr ? 'Kura bekleniyor'
       : lgAllPlayed(L) ? `Maçlar bitti · lider: ${lgName(L, lgLeader(L))}` : mine ? `${mine} maçın var` : 'Maçın kalmadı';
-    return `<button type="button" class="lgrow" data-id="${L.id}"><b>${lgEsc(L.n)}</b><span>${lgFmtText(L)} · ${n} üye · ${L.s}. sezon</span><i>${lgEsc(note)}</i></button>`;
+    const un = lgUnread(L);
+    return `<button type="button" class="lgrow" data-id="${L.id}"><b>${lgEsc(L.n)}</b><span>${lgFmtText(L)} · ${n} üye · ${L.s}. sezon</span><i>${lgEsc(note)}${un ? ` <em>· 💬 ${un} yeni mesaj</em>` : ''}</i></button>`;
   }).join('');
   $('lgEmpty').hidden = rows.length > 0;
   $('lgNewBtn').disabled = rows.length >= LG_LEAGUES;
@@ -6775,17 +6843,24 @@ function lgRenderDetail() {
   $('lgMeta').textContent = `${lgFmtText(L)} · ${L.tg} gole kadar · ${n} üye · ${L.s}. sezon` + (owner ? ' · kurucusun' : '');
   for (const b of document.querySelectorAll('#lgTabs [role=tab]')) b.setAttribute('aria-selected', String(b.dataset.tab === lg.tab));
   $('lgMCount').textContent = n;
-  $('lgInvite').hidden = lg.tab === 'members';
-  const P = $('lgPanel'), keep = P.dataset.k === L.id + lg.tab ? P.scrollTop : 0;
+  $('lgInvite').hidden = lg.tab === 'members' || lg.tab === 'chat';
+  const chat = lg.tab === 'chat', P = $('lgPanel'), same = P.dataset.k === L.id + lg.tab;
+  const keep = same ? P.scrollTop : 0, atEnd = !same || P.scrollHeight - P.scrollTop - P.clientHeight < 40;
+  if (chat) { const t = Math.max(0, ...Object.values(L.c).map(e => e.t)); if (t > (L.rd || 0)) { L.rd = t; lgSave(); } }   // read
+  const un = lgUnread(L);
+  $('lgUnread').textContent = un; $('lgUnread').hidden = !un;
+  $('lgSend').hidden = !chat || !lgMine(L);
+  $('lgDetail').classList.toggle('chat', chat);
   P.dataset.k = L.id + lg.tab;
-  P.innerHTML = lg.tab === 'games' ? lgGamesHtml(L, owner) : lg.tab === 'members' ? lgMembersHtml(L, owner) : lgTableHtml(L, owner);
+  P.innerHTML = chat ? lgChatHtml(L) : lg.tab === 'games' ? lgGamesHtml(L, owner) : lg.tab === 'members' ? lgMembersHtml(L, owner) : lgTableHtml(L, owner);
   const bb = $('lgBracket');
   if (bb) {
     const B = lgBracket(L), nx = lgNextBox(B);
     drawBracket(bb, B, LG_ROUNDS[B.r.length], nx, p => p ? lgName(L, p) : '—', p => p === prog.pid ? ' human me' : p ? ' human' : '');
   }
-  P.scrollTop = keep;
-  lgRenderSync();
+  P.scrollTop = chat && atEnd ? P.scrollHeight : keep;     // a chat stays at its newest message unless you scrolled up
+  if (chat && atEnd) requestAnimationFrame(() => { P.scrollTop = P.scrollHeight; });   // (again once the screen is shown)
+  lgRenderSync(); lgDot();
 }
 function lgNextBox(B) {
   let first = null;
@@ -6802,6 +6877,7 @@ function lgRenderSync() {
   if (!el) return;
   const C = lg.cloud, q = L && L.q ? L.q.length : 0;
   el.textContent = !fbOn() ? '' : lg.view === 'detail' && L && C.busy[L.id] ? '☁️ Eşitleniyor…'
+    : C.down && lgRoom.room ? '🟢 Sayfası açık üyelerle canlı. Bulut yok; gerisi üyeler online oynadıkça eşitlenir.'
     : C.down ? '📶 Bulut yok: sonuçlar bu telefonda durur, üyeler online oynadıkça telefonlar birbirini günceller.'
     : lg.view === 'detail' && L && L.sy ? `☁️ Bulutla eşit · ${new Date(L.sy).toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' })}` + (q ? ` · ${q} değişiklik gönderilecek` : '') : '';
 }
@@ -6866,6 +6942,8 @@ function lgAct(act, b) {
   const key = act + (b.dataset.rid ? ` data-rid="${b.dataset.rid}"` : b.dataset.p ? ` data-p="${b.dataset.p}"` : '');
   const sure = () => { if (lg.sure === key) { lg.sure = ''; return true; } lg.sure = key; lgRender(); return false; };
   switch (act) {
+    case 'sel': lg.sel = lg.sel === b.dataset.mid ? '' : b.dataset.mid; lgRender(); return;
+    case 'unsay': lg.sel = ''; lgUnsay(L, b.dataset.mid); return;
     case 'host': return lgHost(L.id);
     case 'join': return lgJoinTable();
     case 'here': return lgPlayHere(L.id, b.dataset.rid);
@@ -6896,10 +6974,218 @@ $('lgNew').addEventListener('submit', e => {
   toast('Lig kuruldu · şimdi arkadaşlarını davet et', 2400);
 });
 $('lgJoinForm').addEventListener('submit', e => { e.preventDefault(); lgJoin($('lgJoinIn').value).then(L => { if (L) $('lgJoinIn').value = ''; }); });
-$('lgTabs').addEventListener('click', e => { const b = e.target.closest('[role=tab]'); if (b) { lg.tab = b.dataset.tab; lg.sure = ''; lgRender(); } });
+$('lgTabs').addEventListener('click', e => { const b = e.target.closest('[role=tab]'); if (b) { lg.tab = b.dataset.tab; lg.sure = ''; lg.sel = ''; lgRender(); if (lg.tab === 'chat') lgChatPoll(lg.cur); } });
 $('lgInvite').addEventListener('click', () => { const L = lg.list[lg.cur]; if (L) lgShare(L); });
 $('lgPanel').addEventListener('click', e => { const b = e.target.closest('[data-act]'); if (b && !b.disabled) lgAct(b.dataset.act, b); });
-lgLoad(); lgNetReset();
+/* ——— League chat ———
+   Messages live in the league like its results: on every member's phone, in the cloud when the page
+   reaches Firebase, and passed on when two members play online. On claude.ai, where there is no cloud,
+   members who have the page open at the same time also hear each other live through the room: each
+   phone keeps its leagues' newest few items in its presence, sealed with a key made from the league's
+   code, so only members can read them. */
+const LG_QUICK = ['Maça var mısın? ⚽', 'Masa açtım, gel! 🌐', 'Bu akşam oynayalım mı?', 'Rövanş? 🔥', 'Tebrikler 👏', 'Az kaldı 😅'];
+function lgSay(L, text) {
+  const x = cleanMsg(text), now = Date.now();
+  if (!x || !lgMine(L) || now - lg.lastSay < 700) return false;
+  lg.lastSay = now;
+  const id = `${prog.pid}.${now.toString(36)}`;
+  L.c[id] = { p: prog.pid, t: now, x, u: now, d: 0 };
+  L.rd = Math.max(L.rd || 0, now);
+  lgTrimChat(L);
+  lgQueue(L, 'c:' + id);
+  lgChanged(L);
+  return true;
+}
+function lgUnsay(L, id) {
+  const e = L.c[id];
+  if (!e || e.d || (e.p !== prog.pid && L.o !== prog.pid)) return;
+  L.c[id] = { ...e, x: '', d: 1, u: Date.now() };
+  lgQueue(L, 'c:' + id); lgChanged(L);
+}
+function lgTrimChat(L) {
+  const ks = Object.keys(L.c);
+  if (ks.length > LG_CHAT) ks.sort((a, b) => L.c[a].t - L.c[b].t).slice(0, ks.length - LG_CHAT).forEach(k => delete L.c[k]);
+}
+const lgUnread = L => lgMine(L) ? Object.values(L.c).filter(e => !e.d && e.p !== prog.pid && e.t > (L.rd || 0)).length : 0;
+function lgDot() { const d = $('lgDot'); if (d) d.hidden = !Object.values(lg.list).some(L => lgUnread(L) > 0); }
+// news from elsewhere: the newest message gets a notice when nobody is looking at that chat
+function lgPing(L) {
+  lgDot();
+  const last = Math.max(lg.pinged[L.id] || 0, L.rd || 0);
+  const e = Object.values(L.c).filter(x => !x.d && x.p !== prog.pid && x.t > last).sort((a, b) => b.t - a.t)[0];
+  if (!e) return;
+  lg.pinged[L.id] = e.t;
+  if ((lg.open && lg.view === 'detail' && lg.cur === L.id && lg.tab === 'chat') || state === 'play' || !lgMine(L)) return;
+  toast(`💬 ${L.n} · ${lgName(L, e.p)}: ${e.x.length > 60 ? e.x.slice(0, 58) + '…' : e.x}`, 3400);
+  Sound.tock(.35);
+}
+function lgAfterMerge(L) { lgChanged(L); lgPing(L); }
+
+// the cloud: leagues/{code}/chat/{message}; the server's clock orders them, so a phone asks only for what is new
+async function lgChatWrite(L, id) {
+  const e = L.c[id];
+  if (!e) return;
+  const tok = await fbToken();
+  const name = `projects/${FIREBASE.projectId}/databases/(default)/documents/leagues/${L.id}/chat/${id}`;
+  const r = await fetch(`${fbDocs()}:commit`, { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + tok },
+    body: JSON.stringify({ writes: [{ update: { name, fields: fsFields({ p: e.p, t: e.t, x: e.x, u: e.u, d: !!e.d }) }, updateTransforms: [{ fieldPath: 'st', setToServerValue: 'REQUEST_TIME' }] }] }) });
+  if (!r.ok) { const er = new Error('chat ' + r.status); er.status = r.status; throw er; }
+}
+async function lgChatPull(L) {
+  const where = L.cs ? { fieldFilter: { field: { fieldPath: 'st' }, op: 'GREATER_THAN', value: { timestampValue: L.cs } } } : null;
+  const q = { from: [{ collectionId: 'chat' }], ...(where ? { where } : {}), orderBy: [{ field: { fieldPath: 'st' }, direction: where ? 'ASCENDING' : 'DESCENDING' }], limit: 100 };
+  const tok = await fbToken();
+  const r = await fetch(`${fbDocs()}/leagues/${L.id}:runQuery`, { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + tok }, body: JSON.stringify({ structuredQuery: q }) });
+  if (!r.ok) { const er = new Error('chat ' + r.status); er.status = r.status; throw er; }
+  const rows = (await r.json()).filter(x => x && x.document);
+  if (!rows.length) return false;
+  const c = {};
+  let cs = L.cs, at = cs ? Date.parse(cs) : 0;
+  for (const x of rows) {
+    const f = x.document.fields || {}, st = f.st && f.st.timestampValue;
+    c[x.document.name.split('/').pop()] = fsObj(f);
+    if (st && Date.parse(st) >= at) { cs = st; at = Date.parse(st); }
+  }
+  const L2 = lg.list[L.id];
+  if (!L2) return false;
+  L2.cs = cs;
+  const I = lgClean({ id: L.id, v: 0, c }, false);
+  return !!I && lgMerge(L2, I);
+}
+// quick: our unsent messages, then what is new (one read when nothing is)
+async function lgChatPoll(id) {
+  const L = lg.list[id], C = lg.cloud;
+  if (!L || !fbOn() || C.busy[id] || !lgMine(L) || (C.down && Date.now() - C.down < 60e3)) return;
+  C.busy[id] = true;
+  try {
+    for (const op of L.q.filter(x => x[0] === 'c')) {
+      try { await lgChatWrite(L, op.slice(2)); } catch (e) { if (!e.status) throw e; }
+      L.q = L.q.filter(x => x !== op);
+    }
+    let got = false;
+    try { got = await lgChatPull(L); } catch (e) { if (!e.status) throw e; }
+    if (got && lg.list[id]) lgAfterMerge(lg.list[id]); else lgSave();
+    C.down = 0;
+  } catch (e) { C.down = Date.now(); }
+  finally { C.busy[id] = false; }
+}
+function lgChatSoon(id, ms = 250) { if (fbOn()) setTimeout(() => lgChatPoll(id), ms); }
+// in the menu, now and then: the two leagues opened most recently
+setInterval(() => {
+  if (document.hidden || state !== 'menu' || lg.open) return;
+  Object.values(lg.list).filter(lgMine).sort((a, b) => b.at - a.at).slice(0, 2).forEach(L => lgChatPoll(L.id));
+}, 60e3);
+
+// ——— live on claude.ai: the room
+const lgRoom = { room: null, starting: false, key: '', seen: {}, timer: 0 };
+const LG_KEYS = {};
+const lgKey = id => LG_KEYS[id] || (LG_KEYS[id] = crypto.subtle.digest('SHA-256', new TextEncoder().encode('cep-lig-oda·' + id))
+  .then(h => crypto.subtle.importKey('raw', h, 'AES-GCM', false, ['encrypt', 'decrypt'])));
+async function lgSeal(id, text) {
+  const iv = crypto.getRandomValues(new Uint8Array(12));
+  const ct = new Uint8Array(await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, await lgKey(id), new TextEncoder().encode(text)));
+  let s = '';
+  for (const b of iv) s += String.fromCharCode(b);
+  for (const b of ct) s += String.fromCharCode(b);
+  return btoa(s);
+}
+async function lgUnseal(id, b64) {
+  const raw = Uint8Array.from(atob(b64), ch => ch.charCodeAt(0));
+  return new TextDecoder().decode(await crypto.subtle.decrypt({ name: 'AES-GCM', iv: raw.slice(0, 12) }, await lgKey(id), raw.slice(12)));
+}
+async function lgRoomStart() {
+  if (lgRoom.room || lgRoom.starting || !Object.keys(lg.list).length || !window.claude || typeof window.claude.use !== 'function' || !(window.crypto && crypto.subtle)) return;
+  lgRoom.starting = true;
+  let room = null;
+  try { room = await window.claude.use('room'); } catch (e) { room = null; }
+  lgRoom.starting = false;
+  if (!room || lgRoom.room) return;
+  lgRoom.room = room;
+  room.onPeers(ch => { for (const p of ch.peers) if (!p.sameTab && p.kind !== 'agent' && p.presence && p.presence.cepg) lgRoomIn(p.peer, p.presence.cepg); });
+  lgRoomSoon(0);
+}
+function lgRoomSoon(ms = 400) { if (!lgRoom.room) return; clearTimeout(lgRoom.timer); lgRoom.timer = setTimeout(() => lgRoomPub().catch(() => {}), ms); }
+const lgLast = L => Math.max(L.at || 0, ...Object.values(L.c).map(e => e.u), ...Object.values(L.r).map(e => e.u));
+function lgRoomItems(L) {                         // the newest few items, a presence string's worth (sealed, under 1 KiB)
+  const items = [...Object.entries(L.c).map(([k, e]) => ['c', k, e]), ...Object.entries(L.r).map(([k, e]) => ['r', k, e]),
+    ...Object.entries(L.m).map(([k, e]) => ['m', k, { n: e.n, t: e.t, u: e.u, x: e.x }])].sort((a, b) => b[2].u - a[2].u).slice(0, 12);
+  const o = { m: {}, r: {}, c: {} }, enc = new TextEncoder();
+  let size = 20;
+  for (const [kind, k, e] of items) {
+    const s = enc.encode(JSON.stringify(e)).length + k.length + 6;
+    if (size + s > 660) continue;
+    o[kind][k] = e; size += s;
+  }
+  return JSON.stringify(o);
+}
+async function lgRoomPub() {
+  const R = lgRoom;
+  if (!R.room) return;
+  // nothing while this phone is at an online table: its presence carries the match then
+  const ls = net.role ? [] : Object.values(lg.list).filter(lgMine).sort((a, b) => lgLast(b) - lgLast(a)).slice(0, 2);
+  const plain = ls.map(L => [lgTag(L.id), lgRoomItems(L), L.id]), key = JSON.stringify(plain);
+  if (key === R.key) return;
+  R.key = key;
+  const out = [];
+  for (const [tag, txt, id] of plain) out.push([tag, await lgSeal(id, txt)]);
+  if (R.key !== key) return;                      // a newer one is on its way
+  R.room.presence({ cepg: out.length ? out : null }).catch(() => {});
+}
+function lgRoomIn(peer, list) {
+  if (!Array.isArray(list)) return;
+  for (const e of list.slice(0, 4)) {
+    if (!Array.isArray(e) || typeof e[0] !== 'string' || typeof e[1] !== 'string' || e[1].length > 1400) continue;
+    const k = peer + '|' + e[0];
+    if (lgRoom.seen[k] === e[1]) continue;
+    lgRoom.seen[k] = e[1];
+    const L = Object.values(lg.list).find(x => lgTag(x.id) === e[0]);
+    if (!L) continue;                             // not a league of ours: we could not read it anyway
+    lgUnseal(L.id, e[1]).then(txt => {
+      const I = lgClean({ ...JSON.parse(txt), id: L.id, v: 0 }, false), L2 = lg.list[L.id];
+      if (L2 && I && lgMerge(L2, I)) lgAfterMerge(L2);
+    }).catch(() => {});
+  }
+}
+
+// ——— the chat tab
+function lgChatHtml(L) {
+  const me = prog.pid, items = [];
+  for (const [id, e] of Object.entries(L.c)) items.push({ t: e.t, k: 'c', id, e });
+  for (const [rid, r] of Object.entries(L.r)) if (!r.d && rid.startsWith(L.s + '.')) items.push({ t: r.u, k: 'r', r, rid });
+  for (const [p, e] of Object.entries(L.m)) {
+    if (e.u > 1 || p === L.o) items.push({ t: e.t || L.t, k: 'j', p });
+    if (e.x) items.push({ t: e.u, k: 'x', p });
+  }
+  items.sort((a, b) => a.t - b.t);
+  const hue = p => { let h = 0; for (const ch of p) h = (h * 31 + ch.charCodeAt(0)) % 360; return h; };
+  const today = new Date().toDateString(), yday = new Date(Date.now() - 864e5).toDateString();
+  let day = '', h = '';
+  for (const it of items.slice(-150)) {
+    const d = new Date(it.t), ds = d.toDateString();
+    if (ds !== day) { day = ds; h += `<p class="lgday">${ds === today ? 'Bugün' : ds === yday ? 'Dün' : lgDate(it.t)}</p>`; }
+    const hm = d.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
+    if (it.k === 'c') {
+      const e = it.e, mine = e.p === me, sel = lg.sel === it.id, can = mine || L.o === me;
+      if (e.d) { h += `<p class="lgsys gone">🗑️ ${lgEsc(lgName(L, e.p))} bir mesajı sildi</p>`; continue; }
+      h += `<div class="lgm${mine ? ' me' : ''}${sel ? ' sel' : ''}" data-act="sel" data-mid="${it.id}">${mine ? '' : `<b style="color:hsl(${hue(e.p)},72%,74%)">${lgEsc(lgName(L, e.p))}</b>`}<span>${lgEsc(e.x)}</span><small>${hm}</small>`
+        + (sel && can ? `<button type="button" class="ghost sm" data-act="unsay" data-mid="${it.id}">Sil</button>` : '') + '</div>';
+    } else if (it.k === 'r') {
+      const r = it.r, lb = lgRidLabel(L, it.rid);
+      h += `<p class="lgsys">⚽ ${lgEsc(lgName(L, r.a))} <b>${r.sa}–${r.sb}</b> ${lgEsc(lgName(L, r.b))}${lb ? ' · ' + lb : ''} · ${hm}</p>`;
+    } else h += `<p class="lgsys">${it.k === 'x' ? '🚪' : it.p === L.o ? '🏁' : '👋'} ${lgEsc(lgName(L, it.p))} ${it.k === 'x' ? 'ligden ayrıldı' : it.p === L.o ? 'ligi kurdu' : 'lige katıldı'}</p>`;
+  }
+  if (!Object.values(L.c).some(e => !e.d)) h += '<p class="lgsys hint">Henüz mesaj yok. Maç saatini ayarla, rakibine laf at: ilk mesajı sen yaz.</p>';
+  if (!lgMine(L)) h += '<p class="lgsys hint">Artık bu ligde değilsin; mesaj yazamazsın.</p>';
+  return h;
+}
+$('lgQuick').innerHTML = LG_QUICK.map(q => `<button type="button" class="ghost sm" data-q="${lgEsc(q)}">${lgEsc(q)}</button>`).join('');
+$('lgQuick').addEventListener('click', e => { const b = e.target.closest('[data-q]'), L = lg.list[lg.cur]; if (b && L) lgSay(L, b.dataset.q); });
+$('lgSend').addEventListener('submit', e => {
+  e.preventDefault();
+  const L = lg.list[lg.cur], i = $('lgSay');
+  if (L && lgSay(L, i.value)) i.value = '';
+});
+lgLoad(); lgNetReset(); lgDot(); lgRoomStart();
 // an invite link: #lig=<invite> joins that league
 if (/^#lig=/.test(location.hash)) {
   const inv = decodeURIComponent(location.hash.slice(5));
@@ -6907,7 +7193,7 @@ if (/^#lig=/.test(location.hash)) {
   setTimeout(() => { lgOpenList(); lgJoin(inv); }, 300);
 }
 
-window.langirt = { lg, lgCreate, lgJoin, lgRecord, lgTable, lgBracket, lgMerge, lgClean, lgToken, lgHash, lgDraw, lgNewSeason, lgFixtures, lgOpenGames, lgOpenList, lgOpenLeague, lgCloudSync, lgCloudFetch, lgPlayHere, lgHost, lgSave, lgLoad, lgChamp, FORMATIONS, setFormation, chooseFormation, openFormations, teams, rods, ball, score, settings, update, startMatch, attract, net, hostTable, joinTable, sendEmote, EMOTES, stats, card, cardStory, drawCard, recordMatch, todayQuests, QUESTS, BADGES, BALLS, TABLES, PAL, clock, MATCH_TIME, MM, mm, findRival, tour, tourNext, openTour, playTour, tourSim, TEAM_COLORS, CRESTS, resolvePals, teamPal, colorDist, applyTeams, KITS, FXS, ITEMS, BUNDLES, store, openStore, storeBuy, storePick, storeCat, priceOf, bundlePrice, rollDeals, lookOf, spawnFx, particles, pv, drawStatic, startCup, cupRule, weekKey, mergeBoard, boardPayload, RULES, cup, FIREBASE, fb, fbPush, fbFetch, fbOn, renderBoard, spk, say, levelOf, xpOf, renderProfile, skillPoints, perksOf, applyPerks, PERK_NODES, UNITS, setPair, tryGiant, trySkill, press(k, down) { if (down) kbHeld.add(k); else kbHeld.delete(k); syncInput(); }, get pair() { return pair; }, get ctls() { return ctls; }, get prog() { return prog; }, get state() { return state; }, get mode() { return mode; }, get me() { return me; } };
+window.langirt = { lgClose, lgSay, lgUnsay, lgUnread, lgChatPull, lgChatPoll, lgRoom, lgRoomPub, lgSeal, lgUnseal, lgTag, lg, lgCreate, lgJoin, lgRecord, lgTable, lgBracket, lgMerge, lgClean, lgToken, lgHash, lgDraw, lgNewSeason, lgFixtures, lgOpenGames, lgOpenList, lgOpenLeague, lgCloudSync, lgCloudFetch, lgPlayHere, lgHost, lgSave, lgLoad, lgChamp, FORMATIONS, setFormation, chooseFormation, openFormations, teams, rods, ball, score, settings, update, startMatch, attract, net, hostTable, joinTable, sendEmote, EMOTES, stats, card, cardStory, drawCard, recordMatch, todayQuests, QUESTS, BADGES, BALLS, TABLES, PAL, clock, MATCH_TIME, MM, mm, findRival, tour, tourNext, openTour, playTour, tourSim, TEAM_COLORS, CRESTS, resolvePals, teamPal, colorDist, applyTeams, KITS, FXS, ITEMS, BUNDLES, store, openStore, storeBuy, storePick, storeCat, priceOf, bundlePrice, rollDeals, lookOf, spawnFx, particles, pv, drawStatic, startCup, cupRule, weekKey, mergeBoard, boardPayload, RULES, cup, FIREBASE, fb, fbPush, fbFetch, fbOn, renderBoard, spk, say, levelOf, xpOf, renderProfile, skillPoints, perksOf, applyPerks, PERK_NODES, UNITS, setPair, tryGiant, trySkill, press(k, down) { if (down) kbHeld.add(k); else kbHeld.delete(k); syncInput(); }, get pair() { return pair; }, get ctls() { return ctls; }, get prog() { return prog; }, get state() { return state; }, get mode() { return mode; }, get me() { return me; } };
 
 const hot = window.claude && window.claude.hot;
 if (hot && typeof hot.snapshot === 'function') {

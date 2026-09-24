@@ -37,10 +37,12 @@ service cloud.firestore {
         && d.t == request.time;
     }
 
-    // Private leagues: leagues/{code}, with members/{uid} (one per player's anonymous account) and
-    // results/{match}. A league is read only by someone who knows its code (no listing); only its founder
+    // Private leagues: leagues/{code}, with members/{uid} (one per player's anonymous account),
+    // results/{match} and chat/{message}. A league is read only by someone who knows its code (no listing); only its founder
     // changes its settings; each player writes their own membership; members write results. A result
     // already written can be changed only by the founder (or rewritten unchanged, or a deleted one replayed).
+    // Only members read the chat; a message is written under its writer's own name, and deleted (emptied)
+    // only by its writer or the founder.
     match /leagues/{id} {
       allow get: if signedIn();
       allow list: if false;
@@ -56,6 +58,15 @@ service cloud.firestore {
         allow create, update: if signedIn() && validMember()
           && exists(/databases/$(database)/documents/leagues/$(id))
           && (request.auth.uid == uid || isFounder(id));
+        allow delete: if false;
+      }
+      match /chat/{mid} {
+        allow read: if isMember(id);
+        allow create: if isMember(id) && validChat(mid) && request.resource.data.d == false
+          && request.resource.data.x.size() >= 1 && isAuthor(id);
+        allow update: if isMember(id) && validChat(mid) && request.resource.data.d == true && request.resource.data.x == ''
+          && request.resource.data.p == resource.data.p && request.resource.data.t == resource.data.t
+          && (isAuthor(id) || isFounder(id));
         allow delete: if false;
       }
       match /results/{rid} {
@@ -85,6 +96,15 @@ service cloud.firestore {
         && d.o is string && d.o.size() <= 16 && d.ou is string
         && d.t is int && d.v is int && d.s is int && d.s >= 1 && d.s <= 999
         && d.dr is list && d.dr.size() <= 8 && d.ch is list && d.ch.size() <= 10;
+    }
+    function isAuthor(id) {                     // the message's writer, by their membership in this league
+      return get(/databases/$(database)/documents/leagues/$(id)/members/$(request.auth.uid)).data.p == request.resource.data.p;
+    }
+    function validChat(mid) {
+      let d = request.resource.data;
+      return d.keys().hasOnly(['p', 't', 'x', 'u', 'd', 'st']) && d.keys().hasAll(['p', 't', 'x', 'u', 'd', 'st'])
+        && d.p is string && mid.matches('^[a-z0-9]{6,16}[.][a-z0-9]{1,12}$') && mid.split('[.]')[0] == d.p
+        && d.t is int && d.u is int && d.x is string && d.x.size() <= 200 && d.d is bool && d.st == request.time;
     }
     function validMember() {
       let d = request.resource.data;

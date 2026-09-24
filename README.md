@@ -390,6 +390,12 @@ Menünün üstündeki **👥** düğmesi (ya da turnuva kurulumundaki **👥 Öz
   - **🌐 Online:** Rakibinle aynı anda biriniz **Masa aç** der, diğeri **Koda katıl** ile masanın kodunu girer. Maç kendiliğinden lig maçı olur: aranızdaki sıradaki maç sayılır, gol hedefi ligin ayarıdır. İki telefon da maç başında "🏅 lig maçı" yazar ve sonucu kaydeder. Aranızda oynanacak maç kalmadıysa maç dostluk maçı sayılır. Çift devrede rövanş ikinci devre olur.
   - **📱 Bu telefonda:** İki üye aynı telefonda 2 kişilik oynar; skor tablosunda ikisinin adı yazar. Bunu her maç için, başka iki üyenin maçı için de yapabilirsin; ofiste tek telefonla oynayanlar için. Maç sonunda **▶ Lig** lige döner.
 - **Sonuç ekranı:** Lig maçından sonra ligin adı ve senin sıran yazar (ör. "🏅 Ofis Ligi · Ayşe kazandı · sıran: 2.").
+- **Sohbet:** Her ligin bir **Sohbet** sekmesi var. Üyeler maç saatini ayarlar, birbirine laf atar.
+  - Mesajlar en fazla 200 karakterdir. Hazır mesajlar tek dokunuşla gider: "Maça var mısın? ⚽", "Masa açtım, gel! 🌐", "Rövanş? 🔥", "Tebrikler 👏"…
+  - Sohbette maç sonuçları ("⚽ Ayşe 3–1 Burak") ve lige katılanlar da kısa satırlar olarak akar.
+  - Yeni mesaj gelince menüde bir bildirim çıkar ("💬 Ofis Ligi · Ayşe: Maça var mısın?"). 👥 düğmesinde turuncu bir nokta, lig listesinde "💬 2 yeni mesaj", sekmede okunmamış sayısı görünür. Maç oynarken bildirim gelmez.
+  - Bir mesaja dokununca **Sil** çıkar. Herkes kendi mesajını, kurucu herkesinkini silebilir; yerinde "bir mesajı sildi" yazar.
+  - Her ligin son 200 mesajı saklanır.
 - **Sezon:** Ligde bütün maçlar oynanınca lider öne çıkar. Kurucu **Üyeler → Sezonu bitir** deyince lider şampiyon ilan edilir, tablo sıfırlanır ve yeni sezon başlar. Kupada finali kazanan şampiyondur; yeni sezonda kura yeniden çekilir. Eski şampiyonlar tablonun altında listelenir.
 - **Kurucunun yetkileri:** Yanlış girilmiş bir sonucu silebilir (maç yeniden oynanır), bir üyeyi ligden çıkarabilir, kupada kurayı çeker ve sezonu bitirir. Silme ve çıkarma bir kez onay ister.
 - **Ayrılmak:** **Ligden çık** ligi bu telefondan kaldırır. Oynadığın maçlar tabloda kalır, oynanmamış maçların düşer. Kupada ayrılan oyuncunun rakibi hükmen tur atlar.
@@ -397,12 +403,15 @@ Menünün üstündeki **👥** düğmesi (ya da turnuva kurulumundaki **👥 Öz
   - Her üyenin telefonu ligin tamamını saklar. İnternet olmasa da sonuçlar kaybolmaz.
   - **Bulut:** Oyun Firebase'e ulaşabildiğinde (GitHub Pages adresi) kurucunun ayarları, üyeler ve sonuçlar buluta yazılır. Lig ekranı açıkken her 30 saniyede bir güncellenir; sonuçlar herkese birkaç saniyede ulaşır.
   - **Telefondan telefona:** İki üye online oynadığında (lig maçı olsun olmasın) telefonlar ortak liglerini karşılaştırır. Eksik üyeleri ve sonuçları birbirine aktarırlar, her kayıt için daha yeni olan kalır. Bulutun olmadığı claude.ai sayfasında ligler bu yolla yayılır: kim kiminle oynarsa, bildiği sonuçlar ona geçer.
+  - **Canlı (claude.ai):** Sayfası aynı anda açık olan üyeler birbirinin yeni mesajlarını, sonuçlarını ve yeni üyelerini bulut olmadan da anında görür. Her telefon liglerinin en yeni birkaç kaydını claude.ai odasındaki durumuna koyar; bunlar ligin kodundan türetilen bir anahtarla şifrelidir, yani sayfayı açık olan ama ligde olmayan biri okuyamaz. Online maç sırasında bu durdurulur, maç bitince sürer. Başka bir üyeden duyulan haber de böylece yayılır.
+  - **Sohbet bulutta:** Lig sohbeti açıkken yeni mesajlar 6 saniyede bir, menüdeyken dakikada bir sorulur. Sunucunun saatine göre yalnızca yeni mesajlar istenir; yeni mesaj yoksa bu tek bir okuma sayılır.
   - Bir telefon diğer üyelerin hepsinden haber almamış olabilir. Bu yüzden ligde şampiyonu tablo değil, kurucunun sezonu bitirmesi belirler.
   - Başka telefonlara liglerin kendisi değil, yalnızca karıştırılmış kimlikleri gider. Bir lig, yalnızca iki telefon da o ligin üyesiyse aktarılır.
 - **Güvenlik** ([`firestore.rules`](firestore.rules)):
   - Bir lig yalnızca kodunu bilen tarafından okunabilir; ligler listelenemez.
   - Ayarları yalnızca kurucu değiştirir. Herkes yalnızca kendi üyeliğini yazar; kurucu bir üyeyi çıkarabilir.
   - Sonuçları üyeler yazar. Yazılmış bir sonucu yalnızca kurucu değiştirebilir ya da silebilir.
+  - Sohbeti yalnızca üyeler okur. Mesaj yazanın kendi üyeliğiyle yazılır; başkası adına yazılamaz. Yazılmış bir mesaj değiştirilemez; yalnızca yazarı ya da kurucu silebilir.
   - Adlar ve sayılar sınırlıdır (ad en fazla 24 karakter, skor 0–30).
   - Arkadaş ligi olduğu için değiştirilmiş bir oyunla sahte sonuç girmek yine de mümkündür. Kurucu yanlış sonucu silebilir.
 
