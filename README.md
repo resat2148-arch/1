@@ -208,6 +208,28 @@ Ana menüdeki **🎯 0/3 · ⭐ 0** düğmesi görevler, rozetler, kupa ve tablo
   - İfade ve paylaşım görevleri anında ilerler. Paylaşım, paylaşım menüsünden bir uygulamaya gönderince ya da **İndir**'e basınca sayılır; her maçın kartı bir kez sayılır.
 - **Saklama:** İlerleme o tarayıcıda saklanır (`localStorage`). Safari'de açılan oyun ile ana ekrana eklenen oyunun depoları ayrıdır; hep aynı yerden oyna. Tarayıcı verileri silinirse ilerleme de silinir.
 
+### Takım ve forma editörü
+
+Ana menüdeki arma düğmesi (ilk açılışta **🛡️**) mağaza ekranının **Takımım** bölümünü açar. Burada kendi takımın kurulur ve değişiklikler anında kaydedilir:
+
+- **Takım adı** (en çok 14 harf) ve **kısaltma** (3 harf). Kısaltma kendin yazmadıkça addan çıkar: "Sarı Kartallar" → SAR.
+- **Ana renk:** Formanın rengi. 14 renk var: mavi, lacivert, gök mavisi, turkuaz, fıstık yeşili, sarı, turuncu, kırmızı, bordo, mor, pembe, siyah, beyaz, altın.
+- **İkinci renk:** Adamların kafaları ve desen. Çubuklu formada çizgiler, Yıldızlı formada yıldız bu renkte olur.
+- **Desen:** Mağazadan aldığın formalar. Kilitli bir desene dokununca mağazada o forma açılır.
+- **Arma:** 16 simgeden biri. Ana ve ikinci renkle bir kalkanın içinde görünür.
+- Sağdaki önizlemede armanı ve formanı giymiş adamları görürsün. **Varsayılan takıma dön** her şeyi klasik maviye çevirir.
+
+Takımın nerede görünür:
+- Menüdeki düğme armanı, takımının renklerinde gösterir.
+- Maçta adamlar takımının renklerini giyer. Skor tablosunda armanla kısaltman yazar (🦅 SKR), skor ve boncuklar da takımının renginde olur.
+- Maç sonu ekranında ve paylaşım kartında da takımının adı ve rengi yer alır.
+- Bilgisayara karşı ve kupada takımınla oynarsın. Online'da telefonlar takımlarını birbirine gönderir, iki taraf da kendi takımıyla çıkar. 2 kişilik maç mavi–kırmızı kalır.
+
+**Renk çakışması:** İki takımın formaları birbirine çok benzerse kırmızı taraf (bilgisayar ya da online misafir) deplasman renkleriyle oynar.
+- İkinci rengi yeterince farklıysa renklerini değiştirir: ikinci rengi formaya, ana rengi detaylara geçer.
+- Değilse kırmızı, mavi, beyaz, siyah ve sarı arasından diğer takıma en uzak olanı giyer.
+- İki telefon aynı hesabı yaptığı için iki ekran da aynı renkleri gösterir. Editör, rengin bilgisayarınkiyle çakışıyorsa bunu yazar.
+
 ### Mağaza
 
 Görevlerden ve kupadan kazanılan yıldızlar mağazada harcanır. Mağaza, ana menüdeki **🛒** düğmesiyle açılır. Günün yeni fırsatları henüz görülmediyse düğmede turuncu bir nokta yanar.

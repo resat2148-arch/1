@@ -432,6 +432,32 @@ button:focus-visible,.seg input:focus-visible+label{outline:2px solid var(--bras
 .cta.spbuy:disabled{opacity:.45;cursor:default;box-shadow:none}
 .spnote{margin:0;font-size:12px;line-height:1.3;color:var(--chalk-2)}
 .avpick .avmore{border:1px dashed var(--brass);background:rgba(214,165,72,.12)}
+/* the team editor, the store's first shelf */
+.teampill{min-width:34px;justify-content:center;transition:background .2s,border-color .2s}
+.ted{grid-column:1/-1;display:grid;gap:7px;align-content:start;min-width:0}
+.tnames{display:grid;grid-template-columns:minmax(0,1fr) 5.6em;gap:8px}
+.tfield{display:grid;gap:5px;min-width:0;font:700 11px/1 var(--ui);letter-spacing:.16em;text-transform:uppercase;color:var(--chalk-2)}
+.tfield input{width:100%;min-width:0;padding:7px 10px;border-radius:10px;border:1px solid var(--chalk-3);background:rgba(242,233,216,.06);color:var(--chalk);
+  font:900 20px/1 var(--display);letter-spacing:.04em;-webkit-user-select:text;user-select:text;touch-action:manipulation}
+.tfield.short input{text-transform:uppercase;letter-spacing:.14em}
+.tfield input:focus{outline:none;border-color:var(--brass)}
+.tfield input::placeholder{color:rgba(242,233,216,.35)}
+.tlab{margin:4px 0 -1px;font:700 11px/1 var(--ui);letter-spacing:.16em;text-transform:uppercase}
+.tlab small{margin-left:6px;letter-spacing:.02em;text-transform:none;color:var(--chalk-2);font-weight:600}
+.swatches{display:flex;flex-wrap:wrap;gap:6px;padding:4px}
+.swatches button{appearance:none;width:28px;height:28px;border-radius:50%;padding:0;cursor:pointer;background:var(--c);border:0;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.22)}
+.swatches button[aria-pressed=true]{box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.22),0 0 0 2px #140f0b,0 0 0 4px var(--chalk)}
+.pats{display:grid;grid-template-columns:repeat(auto-fill,minmax(68px,1fr));gap:6px}
+.pat{appearance:none;display:grid;justify-items:center;gap:3px;min-width:0;padding:5px 4px;border-radius:11px;border:1px solid var(--chalk-3);background:rgba(242,233,216,.04);
+  color:var(--chalk);cursor:pointer;font:700 11.5px/1.1 var(--ui);white-space:nowrap}
+.pat canvas{display:block;width:54px;height:36px;border-radius:6px}
+.pat.locked canvas{opacity:.5;filter:saturate(.6)}
+.pat.locked span{color:var(--chalk-2)}
+.pat[aria-pressed=true]{border-color:var(--chalk);box-shadow:0 0 0 1px var(--chalk);background:rgba(242,233,216,.1)}
+.crests{display:flex;flex-wrap:wrap;gap:5px}
+.crests button{appearance:none;width:34px;height:34px;padding:0;border-radius:10px;border:1px solid var(--chalk-3);background:rgba(0,0,0,.25);font-size:18px;line-height:1;cursor:pointer}
+.crests button[aria-pressed=true]{border-color:var(--brass);background:rgba(214,165,72,.25)}
+.treset{justify-self:start;margin-top:4px;padding:8px 12px;font-size:13.5px}
 @container (max-height:460px){
   .card.storecard{gap:8px 12px;padding:12px 14px}
   .stitle{font-size:24px}
@@ -620,7 +646,7 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
   <section class="overlay" id="menu">
     <div class="menu">
       <div class="brand">
-        <div class="brandtop"><button type="button" class="profchip" id="profBtn"><span class="pa" id="profAv" aria-hidden="true">⚽</span><span class="pn" id="profName">Oyuncu</span><span class="plv" id="profLv">Sv 1</span></button><span class="pills"><button type="button" class="goalspill cuppill" id="cupBtn" aria-label="Haftalık kupa ve liderlik tablosu">🏆</button><button type="button" class="goalspill cuppill storepill" id="storeBtn" aria-label="Mağaza">🛒<span class="sdot" id="storeDot" hidden></span></button><button type="button" class="goalspill" id="goalsBtn">🎯 <span id="goalsCount">0/3</span><span class="sep" aria-hidden="true">·</span>⭐ <span id="starCount">0</span></button></span></div>
+        <div class="brandtop"><button type="button" class="profchip" id="profBtn"><span class="pa" id="profAv" aria-hidden="true">⚽</span><span class="pn" id="profName">Oyuncu</span><span class="plv" id="profLv">Sv 1</span></button><span class="pills"><button type="button" class="goalspill cuppill teampill" id="teamBtn" aria-label="Takımım"><span id="teamCrest">🛡️</span></button><button type="button" class="goalspill cuppill" id="cupBtn" aria-label="Haftalık kupa ve liderlik tablosu">🏆</button><button type="button" class="goalspill cuppill storepill" id="storeBtn" aria-label="Mağaza">🛒<span class="sdot" id="storeDot" hidden></span></button><button type="button" class="goalspill" id="goalsBtn">🎯 <span id="goalsCount">0/3</span><span class="sep" aria-hidden="true">·</span>⭐ <span id="starCount">0</span></button></span></div>
         <h1><span class="cep">Cep</span><span class="rodline">Langırtı</span></h1>
         <ul class="how">
           <li><b>▲ ▼</b><span>Parlayan çubuğu kaydırır (aktif çubuk kapalıysa hepsini).</span></li>
@@ -836,6 +862,7 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
         <button type="button" class="gclose" id="storeClose" aria-label="Kapat"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button>
       </div>
       <div class="scats" id="storeCats" role="tablist" aria-label="Mağaza bölümleri" aria-orientation="vertical">
+        <button type="button" role="tab" data-cat="team" aria-controls="storeGrid"><i aria-hidden="true">🛡️</i><span>Takımım</span></button>
         <button type="button" role="tab" data-cat="featured" aria-controls="storeGrid"><i aria-hidden="true">✨</i><span>Fırsatlar</span><b class="sdot" id="dealDot" hidden></b></button>
         <button type="button" role="tab" data-cat="ball" aria-controls="storeGrid"><i aria-hidden="true">⚽</i><span>Top</span></button>
         <button type="button" role="tab" data-cat="table" aria-controls="storeGrid"><i aria-hidden="true">🟩</i><span>Masa</span></button>
@@ -1005,6 +1032,7 @@ const NAMES = { cpu: ['Sen', 'CPU'], duo: ['Mavi', 'Kırmızı'] };
 let me = BLUE;                      // the team this screen plays (the online guest plays red)
 let flip = false;                   // the online guest sees the table turned 180°
 const teamName = id => mode === 'online' ? (id === me ? 'Sen' : 'Rakip') : NAMES[mode][id];
+const hudName = id => { const t = sideTeam(id); return t ? `${t.crest} ${t.short}` : teamName(id); };
 let paused = false;
 const score = [0, 0];
 // for the share card, quests and badges: goals in order, goalie saves, dev kaleci uses, super shots a giant goalie stopped
@@ -2244,8 +2272,8 @@ function burst(x, y, team) {
   spawnFx(particles, fx, x, y, team);
   if (fx === 'simsek') flashOn(.3, '150,205,255');
 }
-function spawnFx(list, fx, x, y, team) {
-  const P = PAL[team], dir = x < W / 2 ? 1 : -1, pick = a => a[Math.floor(Math.random() * a.length)];
+function spawnFx(list, fx, x, y, team, P = PAL[team]) {
+  const dir = x < W / 2 ? 1 : -1, pick = a => a[Math.floor(Math.random() * a.length)];
   const add = o => list.push({ rot: rand(0, 6), vr: rand(-12, 12), delay: 0, drag: 2.2, sh: '', ...o, max: o.max || o.life });
   const fan = (n, v0, v1, spread, o) => {
     for (let i = 0; i < n; i++) { const a = rand(-spread, spread), v = rand(v0, v1); add({ x, y: y + rand(-30, 30), vx: Math.cos(a) * v * dir, vy: Math.sin(a) * v, ...o(i) }); }
@@ -2581,7 +2609,7 @@ function drawFigure(x, y, th, dir, p, k = 1, c = ctx, kit = 'klasik') {
   if (kit !== 'klasik') kitDetail(c, kit, p, tx, tw, y, k);
   c.fillStyle = 'rgba(255,255,255,.16)'; rr(c, tx - tw + 2, y - 14 * k, tw * 2 - 4, 9 * k, 5); c.fill();
   const hx = X(-26), hr = 8.5 * (1 + (k - 1) * .45);
-  c.fillStyle = p.light; c.beginPath(); c.arc(hx, y, hr, 0, Math.PI * 2); c.fill();
+  c.fillStyle = p.sec || p.light; c.beginPath(); c.arc(hx, y, hr, 0, Math.PI * 2); c.fill();
   c.fillStyle = 'rgba(255,255,255,.35)'; c.beginPath(); c.arc(hx - hr * .3, y - hr * .35, hr * .35, 0, Math.PI * 2); c.fill();
   if (kit === 'sampiyon') { c.strokeStyle = '#e8bd5c'; c.lineWidth = 2.6; c.beginPath(); c.arc(hx, y, hr - 1.3, 0, Math.PI * 2); c.stroke(); }
 }
@@ -2590,8 +2618,8 @@ function kitDetail(c, kit, p, tx, tw, y, k) {
   c.save();
   rr(c, tx - tw, y - 16 * k, tw * 2, 32 * k, 8); c.clip();
   switch (kit) {
-    case 'cubuklu': c.fillStyle = 'rgba(255,255,255,.66)'; for (const o of [-9.5, 0, 9.5]) c.fillRect(tx - tw, y + (o - 1.7) * k, tw * 2, 3.4 * k); break;
-    case 'yildiz': c.translate(tx, y); c.fillStyle = '#f5d06a'; starPath(c, 8 * k); c.fill(); break;
+    case 'cubuklu': c.fillStyle = p.sec ? withAlpha(p.sec, .9) : 'rgba(255,255,255,.66)'; for (const o of [-9.5, 0, 9.5]) c.fillRect(tx - tw, y + (o - 1.7) * k, tw * 2, 3.4 * k); break;
+    case 'yildiz': c.translate(tx, y); c.fillStyle = p.sec || '#f5d06a'; starPath(c, 8 * k); c.fill(); break;
     case 'gece': c.strokeStyle = p.hi; c.lineWidth = 6; c.stroke(); break;
     case 'neon': c.strokeStyle = p.hi; c.lineWidth = 7; c.stroke(); c.strokeStyle = 'rgba(255,255,255,.75)'; c.lineWidth = 2; c.stroke(); break;
     case 'sampiyon': c.fillStyle = '#e8bd5c'; c.fillRect(tx - tw, y - 16 * k, tw * 2, 6.5 * k); c.fillRect(tx - tw, y + 9.5 * k, tw * 2, 6.5 * k); break;
@@ -2654,7 +2682,7 @@ function render() {
 
 /* ——— HUD & overlays ——— */
 function renderHud() {
-  $('tagB').textContent = teamName(BLUE); $('tagR').textContent = teamName(RED);
+  $('tagB').textContent = hudName(BLUE); $('tagR').textContent = hudName(RED);
   $('numB').textContent = score[BLUE]; $('numR').textContent = score[RED];
   for (const [id, sc_] of [['beadsB', score[BLUE]], ['beadsR', score[RED]]]) {
     const el = $(id);
@@ -2759,6 +2787,7 @@ function attract() {
   if (net.role) leaveOnline();
   if (cup.active) { if (state === 'play') cupForfeit(); endCupContext(); }
   state = 'menu'; paused = false;
+  applyTeams();
   teams[BLUE].ai = LEVELS.kulup; teams[RED].ai = LEVELS.kulup;
   resetTable(); clearInput(); applyControls();
   queueServe(Math.random() < .5 ? BLUE : RED, .6);
@@ -2775,6 +2804,7 @@ function startMatch(m) {
   score[BLUE] = score[RED] = 0;
   state = 'play'; paused = false;
   teams[BLUE].ai = null; teams[RED].ai = mode === 'cpu' ? LEVELS[settings.level] : null;
+  applyTeams();
   resetTable(); clearInput(); applyControls(); renderHud();
   applyPerks();
   for (const t of teams) if (settings.superShot) t.skill = t.perk.opening;
@@ -2782,7 +2812,7 @@ function startMatch(m) {
   const first = Math.random() < .5 ? BLUE : RED;
   queueServe(first, .9);
   toast(mode === 'duo' ? `Servis: ${NAMES.duo[first]}` : first === me ? 'Servis sende' : 'Servis rakipte');
-  pushEvent({ k: 'lk', l: [prog.kit, prog.fx] });                 // the host's kit and goal show, for the guest's screen
+  pushEvent({ k: 'lk', l: [prog.kit, prog.fx, teamWire()] });                 // the host's kit and goal show, for the guest's screen
   pushEvent({ k: 'srv', t: first });
   setUI();
   spkKickoff();
@@ -2880,7 +2910,7 @@ function cardStory(winner) {
     title = 'Kaybettim';
     tag = margin === -1 ? 'Kıl payı… rövanş şart!' : a === 0 ? 'Bugün günümde değildim.' : 'Rövanş geliyor…';
   }
-  const label = t => duo ? NAMES.duo[t] : t === me ? 'Ben' : mode === 'online' ? 'Rakip' : `CPU · ${lvl}`;
+  const label = t => duo ? NAMES.duo[t] : sideTeam(t) ? sideTeam(t).name : t === me ? 'Ben' : mode === 'online' ? 'Rakip' : `CPU · ${lvl}`;
   const last = stats.goals[stats.goals.length - 1];
   const secs = Math.round(stats.dur), m = Math.floor(secs / 60), sec = secs % 60;
   return {
@@ -2991,7 +3021,7 @@ async function drawCard(S) {
   return new Promise(ok => cv.toBlob(ok, 'image/jpeg', .92));   // a JPEG is a fifth of the PNG and the apps recompress anyway
 }
 // the rods with every figure standing at rest, in table coordinates (share card, theme previews)
-function drawRestRods(c, kits = [lookOf(BLUE).kit, lookOf(RED).kit], swing = null) {
+function drawRestRods(c, kits = [lookOf(BLUE).kit, lookOf(RED).kit], swing = null, pals = PAL) {
   c.fillStyle = 'rgba(0,0,0,.2)';
   for (const rod of rods) {
     for (let j = 0; j < rod.n; j++) { c.beginPath(); c.ellipse(rod.x + 6, CY + rod.offs[j] + 8, 13, 17, 0, 0, Math.PI * 2); c.fill(); }
@@ -3001,7 +3031,7 @@ function drawRestRods(c, kits = [lookOf(BLUE).kit, lookOf(RED).kit], swing = nul
     rg.addColorStop(0, '#3f454b'); rg.addColorStop(.3, '#e9eef2'); rg.addColorStop(.55, '#9aa2aa'); rg.addColorStop(1, '#353a3f');
     c.fillStyle = rg; c.fillRect(rod.x - 8, -FR - 16, 16, H + 2 * FR + 32);
     c.fillStyle = '#1d1a18'; rr(c, rod.x - 11, rod.half, 22, 9, 3); c.fill(); rr(c, rod.x - 11, H - rod.half - 9, 22, 9, 3); c.fill();
-    for (let j = 0; j < rod.n; j++) drawFigure(rod.x, CY + rod.offs[j], swing ? swing(rod) : 0, teams[rod.team].dir, PAL[rod.team], 1, c, kits[rod.team]);
+    for (let j = 0; j < rod.n; j++) drawFigure(rod.x, CY + rod.offs[j], swing ? swing(rod) : 0, teams[rod.team].dir, pals[rod.team], 1, c, kits[rod.team]);
   }
 }
 function prepareCard(winner) {
@@ -3114,7 +3144,7 @@ let prog = { day: '', q: [0, 0, 0], done: [false, false, false], bonus: false, s
   ball: 'klasik', table: 'klasik', kit: 'klasik', fx: 'konfeti', deals: null, dealSeen: '',          // what is in use, the day's deals
   cup: null, pid: '', name: '', board: {}, bt: 0,                   // weekly cup and table (filled in by loadProg)
   world: true, fbRefresh: '', fbUid: '', fbSent: '', fbSentWeek: '',  // the world table: shown there?, account, last row sent
-  avatar: '⚽', hist: [], perks: {} };                               // the profile: avatar, last results (newest first), skills
+  avatar: '⚽', hist: [], perks: {}, team: null };                               // the profile: avatar, last results (newest first), skills
 let goalsOpen = false, goalsTab = 'quests', overRew = [];
 
 const dayKey = (d = new Date()) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
@@ -3130,7 +3160,7 @@ function loadProg() {
       prog = { ...prog, ...p, life, badges: { ...p.badges }, owned,
         hist: Array.isArray(p.hist) ? p.hist.slice(0, 12) : [], avatar: AVATARS.includes(p.avatar) || owned.avatar.includes(p.avatar) ? p.avatar : '⚽',
         deals: p.deals && Array.isArray(p.deals.ids) ? { day: String(p.deals.day), ids: p.deals.ids.filter(k => ITEMS.has(k)) } : null,
-        perks: p.perks && typeof p.perks === 'object' ? { ...p.perks } : {},
+        perks: p.perks && typeof p.perks === 'object' ? { ...p.perks } : {}, team: cleanTeam(p.team),
         cup: p.cup && typeof p.cup === 'object' ? { ...blankCup(), ...p.cup } : null, board: p.board && typeof p.board === 'object' ? { ...p.board } : {} };
     }
   } catch (e) { /* storage blocked: start fresh */ }
@@ -3432,7 +3462,7 @@ const BUNDLES = [
   { id: 'sampiyon', name: 'Şampiyon Paketi', icon: '👑', items: ['table:salon', 'ball:altin', 'kit:sampiyon', 'fx:havai'] },
 ];
 const BUNDLE_OFF = 25, DEAL_OFF = [40, 25, 25];
-const NO_LOOK = { kit: 'klasik', fx: 'konfeti' };
+const NO_LOOK = { kit: 'klasik', fx: 'konfeti', team: null };
 const ballTheme = () => BALLS.find(b => b.id === prog.ball) || BALLS[0];
 const tableTheme = () => TABLES.find(t => t.id === prog.table) || TABLES[0];
 const owns = it => prog.owned[it.kind].includes(it.id);
@@ -3446,7 +3476,8 @@ function lookOf(team) {
   return team === BLUE ? prog : NO_LOOK;
 }
 function parseLook(a) {
-  return { kit: KITS.some(k => k.id === a[0]) ? a[0] : 'klasik', fx: FXS.some(f => f.id === a[1]) ? a[1] : 'konfeti' };
+  const t = Array.isArray(a[2]) ? cleanTeam({ name: a[2][0], short: a[2][1], c1: a[2][2], c2: a[2][3], crest: a[2][4] }) : null;
+  return { kit: KITS.some(k => k.id === a[0]) ? a[0] : 'klasik', fx: FXS.some(f => f.id === a[1]) ? a[1] : 'konfeti', team: t };
 }
 function wear(it) {
   if (it.kind === 'avatar') { prog.avatar = it.id; renderProfChip(); return; }
@@ -3516,12 +3547,12 @@ function drawKitThumb(cv, kit) {
   const rg = c.createLinearGradient(817, 0, 833, 0);
   rg.addColorStop(0, '#3f454b'); rg.addColorStop(.3, '#e9eef2'); rg.addColorStop(.55, '#9aa2aa'); rg.addColorStop(1, '#353a3f');
   c.fillStyle = rg; c.fillRect(817, CY - 90, 16, 180);
-  drawFigure(825, CY, .45, teams[BLUE].dir, PAL[BLUE], 1, c, kit);
+  drawFigure(825, CY, .45, teams[BLUE].dir, previewPals()[0], 1, c, kit);
 }
 const FX_SNAP = { konfeti: .2, yildiz: .32, kalp: .4, havai: .72, alev: .38, simsek: .1 };
 function fxSnapshot(fx, at) {
   const list = [];
-  spawnFx(list, fx, W, CY, BLUE);
+  spawnFx(list, fx, W, CY, BLUE, previewPals()[0]);
   for (let t = 0; t < at; t += 1 / 60) stepParticles(list, 1 / 60);
   return list;
 }
@@ -3543,7 +3574,7 @@ function drawBundleThumb(cv, b) {
   const c = cv.getContext('2d'), L = lookWith(b.items);
   drawTableBg(c, cv, L, CAMS.table);
   drawBall(c, { show: true, x: 600, y: CY + 60, scale: 1, alpha: 1, superT: 0, trail: [], drop: 0, spots: previewSpots }, ballOf(L));
-  drawRestRods(c, [L.kit, 'klasik']);
+  drawRestRods(c, [L.kit, 'klasik'], null, previewPals());
   if (b.items.some(k => k.startsWith('fx:'))) drawParticles(c, fxSnapshot(L.fx, FX_SNAP[L.fx]));
 }
 
@@ -3554,7 +3585,7 @@ function openStore(cat, sel) {
   Sound.unlock();
   rollDeals();
   store.open = true; goalsOpen = false;
-  store.cat = SHOP[cat] || cat === 'featured' ? cat : store.cat;
+  store.cat = SHOP[cat] || cat === 'featured' || cat === 'team' ? cat : store.cat;
   store.sel = sel || defaultPick(store.cat); store.msg = ''; store.built = '';
   if (store.cat === 'featured') { prog.dealSeen = prog.deals.day; saveProg(); renderPill(); }
   setUI(); renderStore(); sizePreview(); pickChanged();
@@ -3562,6 +3593,7 @@ function openStore(cat, sel) {
 }
 function closeStore() { store.open = false; setUI(); }
 function defaultPick(cat) {
+  if (cat === 'team') return 'team';
   if (cat === 'featured') return prog.deals.ids[0] || 'bundle:' + (BUNDLES.find(b => bundleLeft(b).length) || BUNDLES[0]).id;
   const list = SHOP[cat].list;
   return (list.find(worn) || list[0]).key;
@@ -3590,7 +3622,8 @@ function buildStoreGrid() {
     if (sub) { const s = document.createElement('span'); s.textContent = sub; h.appendChild(s); }
     g.appendChild(h);
   };
-  if (store.cat === 'featured') {
+  if (store.cat === 'team') buildTeamEditor(g);
+  else if (store.cat === 'featured') {
     head('Günün fırsatları', dealsLeft());
     for (const k of prog.deals.ids) g.appendChild(itemTile(ITEMS.get(k)));
     if (!prog.deals.ids.length) { const p = document.createElement('p'); p.className = 'sempty'; p.textContent = 'Mağazadaki her şey sende. Koleksiyon tamam! 🎉'; g.appendChild(p); }
@@ -3659,8 +3692,11 @@ function renderStore() {
     b.classList.toggle('own', own); b.classList.toggle('on', on); b.classList.toggle('poor', poor);
     b.setAttribute('aria-pressed', String(key === store.sel)); b.setAttribute('aria-label', aria);
   }
+  $('storeTitle').textContent = store.cat === 'team' ? 'Takımım' : 'Mağaza';
+  if (store.cat === 'team') { renderTeamEditor(); sizePreview(); return; }
   // the chosen thing, big, with its button
   const buy = $('spBuy'), key = store.sel;
+  buy.hidden = false;
   let name, kind, desc, text, dis = false, note;
   if (key.startsWith('bundle:')) {
     const bd = BUNDLES.find(x => 'bundle:' + x.id === key), left = bundleLeft(bd), price = bundlePrice(bd);
@@ -3728,7 +3764,7 @@ function sizePreview() {
 }
 function previewKind() {
   const key = store.sel;
-  return key.startsWith('bundle:') ? 'bundle' : ITEMS.get(key).kind;
+  return key === 'team' ? 'team' : key.startsWith('bundle:') ? 'bundle' : ITEMS.get(key).kind;
 }
 function pickChanged() {
   pv.parts = []; pv.t = 0; pv.nextFx = .5; pv.flash = 0; pv.trail.length = 0; pv.bgKey = '';
@@ -3748,8 +3784,8 @@ function drawPreview(dt, still) {
   if (!cv.width) return;
   pv.t += dt;
   if (kind === 'avatar') return drawAvatarPreview(c, cv, store.sel.slice(7));
-  const keys = kind === 'bundle' ? BUNDLES.find(b => 'bundle:' + b.id === store.sel).items : [store.sel];
-  const L = lookWith(keys), cam = CAMS[kind === 'bundle' ? 'table' : kind];
+  const keys = kind === 'bundle' ? BUNDLES.find(b => 'bundle:' + b.id === store.sel).items : kind === 'team' ? [] : [store.sel];
+  const L = lookWith(keys), cam = CAMS[kind === 'bundle' ? 'table' : kind === 'team' ? 'kit' : kind], pals = previewPals();
   const bgKey = `${kind}|${L.table}|${cv.width}x${cv.height}`;
   if (pv.bgKey !== bgKey) {
     pv.bg.width = cv.width; pv.bg.height = cv.height;
@@ -3768,7 +3804,7 @@ function drawPreview(dt, still) {
     show = ph < .6;
     if (still) { show = false; pv.parts = fxSnapshot(L.fx, FX_SNAP[L.fx]); }
     else if (ph < pv.lastPh) pv.fired = false;
-    if (!still && !pv.fired && ph >= .6) { pv.fired = true; spawnFx(pv.parts, L.fx, W, by, BLUE); if (L.fx === 'simsek') pv.flash = .3; }
+    if (!still && !pv.fired && ph >= .6) { pv.fired = true; spawnFx(pv.parts, L.fx, W, by, BLUE, pals[0]); if (L.fx === 'simsek') pv.flash = .3; }
     pv.lastPh = ph;
   } else if (kind === 'ball') {
     bx = 600 + Math.cos(t * 2.2) * 42; by = CY - 40 + Math.sin(t * 4.4) * 62;     // between the two rods
@@ -3776,7 +3812,7 @@ function drawPreview(dt, still) {
     bx = 600 + Math.cos(t * .8) * 380; by = CY + Math.sin(t * .8) * 190;
     if (fxLoop && !still) {
       pv.nextFx -= dt;
-      if (pv.nextFx <= 0) { pv.nextFx = 2.6; spawnFx(pv.parts, L.fx, W, CY, BLUE); if (L.fx === 'simsek') pv.flash = .3; }
+      if (pv.nextFx <= 0) { pv.nextFx = 2.6; spawnFx(pv.parts, L.fx, W, CY, BLUE, pals[0]); if (L.fx === 'simsek') pv.flash = .3; }
     }
     if (fxLoop && still) pv.parts = fxSnapshot(L.fx, FX_SNAP[L.fx]);
   }
@@ -3786,8 +3822,9 @@ function drawPreview(dt, still) {
   const th = ballOf(L), fast = dt && Math.hypot(dx, dy) / dt > th.trailAt * .45;
   if (show && fast) { pv.trail.push({ x: bx, y: by }); if (pv.trail.length > 7) pv.trail.shift(); } else if (pv.trail.length) pv.trail.shift();
   if (show) drawBall(c, { show: true, x: bx, y: by, scale: 1, alpha: 1, superT: 0, trail: pv.trail, drop: 0, spots: pv.spots }, th);
-  const [kits, swing] = kitSwing(L.kit, kind === 'kit' && !still ? t : null);
-  drawRestRods(c, kits, swing);
+  const [kits, swing] = kitSwing(L.kit, (kind === 'kit' || kind === 'team') && !still ? t : null);
+  drawRestRods(c, kits, swing, pals);
+  if (kind === 'team') { c.setTransform(1, 0, 0, 1, 0, 0); drawCrest(c, cv.height * .34, cv.height * .36, cv.height * .5, prog.team); }
   stepParticles(pv.parts, dt);
   drawParticles(c, pv.parts);
   if (pv.flash > 0) {
@@ -3823,6 +3860,182 @@ $('storeCats').addEventListener('click', e => { const b = e.target.closest('[dat
 $('storeGrid').addEventListener('click', e => { const b = e.target.closest('.sitem'); if (b) storePick(b.dataset.key); });
 $('storeGrid').addEventListener('animationend', e => e.target.classList.remove('pop'));
 $('spBuy').addEventListener('click', storeBuy);
+
+/* ——— Team and kit editor ———
+   The store's first shelf: the player's own team, with a name, a three-letter short name for the score
+   board, two colours from a palette, a crest and the kit pattern (the kits bought in the store). The
+   shirt takes the first colour, the heads and the pattern the second. It plays against the computer and
+   online (the rival's phone gets it too); the two-player mode stays blue and red. When the two sides'
+   shirts look alike, the red side (the computer or the online guest) plays in away colours. */
+const TEAM_COLORS = [['#2d6bd2', 'Mavi'], ['#1f3a8a', 'Lacivert'], ['#3aa0e0', 'Gök mavisi'], ['#17a5a0', 'Turkuaz'], ['#9ccc3a', 'Fıstık yeşili'],
+  ['#e0b21e', 'Sarı'], ['#e8772a', 'Turuncu'], ['#cf3438', 'Kırmızı'], ['#8e1f35', 'Bordo'], ['#7a4bc8', 'Mor'], ['#e0508f', 'Pembe'],
+  ['#26272c', 'Siyah'], ['#eeeae0', 'Beyaz'], ['#e8bd5c', 'Altın']];
+const COLOR_NAME = Object.fromEntries(TEAM_COLORS);
+const CRESTS = ['⚽', '🦅', '🦁', '🐺', '🐯', '🦈', '🐉', '⚡', '🔥', '⭐', '👑', '🛡️', '⚓', '🌙', '🍀', '💎'];
+const DEFAULT_PAL = PAL.map(p => ({ ...p, sec: undefined }));
+const CLASH = 140;                                   // below this the shirts are too alike
+const hexRgb = h => { const n = parseInt(h.slice(1), 16); return [n >> 16 & 255, n >> 8 & 255, n & 255]; };
+const rgbHex = a => '#' + a.map(v => clamp(Math.round(v), 0, 255).toString(16).padStart(2, '0')).join('');
+const mixHex = (a, b, t) => { const A = hexRgb(a), B = hexRgb(b); return rgbHex(A.map((v, i) => v + (B[i] - v) * t)); };
+const lumOf = h => { const [r, g, b] = hexRgb(h); return (.299 * r + .587 * g + .114 * b) / 255; };
+function colorDist(a, b) {                           // "redmean": a cheap distance close to what the eye sees
+  const A = hexRgb(a), B = hexRgb(b), rm = (A[0] + B[0]) / 2, d = A.map((v, i) => v - B[i]);
+  return Math.sqrt((2 + rm / 256) * d[0] * d[0] + 4 * d[1] * d[1] + (2 + (255 - rm) / 256) * d[2] * d[2]);
+}
+function teamPal(c1, c2) {
+  const L = lumOf(c1);
+  return { shirt: c1, light: mixHex(c1, '#ffffff', .35), dark: mixHex(c1, '#000000', .45), sec: c2,
+    hi: L < .55 ? mixHex(c1, '#ffffff', L < .2 ? .62 : .38) : c1 };        // readable on the dark boards
+}
+// the colours of both sides: the red side changes when the shirts clash, to its second colour if that
+// stands out, otherwise to the away colour furthest from the other side
+function resolvePals(ta, tb) {
+  const pa = ta ? teamPal(ta.c1, ta.c2) : DEFAULT_PAL[BLUE];
+  let pb = tb ? teamPal(tb.c1, tb.c2) : DEFAULT_PAL[RED];
+  if (colorDist(pa.shirt, pb.shirt) >= CLASH) return [pa, pb, false];
+  if (tb && colorDist(tb.c2, pa.shirt) >= CLASH) return [pa, teamPal(tb.c2, tb.c1), true];
+  const away = [DEFAULT_PAL[RED].shirt, DEFAULT_PAL[BLUE].shirt, '#eeeae0', '#26272c', '#e0b21e'].sort((x, y) => colorDist(y, pa.shirt) - colorDist(x, pa.shirt))[0];
+  if (!tb) return [pa, away === DEFAULT_PAL[BLUE].shirt ? { ...DEFAULT_PAL[BLUE] } : teamPal(away, '#eeeae0'), true];
+  return [pa, teamPal(away, colorDist(tb.c2, away) >= CLASH ? tb.c2 : away === '#eeeae0' ? '#26272c' : '#eeeae0'), true];
+}
+const sideTeam = t => mode === 'duo' ? null : lookOf(t).team || null;
+const previewPals = () => resolvePals(prog.team, null);
+function applyTeams() {
+  const [pa, pb] = resolvePals(sideTeam(BLUE), sideTeam(RED));
+  Object.assign(PAL[BLUE], { sec: undefined }, pa); Object.assign(PAL[RED], { sec: undefined }, pb);
+  for (const el of [$('hud'), $('over')]) {
+    el.style.setProperty('--blue', lumOf(pa.shirt) < .2 ? pa.hi : pa.shirt); el.style.setProperty('--blue-hi', pa.hi);
+    el.style.setProperty('--red', lumOf(pb.shirt) < .2 ? pb.hi : pb.shirt); el.style.setProperty('--red-hi', pb.hi);
+  }
+  renderTeamPill();
+}
+const shortOf = name => upTR(name).replace(/[^A-ZÇĞİÖŞÜ0-9]/g, '').slice(0, 3) || 'TKM';
+// a team from storage or the network, kept only if every part is one the editor offers
+function cleanTeam(t) {
+  if (!t || typeof t !== 'object') return null;
+  const name = cleanName(t.name) || 'Takım', short = upTR(String(t.short || '')).replace(/[^A-ZÇĞİÖŞÜ0-9]/g, '').slice(0, 3) || shortOf(name);
+  if (!COLOR_NAME[t.c1] || !COLOR_NAME[t.c2]) return null;
+  return { name, short, c1: t.c1, c2: t.c2, crest: CRESTS.includes(t.crest) ? t.crest : '⚽', auto: !!t.auto };
+}
+const teamWire = () => prog.team ? [prog.team.name, prog.team.short, prog.team.c1, prog.team.c2, prog.team.crest] : 0;
+function ensureTeam() {
+  if (!prog.team) {
+    const name = cleanName((prog.name.split(' ')[0] || 'Cep') + ' FK');
+    prog.team = { name, short: shortOf(name), c1: DEFAULT_PAL[BLUE].shirt, c2: '#eeeae0', crest: '⚽', auto: true };
+  }
+  return prog.team;
+}
+function teamChanged() { saveProg(); applyTeams(); renderStore(); if (reduceMotion) drawPreview(0, true); }
+function renderTeamPill() {
+  const t = prog.team, b = $('teamBtn');
+  $('teamCrest').textContent = t ? t.crest : '🛡️';
+  b.style.background = t ? t.c1 : ''; b.style.borderColor = t ? t.c2 : '';
+  b.setAttribute('aria-label', t ? `Takımım: ${t.name}. Takım ve forma editörü` : 'Takımım: takım ve forma editörü');
+}
+function shieldPath(c, x, y, w, h) {
+  c.beginPath();
+  c.moveTo(x - w / 2, y - h / 2 + h * .08);
+  c.quadraticCurveTo(x - w / 4, y - h / 2 - h * .02, x, y - h / 2);
+  c.quadraticCurveTo(x + w / 4, y - h / 2 - h * .02, x + w / 2, y - h / 2 + h * .08);
+  c.lineTo(x + w / 2, y + h * .02);
+  c.quadraticCurveTo(x + w / 2, y + h * .32, x, y + h / 2);
+  c.quadraticCurveTo(x - w / 2, y + h * .32, x - w / 2, y + h * .02);
+  c.closePath();
+}
+function drawCrest(c, x, y, h, t) {
+  const w = h * .82, c1 = t ? t.c1 : DEFAULT_PAL[BLUE].shirt, c2 = t ? t.c2 : '#eeeae0';
+  c.save();
+  c.shadowColor = 'rgba(0,0,0,.5)'; c.shadowBlur = h * .12; c.shadowOffsetY = h * .04;
+  shieldPath(c, x, y, w, h); c.fillStyle = c1; c.fill();
+  c.shadowColor = 'transparent';
+  c.lineWidth = h * .07; c.strokeStyle = c2; c.stroke();
+  shieldPath(c, x, y, w * .7, h * .7); c.lineWidth = h * .02; c.strokeStyle = withAlpha(c2, .5); c.stroke();
+  c.textAlign = 'center'; c.textBaseline = 'middle';
+  c.font = `${Math.round(h * .4)}px system-ui, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif`;
+  c.fillText(t ? t.crest : '⚽', x, y - h * .02);
+  c.restore();
+}
+function buildTeamEditor(g) {
+  const box = document.createElement('div'); box.className = 'ted';
+  box.innerHTML = `
+    <div class="tnames">
+      <label class="tfield"><span>Takım adı</span><input id="tName" maxlength="14" autocomplete="off" enterkeyhint="done" spellcheck="false"></label>
+      <label class="tfield short"><span>Kısaltma</span><input id="tShort" maxlength="3" autocomplete="off" autocapitalize="characters" enterkeyhint="done" spellcheck="false"></label>
+    </div>
+    <p class="tlab">Ana renk <small>forma</small></p><div class="swatches" data-f="c1" role="group" aria-label="Ana renk"></div>
+    <p class="tlab">İkinci renk <small>kafalar ve desen</small></p><div class="swatches" data-f="c2" role="group" aria-label="İkinci renk"></div>
+    <p class="tlab">Desen <small>mağazadan açılır</small></p><div class="pats" role="group" aria-label="Desen"></div>
+    <p class="tlab">Arma</p><div class="crests" role="group" aria-label="Arma"></div>
+    <button type="button" class="ghost treset" id="tReset">Varsayılan takıma dön</button>`;
+  for (const sw of box.querySelectorAll('.swatches')) for (const [hex, name] of TEAM_COLORS) {
+    const b = document.createElement('button'); b.type = 'button'; b.dataset.c = hex; b.style.setProperty('--c', hex); b.setAttribute('aria-label', name); b.title = name;
+    sw.appendChild(b);
+  }
+  for (const k of KITS) {
+    const b = document.createElement('button'); b.type = 'button'; b.className = 'pat'; b.dataset.kit = k.id;
+    const cv = document.createElement('canvas'); cv.width = 96; cv.height = 64; cv.setAttribute('aria-hidden', 'true');
+    const n = document.createElement('span'); n.textContent = k.name;
+    b.append(cv, n); box.querySelector('.pats').appendChild(b);
+  }
+  for (const cr of CRESTS) {
+    const b = document.createElement('button'); b.type = 'button'; b.dataset.cr = cr; b.textContent = cr; b.setAttribute('aria-label', `Arma ${cr}`);
+    box.querySelector('.crests').appendChild(b);
+  }
+  g.appendChild(box);
+  const nm = box.querySelector('#tName'), sh = box.querySelector('#tShort');
+  nm.addEventListener('input', () => {
+    const t = ensureTeam(); t.name = cleanName(nm.value) || t.name;
+    if (t.auto) t.short = shortOf(t.name);
+    teamChanged();
+  });
+  sh.addEventListener('input', () => {
+    const t = ensureTeam(), v = upTR(sh.value).replace(/[^A-ZÇĞİÖŞÜ0-9]/g, '').slice(0, 3);
+    if (v) { t.short = v; t.auto = false; } else { t.auto = true; t.short = shortOf(t.name); }
+    teamChanged();
+  });
+  for (const el of [nm, sh]) {
+    el.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); el.blur(); } });
+    el.addEventListener('blur', () => { renderStore(); });
+  }
+  box.addEventListener('click', e => {
+    const c = e.target.closest('[data-c]'), k = e.target.closest('[data-kit]'), cr = e.target.closest('[data-cr]');
+    if (c) { ensureTeam()[c.parentNode.dataset.f] = c.dataset.c; store.msg = ''; teamChanged(); }
+    else if (cr) { ensureTeam().crest = cr.dataset.cr; store.msg = ''; teamChanged(); }
+    else if (k) {
+      const it = ITEMS.get('kit:' + k.dataset.kit);
+      if (owns(it)) { wear(it); store.msg = ''; teamChanged(); } else { store.cat = 'kit'; store.sel = it.key; store.msg = ''; renderStore(); pickChanged(); }
+    } else if (e.target.closest('#tReset')) { prog.team = null; store.msg = 'Varsayılan maviye döndün. Adın, rengin ya da armanı değiştirince takımın yeniden kurulur.'; teamChanged(); }
+  });
+}
+function renderTeamEditor() {
+  const t = prog.team, [pa, , away] = previewPals(), box = $('storeGrid');
+  const nm = box.querySelector('#tName'), sh = box.querySelector('#tShort');
+  if (document.activeElement !== nm) nm.value = t ? t.name : '';
+  if (document.activeElement !== sh) sh.value = t ? t.short : '';
+  nm.placeholder = cleanName((prog.name.split(' ')[0] || 'Cep') + ' FK'); sh.placeholder = shortOf(nm.placeholder);
+  for (const sw of box.querySelectorAll('.swatches')) {
+    const cur = t ? t[sw.dataset.f] : sw.dataset.f === 'c1' ? DEFAULT_PAL[BLUE].shirt : '';
+    for (const b of sw.children) b.setAttribute('aria-pressed', String(b.dataset.c === cur));
+  }
+  for (const b of box.querySelectorAll('[data-cr]')) b.setAttribute('aria-pressed', String(!!t && b.dataset.cr === t.crest));
+  for (const b of box.querySelectorAll('[data-kit]')) {
+    const it = ITEMS.get('kit:' + b.dataset.kit), own = owns(it);
+    b.classList.toggle('locked', !own); b.setAttribute('aria-pressed', String(worn(it)));
+    b.lastChild.textContent = own ? it.name : `🔒 ${priceOf(it)}⭐`;
+    b.setAttribute('aria-label', `Desen: ${it.name}${own ? '' : ', mağazada ' + priceOf(it) + ' yıldız'}`);
+    const cv = b.firstChild, key = pa.shirt + pa.sec + it.id;
+    if (cv.dataset.k !== key) { drawKitThumb(cv, it.id); cv.dataset.k = key; }
+  }
+  $('tReset').disabled = !t;
+  $('spName').textContent = t ? `${t.crest} ${t.name}` : 'Varsayılan takım';
+  $('spKind').textContent = `${t ? t.short : 'SEN'} · ${ITEMS.get('kit:' + prog.kit).name} forma`;
+  $('spDesc').textContent = t ? `${COLOR_NAME[t.c1]} forma, ${COLOR_NAME[t.c2].toLocaleLowerCase('tr-TR')} detaylar. Bilgisayara karşı, kupada ve online maçta bu takımla çıkarsın.`
+    : 'Mavi takım. Bir renk, arma ya da ad seçince kendi takımın kurulur.';
+  $('spBuy').hidden = true;
+  $('spNote').textContent = store.msg || (away ? 'Renklerin bilgisayarın kırmızısına çok benziyor; bilgisayar deplasman renkleriyle çıkar.'
+    : 'Online rakibin de takımını görür. İki forma birbirine çok benzerse misafir taraf deplasman renkleriyle oynar.');
+}
+$('teamBtn').addEventListener('click', () => openStore('team'));
 
 /* ——— Weekly cup and table ———
    The cup is three matches against the computer, Acemi, Kulüp and Usta, under a twist that changes
@@ -4382,7 +4595,7 @@ function closeOnline() { leaveOnline(); onlineOpen = false; setUI(); }
 function leaveOnline() {
   if (net.tr) { try { net.tr.close(); } catch (e) { /* already closed */ } }
   const wasGuest = net.role === 'guest';
-  Object.assign(net, { tr: null, role: null, connected: false, snaps: [], events: [], again: 0, lastAgain: 0, oppName: '', oppLook: null });
+  Object.assign(net, { tr: null, role: null, connected: false, snaps: [], events: [], again: 0, lastAgain: 0, oppName: '', oppLook: null, lookKey: '' });
   if (wasGuest && net.saved) { Object.assign(settings, net.saved); net.saved = null; syncForm(); }
   me = BLUE;
   if (flip) setFlip(false);
@@ -4422,7 +4635,7 @@ async function hostTable() {
 function hostOnState(d) {
   if (!d || !Array.isArray(d.in)) return;
   if (Array.isArray(d.bd) && Array.isArray(d.bd[0])) net.oppName = cleanName(d.bd[0][1]) || net.oppName;   // their own row comes first
-  if (Array.isArray(d.lk)) net.oppLook = parseLook(d.lk);
+  if (Array.isArray(d.lk)) { const k = JSON.stringify(d.lk); if (k !== net.lookKey) { net.lookKey = k; net.oppLook = parseLook(d.lk); applyTeams(); } }
   net.lastHeard = performance.now();
   if (!net.connected) { net.connected = true; onlineOpen = false; startMatch('online'); }
   if ((d.ag | 0) > net.lastAgain) { net.lastAgain = d.ag | 0; if (state === 'over') startMatch('online'); }
@@ -4475,7 +4688,7 @@ function sendGuestInput(force) {
   const key = a.join() + '|' + net.again + '|' + net.emN + '|' + board.v + '|' + net.bdAck;
   if (!force && key === net.inKey) return;
   net.inKey = key; net.inT = performance.now();
-  const msg = { in: a, ag: net.again, em: [net.emN, net.emId], n: ++net.inSeq, lk: [prog.kit, prog.fx] };
+  const msg = { in: a, ag: net.again, em: [net.emN, net.emId], n: ++net.inSeq, lk: [prog.kit, prog.fx, teamWire()] };
   if (net.bdAck !== board.v) { msg.bd = boardPayload(); msg.bv = board.v; }      // our table, until the host has it
   net.tr.send(msg);
 }
@@ -4498,7 +4711,7 @@ function enterGuest(d) {
   net.connected = true; onlineOpen = false;
   net.saved = { ...settings };
   if ([3, 5, 7].includes(d.tg)) settings.target = d.tg;          // the host's rules, before anyone announces them
-  me = RED; setMode('online'); setFlip(true);
+  me = RED; setMode('online'); setFlip(true); applyTeams();
   resetTable();
   for (const t of teams) { t.ai = null; t.keeper = false; t.together = false; }
   net.lastEv = Math.max(0, ...(d.ev || []).map(e => e.i));      // what happened before we arrived is old news,
@@ -4513,7 +4726,7 @@ function guestEvent(e) {
     case 'goal': burst(e.x, e.y, e.s); shake(8); goalBanner(e.s, !!e.o, !!e.u); spkGoal(e.s, !!e.o, !!e.u); emoteHint(e.s); vibrate(e.s === me ? [30, 40, 60] : 80); break;
     case 'emo': if (e.t !== me) showEmote(e.t, e.e); break;             // our own was shown when we sent it
     case 'brd': if (Array.isArray(e.b) && Array.isArray(e.b[0])) net.oppName = cleanName(e.b[0][1]) || net.oppName; mergeBoard(e.b); break;
-    case 'lk': net.oppLook = parseLook(e.l); break;
+    case 'lk': net.oppLook = parseLook(e.l); applyTeams(); renderHud(); break;
     case 'sv': spkSave(e.t); break;
     case 'gi': spkGiant(e.t); break;
     case 'srv': toast(e.t === me ? 'Servis sende' : 'Servis rakipte'); spkKickoff(); break;
@@ -4594,7 +4807,7 @@ function boot(data) {
 }
 
 // handle for experimenting from the console
-window.langirt = { teams, rods, ball, score, settings, update, startMatch, attract, net, hostTable, joinTable, sendEmote, EMOTES, stats, card, cardStory, drawCard, recordMatch, todayQuests, QUESTS, BADGES, BALLS, TABLES, KITS, FXS, ITEMS, BUNDLES, store, openStore, storeBuy, storePick, storeCat, priceOf, bundlePrice, rollDeals, lookOf, spawnFx, particles, pv, drawStatic, startCup, cupRule, weekKey, mergeBoard, boardPayload, RULES, cup, FIREBASE, fb, fbPush, fbFetch, fbOn, renderBoard, spk, say, levelOf, xpOf, renderProfile, skillPoints, perksOf, applyPerks, PERK_NODES, get prog() { return prog; }, get state() { return state; }, get mode() { return mode; }, get me() { return me; } };
+window.langirt = { teams, rods, ball, score, settings, update, startMatch, attract, net, hostTable, joinTable, sendEmote, EMOTES, stats, card, cardStory, drawCard, recordMatch, todayQuests, QUESTS, BADGES, BALLS, TABLES, PAL, TEAM_COLORS, CRESTS, resolvePals, teamPal, colorDist, applyTeams, KITS, FXS, ITEMS, BUNDLES, store, openStore, storeBuy, storePick, storeCat, priceOf, bundlePrice, rollDeals, lookOf, spawnFx, particles, pv, drawStatic, startCup, cupRule, weekKey, mergeBoard, boardPayload, RULES, cup, FIREBASE, fb, fbPush, fbFetch, fbOn, renderBoard, spk, say, levelOf, xpOf, renderProfile, skillPoints, perksOf, applyPerks, PERK_NODES, get prog() { return prog; }, get state() { return state; }, get mode() { return mode; }, get me() { return me; } };
 
 const hot = window.claude && window.claude.hot;
 if (hot && typeof hot.snapshot === 'function') {
