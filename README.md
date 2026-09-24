@@ -17,11 +17,12 @@ Telefonda oynanan langırt (kicker) oyunu. Tek bir `index.html` dosyasından olu
 | Kontrol | Ne yapar |
 | --- | --- |
 | **▲ / ▼** (sol başparmak) | Aktif çubuğu (pirinç renkte parlayan çubuk) yukarı / aşağı kaydırır. Parmağını kaldırmadan ▲ ile ▼ arasında kaydırabilirsin. |
-| **ŞUT** (sağ başparmak), dokun | Aktif çubuğun adamları hızlıca döner ve topa vurur. |
-| **ŞUT**, basılı tut | Adamlar geriye yatar ve güç toplar (tuşun çevresindeki halka dolar). Bıraktığında daha sert vurur. |
+| **ŞUT** (sağ başparmak), dokun | Aktif çubuğun adamları hızlıca döner ve topa vurur. Top ayağının önündeyse hemen vurur. Top sana doğru ya da arkadan gelirken biraz erken dokunursan (0,28 saniyeye kadar) vuruş topun gelmesini bekler. |
+| **ŞUT**, basılı tut | Adamlar geriye yatar ve güç toplar (tuşun çevresindeki halka dolar). Bıraktığında daha sert vurur. Basılı tutarken hareket eden bir top ayağının önüne gelirse adamlar bırakmanı beklemeden, o ana kadar topladıkları güçle vurur. Duran ya da yavaş bir topta istediğin kadar güç toplayabilirsin. |
 | Vururken ▲/▼ | Kayan çubuk sürtünmeyle topa yan hız verir, top çapraz gider. |
 | Ayağın kenarıyla vurmak | Ayak yuvarlak olduğu için top açılı seker. |
-| Arka | Top aktif çubuğun hemen arkasında (1,2–6 cm) kaldıysa ŞUT'a bas: adamlar öne doğru tam tur döner, ayak topun arkasına iner ve topu ileri sürer. |
+| Arka | Top aktif çubuğun hemen arkasında (1–6 cm) kaldıysa ŞUT'a bas: adamlar öne doğru tam tur döner, ayak topun arkasına iner ve topu ileri sürer. Ayak topun üstüne inerse top sıkışıp ileri fırlar; ayağın yalnızca kenarı değerse yana kaçar. |
+| Arkadan gelen pas | Kendi pasın arkadan gelirken adamlar ayaklarını geriye kaldırır, top altlarından geçer. O sırada ŞUT'a basarsan ayaklar topun arkasına iner ve topu tek vuruşta ileri gönderir. En iyisi top çubuğa varmadan basmaktır: hızlı bir pas çubuğu geçtikten sonra ayak ona yetişemez. |
 | **SÜPER** (ŞUT'un üstünde) | Göstergen dolunca süper şutu hazırlar; bir sonraki vuruşun süper şut olur (aşağıya bak). |
 | **DEV** (ŞUT'un altında) | Kendi göstergesi dolunca kalecin 6 saniyeliğine dev olur (aşağıya bak). |
 | **💬** (sol üst) | Rakibine laf atmak için ifade menüsünü açar (aşağıya bak). |
@@ -48,13 +49,19 @@ Menüde oyunun adının altındaki **🌐 Türkçe · English · Deutsch** satı
 
 Açıkken her an yalnızca bir çubuğunu kontrol edersin: topa en yakın ve topu önüne alabilecek çubuğu. Top başka bir çubuğun bölgesine geçince kontrol de kendiliğinden o çubuğa geçer. Diğer çubukların, bıraktığın yerde kalır.
 
-- Top adamlarının arkasındaysa arkadaki çubuk için ek mesafe sayılır. Bu yüzden kontrol, topu ileri vurabilecek çubukta kalır.
+- Top adamlarının arkasındaysa arkadaki çubuk için ek mesafe sayılır. Bu yüzden kontrol, topu ileri vurabilecek çubukta kalır. Top arka vuruşla (tam tur) yetişilecek kadar yakınsa (6 cm) bu ek mesafe küçüktür; kontrol, topu önünde tutan ama ona yetişemeyen arkadaki çubuğa geçmez.
 - Top hızla kendi kalene geliyorsa kontrol, topun henüz geçmediği ilk çubuğa verilir.
 - Kendi pasın ya da şutun ileri giderken kontrol, topun varacağı sıradaki çubuğuna geçer. Böylece o çubuğu top gelmeden hizalayabilirsin.
 - Kontrol yalnızca güç toplarken ve vuruşun topa değebildiği kısa anda kilitli kalır. Adamlar topun üstüne kalkar kalkmaz kontrol sıradaki çubuğa geçebilir; vuran çubuk kendi kendine dikey konuma döner.
 - Yeni çubuk açıkça daha uygunsa kontrol hemen geçer. Top iki çubuğun tam ortasında duruyorsa, titremesin diye kısa bir süre (0,06 sn) beklenir.
 - Top yavaşlarken kontrolün iki çubuk arasında gidip gelmemesi için hız eşiklerinin açılma ve kapanma değerleri farklıdır: ileri pas 700 mm/s'de başlar, 350 mm/s'de biter.
 - Bilgisayar da aynı kuralla oynar: o da aynı anda tek çubuğunu yönetir.
+
+### Ölü top
+
+- **Eğimler:** Masanın kenarları ve köşeleri hafif eğimlidir; duran top oynanabilecek bir yere yuvarlanır. Kalecinin önündeki köşe eğimleri kalecinin ayağının yetişemediği bölgeyi de kapsar, bu yüzden oradaki top kalecinin önüne döner.
+- **Yeniden servis:** Top durur ve kimse oynamazsa "Ölü top" denir ve servis yeniden atılır. Bekleme süresi topun yerine göre değişir: hiçbir ayağın yetişemediği yerde 2,2 saniye, yalnızca geriye yatan bir ayağın yetişebildiği yerde (bir çubuğun 6–8 cm arkası) 4 saniye, bir ayağın vurabildiği yerde 12 saniye.
+- **Bilgisayar:** Arkasında kalan topu arka vuruşla oynar. Çubuğu sonuna dayandığı için ayağını topla tam hizalayamasa da top ayağının kenarındaysa vurur. Simülasyonda bilgisayar–bilgisayar maçlarında ölü top dakikada 0,6–1,2'den (seviyeye göre) sıfıra indi.
 
 ### Otomatik kaleci
 
