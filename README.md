@@ -12,6 +12,8 @@ Telefonda oynanan langırt (kicker) oyunu. Tek bir `index.html` dosyasından olu
 - Skor eşitse **altın gol** oynanır: ilk atan kazanır.
 - Kural bütün modlarda geçerlidir: bilgisayara karşı, 2 kişi, 2v2, kupa, turnuva ve online. Online'da süreyi masayı açan tutar, diğer telefonlar aynı sayacı görür.
 
+**Dil:** Oyun Türkçe, İngilizce ve Almanca oynanabilir (aşağıya bak).
+
 | Kontrol | Ne yapar |
 | --- | --- |
 | **▲ / ▼** (sol başparmak) | Aktif çubuğu (pirinç renkte parlayan çubuk) yukarı / aşağı kaydırır. Parmağını kaldırmadan ▲ ile ▼ arasında kaydırabilirsin. |
@@ -23,6 +25,18 @@ Telefonda oynanan langırt (kicker) oyunu. Tek bir `index.html` dosyasından olu
 | **SÜPER** (ŞUT'un üstünde) | Göstergen dolunca süper şutu hazırlar; bir sonraki vuruşun süper şut olur (aşağıya bak). |
 | **DEV** (ŞUT'un altında) | Kendi göstergesi dolunca kalecin 6 saniyeliğine dev olur (aşağıya bak). |
 | **💬** (sol üst) | Rakibine laf atmak için ifade menüsünü açar (aşağıya bak). |
+
+### Dil (Türkçe · English · Deutsch)
+
+Menüde oyunun adının altındaki **🌐 Türkçe · English · Deutsch** satırından dil seçilir.
+- **Seçim:** Seçim kaydedilir ve sayfa o dilde yeniden açılır. Diğer ayarlar (seviye, gol sayısı, diziliş…) olduğu gibi kalır. Dil menüden değiştirilir, maç sırasında değil.
+- **İlk açılış:** Oyun ilk açılışta telefonun dilini izler: Türkçe telefonda Türkçe, Almanca telefonda Almanca, diğerlerinde İngilizce açılır. Daha önce oynamış olan biri (ilerlemesi kayıtlı) Türkçe devam eder.
+- **Ne çevrilir:** Menüler, bildirimler, görevler, rozetler, yetenekler, mağaza, takım editörü, kupa, turnuva, online ekranları, özel ligler ve sohbet ekranı, paylaşım kartı ve lig davetleri. Oyunun adı İngilizcede **Pocket Foosball**, Almancada **Taschenkicker** olur.
+  - Sayılar, yüzdeler (%40 · 40% · 40 %) ve tarihler her dilin kendi yazımıyla gösterilir.
+  - Bilgisayar takımlarının ve rastgele rakiplerin adları da dile uyar.
+- **Spiker:** Seçilen dilde konuşur ve telefonun o dildeki sesini kullanır. Telefonda o dilin sesi yoksa yalnızca altyazı gösterir.
+- **Online:** Her telefon kendi dilinde görür, farklı dillerdeki oyuncular birlikte oynayabilir. Sohbet mesajları yazıldığı dilde gider; hazır mesajlar yazanın dilindedir. Oyuncu ve lig adları gibi senin yazdıkların çevrilmez.
+- **Geliştirici notu:** Metinler kodda Türkçe yazılır ve `__('...')` ile çevrilir; `{0}`, `{1}` gibi yerler değerlerle dolar. İngilizce ve Almanca karşılıkları `index.html` başındaki `I18N` sözlüğündedir. Çevirisi olmayan bir metin Türkçe görünür; yeni bir metin eklenirken iki dile de çeviri eklenmelidir.
 
 ### Aktif çubuk
 
