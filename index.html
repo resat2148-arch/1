@@ -536,6 +536,43 @@ button:focus-visible,.seg input:focus-visible+label{outline:2px solid var(--bras
   .pairopt span{font-size:11.5px}
 }
 
+/* ——— formations ——— */
+.seg .fmbtn{appearance:none;display:grid;place-items:center;gap:2px;white-space:nowrap;padding:8px 6px;margin-left:6px;border-radius:9px;cursor:pointer;
+  border:1px dashed var(--brass);background:rgba(214,165,72,.1);color:var(--chalk);font:600 16px/1.1 var(--ui)}
+.seg .fmbtn small{font-size:11px;font-weight:500;opacity:.8}
+.seg .fmbtn:hover,.seg .fmbtn:focus-visible{background:rgba(214,165,72,.24)}
+@container (max-height:460px){ .seg .fmbtn{display:flex;align-items:baseline;gap:5px;padding:6px 8px;margin-left:4px} }   /* one line, like the goal counts */
+.stack .span2{grid-column:span 2}
+.card.fmcard{width:min(880px,100%)}
+.fmcard .big{font-size:clamp(30px,10cqh,60px)}
+.fms{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;width:100%}
+.fmopt{appearance:none;display:grid;gap:4px;align-content:start;justify-items:start;text-align:left;min-width:0;padding:8px;border-radius:13px;
+  border:1px solid var(--chalk-3);background:rgba(242,233,216,.05);color:var(--chalk);cursor:pointer;transition:border-color .15s,background .15s}
+.fmopt svg{display:block;width:100%;height:auto;aspect-ratio:1200/680;border-radius:6px}
+.fmopt b{font:900 21px/1 var(--display);letter-spacing:.04em}
+.fmopt b i{font:600 12px/1 var(--ui);font-style:normal;letter-spacing:0;color:var(--brass);margin-left:6px;text-transform:uppercase}
+.fmopt span{font-size:11.5px;line-height:1.25;color:var(--chalk-2)}
+.fmopt:hover,.fmopt:focus-visible{border-color:var(--brass);background:rgba(214,165,72,.1)}
+.fmopt[aria-pressed="true"]{border-color:var(--brass);background:rgba(214,165,72,.18);box-shadow:inset 0 0 0 1px var(--brass)}
+@container (max-height:460px){
+  .fmcard .big{display:none}
+  .fmcard .sub{font-size:12.5px;line-height:1.3}
+  .fmopt{grid-template-columns:auto minmax(0,1fr);align-items:center;column-gap:8px;padding:6px}
+  .fmopt svg{grid-row:span 2;width:auto;height:54px}
+  .fmopt b{font-size:19px;align-self:end}
+  .fmopt b i{display:block;margin:3px 0 0}
+  .fmopt span{display:none}
+}
+@container (max-height:360px){ .fmopt svg{height:42px} .fmcard .sub{display:none} }
+.fmopt b,.fmopt b i{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+@container (max-width:640px){
+  .fms{gap:6px}
+  .fmopt{column-gap:6px;padding:5px}
+  .fmopt svg{height:34px}
+  .fmopt b{font-size:16px}
+  .fmopt b i{font-size:10.5px}
+}
+
 /* ——— store ——— */
 .rw.t{border-color:#3cc6a6;background:rgba(60,198,166,.16)}
 .storepill{position:relative}
@@ -842,6 +879,7 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
             <input type="radio" name="target" id="tg-3" value="3"><label for="tg-3">3 gol</label>
             <input type="radio" name="target" id="tg-5" value="5"><label for="tg-5">5 gol</label>
             <input type="radio" name="target" id="tg-7" value="7"><label for="tg-7">7 gol</label>
+            <button type="button" class="fmbtn" id="fmBtn" aria-label="Diziliş seç"><b id="fmName">2-5-3</b><small>diziliş</small></button>
           </div>
         </fieldset>
         <div class="switches">
@@ -890,9 +928,20 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
         <button class="ghost" id="spikerBtn">Spiker: açık</button>
         <button class="ghost" id="activeBtn">Aktif çubuk: açık</button>
         <button class="ghost" id="keeperBtn">Oto kaleci: açık</button>
+        <button class="ghost" id="fmPauseBtn">Diziliş: 2-5-3</button>
         <button class="ghost" id="restartBtn">Baştan başlat</button>
-        <button class="ghost wide" id="quitBtn">Menüye dön</button>
+        <button class="ghost span2" id="quitBtn">Menüye dön</button>
       </div>
+    </div>
+  </section>
+
+  <section class="overlay" id="formPick" hidden>
+    <div class="card fmcard">
+      <p class="eyebrow">Taktik</p>
+      <h2 class="big">Diziliş</h2>
+      <p class="sub" id="fmSub">Kaleci hep tek; defans, orta saha ve forvet çubuklarındaki adam sayısını sen seç. Adam arttıkça aralık daralır, çubuk daha az kayar.</p>
+      <div class="fms" id="fmList"></div>
+      <button class="ghost" id="fmBack">Geri</button>
     </div>
   </section>
 
@@ -1227,8 +1276,9 @@ function makeTeam(id) {
 }
 const teams = [makeTeam(BLUE), makeTeam(RED)];
 // each rod follows its team's kick, except while it is lifted to let a ball through
+const ROD_ROLE = ['gk', 'def', 'att', 'mid', 'mid', 'att', 'def', 'gk'];   // what each rod is, whatever the formation
 const rods = ROD_SPEC.map(([team, n, s, half], i) => ({
-  i, x: ROD_X[i], team, n, s, half, offs: Array.from({ length: n }, (_, j) => (j - (n - 1) / 2) * s),
+  i, x: ROD_X[i], team, role: ROD_ROLE[i], n, s, half, offs: Array.from({ length: n }, (_, j) => (j - (n - 1) / 2) * s),
   p: 0, v: 0, auto: 0,                          // slide offset and speed (mm), self-driven speed factor
   th: 0, w: 0, sync: true, lift: false, liftT: 0, prevColl: true,
   big: 0,                                       // goalie growth, 0 normal … 1 dev kaleci
@@ -1242,7 +1292,7 @@ const SHARED = ['skill', 'armed', 'giant', 'giantT', 'perk', 'lastStand'];
 function makeUnit(team, role) {
   const u = makeTeam(team.id);
   for (const k of SHARED) { delete u[k]; Object.defineProperty(u, k, { get: () => team[k], set: v => { team[k] = v; }, enumerable: true }); }
-  return Object.assign(u, { team, role, inp: 0, rods: team.rods.filter(r => role === 'def' ? r.n <= 2 : r.n >= 3) });
+  return Object.assign(u, { team, role, inp: 0, rods: team.rods.filter(r => role === 'def' ? r.role === 'gk' || r.role === 'def' : r.role === 'mid' || r.role === 'att') });
 }
 const UNITS = teams.map(t => [makeUnit(t, 'def'), makeUnit(t, 'att')]);
 for (const t of teams) Object.assign(t, { team: t, role: '', inp: t.id });
@@ -1281,6 +1331,55 @@ function setupPair() {
 }
 const twoPads = () => mode === 'duo' || coop();
 const figY = (rod, j) => CY + rod.offs[j] + rod.p;
+/* ——— Formations (diziliş) ———
+   Each team has a goalie and three outfield rods: defence, midfield, attack, left to right from its own
+   goal. A formation says how many figures each outfield rod carries (the classic table is 2-5-3). The
+   spacing and the travel follow from the count, so every rod still covers the whole width: the more
+   figures, the closer together and the shorter their slide. */
+const ROD_GEOM = { 1: [0, 300], 2: [240, 196], 3: [205, 111], 4: [153, 87], 5: [120, 76] };   // figures → [spacing, half travel]
+const FORMATIONS = [
+  { id: '2-5-3', name: 'Klasik', d: 'Gerçek langırt masası: ikili defans, beşli orta saha, üçlü forvet.' },
+  { id: '4-4-2', name: 'Dengeli', d: 'Dörtlü defans, dörtlü orta saha, iki forvet.' },
+  { id: '4-3-3', name: 'Hücum', d: 'Dörtlü defansın önünde üç forvet.' },
+  { id: '3-4-3', name: 'Atak', d: 'Üçlü defans, dörtlü orta saha, üç forvet.' },
+  { id: '3-5-2', name: 'Orta saha', d: 'Kalabalık orta saha, iki forvet.' },
+  { id: '5-3-2', name: 'Kale önü', d: 'Beşli defans duvarı, iki forvet.' },
+  { id: '4-5-1', name: 'Kontra', d: 'Kalabalık orta saha, bütün hattı gezen tek forvet.' },
+].map(f => ({ ...f, n: f.id.split('-').map(Number) }));
+const formationOf = id => FORMATIONS.find(f => f.id === id) || FORMATIONS[0];
+function setFormation(t, id) {
+  const f = formationOf(id);
+  t.fm = f.id;
+  for (const rod of t.rods) {
+    const k = ['def', 'mid', 'att'].indexOf(rod.role);
+    if (k < 0) continue;
+    const n = f.n[k], [sp, half] = ROD_GEOM[n];
+    Object.assign(rod, { n, s: sp, half, offs: Array.from({ length: n }, (_, j) => (j - (n - 1) / 2) * sp) });
+    rod.p = clamp(rod.p, -half, half);
+  }
+}
+// each side's formation for a new match: yours from the menu, the computer's at random, an online
+// player's the one their phone sends (in 2v2 the team's first player's)
+function matchFormations() {
+  const mine = settings.formation, rnd = randomFormation;
+  let f = [mine, rnd()];
+  if (mode === 'duo') f = [mine, mine];
+  else if (mode === 'online' && net.role === 'host') {
+    if (net.bot) f = [mine, net.bot.fm];
+    else if (net.p2 || net.t) f = [BLUE, RED].map(t => { const g = captainOf(t); return g === 'host' ? mine : g ? (net.guests[g] || {}).fm || '2-5-3' : rnd(); });
+    else f = [mine, net.oppFm || '2-5-3'];
+  }
+  teams.forEach((t, i) => setFormation(t, f[i]));
+}
+// the player whose formation a side takes online: the defender, else the attacker (2v2); the slot's player (tournament)
+function captainOf(team) {
+  if (net.p2) { for (const i of [team * 2, team * 2 + 1]) if (net.seats[i]) return net.seats[i].g; return ''; }
+  if (net.t && tour.live) return tourSlot(team === BLUE ? tour.live.blue : tour.live.red).g || '';
+  return '';
+}
+const validFm = v => FORMATIONS.some(f => f.id === v) ? v : '';
+const randomFormation = () => FORMATIONS[Math.floor(Math.random() * FORMATIONS.length)].id;
+for (const t of teams) setFormation(t, '2-5-3');
 
 // Gentle troughs in the playfield, like a slightly warped real table (about 1.2°): wherever a ball
 // that stopped could not be played by any figure, the surface tilts towards the nearest spot one can,
@@ -1324,7 +1423,7 @@ let paused = false;
 const score = [0, 0];
 // for the share card, quests and badges: goals in order, goalie saves, dev kaleci uses, super shots a giant goalie stopped
 const stats = { t0: 0, dur: 0, goals: [], saves: [0, 0], giants: [0, 0], bigSaves: [0, 0] };
-const settings = { level: 'kulup', target: 5, sound: true, autoKeeper: true, activeRod: true, superShot: true, giantGoalie: true, emotes: true, spiker: true };
+const settings = { level: 'kulup', target: 5, sound: true, autoKeeper: true, activeRod: true, superShot: true, giantGoalie: true, emotes: true, spiker: true, formation: '2-5-3' };
 let simT = 0, acc = 0, timers = [], lastServer = BLUE;
 const hist = [];
 const particles = [];
@@ -1483,7 +1582,7 @@ function updateActive(t, b, dt) {
   }
 }
 function autoKeeper(t) {
-  const g = t.rods.find(r => r.n === 1);
+  const g = t.rods.find(r => r.role === 'gk');
   if (!g) return;                                               // a hücum player has no goalie
   g.auto = 0;
   if (!t.keeper || g === t.active) return;
@@ -1679,7 +1778,7 @@ function stepBall(h) {
     const fw = footW(rod), ft = footT(rod);
     if (dx > LC + ft + R + 6 || dx < -(LC + ft + R + 6)) continue;
     const t = rod.ctl;
-    if (ball.superT > 0 && rod.team !== ball.superTeam && rod.n !== 1) continue;   // a super shot goes straight through
+    if (ball.superT > 0 && rod.team !== ball.superTeam && rod.role !== 'gk') continue;   // a super shot goes straight through
     if (Math.abs(rod.th) >= THETA_C) continue;   // feet raised: the ball rolls underneath
     const landing = !rod.prevColl;               // feet coming down onto the ball
     const sn = Math.sin(rod.th), cs = Math.cos(rod.th);
@@ -1695,7 +1794,7 @@ function stepBall(h) {
           ball.superT = 0;
         }
         contact(t, jn, fvx);
-        if (rod.n === 1 && inbound > 1800 && state === 'play') {   // the goalie stopped a real shot
+        if (rod.role === 'gk' && inbound > 1800 && state === 'play') {   // the goalie stopped a real shot
           stats.saves[t.id]++;
           spkSave(t.id); pushEvent({ k: 'sv', t: t.id });
           if (t.ai && t.id !== me) cpuReact('save');
@@ -1895,8 +1994,8 @@ function aiUpdate(t, dt) {
   } else if (S.holdT >= 0) { S.holdT -= dt; if (S.holdT < 0) { t.releaseQ = true; S.cool = L.cool; } }
 
   if (!b.live) { t.desired = 0; return; }
-  if (settings.giantGoalie && state === 'play' && t.giant >= 1 && t.giantT <= 0 && t.rods.some(r => r.n === 1)) {
-    const opp = teams[1 - t.id], oppFwd = opp.rods.find(r => r.n === 3);
+  if (settings.giantGoalie && state === 'play' && t.giant >= 1 && t.giantT <= 0 && t.rods.some(r => r.role === 'gk')) {
+    const opp = teams[1 - t.id], oppFwd = opp.rods.find(r => r.role === 'att');
     const fo = (b.x - oppFwd.x) * opp.dir;
     const shotComing = b.vx * t.dir < -700 && (t.dir > 0 ? b.x : W - b.x) < 500;
     if (opp.armed || (fo > -12 && fo < 80) || shotComing) startGiant(t);   // their forwards have it, or a shot is on its way
@@ -1931,7 +2030,7 @@ function aiUpdate(t, dt) {
     const catchable = spd < 650 || b.vx * t.dir < 0;          // slow, or rolling onto the foot
     if (ready && catchable && err < 7 && f > -8 && f < 72) {
       S.kickT = randIn(L.kickDelay); S.heel = false;
-      if (settings.superShot && t.skill >= 1 && rod.n === 3) { if (!t.armed && t.id !== me) cpuReact('armed'); t.armed = true; }   // saves the super for its forwards
+      if (settings.superShot && t.skill >= 1 && rod.role === 'att') { if (!t.armed && t.id !== me) cpuReact('armed'); t.armed = true; }   // saves the super for its forwards
       S.holdDur = randIn(L.charge) * CHARGE_T + .015;
     }
   } else if (f > -SPIN_BACK + 4 && f < -14 && spd < 300) {
@@ -2049,6 +2148,7 @@ window.addEventListener('keydown', e => {
   if (e.code === 'Escape' && goalsOpen) { closeGoals(); return; }
   if (e.code === 'Escape' && store.open) { closeStore(); return; }
   if (e.code === 'Escape' && pairOpen) { pairOpen = false; setUI(); return; }
+  if (e.code === 'Escape' && fmOpen) { fmOpen = false; setUI(); return; }
   if (e.code === 'Escape' && tourOpen) { closeTour(); return; }
   if (e.code === 'KeyP' || e.code === 'Escape') {
     if (state === 'play') { e.preventDefault(); paused ? resumeGame() : pauseGame(); }
@@ -2560,7 +2660,7 @@ function update(dt) {
   }
   for (const t of teams) {
     if (t.giantT > 0) { t.giantT -= dt; if (t.giantT <= 0) { t.giantT = 0; Sound.shrink(); } }
-    const g = t.rods.find(r => r.n === 1);
+    const g = t.rods.find(r => r.role === 'gk');
     g.big = approach(g.big, t.giantT > 0 ? 1 : 0, GIANT.rate * dt);   // grows and shrinks over a fifth of a second
   }
   if (ball.superT > 0) { ball.superT -= dt; if (!ball.live || Math.hypot(ball.vx, ball.vy) < SUPER.minSpeed) ball.superT = 0; }
@@ -3007,7 +3107,7 @@ function render() {
   for (const rod of rods) {
     const t = teams[rod.team];
     // during a super shot the opponent's outfield men fade, the ones it is passing through most
-    const ghost = ball.superT > 0 && rod.team !== ball.superTeam && rod.n !== 1;
+    const ghost = ball.superT > 0 && rod.team !== ball.superTeam && rod.role !== 'gk';
     for (let j = 0; j < rod.n; j++) {
       const y = figY(rod, j);
       if (ghost) ctx.globalAlpha = Math.abs(ball.x - rod.x) < 70 && Math.abs(ball.y - y) < 60 ? .35 : .75;
@@ -3051,7 +3151,9 @@ function toast(msg, ms = 1600) {
 }
 function setUI() {
   if (state === 'play') goalsOpen = store.open = false;
-  $('menu').hidden = state !== 'menu' || onlineOpen || goalsOpen || store.open || pairOpen || tourOpen;
+  if (state !== 'menu' && !(state === 'play' && paused)) fmOpen = false;
+  $('menu').hidden = state !== 'menu' || onlineOpen || goalsOpen || store.open || pairOpen || tourOpen || fmOpen;
+  $('formPick').hidden = !fmOpen;
   $('goals').hidden = !goalsOpen;
   $('store').hidden = !store.open;
   $('online').hidden = !onlineOpen;
@@ -3060,7 +3162,7 @@ function setUI() {
   $('over').hidden = state !== 'over' || goalsOpen || store.open || tourOpen;
   if (state !== 'over') card.open = false;
   $('cardView').hidden = !card.open;
-  $('pause').hidden = !(state === 'play' && paused);
+  $('pause').hidden = !(state === 'play' && paused) || fmOpen;
   stage.classList.toggle('match', state === 'play');
   stage.classList.toggle('playing', state === 'play' && !paused);
   $('soundBtn').textContent = settings.sound ? 'Ses: açık' : 'Ses: kapalı';
@@ -3162,6 +3264,7 @@ function startMatch(m) {
   if (pair) setupPair();
   if (net.bot) teams[RED].ai = net.bot.level;
   if (tour.live && tour.live.net) for (const t of teams) { const x = tourSlot(t.id === BLUE ? tour.live.blue : tour.live.red); t.ai = x.c ? LEVELS[x.c] : null; }   // computer teams at their level
+  matchFormations();
   applyTeams();
   resetTable(); clearInput(); applyControls(); renderHud();
   applyPerks();
@@ -3170,7 +3273,7 @@ function startMatch(m) {
   resetClock();
   const first = Math.random() < .5 ? BLUE : RED;
   queueServe(first, .9);
-  if (!tour.live) toast((mode === 'duo' ? `Servis: ${NAMES.duo[first]}` : first === me ? 'Servis sende' : 'Servis rakipte') + (pair ? ' · ' + PAIR_HINT[pair.role === 'net' ? SEATS[pair.seat][1] : pair.role] : ''), pair ? 2600 : undefined);
+  if (!tour.live) toast((mode === 'duo' ? `Servis: ${NAMES.duo[first]}` : first === me ? 'Servis sende' : 'Servis rakipte') + (mode === 'duo' ? '' : ` · rakip ${teams[1 - me].fm}`) + (pair ? ' · ' + PAIR_HINT[pair.role === 'net' ? SEATS[pair.seat][1] : pair.role] : ''), pair ? 2600 : undefined);
   pushEvent({ k: 'lk', l: [prog.kit, prog.fx, teamWire()] });                 // the host's kit and goal show, for the guest's screen
   pushEvent({ k: 'srv', t: first });
   setUI();
@@ -4986,6 +5089,7 @@ function loadSettings(extra) {
   for (const src of [s, extra]) {
     if (!src) continue;
     if (LEVELS[src.level]) settings.level = src.level;
+    if (FORMATIONS.some(f => f.id === src.formation)) settings.formation = src.formation;
     if ([3, 5, 7].includes(src.target)) settings.target = src.target;
     if (typeof src.sound === 'boolean') settings.sound = src.sound;
     if (typeof src.autoKeeper === 'boolean') settings.autoKeeper = src.autoKeeper;
@@ -4999,12 +5103,13 @@ function loadSettings(extra) {
 function saveSettings() {
   // the online guest plays by the host's rules for now: only its own sound and emote choices are kept
   // (nor are a cup match's rules)
-  if (net.saved) Object.assign(net.saved, { sound: settings.sound, emotes: settings.emotes, spiker: settings.spiker });
+  if (net.saved) Object.assign(net.saved, { sound: settings.sound, emotes: settings.emotes, spiker: settings.spiker, formation: settings.formation });
   const keep = net.saved || (cup.saved ? { ...settings, ...cup.saved } : settings);
   try { localStorage.setItem(STORE, JSON.stringify(keep)); } catch (e) { /* storage blocked */ }
 }
 function syncForm() {
   $('lv-' + settings.level).checked = true;
+  $('fmName').textContent = settings.formation; $('fmPauseBtn').textContent = `Diziliş: ${settings.formation}`;
   $('autoKeeper').checked = settings.autoKeeper;
   $('activeRod').checked = settings.activeRod;
   $('superShot').checked = settings.superShot;
@@ -5097,10 +5202,10 @@ const net = { role: null, kind: '', code: '', tr: null, connected: false, lastHe
   bdGot: -1, bdAck: -1, brdV: -1, oppLook: null,
   gid: '', guestG: '', p2: false, seats: [null, null, null, null], guests: {}, mySeat: -1, want: -1, sideLook: [null, null], lobT: 0,   // online 2v2
   t: false, tour: null, players: [], tbV: 0, tbKey: '', tlKey: '', spect: false, myTeam: BLUE, leftBracket: false, bot: null };                   // online tournament      // table versions: received from the guest / acknowledged by the host / last sent by the host
-let onlineOpen = false, pairOpen = false;
+let onlineOpen = false, pairOpen = false, fmOpen = false;
 // the 2v2 chooser: a little table for each choice, your rods lit
 function pairSvg(role) {
-  const lit = i => { const [team, n] = ROD_SPEC[i]; if (team !== BLUE) return ''; const r = n <= 2 ? 'def' : 'att'; return role === 'coop' ? r : r === role ? 'me' : 'mate'; };
+  const lit = i => { const [team] = ROD_SPEC[i]; if (team !== BLUE) return ''; const r = ROD_ROLE[i] === 'gk' || ROD_ROLE[i] === 'def' ? 'def' : 'att'; return role === 'coop' ? r : r === role ? 'me' : 'mate'; };
   let s = `<svg viewBox="-40 -30 1280 740" aria-hidden="true"><rect x="-30" y="-10" width="1260" height="700" rx="34" fill="#6d4a2b"/><rect x="0" y="0" width="1200" height="680" rx="14" fill="#2c7244"/>`
     + `<rect x="-26" y="${CY - GH}" width="26" height="${2 * GH}" fill="#140f0b"/><rect x="1200" y="${CY - GH}" width="26" height="${2 * GH}" fill="#140f0b"/><line x1="600" y1="0" x2="600" y2="680" stroke="rgba(255,255,255,.35)" stroke-width="5"/>`;
   ROD_SPEC.forEach(([team, n, sp], i) => {
@@ -5122,6 +5227,43 @@ document.querySelector('.pairs').addEventListener('click', e => {
   setPair({ role: b.dataset.role });
   startMatch('cpu');
 });
+// the formation chooser: from the menu before a match, or from the pause card during one
+function fmSvg(f) {
+  let s = '<svg viewBox="0 0 1200 680" aria-hidden="true"><rect width="1200" height="680" fill="#1f6b3a"/><line x1="600" y1="0" x2="600" y2="680" stroke="rgba(255,255,255,.35)" stroke-width="6"/>'
+    + '<rect x="0" y="250" width="14" height="180" fill="rgba(255,255,255,.6)"/><rect x="1186" y="250" width="14" height="180" fill="rgba(255,255,255,.6)"/>';
+  ROD_SPEC.forEach(([team], i) => {
+    if (team !== BLUE) return;
+    const k = ['def', 'mid', 'att'].indexOf(ROD_ROLE[i]), n = k < 0 ? 1 : f.n[k], sp = ROD_GEOM[n][0], x = ROD_X[i];
+    s += `<line x1="${x}" y1="0" x2="${x}" y2="680" stroke="#aeb5bb" stroke-width="10"/>`;
+    for (let j = 0; j < n; j++) s += `<circle cx="${x}" cy="${340 + (j - (n - 1) / 2) * sp}" r="34" fill="#2d6bd2" stroke="rgba(0,0,0,.4)" stroke-width="5"/>`;
+  });
+  return s + '</svg>';
+}
+$('fmList').innerHTML = FORMATIONS.map(f => `<button type="button" class="fmopt" data-fm="${f.id}" aria-pressed="false">${fmSvg(f)}<b>${f.id}<i>${f.name}</i></b><span>${f.d}</span></button>`).join('');
+function openFormations() {
+  Sound.unlock();
+  for (const b of document.querySelectorAll('.fmopt')) b.setAttribute('aria-pressed', String(b.dataset.fm === settings.formation));
+  $('fmSub').hidden = state === 'play';
+  fmOpen = true; setUI();
+  (document.querySelector('.fmopt[aria-pressed="true"]') || document.querySelector('.fmopt')).focus({ preventScroll: true });
+}
+function chooseFormation(id) {
+  id = validFm(id);
+  if (!id) return;
+  settings.formation = id; saveSettings(); syncForm();
+  if (state === 'play') {
+    if (mode === 'online' && net.role === 'guest') sendGuestInput(true);          // the table sets it with our next message
+    else if (mode === 'duo') teams.forEach(t => setFormation(t, id));
+    else if (mode === 'online') { for (const t of teams) if (net.p2 || net.t ? captainOf(t.id) === 'host' : t.id === me) setFormation(t, id); }
+    else setFormation(teams[BLUE], id);
+    toast(`Diziliş: ${id}`);
+  }
+  fmOpen = false; setUI();
+}
+$('fmBtn').addEventListener('click', openFormations);
+$('fmPauseBtn').addEventListener('click', openFormations);
+$('fmBack').addEventListener('click', () => { fmOpen = false; setUI(); });
+$('fmList').addEventListener('click', e => { const b = e.target.closest('.fmopt'); if (b) chooseFormation(b.dataset.fm); });
 const r1 = v => Math.round(v * 10) / 10, r2 = v => Math.round(v * 100) / 100, r3 = v => Math.round(v * 1000) / 1000;
 const lerp = (a, b, q) => a + (b - a) * q;
 const lerpAng = (a, b, q) => a + ((b - a + 3 * Math.PI) % (2 * Math.PI) - Math.PI) * q;
@@ -5279,7 +5421,7 @@ function leaveOnline() {
   if (mm.on) stopSearch();
   if (net.tr) { try { net.tr.close(); } catch (e) { /* already closed */ } }
   const wasGuest = net.role === 'guest';
-  Object.assign(net, { tr: null, role: null, connected: false, snaps: [], events: [], again: 0, lastAgain: 0, oppName: '', oppLook: null, lookKey: '',
+  Object.assign(net, { tr: null, role: null, connected: false, snaps: [], events: [], again: 0, lastAgain: 0, oppName: '', oppLook: null, lookKey: '', oppFm: '',
     guestG: '', p2: false, seats: [null, null, null, null], guests: {}, mySeat: -1, want: -1, sideLook: [null, null],
     t: false, tour: null, players: [], tbKey: '', tlKey: '', spect: false, leftBracket: false, bot: null });
   stage.classList.remove('spect'); $('onTour').hidden = true;
@@ -5343,6 +5485,7 @@ function hostOnState(d) {
   if (!d || !Array.isArray(d.in)) return;
   if (net.p2) return host2OnState(d);
   if (net.t) return hostTOnState(d);
+  if (validFm(d.fm) && d.fm !== net.oppFm) { net.oppFm = d.fm; if (state === 'play') setFormation(teams[RED], d.fm); }
   if (d.g) { if (!net.guestG) net.guestG = String(d.g); else if (d.g !== net.guestG) return; }   // one guest; a second phone finds the table full
   if (Array.isArray(d.bd) && Array.isArray(d.bd[0])) net.oppName = cleanName(d.bd[0][1]) || net.oppName;   // their own row comes first
   if (Array.isArray(d.lk)) { const k = JSON.stringify(d.lk); if (k !== net.lookKey) { net.lookKey = k; net.oppLook = parseLook(d.lk); applyTeams(); } }
@@ -5385,6 +5528,7 @@ function host2OnState(d) {
     Sound.tock(.4);
   }
   G.lastHeard = now;
+  guestFormation(g, d.fm);
   const name = cleanName(d.nm) || 'Oyuncu';
   if (net.seats[G.seat].name !== name) { net.seats[G.seat].name = name; renderLobby(); }
   if (Array.isArray(d.lk)) G.lk = d.lk;
@@ -5397,6 +5541,13 @@ function host2OnState(d) {
   if (state === 'play') applyRemoteInput(seatUnit(G.seat), d.in, G.seen);
   if (Array.isArray(d.em) && (d.em[0] | 0) > G.seenEm) { G.seenEm = d.em[0] | 0; remoteEmote(SEATS[G.seat][0], d.em[1] | 0, G.seat); }
   if (Array.isArray(d.bd)) { mergeBoard(d.bd); G.bdGot = d.bv | 0; }
+}
+// a guest's formation; during a match it changes their side's if they lead it
+function guestFormation(g, fm) {
+  const G = net.guests[g];
+  if (!G || !validFm(fm) || fm === G.fm) return;
+  G.fm = fm;
+  if (state === 'play') for (const t of teams) if (captainOf(t.id) === g) setFormation(t, fm);
 }
 function dropGuest(g) {
   const G = net.guests[g];
@@ -5487,6 +5638,7 @@ function hostTOnState(d) {
     Sound.tock(.4);
   }
   G.lastHeard = now;
+  guestFormation(g, d.fm);
   const name = cleanName(d.nm) || 'Oyuncu', pl = net.players.find(x => x.g === g);
   if (pl && pl.name !== name && !net.tour) { pl.name = name; renderTourLobby(); }
   if (Array.isArray(d.lk)) G.lk = d.lk;
@@ -5698,7 +5850,7 @@ function botFound() {
   const name = BOT_NAMES.filter(n => n !== prog.name)[Math.floor(Math.random() * (BOT_NAMES.length - 1))];
   Object.assign(net, { tr: { kind: 'bot', send() {}, close() {} }, role: 'host', kind: 'bot', code: '', connected: true, events: [], evId: 0,
     oppName: name, oppLook: botLook(), lastHeard: performance.now(), guestG: '', p2: false, t: false,
-    bot: { level: blendLevel(t), talk: t < .35 ? 'acemi' : t < .7 ? 'kulup' : 'usta', left: 0 } });
+    bot: { level: blendLevel(t), talk: t < .35 ? 'acemi' : t < .7 ? 'kulup' : 'usta', left: 0, fm: Math.random() < .4 ? '2-5-3' : randomFormation() } });
   applyTeams();
   setNetStatus(`Rakip bulundu: ${name}`);
   setTimeout(() => { if (net.bot && state === 'menu') { onlineOpen = false; startMatch('online'); } }, rand(600, 1400));
@@ -5719,7 +5871,7 @@ function makeSnap() {
   return {
     ...(net.t ? { t: 1, tl: tour.live ? [tour.live.r, tour.live.m, tour.live.blue, tour.live.red] : null, tb: state !== 'play' && net.seq % 6 === 0 ? tbWire(net.tour) : undefined } : {}),
     ...(net.p2 ? { p2: 1, seats: seatWire(), u: UNITS.flat().map(u => [u.active && !u.together ? u.active.i : -1, u.k.phase === 'windup' ? r2(u.k.charge) : 0]) } : { to: net.guestG || undefined }),
-    n: ++net.seq, st: state, sc: [score[0], score[1]], tg: settings.target, ck: [Math.round(clock.left * 10) / 10, clock.gold ? 1 : 0], sp: settings.superShot ? 1 : 0, gg: settings.giantGoalie ? 1 : 0,
+    n: ++net.seq, st: state, sc: [score[0], score[1]], tg: settings.target, fm: [teams[0].fm, teams[1].fm], ck: [Math.round(clock.left * 10) / 10, clock.gold ? 1 : 0], sp: settings.superShot ? 1 : 0, gg: settings.giantGoalie ? 1 : 0,
     b: [r1(ball.x), r1(ball.y), Math.round(ball.vx), Math.round(ball.vy), ball.show ? 1 : 0, r2(ball.alpha), r2(ball.scale), ball.superT > 0 ? 1 : 0, ball.superTeam],
     r,
     tm: teams.map(t => [r2(t.skill), t.armed ? 1 : 0, r2(t.giant), r2(t.giantT), t.active && !t.together ? t.active.i : -1, t.k.phase === 'windup' ? r2(t.k.charge) : 0]),
@@ -5745,10 +5897,10 @@ function sendGuestInput(force) {
   const i = inputs[BLUE], c = net.cnt;
   // the guest's screen is turned 180°: its ▲ moves the rods towards the bottom of the table
   const a = [(flip ? i.down : i.up) ? 1 : 0, (flip ? i.up : i.down) ? 1 : 0, i.shoot ? 1 : 0, c.p, c.s, c.g];   // (a blue guest's screen is not turned)
-  const key = a.join() + '|' + net.again + '|' + net.emN + '|' + board.v + '|' + net.bdAck + '|' + net.want;
+  const key = a.join() + '|' + net.again + '|' + net.emN + '|' + board.v + '|' + net.bdAck + '|' + net.want + '|' + settings.formation;
   if (!force && key === net.inKey) return;
   net.inKey = key; net.inT = performance.now();
-  const msg = { in: a, ag: net.again, em: [net.emN, net.emId], n: ++net.inSeq, lk: [prog.kit, prog.fx, teamWire()], g: net.gid, nm: prog.name, want: net.want };
+  const msg = { in: a, ag: net.again, em: [net.emN, net.emId], n: ++net.inSeq, lk: [prog.kit, prog.fx, teamWire()], g: net.gid, nm: prog.name, want: net.want, fm: settings.formation };
   if (net.bdAck !== board.v) { msg.bd = boardPayload(); msg.bv = board.v; }      // our table, until the host has it
   net.tr.send(msg);
 }
@@ -5778,6 +5930,7 @@ function guestOnState(d) {
     settings.superShot = !!d.sp; settings.giantGoalie = !!d.gg;
     stage.classList.toggle('nosuper', !settings.superShot); stage.classList.toggle('nogiant', !settings.giantGoalie);
   }
+  if (Array.isArray(d.fm)) teams.forEach((t, i) => { const f = validFm(d.fm[i]); if (f && f !== t.fm) setFormation(t, f); });
   if (Array.isArray(d.ck)) { clock.left = +d.ck[0] || 0; clock.gold = !!d.ck[1]; renderClock(); }
   if (typeof d.ba === 'number') net.bdAck = d.ba;
   else if (d.ba && typeof d.ba[net.gid] === 'number') net.bdAck = d.ba[net.gid];
@@ -5896,7 +6049,7 @@ function boot(data) {
 }
 
 // handle for experimenting from the console
-window.langirt = { teams, rods, ball, score, settings, update, startMatch, attract, net, hostTable, joinTable, sendEmote, EMOTES, stats, card, cardStory, drawCard, recordMatch, todayQuests, QUESTS, BADGES, BALLS, TABLES, PAL, clock, MATCH_TIME, MM, mm, findRival, tour, tourNext, openTour, playTour, tourSim, TEAM_COLORS, CRESTS, resolvePals, teamPal, colorDist, applyTeams, KITS, FXS, ITEMS, BUNDLES, store, openStore, storeBuy, storePick, storeCat, priceOf, bundlePrice, rollDeals, lookOf, spawnFx, particles, pv, drawStatic, startCup, cupRule, weekKey, mergeBoard, boardPayload, RULES, cup, FIREBASE, fb, fbPush, fbFetch, fbOn, renderBoard, spk, say, levelOf, xpOf, renderProfile, skillPoints, perksOf, applyPerks, PERK_NODES, UNITS, setPair, tryGiant, trySkill, press(k, down) { if (down) kbHeld.add(k); else kbHeld.delete(k); syncInput(); }, get pair() { return pair; }, get ctls() { return ctls; }, get prog() { return prog; }, get state() { return state; }, get mode() { return mode; }, get me() { return me; } };
+window.langirt = { FORMATIONS, setFormation, chooseFormation, openFormations, teams, rods, ball, score, settings, update, startMatch, attract, net, hostTable, joinTable, sendEmote, EMOTES, stats, card, cardStory, drawCard, recordMatch, todayQuests, QUESTS, BADGES, BALLS, TABLES, PAL, clock, MATCH_TIME, MM, mm, findRival, tour, tourNext, openTour, playTour, tourSim, TEAM_COLORS, CRESTS, resolvePals, teamPal, colorDist, applyTeams, KITS, FXS, ITEMS, BUNDLES, store, openStore, storeBuy, storePick, storeCat, priceOf, bundlePrice, rollDeals, lookOf, spawnFx, particles, pv, drawStatic, startCup, cupRule, weekKey, mergeBoard, boardPayload, RULES, cup, FIREBASE, fb, fbPush, fbFetch, fbOn, renderBoard, spk, say, levelOf, xpOf, renderProfile, skillPoints, perksOf, applyPerks, PERK_NODES, UNITS, setPair, tryGiant, trySkill, press(k, down) { if (down) kbHeld.add(k); else kbHeld.delete(k); syncInput(); }, get pair() { return pair; }, get ctls() { return ctls; }, get prog() { return prog; }, get state() { return state; }, get mode() { return mode; }, get me() { return me; } };
 
 const hot = window.claude && window.claude.hot;
 if (hot && typeof hot.snapshot === 'function') {

@@ -81,6 +81,33 @@ Menüdeki **Dev kaleci** anahtarıyla kapatılabilir; açık gelir ve seçimin h
 
 Simülasyonda dev kaleci açıkken toplam gol yaklaşık %19, süper gol yaklaşık üçte bir azaldı. İlk denenen ayarda (7 saniye, 45 saniyede dolum) goller %35 azalıyordu; bu yüzden süre kısaltıldı, dolum yavaşlatıldı.
 
+### Diziliş (taktik)
+
+Gerçek langırt masası 1-2-5-3 dizilir: kaleci, 2'li defans, 5'li orta saha, 3'lü forvet. Burada takımını başka dizilişle de sahaya çıkarabilirsin. Kaleci her dizilişte tektir; değişen, defans, orta saha ve forvet çubuklarındaki adam sayısıdır.
+
+| Diziliş | Adı | Ne işe yarar |
+| --- | --- | --- |
+| **2-5-3** | Klasik | Gerçek langırt masası: ikili defans, beşli orta saha, üçlü forvet. |
+| **4-4-2** | Dengeli | Dörtlü defans, dörtlü orta saha, iki forvet. |
+| **4-3-3** | Hücum | Dörtlü defansın önünde üç forvet. |
+| **3-4-3** | Atak | Üçlü defans, dörtlü orta saha, üç forvet. |
+| **3-5-2** | Orta saha | Kalabalık orta saha, iki forvet. |
+| **5-3-2** | Kale önü | Beşli defans duvarı, iki forvet. |
+| **4-5-1** | Kontra | Kalabalık orta saha, bütün hattı gezen tek forvet. |
+
+- **Seçmek:** Menüde gol sayısının yanındaki **diziliş** düğmesi seçim ekranını açar. Her dizilişin yanında takımının küçük bir masa çizimi görünür. Seçimin hatırlanır.
+- **Maç ortasında:** Moladaki **Diziliş** düğmesiyle taktiği değiştirebilirsin. Yeni diziliş hemen sahaya çıkar.
+- **Adam sayısı ile kayma:** Çubukta adam arttıkça adamlar sıklaşır ve çubuk daha az kayar. Adam azaldıkça aralık açılır ve çubuk daha çok yol gider. Adamlar arası aralık ve kayma yolu şöyledir:
+  - 5 adam: 12 cm aralık, ±7,6 cm kayma
+  - 4 adam: 15,3 cm aralık, ±8,7 cm
+  - 3 adam: 20,5 cm aralık, ±11,1 cm
+  - 2 adam: 24 cm aralık, ±19,6 cm
+  - Tek forvet: bütün masayı gezer.
+- **Bilgisayar rakip:** Her maça rastgele bir dizilişle çıkar. Maç başındaki yazıda rakibin dizilişi görünür (ör. "rakip 4-3-3").
+- **2 kişi:** İki takım da seçili dizilişle oynar.
+- **2v2:** Roller aynı kalır. Savunmacı kaleciyle defans çubuğunu, hücumcu orta sahayla forvet çubuğunu yönetir; kaç adam olursa olsun.
+- **Online:** Her oyuncu kendi dizilişiyle çıkar ve iki telefon da iki takımın dizilişini görür. Maç ortasında moladan yapılan değişiklik rakibin ekranına da yansır. 2v2 masada ve turnuvada takımın dizilişini o takımın ilk oyuncusu seçer. Rakip bulunamayınca gelen rakip de kendi dizilişiyle oynar.
+
 ### Maç içi ifadeler (psikolojik harp)
 
 Sol üstteki **💬** tuşu sekiz ifadelik bir menü açar. Seçtiğin ifade, masada senin kalenin olduğu uçta, takım renginde bir baloncuk ve kısa bir sesle belirir.
