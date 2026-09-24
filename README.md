@@ -142,6 +142,33 @@ Menünün sol üstünde avatarın, adın ve seviyen durur; dokununca görevler e
   - Profilden önce tutulmayan sayılar profil geldikten sonra başlar: yenilen gol, oynama süresi, rakibe göre kayıt, en farklı galibiyet ve son maçlar.
   - Yenilen gol ortalaması yalnızca bu maçlar üzerinden hesaplanır.
 
+### Yetenek ağacı
+
+Görevler ekranının **Yetenek** sekmesi. Seviye 1'in üstündeki her seviye 1 yetenek puanı verir. Harcanmamış puan varsa menüdeki profil rozetinde "+1" yazar ve rozete dokununca doğrudan bu sekme açılır. Seviye atlanınca maç sonu çipi de puanı haber verir ("⬆️ Seviye 5: Yetenekli! +1 yetenek puanı").
+
+Üç dal, her dalda dört düğüm var. Bir düğümü açmak için aynı dalda bir öncekine en az 1 puan vermiş olmak gerekir. Düğüme dokununca ne yaptığı ve sonraki kademesi görünür; **Geliştir** ile 1 puan harcanır.
+
+| Dal | Düğüm | Kademe | Etki (kademe başına) |
+|---|---|---|---|
+| 🔥 Hücum | Sert Şut | 3 | şut gücü +%4 |
+| | Hızlı Kurma | 2 | güç toplama %10 daha kısa |
+| | Süper Şarj | 2 | süper şut göstergesi %15 daha hızlı dolar |
+| | Seri Katili | 2 | gol atınca süper şut göstergesi +%8 |
+| 🛡️ Savunma | Çevik Bilek | 3 | çubuk hızı +%5 |
+| | Refleks | 2 | otomatik kaleci %15 daha çabuk görür, %10 daha hızlı kayar |
+| | Dev Şarj | 2 | dev kaleci göstergesi %15 daha hızlı dolar |
+| | Uzun Dev | 2 | dev kaleci 1 saniye daha uzun sürer |
+| 🧠 Taktik | Tam Tur Ustası | 2 | tam tur vuruşu %15 daha güçlü |
+| | Hazır Başla | 1 | maça süper şut göstergesi %25 dolu başlarsın |
+| | Soğukkanlı | 1 | 2 gol gerideyken göstergeler %30 daha hızlı dolar |
+| | Son Kale | 1 | rakip maç topuna gelince dev kaleci göstergen bir kez anında dolar |
+
+- **Toplam:** Ağacın tamamı 23 puan; hepsi seviye 24'te açılır. Bu yüzden erken seviyelerde hangi dala yatırım yapacağını seçmek gerekir.
+- **Geri alma:** "Puanları geri al" bütün puanları ücretsiz geri verir; başka bir dal denenebilir.
+- **Nerede geçer:** Yalnızca bilgisayara karşı maçlarda ve haftalık kupada, yalnızca senin takımında. Online ve 2 kişilik maçlarda iki taraf da eşittir; yetenekler kapalıdır.
+- **Denge:** Etkiler küçük tutuldu (en fazla +%12 şut, +%15 çubuk hızı). Oyunu yine el becerisi kazandırır; yetenekler zor bilgisayar seviyelerinde küçük bir avantaj sağlar.
+- Süper şut ya da dev kaleci ayarda kapalıysa ilgili düğümler etkisizdir.
+
 ### Günlük görevler ve rozetler
 
 Ana menüdeki **🎯 0/3 · ⭐ 0** düğmesi görevler, rozetler, temalar, kupa ve tablo ekranını açar (yanındaki **🏆** doğrudan kupaya gider); sağ üstte kaç yıldızın olduğu yazar. Maç sonu ekranında da o maçta tamamlanan görevler ve kazanılan rozetler görünür; onlara dokununca aynı ekran açılır.

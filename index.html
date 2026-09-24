@@ -287,8 +287,43 @@ button:focus-visible,.seg input:focus-visible+label{outline:2px solid var(--bras
 @container (max-width:760px){
   .gtabs{gap:4px}
   .gtabs [role=tab]{padding:7px 10px;font-size:13px}
-  .gtabs [role=tab] span{display:none}           /* the badge count shows inside the tab */
+  .gtabs [role=tab] span:not(.spdot){display:none}   /* the badge count shows inside the tab */
   .pstat .k{letter-spacing:.03em;font-size:9.5px}
+}
+
+/* ——— skill tree ——— */
+.spdot{display:inline-grid;place-items:center;min-width:18px;height:18px;padding:0 5px;margin-left:3px;border-radius:99px;background:#f08a2c;color:#1b1206;font:900 12px/1 var(--display);opacity:1!important}
+.profchip .spbadge{display:grid;place-items:center;min-width:18px;height:18px;padding:0 5px;border-radius:99px;background:#f08a2c;color:#1b1206;font:900 12px/1 var(--display)}
+.skhead{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.skhead .gmeta b{color:#ffc48a;font:900 18px/1 var(--display)}
+.skreset{padding:7px 12px;font-size:13px}
+.tree{display:grid;gap:8px}
+.branch{display:grid;grid-template-columns:5.6em minmax(0,1fr);gap:10px;align-items:center}
+.bname{font:900 15px/1.1 var(--display);letter-spacing:.05em;text-transform:uppercase;color:var(--bc)}
+.bname i{display:block;font-style:normal;font-size:17px;line-height:1;margin-bottom:3px}
+.bname small{display:block;font:700 10.5px/1 var(--ui);letter-spacing:.04em;text-transform:none;color:var(--chalk-2);margin-top:3px}
+.bnodes{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.sknode{appearance:none;position:relative;display:grid;gap:4px;justify-items:start;text-align:left;padding:7px 9px;border-radius:11px;cursor:pointer;
+  border:1px solid var(--chalk-3);background:rgba(242,233,216,.04);color:var(--chalk);min-width:0}
+.sknode:not(:first-child)::before{content:"";position:absolute;right:100%;top:50%;width:14px;height:2px;background:var(--chalk-3)}
+.sknode.on:not(:first-child)::before{background:var(--bc)}
+.sknode .sn{font:700 12.5px/1.1 var(--ui);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.sknode .pips{display:flex;gap:3px}
+.sknode .pips i{width:9px;height:9px;border-radius:50%;border:1.5px solid var(--bc);opacity:.55}
+.sknode .pips i.f{background:var(--bc);opacity:1}
+.sknode.on{border-color:var(--bc);background:color-mix(in srgb,var(--bc) 12%,transparent)}
+.sknode.locked{opacity:.42}
+.sknode.can::after{content:"+";position:absolute;top:-6px;right:-6px;width:17px;height:17px;border-radius:50%;display:grid;place-items:center;background:#f08a2c;color:#1b1206;font:900 13px/1 var(--display)}
+.sknode[aria-pressed=true]{box-shadow:0 0 0 2px var(--chalk)}
+.skinfo{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center}
+.skinfo .binfo{min-height:2.6em}
+.skbuy{font-size:17px;padding:10px 16px}
+.skbuy:disabled{opacity:.4;cursor:default}
+@container (max-height:460px){
+  .sknode{padding:5px 8px}
+  .tree{gap:6px}
+  .bname i{font-size:14px;margin-bottom:1px}
+  .bname small{margin-top:1px}
 }
 
 /* ——— weekly cup and table ——— */
@@ -663,9 +698,10 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
     <div class="card goalscard">
       <div class="gtabs" role="tablist" aria-label="Görevler ve rozetler">
         <button type="button" role="tab" id="tabProfile" aria-selected="false" aria-controls="panelProfile">Profil</button>
-        <button type="button" role="tab" id="tabQuests" aria-selected="true" aria-controls="panelQuests">Görevler</button>
-        <button type="button" role="tab" id="tabBadges" aria-selected="false" aria-controls="panelBadges">Rozetler <span id="badgeCount">0/16</span></button>
-        <button type="button" role="tab" id="tabThemes" aria-selected="false" aria-controls="panelThemes">Temalar</button>
+        <button type="button" role="tab" id="tabSkills" aria-selected="false" aria-controls="panelSkills">Yetenek <span class="spdot" id="spDot" hidden></span></button>
+        <button type="button" role="tab" id="tabQuests" aria-selected="true" aria-controls="panelQuests">Görev</button>
+        <button type="button" role="tab" id="tabBadges" aria-selected="false" aria-controls="panelBadges">Rozet <span id="badgeCount">0/16</span></button>
+        <button type="button" role="tab" id="tabThemes" aria-selected="false" aria-controls="panelThemes">Tema</button>
         <button type="button" role="tab" id="tabCup" aria-selected="false" aria-controls="panelCup">Kupa</button>
         <button type="button" role="tab" id="tabBoard" aria-selected="false" aria-controls="panelBoard">Tablo</button>
         <span class="gstars" id="gStars" aria-live="polite"></span>
@@ -686,6 +722,17 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
         <div class="pbottom">
           <div class="plevels" id="pLevels"></div>
           <div class="pform"><span class="ptitle">Son maçlar</span><div class="formrow" id="pForm"></div></div>
+        </div>
+      </div>
+      <div class="gpanel" id="panelSkills" role="tabpanel" aria-labelledby="tabSkills" hidden>
+        <div class="skhead">
+          <p class="gmeta" id="spMeta"></p>
+          <button type="button" class="ghost skreset" id="spReset">Puanları geri al</button>
+        </div>
+        <div class="tree" id="skTree"></div>
+        <div class="skinfo">
+          <p class="binfo" id="skInfo" aria-live="polite"></p>
+          <button type="button" class="cta skbuy" id="skBuy" hidden>Geliştir</button>
         </div>
       </div>
       <div class="gpanel" id="panelQuests" role="tabpanel" aria-labelledby="tabQuests">
@@ -831,7 +878,7 @@ function makeTeam(id) {
     skill: 0, armed: false,                               // süper şut meter (0–1) and whether it is loaded
     giant: 0, giantT: 0,                                  // dev kaleci meter (0–1) and seconds left while it runs
     k: { phase: 'idle', th: 0, w: 0, charge: 0, wMax: W_MIN },
-    pressQ: false, releaseQ: false, ai: null,
+    pressQ: false, releaseQ: false, ai: null, perk: null, lastStand: false,
     aiS: { noise: 0, noiseT: 0, aimY: CY, aimOn: false, kickT: -1, holdT: -1, holdDur: 0, cool: 0, heel: false },
   };
 }
@@ -1049,7 +1096,7 @@ function autoKeeper(t) {
   const g = t.rods.find(r => r.n === 1);
   g.auto = 0;
   if (!t.keeper || g === t.active) return;
-  const b = perceive(KEEPER.react);
+  const b = perceive(KEEPER.react * t.perk.keeperReact);
   let tp = 0;
   if (b.live) {
     const d = t.dir > 0 ? b.x : W - b.x;                         // distance from our goal line
@@ -1057,7 +1104,7 @@ function autoKeeper(t) {
     tp = clamp((b.y - CY) * follow, -KEEPER.reach, KEEPER.reach);
   }
   const e = tp - g.p;
-  if (Math.abs(e) > 2) g.auto = clamp(e / 30, -1, 1) * KEEPER.speed;
+  if (Math.abs(e) > 2) g.auto = clamp(e / 30, -1, 1) * KEEPER.speed * t.perk.keeperSpeed;
 }
 
 function stepKick(t, h) {
@@ -1073,21 +1120,21 @@ function stepKick(t, h) {
     }
   } else if (t.releaseQ) {
     t.releaseQ = false;
-    if (k.phase === 'windup') { k.phase = 'strike'; k.wMax = W_MIN + (W_MAX - W_MIN) * k.charge; k.w = Math.max(k.w, 0); }
+    if (k.phase === 'windup') { k.phase = 'strike'; k.wMax = (W_MIN + (W_MAX - W_MIN) * k.charge) * t.perk.shot; k.w = Math.max(k.w, 0); }
   }
   switch (k.phase) {
     case 'windup': {        // figures lean back while the button is held
-      k.charge = Math.min(1, k.charge + h / CHARGE_T);
+      k.charge = Math.min(1, k.charge + h / (CHARGE_T * t.perk.charge));
       const target = -(WIND_MIN + (WIND_MAX - WIND_MIN) * k.charge);
       k.w = clamp((target - k.th) * 16, -WIND_W, WIND_W);
       k.th += k.w * h;
       break;
     }
     case 'spin':            // feet go up and over the top, come down behind the ball and drive through it
-      k.w = Math.min(W_SPIN, k.w + W_ACC * h);
+      k.w = Math.min(W_SPIN * t.perk.spin, k.w + W_ACC * h);
       k.th += k.w * h;
       if (k.th > Math.PI) { k.th -= 2 * Math.PI; k.spun = true; }
-      if (k.spun && k.th >= 0) { k.phase = 'strike'; k.wMax = W_SPIN; }
+      if (k.spun && k.th >= 0) { k.phase = 'strike'; k.wMax = W_SPIN * t.perk.spin; }
       break;
     case 'strike':          // wrist flick: angular speed builds up, then follow-through
       k.w = Math.min(k.wMax, k.w + W_ACC * h);
@@ -1333,6 +1380,12 @@ function scoreGoal(scorer, side) {
   stats.goals.push({ s: scorer, o: own ? 1 : 0, u: superGoal ? 1 : 0 });
   if (settings.superShot) teams[1 - scorer].skill = Math.min(1, teams[1 - scorer].skill + SUPER.concede);
   if (settings.giantGoalie && teams[1 - scorer].giantT <= 0) teams[1 - scorer].giant = Math.min(1, teams[1 - scorer].giant + GIANT.concede);
+  const sc = teams[scorer], other = teams[1 - scorer];
+  if (settings.superShot && sc.perk.momentum && !sc.armed) sc.skill = Math.min(1, sc.skill + sc.perk.momentum);
+  if (settings.giantGoalie && other.perk.lastStand && !other.lastStand && score[scorer] === settings.target - 1 && other.giantT <= 0) {
+    other.lastStand = true; other.giant = 1;
+    if (mine(other)) toast('Son Kale: dev kaleci hazır!', 2200);
+  }
   goalBanner(scorer, own, superGoal);
   spkGoal(scorer, own, superGoal);
   emoteHint(scorer);
@@ -1510,7 +1563,7 @@ function clearInput() {
   for (const t of teams) if (!t.ai && t.k.phase === 'windup') t.k.phase = 'recover';
 }
 function startGiant(t) {
-  t.giant = 0; t.giantT = GIANT.time;
+  t.giant = 0; t.giantT = GIANT.time + t.perk.giantTime;
   if (state === 'play') { stats.giants[t.id]++; spkGiant(t.id); pushEvent({ k: 'gi', t: t.id }); }
   Sound.grow();
   if (mine(t)) vibrate(25);
@@ -1730,7 +1783,11 @@ function fmtTime(sec) {
 function renderProfChip() {
   const { lv } = levelOf(xpOf(prog.life));
   $('profAv').textContent = prog.avatar; $('profName').textContent = prog.name; $('profLv').textContent = `Sv ${lv}`;
-  $('profBtn').setAttribute('aria-label', `Profil: ${prog.name}, seviye ${lv}`);
+  const pts = skillPoints(), chip = $('profBtn');
+  let badge = chip.querySelector('.spbadge');
+  if (pts && !badge) { badge = document.createElement('span'); badge.className = 'spbadge'; chip.appendChild(badge); }
+  if (badge) { if (pts) badge.textContent = `+${pts}`; else badge.remove(); }
+  chip.setAttribute('aria-label', `Profil: ${prog.name}, seviye ${lv}` + (pts ? `, ${pts} yetenek puanı harcanmayı bekliyor` : ''));
 }
 function renderProfile() {
   const L = prog.life, P = levelOf(xpOf(L)), losses = Math.max(0, L.matches - L.wins);
@@ -1810,7 +1867,7 @@ function setPlayerName(v) {
   if (n && n !== prog.name) { prog.name = n; boardChanged(); }
   renderProfChip();
 }
-$('profBtn').addEventListener('click', () => { Sound.unlock(); openGoals('profile'); });
+$('profBtn').addEventListener('click', () => { Sound.unlock(); openGoals(skillPoints() ? 'skills' : 'profile'); });
 $('tabProfile').addEventListener('click', () => { goalsTab = 'profile'; renderGoals(); });
 $('avBtn').addEventListener('click', () => {
   const p = $('avPick'); p.hidden = !p.hidden; $('avBtn').setAttribute('aria-expanded', String(!p.hidden));
@@ -1824,6 +1881,100 @@ $('avPick').addEventListener('click', e => {
 });
 $('pname2').addEventListener('change', e => { setPlayerName(e.target.value); renderProfile(); });
 $('pname2').addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); e.target.blur(); } });
+
+/* ——— Skill tree ———
+   Every level of the profile past the first gives a skill point to spend in three branches of four
+   skills; a skill opens once the one before it in its branch has a point. The effects are small (a
+   fully trained shot is 12% stronger), they apply to your team against the computer and in the cup
+   only, and online or two-player matches stay on equal terms. Points can be taken back at any time. */
+const PERK_TREE = [
+  { id: 'hucum', name: 'Hücum', icon: '🔥', color: '#f08a2c', nodes: [
+    { id: 'shot', name: 'Sert Şut', max: 3, d: r => `şut gücü +%${4 * r}` },
+    { id: 'charge', name: 'Hızlı Kurma', max: 2, d: r => `güç toplama %${10 * r} daha kısa` },
+    { id: 'superfill', name: 'Süper Şarj', max: 2, d: r => `süper şut göstergesi %${15 * r} daha hızlı dolar` },
+    { id: 'momentum', name: 'Seri Katili', max: 2, d: r => `gol atınca süper şut göstergesi +%${8 * r}` },
+  ] },
+  { id: 'savunma', name: 'Savunma', icon: '🛡️', color: '#3cc6a6', nodes: [
+    { id: 'rod', name: 'Çevik Bilek', max: 3, d: r => `çubuk hızı +%${5 * r}` },
+    { id: 'keeper', name: 'Refleks', max: 2, d: r => `otomatik kaleci %${15 * r} daha çabuk görür, %${10 * r} daha hızlı kayar` },
+    { id: 'giantfill', name: 'Dev Şarj', max: 2, d: r => `dev kaleci göstergesi %${15 * r} daha hızlı dolar` },
+    { id: 'gianttime', name: 'Uzun Dev', max: 2, d: r => `dev kaleci ${r} saniye daha uzun sürer` },
+  ] },
+  { id: 'taktik', name: 'Taktik', icon: '🧠', color: '#a58bf0', nodes: [
+    { id: 'spin', name: 'Tam Tur Ustası', max: 2, d: r => `tam tur vuruşu %${15 * r} daha güçlü` },
+    { id: 'opening', name: 'Hazır Başla', max: 1, d: () => 'maça süper şut göstergesi %25 dolu başlarsın' },
+    { id: 'comeback', name: 'Soğukkanlı', max: 1, d: () => '2 gol gerideyken göstergeler %30 daha hızlı dolar' },
+    { id: 'laststand', name: 'Son Kale', max: 1, d: () => 'rakip maç topuna gelince dev kaleci göstergen bir kez anında dolar' },
+  ] },
+];
+const PERK_NODES = PERK_TREE.flatMap(b => b.nodes.map((n, i) => ({ ...n, branch: b, prev: i ? b.nodes[i - 1].id : null })));
+const NO_PERK = { shot: 1, charge: 1, superFill: 1, momentum: 0, rod: 1, keeperReact: 1, keeperSpeed: 1, giantFill: 1, giantTime: 0, spin: 1, opening: 0, comeback: 1, lastStand: false };
+function perksOf(r) {
+  const g = id => Math.min(r[id] | 0, PERK_NODES.find(n => n.id === id).max);
+  return { shot: 1 + .04 * g('shot'), charge: 1 - .1 * g('charge'), superFill: 1 + .15 * g('superfill'), momentum: .08 * g('momentum'),
+    rod: 1 + .05 * g('rod'), keeperReact: 1 - .15 * g('keeper'), keeperSpeed: 1 + .1 * g('keeper'), giantFill: 1 + .15 * g('giantfill'),
+    giantTime: g('gianttime'), spin: 1 + .15 * g('spin'), opening: g('opening') ? .25 : 0, comeback: g('comeback') ? 1.3 : 1, lastStand: !!g('laststand') };
+}
+const spentPoints = () => PERK_NODES.reduce((n, p) => n + Math.min(prog.perks[p.id] | 0, p.max), 0);
+const skillPoints = () => Math.max(0, levelOf(xpOf(prog.life)).lv - 1 - spentPoints());
+// who plays with their skills this match: only a human against the computer (the cup included)
+function applyPerks() {
+  for (const t of teams) { t.perk = !t.ai && mode === 'cpu' && state === 'play' ? perksOf(prog.perks) : NO_PERK; t.lastStand = false; }
+}
+let skSel = 'shot';
+function renderSkills() {
+  const pts = skillPoints(), spent = spentPoints();
+  $('spMeta').innerHTML = `Yetenek puanı: <b>${pts}</b> · harcanan ${spent} · her seviye 1 puan`;
+  $('spReset').disabled = !spent;
+  const tree = $('skTree'); tree.textContent = '';
+  for (const b of PERK_TREE) {
+    const row = document.createElement('div'); row.className = 'branch'; row.style.setProperty('--bc', b.color);
+    const nm = document.createElement('span'); nm.className = 'bname';
+    const ic = document.createElement('i'); ic.textContent = b.icon; nm.append(ic, b.name);
+    const sm = document.createElement('small'); sm.textContent = `${b.nodes.reduce((n, x) => n + (prog.perks[x.id] | 0), 0)}/${b.nodes.reduce((n, x) => n + x.max, 0)}`; nm.appendChild(sm);
+    const nodes = document.createElement('div'); nodes.className = 'bnodes';
+    b.nodes.forEach((n, i) => {
+      const r = prog.perks[n.id] | 0, open = !i || (prog.perks[b.nodes[i - 1].id] | 0) > 0;
+      const el = document.createElement('button'); el.type = 'button'; el.dataset.id = n.id;
+      el.className = 'sknode' + (r ? ' on' : '') + (open ? '' : ' locked') + (open && pts && r < n.max ? ' can' : '');
+      el.setAttribute('aria-pressed', String(skSel === n.id));
+      el.setAttribute('aria-label', `${n.name}, ${r}/${n.max}${open ? '' : ', kilitli'}`);
+      const t = document.createElement('span'); t.className = 'sn'; t.textContent = n.name;
+      const pips = document.createElement('span'); pips.className = 'pips';
+      for (let k = 0; k < n.max; k++) { const d = document.createElement('i'); if (k < r) d.className = 'f'; pips.appendChild(d); }
+      el.append(t, pips);
+      nodes.appendChild(el);
+    });
+    row.append(nm, nodes);
+    tree.appendChild(row);
+  }
+  const n = PERK_NODES.find(x => x.id === skSel), r = prog.perks[n.id] | 0, open = !n.prev || (prog.perks[n.prev] | 0) > 0;
+  const info = $('skInfo');
+  info.innerHTML = '';
+  const b = document.createElement('b'); b.textContent = `${n.branch.icon} ${n.name} ${r}/${n.max}`;
+  info.append(b, ` · ${r ? 'şu an: ' + n.d(r) : 'henüz açılmadı'}` + (r < n.max ? ` · ${r ? 'sonraki' : 'ilk kademe'}: ${n.d(r + 1)}` : ' · en üst kademe')
+    + (open ? '' : ` · önce ${PERK_NODES.find(x => x.id === n.prev).name} açılmalı`) + '.');
+  const buy = $('skBuy');
+  buy.hidden = r >= n.max;
+  buy.disabled = !open || !pts;
+  buy.textContent = pts ? 'Geliştir · 1 puan' : 'Puan yok';
+  $('spDot').hidden = !pts; $('spDot').textContent = pts;
+}
+function buySkill() {
+  const n = PERK_NODES.find(x => x.id === skSel), r = prog.perks[n.id] | 0;
+  if (!skillPoints() || r >= n.max || (n.prev && !(prog.perks[n.prev] | 0))) return;
+  prog.perks[n.id] = r + 1;
+  saveProg(); Sound.reward(); renderSkills(); renderProfChip();
+}
+function resetSkills() {
+  prog.perks = {};
+  saveProg(); renderSkills(); renderProfChip();
+  $('skInfo').textContent = 'Bütün puanlar geri alındı; istediğin gibi yeniden dağıtabilirsin.';
+}
+$('tabSkills').addEventListener('click', () => { goalsTab = 'skills'; renderGoals(); });
+$('skTree').addEventListener('click', e => { const b = e.target.closest('.sknode'); if (b) { skSel = b.dataset.id; renderSkills(); } });
+$('skBuy').addEventListener('click', buySkill);
+$('spReset').addEventListener('click', resetSkills);
 
 /* ——— Commentator ———
    A Turkish voice (the phone's own speech synthesis, nothing to download) calls the big moments:
@@ -1939,7 +2090,7 @@ function update(dt) {
     if (t.ai) continue;
     const inp = inputs[t.id];
     if (!t.together) updateActive(t, ball, dt);
-    t.desired = (inp.down ? 1 : 0) - (inp.up ? 1 : 0); t.speedMul = 1;
+    t.desired = (inp.down ? 1 : 0) - (inp.up ? 1 : 0); t.speedMul = t.perk.rod;
   }
   for (const t of teams) { if (t.ai) aiUpdate(t, dt); autoKeeper(t); autoLift(t, dt); }
 
@@ -1949,8 +2100,9 @@ function update(dt) {
   if (n >= 40) acc = 0;
 
   if (state === 'play' && ball.live) for (const t of teams) {
-    if (settings.superShot) t.skill = Math.min(1, t.skill + SUPER.fill * RULES.superFill * dt);
-    if (settings.giantGoalie && t.giantT <= 0) t.giant = Math.min(1, t.giant + GIANT.fill * RULES.giantFill * dt);
+    const behind = score[1 - t.id] - score[t.id] >= 2 ? t.perk.comeback : 1;
+    if (settings.superShot) t.skill = Math.min(1, t.skill + SUPER.fill * RULES.superFill * t.perk.superFill * behind * dt);
+    if (settings.giantGoalie && t.giantT <= 0) t.giant = Math.min(1, t.giant + GIANT.fill * RULES.giantFill * t.perk.giantFill * behind * dt);
   }
   for (const t of teams) {
     if (t.giantT > 0) { t.giantT -= dt; if (t.giantT <= 0) { t.giantT = 0; Sound.shrink(); } }
@@ -2369,7 +2521,7 @@ function syncShootRing() {
     }
     // dev kaleci meter; while it runs the ring shows the seconds left
     const gOn = t.giantT > 0, gReady = t.giant >= 1 && !gOn;
-    const gm = Math.round((gOn ? t.giantT / GIANT.time : t.giant) * 40) / 40;
+    const gm = Math.round((gOn ? Math.min(1, t.giantT / (GIANT.time + t.perk.giantTime)) : t.giant) * 40) / 40;
     const gk = `${gm}|${gReady}|${gOn}`;
     if (gk !== lastG[t.id]) {
       lastG[t.id] = gk;
@@ -2416,6 +2568,7 @@ function applyControls() {
 }
 function attract() {
   spkHush();
+  for (const t of teams) t.perk = NO_PERK;
   if (net.role) leaveOnline();
   if (cup.active) { if (state === 'play') cupForfeit(); endCupContext(); }
   state = 'menu'; paused = false;
@@ -2436,6 +2589,8 @@ function startMatch(m) {
   state = 'play'; paused = false;
   teams[BLUE].ai = null; teams[RED].ai = mode === 'cpu' ? LEVELS[settings.level] : null;
   resetTable(); clearInput(); applyControls(); renderHud();
+  applyPerks();
+  for (const t of teams) if (settings.superShot) t.skill = t.perk.opening;
   Object.assign(stats, { t0: simT, dur: 0, goals: [], saves: [0, 0], giants: [0, 0], bigSaves: [0, 0] });
   const first = Math.random() < .5 ? BLUE : RED;
   queueServe(first, .9);
@@ -2770,7 +2925,7 @@ let prog = { day: '', q: [0, 0, 0], done: [false, false, false], bonus: false, s
   owned: { ball: ['klasik'], table: ['klasik'] }, ball: 'klasik', table: 'klasik',
   cup: null, pid: '', name: '', board: {}, bt: 0,                   // weekly cup and table (filled in by loadProg)
   world: true, fbRefresh: '', fbUid: '', fbSent: '', fbSentWeek: '',  // the world table: shown there?, account, last row sent
-  avatar: '⚽', hist: [] };                                           // the profile: avatar, last results (newest first)
+  avatar: '⚽', hist: [], perks: {} };                               // the profile: avatar, last results (newest first), skills
 let goalsOpen = false, goalsTab = 'quests', overRew = [];
 
 const dayKey = (d = new Date()) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
@@ -2784,6 +2939,7 @@ function loadProg() {
       life.rec = { ...blankLife().rec, ...(p.life && p.life.rec) };
       prog = { ...prog, ...p, life, badges: { ...p.badges }, owned: { ball: own('ball'), table: own('table') },
         hist: Array.isArray(p.hist) ? p.hist.slice(0, 12) : [], avatar: AVATARS.includes(p.avatar) ? p.avatar : '⚽',
+        perks: p.perks && typeof p.perks === 'object' ? { ...p.perks } : {},
         cup: p.cup && typeof p.cup === 'object' ? { ...blankCup(), ...p.cup } : null, board: p.board && typeof p.board === 'object' ? { ...p.board } : {} };
     }
   } catch (e) { /* storage blocked: start fresh */ }
@@ -2868,7 +3024,7 @@ function recordMatch(winner) {
     advance(q => q.m ? q.m(m) : 0, overRew);
     checkBadges(overRew);
     const lv1 = levelOf(xpOf(L));
-    if (lv1.lv > lv0) overRew.push({ k: 'a', text: `⬆️ Seviye ${lv1.lv}: ${lv1.title}!` });
+    if (lv1.lv > lv0) overRew.push({ k: 'a', text: `⬆️ Seviye ${lv1.lv}: ${lv1.title}! +${lv1.lv - lv0} yetenek puanı`, lvup: 1 });
     saveProg(); renderProfChip();
     if (overRew.length) setTimeout(() => Sound.reward(), 900);   // after the final whistle
   }
@@ -2959,6 +3115,9 @@ function renderGoals() {
   $('tabProfile').setAttribute('aria-selected', String(goalsTab === 'profile'));
   $('panelProfile').hidden = goalsTab !== 'profile';
   if (goalsTab === 'profile') renderProfile();
+  $('tabSkills').setAttribute('aria-selected', String(goalsTab === 'skills'));
+  $('panelSkills').hidden = goalsTab !== 'skills';
+  renderSkills();
   $('tabQuests').setAttribute('aria-selected', String(goalsTab === 'quests'));
   $('tabBadges').setAttribute('aria-selected', String(goalsTab === 'badges'));
   $('tabThemes').setAttribute('aria-selected', String(goalsTab === 'themes'));
@@ -2982,11 +3141,11 @@ function badgeInfo(id) {
 function openGoals(tab) {
   goalsOpen = true; goalsTab = tab || goalsTab;
   renderGoals(); setUI();
-  $({ badges: 'tabBadges', themes: 'tabThemes', cup: 'tabCup', board: 'tabBoard', profile: 'tabProfile' }[goalsTab] || 'tabQuests').focus({ preventScroll: true });
+  $({ badges: 'tabBadges', themes: 'tabThemes', cup: 'tabCup', board: 'tabBoard', profile: 'tabProfile', skills: 'tabSkills' }[goalsTab] || 'tabQuests').focus({ preventScroll: true });
 }
 function closeGoals() { goalsOpen = false; setUI(); }
 $('goalsBtn').addEventListener('click', () => { Sound.unlock(); openGoals('quests'); });
-$('overRewards').addEventListener('click', () => openGoals($('overRewards').querySelector('.rw.t') ? 'themes' : overRew.some(r => r.k === 'b') ? 'badges' : 'quests'));
+$('overRewards').addEventListener('click', () => openGoals(overRew.some(r => r.lvup) ? 'skills' : $('overRewards').querySelector('.rw.t') ? 'themes' : overRew.some(r => r.k === 'b') ? 'badges' : 'quests'));
 $('goalsClose').addEventListener('click', closeGoals);
 $('tabQuests').addEventListener('click', () => { goalsTab = 'quests'; renderGoals(); });
 $('tabBadges').addEventListener('click', () => { goalsTab = 'badges'; renderGoals(); });
@@ -3872,7 +4031,7 @@ function boot(data) {
 }
 
 // handle for experimenting from the console
-window.langirt = { teams, rods, ball, score, settings, update, startMatch, attract, net, hostTable, joinTable, sendEmote, EMOTES, stats, card, cardStory, drawCard, recordMatch, todayQuests, QUESTS, BADGES, tapTheme, BALLS, TABLES, drawStatic, startCup, cupRule, weekKey, mergeBoard, boardPayload, RULES, cup, FIREBASE, fb, fbPush, fbFetch, fbOn, renderBoard, spk, say, levelOf, xpOf, renderProfile, get prog() { return prog; }, get state() { return state; }, get mode() { return mode; }, get me() { return me; } };
+window.langirt = { teams, rods, ball, score, settings, update, startMatch, attract, net, hostTable, joinTable, sendEmote, EMOTES, stats, card, cardStory, drawCard, recordMatch, todayQuests, QUESTS, BADGES, tapTheme, BALLS, TABLES, drawStatic, startCup, cupRule, weekKey, mergeBoard, boardPayload, RULES, cup, FIREBASE, fb, fbPush, fbFetch, fbOn, renderBoard, spk, say, levelOf, xpOf, renderProfile, skillPoints, perksOf, applyPerks, PERK_NODES, get prog() { return prog; }, get state() { return state; }, get mode() { return mode; }, get me() { return me; } };
 
 const hot = window.claude && window.claude.hot;
 if (hot && typeof hot.snapshot === 'function') {
