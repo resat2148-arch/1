@@ -131,7 +131,7 @@ Menünün sol üstünde avatarın, adın ve seviyen durur; dokununca görevler e
   - Unvanlar: Çaylak (1), Amatör (3), Yetenekli (5), Profesyonel (8), Yıldız (12), Usta (17), Efsane (23).
   - Seviye atlanınca maç sonunda "⬆️ Seviye 5: Yetenekli!" yazar.
   - XP, zaten tutulan toplam sayılardan hesaplanır; bu yüzden profilden önce oynayanlar kazandıkları seviyeyle başlar.
-- **Özet:** Rozet, kupa, açılan tema ve en iyi günlük seri.
+- **Özet:** Rozet, kupa, mağazadan alınan eşya ve en iyi günlük seri.
 - **İstatistikler:**
   - Maç ve toplam oynama süresi; galibiyet ve kazanma yüzdesi; mağlubiyet.
   - Atılan ve yenilen gol, maç başı ortalamalarıyla.
@@ -171,7 +171,7 @@ Görevler ekranının **Yetenek** sekmesi. Seviye 1'in üstündeki her seviye 1 
 
 ### Günlük görevler ve rozetler
 
-Ana menüdeki **🎯 0/3 · ⭐ 0** düğmesi görevler, rozetler, temalar, kupa ve tablo ekranını açar (yanındaki **🏆** doğrudan kupaya gider); sağ üstte kaç yıldızın olduğu yazar. Maç sonu ekranında da o maçta tamamlanan görevler ve kazanılan rozetler görünür; onlara dokununca aynı ekran açılır.
+Ana menüdeki **🎯 0/3 · ⭐ 0** düğmesi görevler, rozetler, kupa ve tablo ekranını açar (yanındaki **🏆** doğrudan kupaya, **🛒** mağazaya gider); sağ üstte kaç yıldızın olduğu yazar. Maç sonu ekranında da o maçta tamamlanan görevler ve kazanılan rozetler görünür; onlara dokununca aynı ekran açılır.
 
 - **Günlük görevler:** Her gün üç görev gelir: bir kolay (1⭐), bir orta (2⭐), bir zor (3⭐). Görevler tarihe göre seçilir, yani aynı gün herkes aynı görevleri alır; arkadaşınla yarışabilirsin. Gece yarısı yenilenir.
   - Kolay: bir maç bitir, bir maç kazan, 3 gol at, kalecinle 3 kurtarış yap, rakibine 3 ifade gönder.
@@ -198,7 +198,7 @@ Ana menüdeki **🎯 0/3 · ⭐ 0** düğmesi görevler, rozetler, temalar, kupa
   | 🗓️ Sadık oyuncu | 3 / 7 / 30 gün üst üste bütün görevleri bitir |
   | 💎 Kusursuz | 7 gollük maçı gol yemeden kazan (tek seviye) |
   | 🥇 Kupa şampiyonu | Haftalık kupayı 1 / 5 / 20 kez kazan |
-  | 🎨 Koleksiyoncu | Yıldızlarla 1 / 4 / 10 tema aç |
+  | 🎨 Koleksiyoncu | Mağazadan 1 / 5 / 15 eşya al |
 
 - **Ne sayılır:**
   - Bilgisayara karşı ve online maçlar, maç bitince kendi tarafından sayılır; online'da iki telefon da kendi ilerlemesini tutar. Yarıda bırakılan maç sayılmaz.
@@ -208,24 +208,42 @@ Ana menüdeki **🎯 0/3 · ⭐ 0** düğmesi görevler, rozetler, temalar, kupa
   - İfade ve paylaşım görevleri anında ilerler. Paylaşım, paylaşım menüsünden bir uygulamaya gönderince ya da **İndir**'e basınca sayılır; her maçın kartı bir kez sayılır.
 - **Saklama:** İlerleme o tarayıcıda saklanır (`localStorage`). Safari'de açılan oyun ile ana ekrana eklenen oyunun depoları ayrıdır; hep aynı yerden oyna. Tarayıcı verileri silinirse ilerleme de silinir.
 
-### Temalar (yıldızla açılır)
+### Mağaza
 
-Görevlerden kazanılan yıldızlar, görevler ekranının **Temalar** sekmesinde top ve masa temalarına harcanır. Açılan tema kalıcıdır; istediğin zaman başka bir açık temaya geçebilirsin.
+Görevlerden ve kupadan kazanılan yıldızlar mağazada harcanır. Mağaza, ana menüdeki **🛒** düğmesiyle açılır. Günün yeni fırsatları henüz görülmediyse düğmede turuncu bir nokta yanar.
 
-| Top | ⭐ | Masa | ⭐ |
-| --- | --- | --- | --- |
-| Klasik (krem, kahve benekli) | ücretsiz | Klasik (yeşil çuha, kayın) | ücretsiz |
-| Turuncu | 5 | Gece (lacivert çuha, ceviz) | 8 |
-| Futbol (siyah beşgenli beyaz top) | 12 | Çim (şeritli çim, beyaz çerçeve) | 15 |
-| Neon (yeşil, parlayan) | 20 | Bordo (bordo kadife, kiraz) | 30 |
-| Altın (parlayan) | 35 | Buz (buz mavisi, gümüş) | 50 |
-| Ateş topu (kızıl, parlayan, uzun iz) | 60 | Altın Salon (siyah çuha, altın çizgiler) | 90 |
+Ekranın üç bölümü var:
+- **Solda bölümler:** Fırsatlar, Top, Masa, Forma, Gol şovu ve Avatar.
+- **Ortada eşyalar:** Her birinin küçük bir resmi ve fiyatı vardır. Sende olanlarda "Sende", kullandığında "Kullanılıyor" yazar.
+- **Sağda önizleme:** Seçtiğin eşya kullanılırken görünür. Top masada yuvarlanır, forma çubuktaki adamlarda sallanır, gol şovu kalede patlar, avatar profil rozetinde görünür. Altında açıklaması, düğmesi ve bir not vardır.
 
-- **Satın alma:** Kilitli bir temaya dokununca fiyatı sorulur; bir kez daha dokununca yıldızlar harcanır ve tema seçilir. Yıldızın yetmiyorsa kaç yıldız daha lazım olduğu yazar.
-- **Nerede görünür:** Oyunda, menünün arkasındaki masada ve paylaşım kartında. Online'da her telefon kendi seçtiği temayı görür.
-- **Oyuna etkisi:** Yoktur; yalnızca görünüş değişir. Süper şut hâlâ turuncu parlar; takım renkleri hep mavi ve kırmızıdır.
-- **Ekonomi:** Bir günde görevlerden en çok 8⭐ kazanılır (1 + 2 + 3 + 2 bonus). Böylece ilk temalar birkaç günde, Altın Salon birkaç haftada açılır. Maç sonunda yeni bir temaya yetecek yıldızın olunca "🎨 Yeni tema açabilirsin" yazar.
-- Açılan temalar ve seçimin, görev ilerlemesiyle birlikte bu tarayıcıda saklanır.
+Satın almak için eşyaya dokunup **Satın al · 12⭐** düğmesine basmak yeter. Aldığın eşya hemen kullanılır. Sende olan bir eşyaya **Kullan** ile ücretsiz geri dönersin. Yıldızın yetmiyorsa düğmede kaç yıldız eksik olduğu yazar. Sağ üstteki **⭐ +** cüzdanı, yıldız kazanılan günlük görevlere götürür.
+
+| Bölüm | Eşyalar (⭐) | Kim görür |
+| --- | --- | --- |
+| ⚽ Top | Klasik (ücretsiz), Turuncu 5, Futbol 12, Neon 20, Altın 35, Ateş topu 60 | Yalnızca sen; online'da her telefon kendi topunu görür |
+| 🟩 Masa | Klasik (ücretsiz), Gece 8, Çim 15, Bordo 30, Buz 50, Altın Salon 90 | Yalnızca sen |
+| 👕 Forma | Klasik (ücretsiz), Çubuklu 6, Yıldızlı 12, Gece 20, Neon 32, Şampiyon 50 | Sen ve online rakibin |
+| 🎆 Gol şovu | Konfeti (ücretsiz), Yıldız yağmuru 8, Kalpler 14, Havai fişek 24, Alev 36, Şimşek 55 | Sen ve online rakibin |
+| 😎 Avatar | 🦄 4, 🥷 6, 🧙 6, 👽 8, 🦖 8, 🐙 10, 👾 10, 🦸 12 | Profil ve menü |
+
+- **Forma:** Takımının adamları giyer. Desen formadan gelir, renk takımınkidir. Böylece mavi hep mavi, kırmızı hep kırmızı kalır ve iki taraf hiç karışmaz.
+  - Bilgisayara karşı sen formanı giyersin, bilgisayar klasik formayla oynar.
+  - Online'da iki telefon birbirine formasını ve gol şovunu gönderir, iki taraf da kendi seçtiğiyle oynar.
+  - 2 kişilik maçta iki taraf da klasik formayla oynar.
+  - Formanı menünün arkasındaki masada ve paylaşım kartında da görürsün.
+- **Gol şovu:** Senin attığın gollerde kalede oynar. Hareketi azaltma ayarı açık telefonlarda gol şovu gösterilmez; önizleme de hareketsiz bir kare olur.
+- **Avatar:** Ücretsiz 16 avatar profilde durur. Mağazadan alınanlar da oraya eklenir. Profildeki seçicinin sonundaki **🛒** mağazanın Avatar bölümünü açar.
+- **Günün fırsatları:** Her gün, henüz sende olmayan eşyalardan üçü indirime girer: biri %40, ikisi %25. Fırsatlar gece yarısı yenilenir; ne kadar kaldığı yazar.
+- **Paketler:** Bir takım eşyayı tek tek almaktan %25 ucuza verir.
+  - 🎁 Başlangıç: Turuncu top, Çubuklu forma, Yıldız yağmuru, 🦄 (23⭐ yerine 17⭐).
+  - 🌙 Gece: Gece masası, Neon top, Gece forması (48⭐ yerine 36⭐).
+  - 🔥 Ateş: Ateş topu, Alev, Bordo masa (126⭐ yerine 95⭐).
+  - 👑 Şampiyon: Altın Salon, Altın top, Şampiyon forma, Havai fişek (199⭐ yerine 149⭐).
+  - Paketteki eşyalardan bazıları zaten sendeyse onlar fiyattan düşülür. Paketi alınca hepsi birden kullanılır.
+- **Oyuna etkisi:** Yoktur; yalnızca görünüş değişir.
+- **Ekonomi:** Bir günde görevlerden en çok 8⭐ kazanılır (1 + 2 + 3 + 2 bonus). Haftanın ilk kupa şampiyonluğu da 5⭐ verir. Maç sonunda bir şey almaya yetecek yıldızın olunca "🛒 Mağazada alabileceğin var" yazar ve dokununca mağaza açılır.
+- **Saklama:** Aldıkların, kullandıkların ve günün fırsatları bu tarayıcıda saklanır. Eskiden açılan top ve masa temaları aynen kalır.
 
 ### Haftalık kupa ve liderlik tablosu
 

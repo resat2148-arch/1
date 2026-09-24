@@ -220,13 +220,7 @@ button:focus-visible,.seg input:focus-visible+label{outline:2px solid var(--bras
 .rw.a{border-color:#f08a2c;background:rgba(240,138,44,.18)}
 @keyframes rwIn{0%{opacity:0;scale:.6}60%{scale:1.08}100%{opacity:1;scale:1}}
 @container (max-height:460px){
-  .shelf{display:none}                    /* the previews say which row is which */
-  .theme{padding:4px 4px 5px;gap:2px}
-  .theme .ts{padding:3px 7px}
-  .theme canvas{width:42px;height:42px}
-  .theme.table canvas{width:82px;height:51px}
-  #panelThemes{gap:6px}
-  #shopInfo,.binfo{min-height:1.35em}
+  .binfo{min-height:1.35em}
   .brandtop{margin-bottom:8px}
   .goalspill{padding:3px 10px;font-size:12px;margin-block:-5px}   /* no taller than the eyebrow line */
   .quest{padding:7px 10px}
@@ -239,7 +233,7 @@ button:focus-visible,.seg input:focus-visible+label{outline:2px solid var(--bras
   background:rgba(242,233,216,.06);color:var(--chalk);cursor:pointer;font:700 13px/1 var(--ui)}
 .profchip .pa{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:15px;background:rgba(214,165,72,.2);border:1px solid var(--brass)}
 .profchip .pn{max-width:9em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.profchip .plv{font:900 13px/1 var(--display);letter-spacing:.06em;color:var(--brass)}
+.profchip .plv{font:900 13px/1 var(--display);letter-spacing:.06em;color:var(--brass);white-space:nowrap}
 .phead{display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px;align-items:center}
 .avatar{appearance:none;width:62px;height:62px;border-radius:50%;padding:0;cursor:pointer;display:grid;place-items:center;font-size:32px;line-height:1;
   background:radial-gradient(circle at 40% 35%,rgba(214,165,72,.35),rgba(214,165,72,.08));border:2px solid var(--brass);box-shadow:0 0 18px rgba(214,165,72,.25)}
@@ -384,23 +378,81 @@ button:focus-visible,.seg input:focus-visible+label{outline:2px solid var(--bras
   .lrow{padding:5px 10px}
 }
 
-/* ——— themes ——— */
-.shelf{margin:2px 0 -4px;font:700 11px/1 var(--ui);letter-spacing:.2em;text-transform:uppercase;color:var(--chalk-2)}
-.themes{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(92px,1fr);gap:7px;overflow-x:auto;touch-action:pan-x;padding:2px 2px 4px;scrollbar-width:thin}
-.theme{appearance:none;border:1px solid var(--chalk-3);background:rgba(242,233,216,.04);border-radius:13px;padding:6px 5px 7px;display:grid;justify-items:center;gap:3px;cursor:pointer;color:var(--chalk);transition:border-color .15s,background .15s}
-.theme canvas{display:block;width:56px;height:56px}
-.theme.table canvas{width:100px;height:62px}
-.theme .tn{font:700 12px/1.1 var(--ui);white-space:nowrap}
-.theme .ts{font:700 11px/1 var(--ui);padding:4px 8px;border-radius:999px;background:rgba(242,233,216,.08);color:var(--chalk-2);white-space:nowrap;font-variant-numeric:tabular-nums}
-.theme:not(.own) canvas{opacity:.55;filter:saturate(.6)}
-.theme.own .ts{background:rgba(242,233,216,.14);color:var(--chalk)}
-.theme.sel{border-color:var(--brass);background:rgba(214,165,72,.12)}
-.theme.sel .ts{background:var(--brass);color:#1b1206}
-.theme:not(.own):not(.poor) .ts{color:#ffe1a8;background:rgba(214,165,72,.22)}
-.theme.armed{border-color:#f08a2c;background:rgba(240,138,44,.14)}
-.theme.armed .ts{background:#f08a2c;color:#1b1206}
-.theme.armed canvas{opacity:1;filter:none}
+/* ——— store ——— */
 .rw.t{border-color:#3cc6a6;background:rgba(60,198,166,.16)}
+.storepill{position:relative}
+.sdot{position:absolute;top:5px;right:6px;width:9px;height:9px;border-radius:50%;background:#f08a2c;box-shadow:0 0 0 2px #140f0b}
+.storepill .sdot{top:-3px;right:-3px}
+.card.storecard{width:min(960px,100%);height:min(600px,calc(100cqh - 28px));grid-template-columns:auto minmax(0,1fr) minmax(210px,33%);grid-template-rows:auto minmax(0,1fr);
+  gap:12px 14px;justify-items:stretch;align-items:stretch;text-align:left;padding:16px 18px}
+.shead{grid-column:1/-1;display:flex;align-items:center;gap:12px;min-width:0}
+.stitle{margin:0;font:900 30px/1 var(--display);letter-spacing:.05em;text-transform:uppercase}
+.stag{margin:0;flex:1;min-width:0;color:var(--chalk-2);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wallet{appearance:none;margin-left:auto;display:inline-flex;align-items:center;gap:6px;padding:4px 5px 4px 12px;border-radius:999px;border:1px solid var(--brass);background:rgba(214,165,72,.12);
+  color:var(--chalk);font:900 20px/1 var(--display);cursor:pointer;font-variant-numeric:tabular-nums;white-space:nowrap}
+.wallet b{font:inherit}
+.wplus{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:var(--brass);color:#1b1206;font:900 18px/1 var(--ui)}
+.scats{display:grid;align-content:start;gap:4px;min-height:0;overflow-y:auto;scrollbar-width:none}
+.scats button{appearance:none;position:relative;display:flex;align-items:center;gap:9px;padding:9px 16px 9px 10px;border-radius:12px;border:1px solid transparent;background:transparent;
+  color:var(--chalk-2);font:700 14.5px/1 var(--ui);letter-spacing:.02em;cursor:pointer;text-align:left;white-space:nowrap}
+.scats button i{font-style:normal;font-size:18px;line-height:1;width:22px;text-align:center}
+.scats [aria-selected=true]{background:var(--chalk);color:var(--ink)}
+.sgrid{min-height:0;overflow-y:auto;touch-action:pan-y;display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));align-content:start;gap:8px;padding:2px 4px 4px 2px;scrollbar-width:thin}
+.ssec{grid-column:1/-1;margin:6px 0 -2px;display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 10px;font:700 12px/1 var(--ui);letter-spacing:.18em;text-transform:uppercase}
+.ssec:first-child{margin-top:0}
+.ssec span{letter-spacing:.02em;text-transform:none;color:var(--chalk-2);font-weight:600}
+.sempty{grid-column:1/-1;margin:0;color:var(--chalk-2);font-size:13.5px}
+.sitem{appearance:none;position:relative;display:grid;justify-items:center;align-content:start;gap:5px;min-width:0;padding:8px 6px;border-radius:14px;border:1px solid var(--chalk-3);
+  background:rgba(242,233,216,.04);color:var(--chalk);cursor:pointer;transition:border-color .15s,background .15s}
+.sitem canvas{display:block;width:78px;height:52px;border-radius:8px}
+.sitem.k-ball canvas{width:52px;height:52px;border-radius:0}
+.sitem.k-table canvas,.sitem.bundle canvas{width:84px;height:52px;border-radius:0}
+.sav{font-size:34px;line-height:52px;height:52px}
+.sitem .sn{max-width:100%;font:700 12.5px/1.1 var(--ui);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sitem .sp{font:700 11.5px/1 var(--ui);padding:4px 8px;border-radius:999px;background:rgba(214,165,72,.24);color:#ffe1a8;white-space:nowrap;font-variant-numeric:tabular-nums}
+.sitem .sp s{opacity:.55;margin-right:2px;font-weight:600}
+.sitem.poor .sp{background:rgba(242,233,216,.08);color:var(--chalk-2)}
+.sitem.poor canvas,.sitem.poor .sav{opacity:.6;filter:saturate(.7)}
+.sitem.own .sp{background:rgba(242,233,216,.14);color:var(--chalk)}
+.sitem.on .sp{background:var(--brass);color:#1b1206}
+.sitem[aria-pressed=true]{border-color:var(--chalk);background:rgba(242,233,216,.1);box-shadow:0 0 0 1px var(--chalk)}
+.soff{position:absolute;top:5px;left:5px;padding:3px 5px;border-radius:7px;background:#f08a2c;color:#1b1206;font:900 12px/1 var(--display);letter-spacing:.03em}
+.sitem.own .soff{display:none}
+.sbi{position:absolute;top:5px;right:6px;font-size:16px;line-height:1}
+.sitem.pop{animation:sPop .55s cubic-bezier(.2,.8,.2,1)}
+@keyframes sPop{0%{scale:1}35%{scale:1.12}100%{scale:1}}
+.sprev{display:flex;flex-direction:column;gap:8px;min-height:0;min-width:0}
+#storeCv{display:block;flex:1 1 0;min-height:64px;height:0;width:100%;border-radius:12px;border:1px solid var(--chalk-3);background:#0c0907}   /* whatever the words leave */
+.spinfo{display:grid;gap:4px;min-width:0}
+.spname{margin:0;display:flex;flex-wrap:wrap;align-items:baseline;gap:3px 10px}
+.spname b{font:900 22px/1 var(--display);letter-spacing:.03em;text-transform:uppercase}
+.spname span{font:700 11px/1.2 var(--ui);letter-spacing:.14em;text-transform:uppercase;color:var(--brass)}
+.spdesc{margin:0;color:var(--chalk-2);font-size:13.5px;line-height:1.3}
+.cta.spbuy{width:100%;font-size:19px;padding:12px 14px}
+.cta.spbuy:disabled{opacity:.45;cursor:default;box-shadow:none}
+.spnote{margin:0;font-size:12px;line-height:1.3;color:var(--chalk-2)}
+.avpick .avmore{border:1px dashed var(--brass);background:rgba(214,165,72,.12)}
+@container (max-height:460px){
+  .card.storecard{gap:8px 12px;padding:12px 14px}
+  .stitle{font-size:24px}
+  .wallet{font-size:18px;padding:3px 4px 3px 10px}
+  .wplus{width:21px;height:21px;font-size:16px}
+  .scats button{padding:7px 12px 7px 8px;font-size:13.5px}
+  .sitem{padding:6px 5px;gap:4px}
+  .spname b{font-size:19px}
+  .spdesc{font-size:12.5px}
+  .cta.spbuy{font-size:17px;padding:10px 12px}
+  .spnote{font-size:11.5px}
+}
+@container (max-height:380px){
+  .spdesc{display:none}
+}
+@container (max-width:760px){
+  .card.storecard{grid-template-columns:auto minmax(0,1fr) minmax(180px,36%)}
+  .scats button{padding:9px 10px}
+  .scats button span{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}   /* icons only, names for screen readers */
+  .stag{display:none}
+}
 
 /* ——— share card ——— */
 .cta.share{display:inline-flex;align-items:center;gap:8px}
@@ -509,9 +561,12 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
 }
 @container (max-height:380px){
   .how .tip-emo{display:none}             /* the 💬 button explains itself on the smallest screens */
-  .theme canvas{width:38px;height:38px}
-  .theme.table canvas{width:74px;height:46px}
   .pquick{display:none}                   /* the other tabs say the same */
+}
+@container (max-width:700px) and (max-height:460px){   /* a small phone on its side: the two columns get tall */
+  h1{font-size:12cqh}
+  .how{margin-top:9px}
+  .how li{font-size:12.5px;line-height:1.28}
 }
 @container (max-width:600px){
   .menu{grid-template-columns:1fr;gap:14px}
@@ -565,7 +620,7 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
   <section class="overlay" id="menu">
     <div class="menu">
       <div class="brand">
-        <div class="brandtop"><button type="button" class="profchip" id="profBtn"><span class="pa" id="profAv" aria-hidden="true">⚽</span><span class="pn" id="profName">Oyuncu</span><span class="plv" id="profLv">Sv 1</span></button><span class="pills"><button type="button" class="goalspill cuppill" id="cupBtn" aria-label="Haftalık kupa ve liderlik tablosu">🏆</button><button type="button" class="goalspill" id="goalsBtn">🎯 <span id="goalsCount">0/3</span><span class="sep" aria-hidden="true">·</span>⭐ <span id="starCount">0</span></button></span></div>
+        <div class="brandtop"><button type="button" class="profchip" id="profBtn"><span class="pa" id="profAv" aria-hidden="true">⚽</span><span class="pn" id="profName">Oyuncu</span><span class="plv" id="profLv">Sv 1</span></button><span class="pills"><button type="button" class="goalspill cuppill" id="cupBtn" aria-label="Haftalık kupa ve liderlik tablosu">🏆</button><button type="button" class="goalspill cuppill storepill" id="storeBtn" aria-label="Mağaza">🛒<span class="sdot" id="storeDot" hidden></span></button><button type="button" class="goalspill" id="goalsBtn">🎯 <span id="goalsCount">0/3</span><span class="sep" aria-hidden="true">·</span>⭐ <span id="starCount">0</span></button></span></div>
         <h1><span class="cep">Cep</span><span class="rodline">Langırtı</span></h1>
         <ul class="how">
           <li><b>▲ ▼</b><span>Parlayan çubuğu kaydırır (aktif çubuk kapalıysa hepsini).</span></li>
@@ -701,7 +756,6 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
         <button type="button" role="tab" id="tabSkills" aria-selected="false" aria-controls="panelSkills">Yetenek <span class="spdot" id="spDot" hidden></span></button>
         <button type="button" role="tab" id="tabQuests" aria-selected="true" aria-controls="panelQuests">Görev</button>
         <button type="button" role="tab" id="tabBadges" aria-selected="false" aria-controls="panelBadges">Rozet <span id="badgeCount">0/16</span></button>
-        <button type="button" role="tab" id="tabThemes" aria-selected="false" aria-controls="panelThemes">Tema</button>
         <button type="button" role="tab" id="tabCup" aria-selected="false" aria-controls="panelCup">Kupa</button>
         <button type="button" role="tab" id="tabBoard" aria-selected="false" aria-controls="panelBoard">Tablo</button>
         <span class="gstars" id="gStars" aria-live="polite"></span>
@@ -744,13 +798,6 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
         <div class="badges" id="badgeGrid"></div>
         <p class="binfo" id="badgeInfo" aria-live="polite">Bir rozete dokun: nasıl kazanıldığını gör.</p>
       </div>
-      <div class="gpanel" id="panelThemes" role="tabpanel" aria-labelledby="tabThemes" hidden>
-        <p class="shelf">Top</p>
-        <div class="themes" id="ballShelf"></div>
-        <p class="shelf">Masa</p>
-        <div class="themes" id="tableShelf"></div>
-        <p class="binfo" id="shopInfo" aria-live="polite">Görevlerden yıldız kazan, tema aç; açtığın tema senin kalır. Sadece görünüş değişir, oyun aynı.</p>
-      </div>
       <div class="gpanel" id="panelCup" role="tabpanel" aria-labelledby="tabCup" hidden>
         <p class="cuptitle"><b id="cupName"></b><span id="cupDesc"></span></p>
         <ol class="bracket" id="cupBracket"></ol>
@@ -777,6 +824,34 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
           <label class="switch mini worldonly" for="worldOn"><input type="checkbox" id="worldOn" name="worldOn"><span class="sw" aria-hidden="true"></span><span class="sw-text">Dünya tablosunda görün</span></label>
           <p class="gnote" id="boardNote"></p>
         </div>
+      </div>
+    </div>
+  </section>
+  <section class="overlay" id="store" hidden>
+    <div class="card storecard" role="dialog" aria-labelledby="storeTitle">
+      <div class="shead">
+        <h2 class="stitle" id="storeTitle">Mağaza</h2>
+        <p class="stag">Sadece görünüş değişir, oyun aynı kalır.</p>
+        <button type="button" class="wallet" id="walletBtn">⭐ <b id="walletN">0</b><span class="wplus" aria-hidden="true">+</span></button>
+        <button type="button" class="gclose" id="storeClose" aria-label="Kapat"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button>
+      </div>
+      <div class="scats" id="storeCats" role="tablist" aria-label="Mağaza bölümleri" aria-orientation="vertical">
+        <button type="button" role="tab" data-cat="featured" aria-controls="storeGrid"><i aria-hidden="true">✨</i><span>Fırsatlar</span><b class="sdot" id="dealDot" hidden></b></button>
+        <button type="button" role="tab" data-cat="ball" aria-controls="storeGrid"><i aria-hidden="true">⚽</i><span>Top</span></button>
+        <button type="button" role="tab" data-cat="table" aria-controls="storeGrid"><i aria-hidden="true">🟩</i><span>Masa</span></button>
+        <button type="button" role="tab" data-cat="kit" aria-controls="storeGrid"><i aria-hidden="true">👕</i><span>Forma</span></button>
+        <button type="button" role="tab" data-cat="fx" aria-controls="storeGrid"><i aria-hidden="true">🎆</i><span>Gol şovu</span></button>
+        <button type="button" role="tab" data-cat="avatar" aria-controls="storeGrid"><i aria-hidden="true">😎</i><span>Avatar</span></button>
+      </div>
+      <div class="sgrid" id="storeGrid" role="tabpanel" aria-label="Eşyalar"></div>
+      <div class="sprev">
+        <canvas id="storeCv" width="0" height="0" aria-hidden="true"></canvas>
+        <div class="spinfo">
+          <p class="spname"><b id="spName"></b><span id="spKind"></span></p>
+          <p class="spdesc" id="spDesc"></p>
+        </div>
+        <button type="button" class="cta spbuy" id="spBuy">Satın al</button>
+        <p class="spnote" id="spNote" aria-live="polite"></p>
       </div>
     </div>
   </section>
@@ -938,7 +1013,7 @@ const settings = { level: 'kulup', target: 5, sound: true, autoKeeper: true, act
 let simT = 0, acc = 0, timers = [], lastServer = BLUE;
 const hist = [];
 const particles = [];
-let shakeAmp = 0, shakeX = 0, shakeY = 0, flashT = 0;
+let shakeAmp = 0, shakeX = 0, shakeY = 0, flashT = 0, flashCol = '255,170,80';
 const later = (s, fn) => timers.push({ t: simT + s, fn });
 
 /* ——— Sound (synthesised, no files) ——— */
@@ -1330,7 +1405,7 @@ function launchSuper(t) {
   ball.superT = SUPER.time; ball.superTeam = t.id;
   t.armed = false; t.skill = 0;
   Sound.superShot(); shake(7);
-  if (!reduceMotion) flashT = .22;
+  flashOn(.22, '255,170,80');
   pushEvent({ k: 'sup', t: t.id });
   spkSuper(t.id);
   if (mine(t)) vibrate([20, 30, 40]);
@@ -1613,6 +1688,7 @@ const KEYMAP = {
 KEYMAP.online = KEYMAP.cpu;
 window.addEventListener('keydown', e => {
   if (e.code === 'Escape' && goalsOpen) { closeGoals(); return; }
+  if (e.code === 'Escape' && store.open) { closeStore(); return; }
   if (e.code === 'KeyP' || e.code === 'Escape') {
     if (state === 'play') { e.preventDefault(); paused ? resumeGame() : pauseGame(); }
     return;
@@ -1798,8 +1874,8 @@ function renderProfile() {
   $('lvXp').textContent = `${P.cur} / ${P.need} XP`;
   $('xpFill').style.setProperty('--w', Math.round(P.cur / P.need * 100) + '%');
   const q = $('pQuick'); q.textContent = '';
-  const got = BADGES.filter(b => prog.badges[b.id]).length, themes = prog.owned.ball.length + prog.owned.table.length;
-  for (const [k, v] of [['🏅 Rozet', `${got}/${BADGES.length}`], ['🥇 Kupa', L.cups], ['🎨 Tema', `${themes}/${BALLS.length + TABLES.length}`], ['🔥 En iyi seri', `${prog.best} gün`]]) {
+  const got = BADGES.filter(b => prog.badges[b.id]).length;
+  for (const [k, v] of [['🏅 Rozet', `${got}/${BADGES.length}`], ['🥇 Kupa', L.cups], ['🛒 Eşya', `${ownedPaid()}/${PAID_COUNT}`], ['🔥 En iyi seri', `${prog.best} gün`]]) {
     const sp = document.createElement('span'); sp.textContent = k;
     const b = document.createElement('b'); b.textContent = v; sp.appendChild(b); q.appendChild(sp);
   }
@@ -1844,12 +1920,18 @@ function renderProfile() {
     c.title = `${h.w ? 'Galibiyet' : 'Mağlubiyet'} ${h.a}–${h.b} · ${new Date(h.t).toLocaleDateString('tr-TR')}`;
     f.appendChild(c);
   }
-  const pick = $('avPick');
-  if (!pick.children.length) AVATARS.forEach(a => {
-    const b = document.createElement('button'); b.type = 'button'; b.textContent = a; b.dataset.av = a; b.setAttribute('aria-label', `Avatar ${a}`);
-    pick.appendChild(b);
-  });
-  for (const b of pick.children) b.setAttribute('aria-pressed', String(b.dataset.av === prog.avatar));
+  const pick = $('avPick'), avs = [...AVATARS, ...prog.owned.avatar];
+  if (pick.dataset.n !== String(avs.length)) {        // the free ones, the bought ones and the way to the store
+    pick.textContent = '';
+    for (const a of avs) {
+      const b = document.createElement('button'); b.type = 'button'; b.textContent = a; b.dataset.av = a; b.setAttribute('aria-label', `Avatar ${a}`);
+      pick.appendChild(b);
+    }
+    const more = document.createElement('button'); more.type = 'button'; more.className = 'avmore'; more.textContent = '🛒'; more.dataset.store = '1';
+    more.setAttribute('aria-label', 'Mağazada daha fazla avatar'); pick.appendChild(more);
+    pick.dataset.n = avs.length;
+  }
+  for (const b of pick.children) if (b.dataset.av) b.setAttribute('aria-pressed', String(b.dataset.av === prog.avatar));
 }
 // the lifetime numbers the profile added, for a match that just ended on this phone
 function recordProfile(winner, m) {
@@ -1873,6 +1955,7 @@ $('avBtn').addEventListener('click', () => {
   const p = $('avPick'); p.hidden = !p.hidden; $('avBtn').setAttribute('aria-expanded', String(!p.hidden));
 });
 $('avPick').addEventListener('click', e => {
+  if (e.target.closest('[data-store]')) { $('avPick').hidden = true; $('avBtn').setAttribute('aria-expanded', 'false'); openStore('avatar'); return; }
   const b = e.target.closest('[data-av]');
   if (!b) return;
   prog.avatar = b.dataset.av; saveProg();
@@ -2135,22 +2218,17 @@ function cosmetics(dt, guest) {
   if (ball.live && (ball.superT > 0 || Math.hypot(ball.vx, ball.vy) > ballTheme().trailAt)) { ball.trail.push({ x: ball.x, y: ball.y }); if (ball.trail.length > (ball.superT > 0 ? 12 : 7)) ball.trail.shift(); }
   else if (ball.trail.length) ball.trail.shift();
 
-  for (let i = particles.length - 1; i >= 0; i--) {
-    const p = particles[i];
-    p.life -= dt; if (p.life <= 0) { particles.splice(i, 1); continue; }
-    p.vx *= Math.exp(-dt * 2.2); p.vy *= Math.exp(-dt * 2.2);
-    p.x += p.vx * dt; p.y += p.vy * dt; p.rot += p.vr * dt;
-  }
+  stepParticles(particles, dt);
   shakeAmp *= Math.exp(-dt * 11);
   if (shakeAmp < .05) shakeAmp = 0;
   shakeX = (Math.random() * 2 - 1) * shakeAmp; shakeY = (Math.random() * 2 - 1) * shakeAmp;
 }
-function rotateSpots(dx, dy) {
+function rotateSpots(dx, dy, spots = ball.spots) {
   // rolls the printed dots over the sphere by the distance its surface turned
   const d = Math.hypot(dx, dy);
   if (d < 1e-4) return;
   const Dx = dx / d, Dy = dy / d, phi = d / R, c = Math.cos(phi), s = Math.sin(phi);
-  for (const p of ball.spots) {
+  for (const p of spots) {
     const a = p.x * Dx + p.y * Dy, z = p.z;
     const a2 = a * c + z * s, z2 = z * c - a * s;
     p.x += (a2 - a) * Dx; p.y += (a2 - a) * Dy; p.z = z2;
@@ -2158,14 +2236,107 @@ function rotateSpots(dx, dy) {
   }
 }
 function shake(a) { if (!reduceMotion) shakeAmp = Math.max(shakeAmp, a); }
+function flashOn(t, col) { if (!reduceMotion) { flashT = t; flashCol = col; } }
+// the scorer's goal show (bought in the store), at the goal line x, y
 function burst(x, y, team) {
   if (reduceMotion) return;
-  const cols = [PAL[team].shirt, PAL[team].light, '#f2e9d8', '#d6a548'];
-  const dir = x < W / 2 ? 1 : -1;
-  for (let i = 0; i < 28; i++) {
-    const a = rand(-1.2, 1.2), v = rand(250, 900);
-    particles.push({ x, y: y + rand(-30, 30), vx: Math.cos(a) * v * dir, vy: Math.sin(a) * v, life: rand(.7, 1.3), max: 1.3,
-      rot: rand(0, 6), vr: rand(-12, 12), col: cols[i % cols.length], s: rand(5, 10) });
+  const fx = lookOf(team).fx;
+  spawnFx(particles, fx, x, y, team);
+  if (fx === 'simsek') flashOn(.3, '150,205,255');
+}
+function spawnFx(list, fx, x, y, team) {
+  const P = PAL[team], dir = x < W / 2 ? 1 : -1, pick = a => a[Math.floor(Math.random() * a.length)];
+  const add = o => list.push({ rot: rand(0, 6), vr: rand(-12, 12), delay: 0, drag: 2.2, sh: '', ...o, max: o.max || o.life });
+  const fan = (n, v0, v1, spread, o) => {
+    for (let i = 0; i < n; i++) { const a = rand(-spread, spread), v = rand(v0, v1); add({ x, y: y + rand(-30, 30), vx: Math.cos(a) * v * dir, vy: Math.sin(a) * v, ...o(i) }); }
+  };
+  switch (fx) {
+    case 'yildiz':
+      fan(24, 200, 720, 1.3, i => ({ sh: 'star', life: rand(.9, 1.5), vr: rand(-6, 6), col: ['#ffe08a', '#f3cf6a', '#fff6d0', P.light][i % 4], s: rand(7, 12) }));
+      break;
+    case 'kalp':
+      fan(20, 150, 560, 1.2, i => ({ sh: 'heart', life: rand(1.1, 1.7), rot: rand(-.4, .4), vr: rand(-1.5, 1.5), drag: 1.8, col: ['#ff5d8f', '#ff8fb1', P.light, '#ffd1dc'][i % 4], s: rand(8, 13) }));
+      break;
+    case 'havai':                                    // three shells over the field, one after another
+      for (let k = 0; k < 3; k++) {
+        const cx = x + dir * rand(150, 430), cy = clamp(y + rand(-220, 220), 90, H - 90), cols = [P.light, P.hi, '#ffe08a', '#ffffff'];
+        add({ sh: 'dot', add: 1, x: cx, y: cy, vx: 0, vy: 0, vr: 0, life: .18, s: 34, col: '#fff6d0', delay: k * .28 });
+        for (let i = 0; i < 30; i++) {
+          const a = i / 30 * Math.PI * 2 + rand(-.08, .08), v = rand(300, 520);
+          add({ sh: 'spark', add: 1, x: cx, y: cy, vx: Math.cos(a) * v, vy: Math.sin(a) * v, vr: 0, drag: 2.4, life: rand(.8, 1.2), s: rand(5, 7), col: pick(cols), delay: k * .28 });
+        }
+      }
+      break;
+    case 'alev':                                     // flames licking out of the goal mouth
+      for (let i = 0; i < 42; i++) {
+        add({ sh: 'flame', x: x - dir * rand(0, 20), y: y + rand(-95, 95), vx: dir * rand(140, 560), vy: rand(-90, 90), vr: 0, drag: 1.5,
+          life: rand(.45, 1.05), s: rand(9, 16), col: '', delay: rand(0, .25) });
+      }
+      break;
+    case 'simsek':                                   // bolts across the table and a shower of sparks
+      for (let k = 0; k < 3; k++) {
+        const pts = [[0, 0]];
+        let px = 0, py = 0;
+        for (let i = 0; i < 7; i++) { px += rand(55, 105); py += rand(-75, 75); pts.push([px, py]); }
+        add({ sh: 'bolt', x: x, y: y + rand(-60, 60), vx: 0, vy: 0, rot: rand(-.5, .5) + (dir < 0 ? Math.PI : 0), vr: 0, life: .45, s: 5, col: '#dff4ff', pts, delay: k * .09 });
+      }
+      fan(20, 500, 1100, 1.4, () => ({ sh: 'streak', life: rand(.35, .6), vr: 0, drag: 3, s: rand(10, 18), col: pick(['#ffffff', '#bfe6ff', '#8fd3ff']) }));
+      break;
+    default: {                                       // konfeti
+      const cols = [P.shirt, P.light, '#f2e9d8', '#d6a548'];
+      fan(28, 250, 900, 1.2, i => ({ life: rand(.7, 1.3), max: 1.3, col: cols[i % cols.length], s: rand(5, 10) }));
+    }
+  }
+}
+function stepParticles(list, dt) {
+  for (let i = list.length - 1; i >= 0; i--) {
+    const p = list[i];
+    if (p.delay > 0) { p.delay -= dt; continue; }
+    p.life -= dt; if (p.life <= 0) { list.splice(i, 1); continue; }
+    const k = Math.exp(-dt * p.drag);
+    p.vx *= k; p.vy *= k;
+    p.x += p.vx * dt; p.y += p.vy * dt; p.rot = p.sh === 'streak' ? Math.atan2(p.vy, p.vx) : p.rot + p.vr * dt;
+  }
+}
+function starPath(c, r) {
+  c.beginPath();
+  for (let i = 0; i < 10; i++) { const a = i * Math.PI / 5 - Math.PI / 2, q = i % 2 ? r * .45 : r; c.lineTo(Math.cos(a) * q, Math.sin(a) * q); }
+  c.closePath();
+}
+function drawParticles(c, list) {
+  for (const p of list) {
+    if (p.delay > 0) continue;
+    const a = clamp(p.life / p.max * 1.4, 0, 1);
+    c.save(); c.globalAlpha = a; c.translate(p.x, p.y); c.rotate(p.rot); c.fillStyle = p.col;
+    if (p.add) c.globalCompositeOperation = 'lighter';
+    switch (p.sh) {
+      case 'star': starPath(c, p.s); c.fill(); break;
+      case 'heart': {
+        const s = p.s;
+        c.beginPath(); c.moveTo(0, s * .9);
+        c.bezierCurveTo(-s * 1.3, 0, -s * .6, -s, 0, -s * .35); c.bezierCurveTo(s * .6, -s, s * 1.3, 0, 0, s * .9);
+        c.fill(); break;
+      }
+      case 'dot': c.beginPath(); c.arc(0, 0, p.s, 0, Math.PI * 2); c.fill(); break;
+      case 'spark':                                  // a glowing point with a faint halo
+        c.globalAlpha = a * .3; c.beginPath(); c.arc(0, 0, p.s * 2.2, 0, Math.PI * 2); c.fill();
+        c.globalAlpha = a; c.beginPath(); c.arc(0, 0, p.s * .8, 0, Math.PI * 2); c.fill(); break;
+      case 'flame': {                                // yellow when fresh, orange, then a dark red as it dies
+        const f = p.life / p.max, r = p.s * (.35 + .65 * f);
+        c.fillStyle = f > .72 ? '#ffe7a0' : f > .5 ? '#ffb347' : f > .3 ? '#ff7a2a' : '#c7321b';
+        c.globalAlpha = a * .35; c.beginPath(); c.arc(0, 0, r * 1.7, 0, Math.PI * 2); c.fill();
+        c.globalAlpha = a * .9; c.beginPath(); c.arc(0, 0, r, 0, Math.PI * 2); c.fill(); break;
+      }
+      case 'streak': c.fillRect(-p.s, -1.4, p.s * 2, 2.8); break;
+      case 'bolt':
+        c.strokeStyle = p.col; c.lineJoin = 'round'; c.lineCap = 'round';
+        c.beginPath(); p.pts.forEach(([x, y]) => c.lineTo(x, y));
+        c.lineWidth = p.s * 3; c.globalAlpha = a * .25; c.stroke();
+        c.lineWidth = p.s; c.globalAlpha = a; c.stroke();
+        break;
+      default: c.fillRect(-p.s / 2, -p.s / 4, p.s, p.s / 2);
+    }
+    c.restore();
   }
 }
 
@@ -2199,6 +2370,7 @@ function layout() {
   stage.style.setProperty('--bl', Math.round(ox + 12) + 'px');
   stage.style.setProperty('--br', Math.round(SW - ox - W * scale + 12) + 'px');
   drawStatic();
+  if (store.open) sizePreview();
 }
 let layoutQueued = false;
 function queueLayout() { if (layoutQueued) return; layoutQueued = true; requestAnimationFrame(() => { layoutQueued = false; layout(); }); }
@@ -2391,8 +2563,8 @@ function drawBall(c = ctx, bl = ball, th = ballTheme()) {
   c.beginPath(); c.ellipse(x - r * .34, y - r * .4, r * .22, r * .13, -.6, 0, Math.PI * 2); c.fill();
   c.globalAlpha = 1;
 }
-function drawFigure(x, y, th, dir, p, k = 1, c = ctx) {
-  // k > 1: dev kaleci, much wider along the rod and a little deeper
+function drawFigure(x, y, th, dir, p, k = 1, c = ctx, kit = 'klasik') {
+  // k > 1: dev kaleci, much wider along the rod and a little deeper; kit: the shirt bought in the store
   const s = Math.sin(th), as = Math.abs(s), kx = 1 + (k - 1) * .22;
   const X = t => x + dir * t * s;
   if (as > .12) {                                   // legs and boot show once the figure swings
@@ -2403,11 +2575,28 @@ function drawFigure(x, y, th, dir, p, k = 1, c = ctx) {
     rr(c, x2 - FT * kx, y - FW * k, FT * 2 * kx, FW * 2 * k, CR); c.fill();
   }
   const tx = X(6), tw = (9 + 17 * as) * kx;
-  c.fillStyle = p.shirt; rr(c, tx - tw, y - 16 * k, tw * 2, 32 * k, 8); c.fill();
+  if (kit === 'neon') { c.fillStyle = withAlpha(p.hi, .3); rr(c, tx - tw - 4, y - 20 * k, tw * 2 + 8, 32 * k + 8, 11); c.fill(); }
+  c.fillStyle = kit === 'gece' ? '#1d1f27' : kit === 'neon' ? '#0f1217' : p.shirt;
+  rr(c, tx - tw, y - 16 * k, tw * 2, 32 * k, 8); c.fill();
+  if (kit !== 'klasik') kitDetail(c, kit, p, tx, tw, y, k);
   c.fillStyle = 'rgba(255,255,255,.16)'; rr(c, tx - tw + 2, y - 14 * k, tw * 2 - 4, 9 * k, 5); c.fill();
   const hx = X(-26), hr = 8.5 * (1 + (k - 1) * .45);
   c.fillStyle = p.light; c.beginPath(); c.arc(hx, y, hr, 0, Math.PI * 2); c.fill();
   c.fillStyle = 'rgba(255,255,255,.35)'; c.beginPath(); c.arc(hx - hr * .3, y - hr * .35, hr * .35, 0, Math.PI * 2); c.fill();
+  if (kit === 'sampiyon') { c.strokeStyle = '#e8bd5c'; c.lineWidth = 2.6; c.beginPath(); c.arc(hx, y, hr - 1.3, 0, Math.PI * 2); c.stroke(); }
+}
+// what makes a kit: drawn inside the shirt, in the team's own colours so the two sides never mix up
+function kitDetail(c, kit, p, tx, tw, y, k) {
+  c.save();
+  rr(c, tx - tw, y - 16 * k, tw * 2, 32 * k, 8); c.clip();
+  switch (kit) {
+    case 'cubuklu': c.fillStyle = 'rgba(255,255,255,.66)'; for (const o of [-9.5, 0, 9.5]) c.fillRect(tx - tw, y + (o - 1.7) * k, tw * 2, 3.4 * k); break;
+    case 'yildiz': c.translate(tx, y); c.fillStyle = '#f5d06a'; starPath(c, 8 * k); c.fill(); break;
+    case 'gece': c.strokeStyle = p.hi; c.lineWidth = 6; c.stroke(); break;
+    case 'neon': c.strokeStyle = p.hi; c.lineWidth = 7; c.stroke(); c.strokeStyle = 'rgba(255,255,255,.75)'; c.lineWidth = 2; c.stroke(); break;
+    case 'sampiyon': c.fillStyle = '#e8bd5c'; c.fillRect(tx - tw, y - 16 * k, tw * 2, 6.5 * k); c.fillRect(tx - tw, y + 9.5 * k, tw * 2, 6.5 * k); break;
+  }
+  c.restore();
 }
 function render() {
   ctx.setTransform(1, 0, 0, 1, 0, 0);
@@ -2417,6 +2606,7 @@ function render() {
   ctx.setTransform(dpr * scale, 0, 0, dpr * scale, dpr * ox + sx, dpr * oy + sy);
   if (flip) { ctx.translate(W, H); ctx.scale(-1, -1); }     // the online guest defends the left goal too
 
+  const kits = [lookOf(BLUE).kit, lookOf(RED).kit];
   // the rod under each player's hand
   const acts = state === 'play' ? teams.filter(t => !t.ai && !t.together && t.active && (mode !== 'online' || t.id === me)).map(t => t.active) : [];
   for (const a of acts) {
@@ -2451,18 +2641,14 @@ function render() {
         ctx.fillStyle = `rgba(60,198,166,${(.28 * rod.big).toFixed(3)})`;
         ctx.beginPath(); ctx.ellipse(rod.x, y, 26, footW(rod) + 12, 0, 0, Math.PI * 2); ctx.fill();
       }
-      drawFigure(rod.x, y, rod.th, t.dir, PAL[rod.team], 1 + GIANT.grow * rod.big);
+      drawFigure(rod.x, y, rod.th, t.dir, PAL[rod.team], 1 + GIANT.grow * rod.big, ctx, kits[rod.team]);
     }
     ctx.globalAlpha = 1;
   }
-  for (const p of particles) {
-    ctx.save(); ctx.globalAlpha = clamp(p.life / p.max * 1.4, 0, 1);
-    ctx.translate(p.x, p.y); ctx.rotate(p.rot); ctx.fillStyle = p.col; ctx.fillRect(-p.s / 2, -p.s / 4, p.s, p.s / 2);
-    ctx.restore();
-  }
+  drawParticles(ctx, particles);
   if (flashT > 0) {
     ctx.setTransform(1, 0, 0, 1, 0, 0);
-    ctx.fillStyle = `rgba(255,170,80,${(flashT / .22 * .22).toFixed(3)})`; ctx.fillRect(0, 0, cw, ch);
+    ctx.fillStyle = `rgba(${flashCol},${Math.min(flashT, .3).toFixed(3)})`; ctx.fillRect(0, 0, cw, ch);
   }
 }
 
@@ -2490,11 +2676,12 @@ function toast(msg, ms = 1600) {
   clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.remove('show'), ms);
 }
 function setUI() {
-  if (state === 'play') goalsOpen = false;
-  $('menu').hidden = state !== 'menu' || onlineOpen || goalsOpen;
+  if (state === 'play') goalsOpen = store.open = false;
+  $('menu').hidden = state !== 'menu' || onlineOpen || goalsOpen || store.open;
   $('goals').hidden = !goalsOpen;
+  $('store').hidden = !store.open;
   $('online').hidden = !onlineOpen;
-  $('over').hidden = state !== 'over' || goalsOpen;
+  $('over').hidden = state !== 'over' || goalsOpen || store.open;
   if (state !== 'over') card.open = false;
   $('cardView').hidden = !card.open;
   $('pause').hidden = !(state === 'play' && paused);
@@ -2595,6 +2782,7 @@ function startMatch(m) {
   const first = Math.random() < .5 ? BLUE : RED;
   queueServe(first, .9);
   toast(mode === 'duo' ? `Servis: ${NAMES.duo[first]}` : first === me ? 'Servis sende' : 'Servis rakipte');
+  pushEvent({ k: 'lk', l: [prog.kit, prog.fx] });                 // the host's kit and goal show, for the guest's screen
   pushEvent({ k: 'srv', t: first });
   setUI();
   spkKickoff();
@@ -2803,7 +2991,7 @@ async function drawCard(S) {
   return new Promise(ok => cv.toBlob(ok, 'image/jpeg', .92));   // a JPEG is a fifth of the PNG and the apps recompress anyway
 }
 // the rods with every figure standing at rest, in table coordinates (share card, theme previews)
-function drawRestRods(c) {
+function drawRestRods(c, kits = [lookOf(BLUE).kit, lookOf(RED).kit], swing = null) {
   c.fillStyle = 'rgba(0,0,0,.2)';
   for (const rod of rods) {
     for (let j = 0; j < rod.n; j++) { c.beginPath(); c.ellipse(rod.x + 6, CY + rod.offs[j] + 8, 13, 17, 0, 0, Math.PI * 2); c.fill(); }
@@ -2813,7 +3001,7 @@ function drawRestRods(c) {
     rg.addColorStop(0, '#3f454b'); rg.addColorStop(.3, '#e9eef2'); rg.addColorStop(.55, '#9aa2aa'); rg.addColorStop(1, '#353a3f');
     c.fillStyle = rg; c.fillRect(rod.x - 8, -FR - 16, 16, H + 2 * FR + 32);
     c.fillStyle = '#1d1a18'; rr(c, rod.x - 11, rod.half, 22, 9, 3); c.fill(); rr(c, rod.x - 11, H - rod.half - 9, 22, 9, 3); c.fill();
-    for (let j = 0; j < rod.n; j++) drawFigure(rod.x, CY + rod.offs[j], 0, teams[rod.team].dir, PAL[rod.team], 1, c);
+    for (let j = 0; j < rod.n; j++) drawFigure(rod.x, CY + rod.offs[j], swing ? swing(rod) : 0, teams[rod.team].dir, PAL[rod.team], 1, c, kits[rod.team]);
   }
 }
 function prepareCard(winner) {
@@ -2914,7 +3102,7 @@ const BADGES = [
   { id: 'streak', i: '🗓️', t: 'Sadık oyuncu', d: n => `${n} gün üst üste bütün görevleri bitir`, at: [3, 7, 30], v: (L, P) => P.best },
   { id: 'perfect', i: '💎', t: 'Kusursuz', d: () => '7 gollük maçı gol yemeden kazan', at: [1], v: L => L.perfect },
   { id: 'cup', i: '🥇', t: 'Kupa şampiyonu', d: n => `Haftalık kupayı ${n} kez kazan`, at: [1, 5, 20], v: L => L.cups },
-  { id: 'collect', i: '🎨', t: 'Koleksiyoncu', d: n => `Yıldızlarla ${n} tema aç`, at: [1, 4, 10], v: (L, P) => P.owned.ball.length + P.owned.table.length - 2 },
+  { id: 'collect', i: '🎨', t: 'Koleksiyoncu', d: n => `Mağazadan ${n} eşya al`, at: [1, 5, 15], v: (L, P) => ownedPaid(P) },
 ];
 const ROMAN = ['', 'I', 'II', 'III'];
 const PROG_KEY = 'cep-langirti-ilerleme';
@@ -2922,7 +3110,8 @@ const blankLife = () => ({ matches: 0, wins: 0, goals: 0, supers: 0, saves: 0, c
   onlineWins: 0, giantStops: 0, emotes: 0, shares: 0, quests: 0, perfect: 0, cups: 0,
   m2: 0, against: 0, time: 0, big: null, rec: { acemi: [0, 0], kulup: [0, 0], usta: [0, 0], online: [0, 0] } });   // since the profile
 let prog = { day: '', q: [0, 0, 0], done: [false, false, false], bonus: false, stars: 0, streak: 0, best: 0, lastFull: '', life: blankLife(), badges: {},
-  owned: { ball: ['klasik'], table: ['klasik'] }, ball: 'klasik', table: 'klasik',
+  owned: { ball: ['klasik'], table: ['klasik'], kit: ['klasik'], fx: ['konfeti'], avatar: [] },  // the store: what is yours,
+  ball: 'klasik', table: 'klasik', kit: 'klasik', fx: 'konfeti', deals: null, dealSeen: '',          // what is in use, the day's deals
   cup: null, pid: '', name: '', board: {}, bt: 0,                   // weekly cup and table (filled in by loadProg)
   world: true, fbRefresh: '', fbUid: '', fbSent: '', fbSentWeek: '',  // the world table: shown there?, account, last row sent
   avatar: '⚽', hist: [], perks: {} };                               // the profile: avatar, last results (newest first), skills
@@ -2934,16 +3123,19 @@ function loadProg() {
   try {
     const p = JSON.parse(localStorage.getItem(PROG_KEY) || 'null');
     if (p && typeof p === 'object') {
-      const own = k => [...new Set(['klasik', ...(p.owned && Array.isArray(p.owned[k]) ? p.owned[k] : [])])];
+      const own = (k, free) => [...new Set([...(free ? [free] : []), ...(p.owned && Array.isArray(p.owned[k]) ? p.owned[k] : [])])].filter(id => ITEMS.has(k + ':' + id));
+      const owned = { ball: own('ball', 'klasik'), table: own('table', 'klasik'), kit: own('kit', 'klasik'), fx: own('fx', 'konfeti'), avatar: own('avatar') };
       const life = { ...blankLife(), ...p.life };
       life.rec = { ...blankLife().rec, ...(p.life && p.life.rec) };
-      prog = { ...prog, ...p, life, badges: { ...p.badges }, owned: { ball: own('ball'), table: own('table') },
-        hist: Array.isArray(p.hist) ? p.hist.slice(0, 12) : [], avatar: AVATARS.includes(p.avatar) ? p.avatar : '⚽',
+      prog = { ...prog, ...p, life, badges: { ...p.badges }, owned,
+        hist: Array.isArray(p.hist) ? p.hist.slice(0, 12) : [], avatar: AVATARS.includes(p.avatar) || owned.avatar.includes(p.avatar) ? p.avatar : '⚽',
+        deals: p.deals && Array.isArray(p.deals.ids) ? { day: String(p.deals.day), ids: p.deals.ids.filter(k => ITEMS.has(k)) } : null,
         perks: p.perks && typeof p.perks === 'object' ? { ...p.perks } : {},
         cup: p.cup && typeof p.cup === 'object' ? { ...blankCup(), ...p.cup } : null, board: p.board && typeof p.board === 'object' ? { ...p.board } : {} };
     }
   } catch (e) { /* storage blocked: start fresh */ }
   if (!prog.cup) prog.cup = blankCup();
+  for (const k of ['ball', 'table', 'kit', 'fx']) if (!prog.owned[k].includes(prog[k])) prog[k] = SHOP[k].list[0].id;
   if (!/^[a-z0-9]{6,16}$/.test(prog.pid)) prog.pid = Array.from({ length: 10 }, () => 'abcdefghijkmnpqrstuvwxyz23456789'[Math.floor(Math.random() * 32)]).join('');
   prog.name = cleanName(prog.name) || `Oyuncu ${100 + Math.floor(Math.random() * 900)}`;
   if (prog.cup.playing) cupForfeit();          // the page closed during a cup match
@@ -3059,7 +3251,7 @@ function renderRewards() {
     ...(bs.length > 1 ? [{ k: 'b', text: `🏅 ${bs.length} yeni rozet: ${bs.map(r => r.icon).join(' ')}`, title: bs.map(r => r.text).join(', ') }] : bs),
   ];
   if (!list.length) list.push({ k: '', text: `🎯 Günün görevleri ${prog.done.filter(Boolean).length}/3 · ⭐ ${prog.stars}` });
-  if (overRew.some(r => r.k === 'q' || r.k === 'a') && prog.stars >= cheapestLocked()) list.push({ k: 't', text: '🎨 Yeni tema açabilirsin' });
+  if (overRew.some(r => r.k === 'q' || r.k === 'a') && prog.stars >= cheapestLocked()) list.push({ k: 't', text: '🛒 Mağazada alabileceğin var' });
   list.forEach((r, i) => {
     const c = document.createElement('span');
     c.className = 'rw ' + r.k; c.textContent = r.text; c.style.animationDelay = (.9 + i * .15) + 's';
@@ -3071,6 +3263,8 @@ function renderPill() {
   rollDay();
   const n = prog.done.filter(Boolean).length;
   $('goalsCount').textContent = `${n}/3`; $('starCount').textContent = prog.stars;
+  $('storeDot').hidden = !newDeals();
+  $('storeBtn').setAttribute('aria-label', newDeals() ? 'Mağaza: günün yeni fırsatları var' : 'Mağaza');
   $('goalsBtn').classList.toggle('done', n === 3);
   $('goalsBtn').setAttribute('aria-label', `Günlük görevler: ${n}/3 tamam, ${prog.stars} yıldız. Rozetler.`);
 }
@@ -3120,12 +3314,10 @@ function renderGoals() {
   renderSkills();
   $('tabQuests').setAttribute('aria-selected', String(goalsTab === 'quests'));
   $('tabBadges').setAttribute('aria-selected', String(goalsTab === 'badges'));
-  $('tabThemes').setAttribute('aria-selected', String(goalsTab === 'themes'));
   $('tabCup').setAttribute('aria-selected', String(goalsTab === 'cup'));
   $('tabBoard').setAttribute('aria-selected', String(goalsTab === 'board'));
-  $('panelQuests').hidden = goalsTab !== 'quests'; $('panelBadges').hidden = goalsTab !== 'badges'; $('panelThemes').hidden = goalsTab !== 'themes';
+  $('panelQuests').hidden = goalsTab !== 'quests'; $('panelBadges').hidden = goalsTab !== 'badges';
   $('panelCup').hidden = goalsTab !== 'cup'; $('panelBoard').hidden = goalsTab !== 'board';
-  if (goalsTab === 'themes') renderShop();
   if (goalsTab === 'cup') renderCup();
   if (goalsTab === 'board') renderBoard();
 }
@@ -3139,56 +3331,54 @@ function badgeInfo(id) {
     : `${name} · ${tier ? 'sıradaki' : 'kazanmak için'}${b.at.length > 1 ? ` (${ROMAN[tier + 1]})` : ''}: ${b.d(next)}` + (b.id === 'cpu' || next === 1 ? '.' : ` · şu an ${v}/${next}.`);
 }
 function openGoals(tab) {
-  goalsOpen = true; goalsTab = tab || goalsTab;
+  goalsOpen = true; store.open = false; goalsTab = tab || goalsTab;
   renderGoals(); setUI();
-  $({ badges: 'tabBadges', themes: 'tabThemes', cup: 'tabCup', board: 'tabBoard', profile: 'tabProfile', skills: 'tabSkills' }[goalsTab] || 'tabQuests').focus({ preventScroll: true });
+  $({ badges: 'tabBadges', cup: 'tabCup', board: 'tabBoard', profile: 'tabProfile', skills: 'tabSkills' }[goalsTab] || 'tabQuests').focus({ preventScroll: true });
 }
 function closeGoals() { goalsOpen = false; setUI(); }
 $('goalsBtn').addEventListener('click', () => { Sound.unlock(); openGoals('quests'); });
-$('overRewards').addEventListener('click', () => openGoals(overRew.some(r => r.lvup) ? 'skills' : $('overRewards').querySelector('.rw.t') ? 'themes' : overRew.some(r => r.k === 'b') ? 'badges' : 'quests'));
+$('overRewards').addEventListener('click', () => {
+  if (!overRew.some(r => r.lvup) && $('overRewards').querySelector('.rw.t')) openStore('featured');
+  else openGoals(overRew.some(r => r.lvup) ? 'skills' : overRew.some(r => r.k === 'b') ? 'badges' : 'quests');
+});
 $('goalsClose').addEventListener('click', closeGoals);
 $('tabQuests').addEventListener('click', () => { goalsTab = 'quests'; renderGoals(); });
 $('tabBadges').addEventListener('click', () => { goalsTab = 'badges'; renderGoals(); });
-$('tabThemes').addEventListener('click', () => { goalsTab = 'themes'; shop.armed = ''; renderGoals(); });
 $('badgeGrid').addEventListener('click', e => { const b = e.target.closest('.badge'); if (b) badgeInfo(b.dataset.b); });
 
-/* ——— Themes: stars buy looks for the ball and the table ———
-   Stars from the quests are spent here; a theme once bought stays yours. Only the look changes, never
-   the play, and each phone shows its own choice (online too). The first tap on a theme you can afford
-   asks, the second one buys it. */
+/* ——— Store: stars buy looks ———
+   Stars from the quests and the cup are spent here, on five shelves: the ball and the table (each phone
+   shows its own), the kit and the goal show (both players see them, online too) and avatars. Every day
+   three things go on sale, and bundles sell a set for less. What you buy stays yours; only the look
+   changes, never the play. */
 const BALLS = [
-  { id: 'klasik', name: 'Klasik', price: 0, grad: ['#fffdf5', '#efe6cf', '#b8a682'], spot: 'rgba(150,112,62,.5)', spotK: 1, trail: '242,233,216', trailAt: 900 },
-  { id: 'turuncu', name: 'Turuncu', price: 5, grad: ['#ffe4bf', '#ff9a3c', '#c4561a'], spot: 'rgba(120,50,10,.42)', spotK: 1, trail: '255,170,90', trailAt: 900 },
-  { id: 'futbol', name: 'Futbol', price: 12, grad: ['#ffffff', '#f2f2f2', '#b4b4b4'], spot: 'rgba(22,22,26,.92)', spotK: 1.6, trail: '255,255,255', trailAt: 900 },
-  { id: 'neon', name: 'Neon', price: 20, grad: ['#f2fff0', '#7dff6a', '#1d9c38'], spot: 'rgba(10,80,30,.4)', spotK: 1, trail: '120,255,110', trailAt: 600, glow: 'rgba(120,255,110,.42)' },
-  { id: 'altin', name: 'Altın', price: 35, grad: ['#fff6d0', '#f2c85b', '#a8741c'], spot: 'rgba(120,80,10,.38)', spotK: 1, trail: '255,214,120', trailAt: 700, glow: 'rgba(255,210,110,.3)' },
-  { id: 'ates', name: 'Ateş topu', price: 60, grad: ['#fff3c4', '#ff7a2a', '#b3200e'], spot: 'rgba(90,10,0,.45)', spotK: 1, trail: '255,110,40', trailAt: 420, glow: 'rgba(255,90,30,.45)' },
+  { id: 'klasik', name: 'Klasik', d: 'Krem rengi klasik langırt topu.', price: 0, grad: ['#fffdf5', '#efe6cf', '#b8a682'], spot: 'rgba(150,112,62,.5)', spotK: 1, trail: '242,233,216', trailAt: 900 },
+  { id: 'turuncu', name: 'Turuncu', d: 'Parlak turuncu, gözden kaçmaz.', price: 5, grad: ['#ffe4bf', '#ff9a3c', '#c4561a'], spot: 'rgba(120,50,10,.42)', spotK: 1, trail: '255,170,90', trailAt: 900 },
+  { id: 'futbol', name: 'Futbol', d: 'Siyah beyaz futbol topu.', price: 12, grad: ['#ffffff', '#f2f2f2', '#b4b4b4'], spot: 'rgba(22,22,26,.92)', spotK: 1.6, trail: '255,255,255', trailAt: 900 },
+  { id: 'neon', name: 'Neon', d: 'Hızlanınca yeşil bir iz bırakır.', price: 20, grad: ['#f2fff0', '#7dff6a', '#1d9c38'], spot: 'rgba(10,80,30,.4)', spotK: 1, trail: '120,255,110', trailAt: 600, glow: 'rgba(120,255,110,.42)' },
+  { id: 'altin', name: 'Altın', d: 'Parıldayan altın top, hafif bir ışıltıyla.', price: 35, grad: ['#fff6d0', '#f2c85b', '#a8741c'], spot: 'rgba(120,80,10,.38)', spotK: 1, trail: '255,214,120', trailAt: 700, glow: 'rgba(255,210,110,.3)' },
+  { id: 'ates', name: 'Ateş topu', d: 'Hızlanınca arkasında alev izi bırakır.', price: 60, grad: ['#fff3c4', '#ff7a2a', '#b3200e'], spot: 'rgba(90,10,0,.45)', spotK: 1, trail: '255,110,40', trailAt: 420, glow: 'rgba(255,90,30,.45)' },
 ];
 const TABLES = [
-  { id: 'klasik', name: 'Klasik', price: 0, room: ['#34281e', '#1c150f', '#0c0806'], base: '#4a2f19', wood: ['#cf9860', '#b87e48', '#9a6234'],
+  { id: 'klasik', name: 'Klasik', d: 'Ceviz ahşap, yeşil çuha.', price: 0, room: ['#34281e', '#1c150f', '#0c0806'], base: '#4a2f19', wood: ['#cf9860', '#b87e48', '#9a6234'],
     grain: ['92,52,22', '255,228,185'], seam: 'rgba(60,32,12,.4)', edge: 'rgba(255,232,196,.28)', metal: ['#f3dca0', '#b98b3c', '#6d4c1b'],
     felt: '#2c7244', stripe: .035, line: '244,240,226', sheen: 'rgba(255,246,214,.1)' },
-  { id: 'gece', name: 'Gece', price: 8, room: ['#1f2635', '#11151e', '#07080c'], base: '#24170e', wood: ['#6f4d35', '#573a25', '#3f2818'],
+  { id: 'gece', name: 'Gece', d: 'Koyu ahşap, gece mavisi çuha.', price: 8, room: ['#1f2635', '#11151e', '#07080c'], base: '#24170e', wood: ['#6f4d35', '#573a25', '#3f2818'],
     grain: ['35,20,10', '210,180,150'], seam: 'rgba(20,10,4,.5)', edge: 'rgba(200,220,255,.2)', metal: ['#eef3f8', '#9aa6b2', '#4c5560'],
     felt: '#1e3a5f', stripe: .03, line: '214,228,255', sheen: 'rgba(190,215,255,.09)' },
-  { id: 'cim', name: 'Çim', price: 15, room: ['#28331f', '#141b10', '#080a06'], base: '#7d776c', wood: ['#f3f1ea', '#dedad0', '#bcb7ab'],
+  { id: 'cim', name: 'Çim', d: 'Beyaz çerçeve, çim yeşili saha.', price: 15, room: ['#28331f', '#141b10', '#080a06'], base: '#7d776c', wood: ['#f3f1ea', '#dedad0', '#bcb7ab'],
     grain: ['130,120,105', '255,255,255'], seam: 'rgba(90,85,75,.4)', edge: 'rgba(255,255,255,.5)', metal: ['#f3dca0', '#b98b3c', '#6d4c1b'],
     felt: '#3b8a37', stripe: .075, line: '255,255,255', sheen: 'rgba(255,255,230,.12)' },
-  { id: 'bordo', name: 'Bordo', price: 30, room: ['#36211f', '#1d100f', '#0c0606'], base: '#35110b', wood: ['#8f3f2c', '#712b1d', '#541d12'],
+  { id: 'bordo', name: 'Bordo', d: 'Kızıl ahşap, bordo çuha.', price: 30, room: ['#36211f', '#1d100f', '#0c0606'], base: '#35110b', wood: ['#8f3f2c', '#712b1d', '#541d12'],
     grain: ['60,15,8', '255,200,170'], seam: 'rgba(40,8,4,.5)', edge: 'rgba(255,215,190,.25)', metal: ['#f6e2a6', '#c79a42', '#77521c'],
     felt: '#7a1f2b', stripe: .03, line: '255,236,214', sheen: 'rgba(255,220,200,.08)' },
-  { id: 'buz', name: 'Buz', price: 50, room: ['#1e2c35', '#0f171d', '#06090c'], base: '#5b7282', wood: ['#eef6fa', '#cddfe9', '#a3bccb'],
+  { id: 'buz', name: 'Buz', d: 'Buz beyazı çerçeve, buz mavisi saha.', price: 50, room: ['#1e2c35', '#0f171d', '#06090c'], base: '#5b7282', wood: ['#eef6fa', '#cddfe9', '#a3bccb'],
     grain: ['110,145,165', '255,255,255'], seam: 'rgba(80,110,130,.4)', edge: 'rgba(255,255,255,.55)', metal: ['#ffffff', '#b8c7d2', '#5e7180'],
     felt: '#4d93bf', stripe: .05, line: '240,250,255', sheen: 'rgba(230,248,255,.14)' },
-  { id: 'salon', name: 'Altın Salon', price: 90, room: ['#2b2318', '#141009', '#070504'], base: '#0e0a07', wood: ['#3d3027', '#2b221b', '#1b1510'],
+  { id: 'salon', name: 'Altın Salon', d: 'Siyah çuha, altın çizgiler ve altın çubuklar.', price: 90, room: ['#2b2318', '#141009', '#070504'], base: '#0e0a07', wood: ['#3d3027', '#2b221b', '#1b1510'],
     grain: ['10,6,3', '226,180,87'], seam: 'rgba(226,180,87,.35)', edge: 'rgba(226,180,87,.55)', metal: ['#fff0bf', '#e2b457', '#7c5a1d'],
     felt: '#17171c', stripe: .025, line: '226,180,87', sheen: 'rgba(255,220,150,.07)' },
 ];
-const THEMES = { ball: BALLS, table: TABLES };
-const ballTheme = () => BALLS.find(b => b.id === prog.ball) || BALLS[0];
-const tableTheme = () => TABLES.find(t => t.id === prog.table) || TABLES[0];
-const shop = { armed: '', armedT: 0, drawn: '' };
-const cheapestLocked = () => Math.min(...[...BALLS.filter(b => !prog.owned.ball.includes(b.id)), ...TABLES.filter(t => !prog.owned.table.includes(t.id))].map(t => t.price));
 const previewSpots = makeSpots().map(p => { const a = .5, c = Math.cos(a), sn = Math.sin(a); return { x: p.x * c + p.z * sn, y: p.y, z: p.z * c - p.x * sn }; });
 
 function drawThemePreview(cv, kind, th) {
@@ -3206,62 +3396,433 @@ function drawThemePreview(cv, kind, th) {
     drawRestRods(c);
   }
 }
-function renderShop() {
-  const key = prog.ball + '|' + prog.table;       // previews only change with the ball in use (table previews show it)
-  for (const kind of ['ball', 'table']) {
-    const shelf = $(kind === 'ball' ? 'ballShelf' : 'tableShelf');
-    if (!shelf.children.length) {
-      for (const th of THEMES[kind]) {
-        const b = document.createElement('button');
-        b.type = 'button'; b.className = 'theme ' + kind; b.dataset.kind = kind; b.dataset.id = th.id;
-        const cv = document.createElement('canvas');
-        cv.width = kind === 'ball' ? 112 : 200; cv.height = kind === 'ball' ? 112 : 124;
-        cv.setAttribute('aria-hidden', 'true');
-        const n = document.createElement('span'); n.className = 'tn'; n.textContent = th.name;
-        const st = document.createElement('span'); st.className = 'ts';
-        b.append(cv, n, st);
-        shelf.appendChild(b);
-      }
-    }
-    [...shelf.children].forEach((b, i) => {
-      const th = THEMES[kind][i], own = prog.owned[kind].includes(th.id), sel = prog[kind] === th.id, armed = shop.armed === kind + ':' + th.id;
-      b.classList.toggle('sel', sel); b.classList.toggle('own', own); b.classList.toggle('armed', armed);
-      b.classList.toggle('poor', !own && prog.stars < th.price);
-      b.lastChild.textContent = sel ? 'Seçili ✓' : own ? 'Seç' : armed ? `Aç: −${th.price}⭐` : `🔒 ${th.price}⭐`;
-      b.setAttribute('aria-label', `${kind === 'ball' ? 'Top' : 'Masa'}: ${th.name}. ${b.lastChild.textContent}`);
-      if (shop.drawn !== key || !b.dataset.drawn) { drawThemePreview(b.firstChild, kind, th); b.dataset.drawn = '1'; }
-    });
-  }
-  shop.drawn = key;
+const KITS = [
+  { id: 'klasik', name: 'Klasik', price: 0, d: 'Takımının sade forması.' },
+  { id: 'cubuklu', name: 'Çubuklu', price: 6, d: 'Beyaz çubuklu forma.' },
+  { id: 'yildiz', name: 'Yıldızlı', price: 12, d: 'Göğsünde altın bir yıldız.' },
+  { id: 'gece', name: 'Gece', price: 20, d: 'Koyu forma, takım renginde kenar.' },
+  { id: 'neon', name: 'Neon', price: 32, d: 'Karanlıkta parlıyormuş gibi kenarlar.' },
+  { id: 'sampiyon', name: 'Şampiyon', price: 50, d: 'Altın omuzlar ve altın saç bandı.' },
+];
+const FXS = [
+  { id: 'konfeti', name: 'Konfeti', price: 0, d: 'Takım renklerinde konfeti.' },
+  { id: 'yildiz', name: 'Yıldız yağmuru', price: 8, d: 'Kaleden altın yıldızlar saçılır.' },
+  { id: 'kalp', name: 'Kalpler', price: 14, d: 'Her gole kalp kalp sevinç.' },
+  { id: 'havai', name: 'Havai fişek', price: 24, d: 'Sahanın üstünde üç havai fişek patlar.' },
+  { id: 'alev', name: 'Alev', price: 36, d: 'Kale ağzından alevler fışkırır.' },
+  { id: 'simsek', name: 'Şimşek', price: 55, d: 'Masa şimşekle aydınlanır, kıvılcımlar saçılır.' },
+];
+const SHOP_AVATARS = [['🦄', 'Tek Boynuz', 4], ['🥷', 'Ninja', 6], ['🧙', 'Büyücü', 6], ['👽', 'Uzaylı', 8],
+  ['🦖', 'Dinozor', 8], ['🐙', 'Ahtapot', 10], ['👾', 'Canavar', 10], ['🦸', 'Kahraman', 12]]
+  .map(([id, name, price]) => ({ id, name, price, d: 'Profilinde ve menüdeki oyuncu rozetinde seni gösterir.' }));
+const SHOP = {
+  ball: { name: 'Top', icon: '⚽', list: BALLS, note: 'Top yalnızca senin ekranında değişir.' },
+  table: { name: 'Masa', icon: '🟩', list: TABLES, note: 'Masa yalnızca senin ekranında değişir.' },
+  kit: { name: 'Forma', icon: '👕', list: KITS, note: 'Takımın giyer, online rakibin de görür. Renk takımının renginde kalır.' },
+  fx: { name: 'Gol şovu', icon: '🎆', list: FXS, note: 'Senin gollerinde oynar, online rakibin de görür.' },
+  avatar: { name: 'Avatar', icon: '😎', list: SHOP_AVATARS, note: 'Ücretsiz avatarlar profilde; bunlar mağazaya özel.' },
+};
+for (const [kind, sh] of Object.entries(SHOP)) for (const it of sh.list) Object.assign(it, { kind, key: kind + ':' + it.id });
+const ITEMS = new Map(Object.values(SHOP).flatMap(sh => sh.list.map(it => [it.key, it])));
+const PAID_COUNT = [...ITEMS.values()].filter(it => it.price).length;
+const BUNDLES = [
+  { id: 'baslangic', name: 'Başlangıç Paketi', icon: '🎁', items: ['ball:turuncu', 'kit:cubuklu', 'fx:yildiz', 'avatar:🦄'] },
+  { id: 'gece', name: 'Gece Paketi', icon: '🌙', items: ['table:gece', 'ball:neon', 'kit:gece'] },
+  { id: 'ates', name: 'Ateş Paketi', icon: '🔥', items: ['ball:ates', 'fx:alev', 'table:bordo'] },
+  { id: 'sampiyon', name: 'Şampiyon Paketi', icon: '👑', items: ['table:salon', 'ball:altin', 'kit:sampiyon', 'fx:havai'] },
+];
+const BUNDLE_OFF = 25, DEAL_OFF = [40, 25, 25];
+const NO_LOOK = { kit: 'klasik', fx: 'konfeti' };
+const ballTheme = () => BALLS.find(b => b.id === prog.ball) || BALLS[0];
+const tableTheme = () => TABLES.find(t => t.id === prog.table) || TABLES[0];
+const owns = it => prog.owned[it.kind].includes(it.id);
+const worn = it => (it.kind === 'avatar' ? prog.avatar : prog[it.kind]) === it.id;
+const kindName = it => SHOP[it.kind].name.toLocaleLowerCase('tr-TR');
+// who wears what: this phone's player in its own kit, the computer and the two-player mode in the plain one,
+// an online rival in the kit its phone sent
+function lookOf(team) {
+  if (mode === 'duo') return NO_LOOK;
+  if (mode === 'online' && net.role) return team === me ? prog : net.oppLook || NO_LOOK;
+  return team === BLUE ? prog : NO_LOOK;
 }
-function shopSay(text) { $('shopInfo').textContent = text; }
-function tapTheme(kind, id) {
-  const th = THEMES[kind].find(t => t.id === id);
-  if (!th) return;
-  if (prog.owned[kind].includes(id)) {
-    shop.armed = '';
-    if (prog[kind] !== id) { prog[kind] = id; saveProg(); drawStatic(); shopSay(`${th.name} ${kind === 'ball' ? 'topu' : 'masası'} seçildi.`); }
-    renderShop(); return;
+function parseLook(a) {
+  return { kit: KITS.some(k => k.id === a[0]) ? a[0] : 'klasik', fx: FXS.some(f => f.id === a[1]) ? a[1] : 'konfeti' };
+}
+function wear(it) {
+  if (it.kind === 'avatar') { prog.avatar = it.id; renderProfChip(); return; }
+  prog[it.kind] = it.id;
+  if (it.kind === 'ball' || it.kind === 'table') drawStatic();
+}
+function ownedPaid(P = prog) {
+  let n = 0;
+  for (const it of ITEMS.values()) if (it.price && P.owned && Array.isArray(P.owned[it.kind]) && P.owned[it.kind].includes(it.id)) n++;
+  return n;
+}
+// three things on sale each day, picked from what this player has not got yet
+function rollDeals() {
+  const k = dayKey();
+  if (prog.deals && prog.deals.day === k) return;
+  const pool = [...ITEMS.values()].filter(it => it.price >= 5 && !owns(it));
+  const rnd = mulberry32(Math.imul(+k.replace(/-/g, ''), 2246822519 | 0));
+  const ids = [];
+  while (ids.length < DEAL_OFF.length && pool.length) ids.push(pool.splice(Math.floor(rnd() * pool.length), 1)[0].key);
+  prog.deals = { day: k, ids };
+  saveProg();
+}
+const dealOff = it => { rollDeals(); const i = prog.deals.ids.indexOf(it.key); return i < 0 ? 0 : DEAL_OFF[i]; };
+const priceOf = it => { const off = dealOff(it); return off ? Math.max(1, Math.round(it.price * (100 - off) / 100)) : it.price; };
+const bundleLeft = b => b.items.map(k => ITEMS.get(k)).filter(it => !owns(it));
+const bundleFull = b => bundleLeft(b).reduce((n, it) => n + it.price, 0);   // what is left of it, at full price
+const bundlePrice = b => Math.round(bundleFull(b) * (100 - BUNDLE_OFF) / 100);
+function cheapestLocked() {
+  return Math.min(...[...ITEMS.values()].filter(it => !owns(it)).map(priceOf), ...BUNDLES.filter(b => bundleLeft(b).length).map(bundlePrice));
+}
+const newDeals = () => { rollDeals(); return prog.dealSeen !== prog.deals.day && prog.deals.ids.length > 0; };
+
+/* the pictures: the table in a look, seen through a camera — the whole table, the middle rods, the
+   right-hand goal (where the player's team scores) or the ball up close; x, w, cy in table mm */
+const CAMS = {
+  table: { x: -FR, w: W + 2 * FR, h: H + 2 * FR, cy: CY },
+  kit: { x: 315, w: 420, cy: CY },
+  fx: { x: W - 430, w: 430 + FR + 16, cy: CY },
+  ball: { x: 455, w: 290, cy: CY - 40 },
+};
+function camFit(c, cv, cam) {
+  const k = Math.min(cv.width / cam.w, cam.h ? cv.height / cam.h : Infinity);
+  c.setTransform(k, 0, 0, k, (cv.width - cam.w * k) / 2 - cam.x * k, cv.height / 2 - cam.cy * k);
+  return k;
+}
+const lookWith = keys => {
+  const L = { ball: prog.ball, table: prog.table, kit: prog.kit, fx: prog.fx };
+  for (const k of keys) { const it = ITEMS.get(k); if (it && it.kind !== 'avatar') L[it.kind] = it.id; }
+  return L;
+};
+const tableOf = L => TABLES.find(t => t.id === L.table) || TABLES[0];
+const ballOf = L => BALLS.find(b => b.id === L.ball) || BALLS[0];
+function drawTableBg(c, cv, L, cam) {
+  const T = tableOf(L);
+  c.setTransform(1, 0, 0, 1, 0, 0);
+  const g = c.createRadialGradient(cv.width / 2, cv.height / 2, 0, cv.width / 2, cv.height / 2, Math.hypot(cv.width, cv.height) * .6);
+  g.addColorStop(0, T.room[0]); g.addColorStop(1, T.room[2]);
+  c.fillStyle = g; c.fillRect(0, 0, cv.width, cv.height);
+  drawTable(c, camFit(c, cv, cam), false, T);
+}
+// the store's figures: the player's side in the kit on show, the other side plain
+const kitSwing = (kit, t) => [[kit, 'klasik'], t == null ? null : rod => rod.team === BLUE ? Math.sin(t * 2.6 + rod.i * .9) * .85 : 0];
+function drawKitThumb(cv, kit) {
+  const c = cv.getContext('2d');
+  drawTableBg(c, cv, lookWith([]), { x: 775, w: 100, cy: CY });
+  c.fillStyle = 'rgba(0,0,0,.22)'; c.beginPath(); c.ellipse(831, CY + 8, 24, 17, 0, 0, Math.PI * 2); c.fill();
+  const rg = c.createLinearGradient(817, 0, 833, 0);
+  rg.addColorStop(0, '#3f454b'); rg.addColorStop(.3, '#e9eef2'); rg.addColorStop(.55, '#9aa2aa'); rg.addColorStop(1, '#353a3f');
+  c.fillStyle = rg; c.fillRect(817, CY - 90, 16, 180);
+  drawFigure(825, CY, .45, teams[BLUE].dir, PAL[BLUE], 1, c, kit);
+}
+const FX_SNAP = { konfeti: .2, yildiz: .32, kalp: .4, havai: .72, alev: .38, simsek: .1 };
+function fxSnapshot(fx, at) {
+  const list = [];
+  spawnFx(list, fx, W, CY, BLUE);
+  for (let t = 0; t < at; t += 1 / 60) stepParticles(list, 1 / 60);
+  return list;
+}
+function drawThumb(cv, it) {
+  const c = cv.getContext('2d');
+  switch (it.kind) {
+    case 'ball': drawThemePreview(cv, 'ball', it); break;
+    case 'table': drawThemePreview(cv, 'table', it); break;
+    case 'kit': drawKitThumb(cv, it.id); break;
+    case 'fx': {
+      const cam = { x: W - 330, w: 330 + FR + 14, cy: CY };
+      drawTableBg(c, cv, lookWith([]), cam);
+      drawParticles(c, fxSnapshot(it.id, FX_SNAP[it.id]));
+      break;
+    }
   }
-  if (prog.stars < th.price) {
-    shop.armed = ''; renderShop();
-    shopSay(`${th.name} için ${th.price - prog.stars} yıldız daha lazım. Günlük görevlerden kazanabilirsin.`);
+}
+function drawBundleThumb(cv, b) {
+  const c = cv.getContext('2d'), L = lookWith(b.items);
+  drawTableBg(c, cv, L, CAMS.table);
+  drawBall(c, { show: true, x: 600, y: CY + 60, scale: 1, alpha: 1, superT: 0, trail: [], drop: 0, spots: previewSpots }, ballOf(L));
+  drawRestRods(c, [L.kit, 'klasik']);
+  if (b.items.some(k => k.startsWith('fx:'))) drawParticles(c, fxSnapshot(L.fx, FX_SNAP[L.fx]));
+}
+
+/* ——— the store screen ——— */
+const store = { open: false, cat: 'featured', sel: '', built: '', msg: '' };
+const pv = { raf: 0, last: 0, t: 0, parts: [], nextFx: 0, flash: 0, bg: document.createElement('canvas'), bgKey: '', spots: makeSpots(), trail: [], px: 0, py: 0 };
+function openStore(cat, sel) {
+  Sound.unlock();
+  rollDeals();
+  store.open = true; goalsOpen = false;
+  store.cat = SHOP[cat] || cat === 'featured' ? cat : store.cat;
+  store.sel = sel || defaultPick(store.cat); store.msg = ''; store.built = '';
+  if (store.cat === 'featured') { prog.dealSeen = prog.deals.day; saveProg(); renderPill(); }
+  setUI(); renderStore(); sizePreview(); pickChanged();
+  $('storeCats').querySelector(`[data-cat="${store.cat}"]`).focus({ preventScroll: true });
+}
+function closeStore() { store.open = false; setUI(); }
+function defaultPick(cat) {
+  if (cat === 'featured') return prog.deals.ids[0] || 'bundle:' + (BUNDLES.find(b => bundleLeft(b).length) || BUNDLES[0]).id;
+  const list = SHOP[cat].list;
+  return (list.find(worn) || list[0]).key;
+}
+function storeCat(cat) {
+  if (cat === store.cat) return;
+  store.cat = cat; store.sel = defaultPick(cat); store.msg = '';
+  if (cat === 'featured') { prog.dealSeen = prog.deals.day; saveProg(); renderPill(); }
+  renderStore(); pickChanged();
+}
+function storePick(key) {
+  if (key === store.sel) return;
+  store.sel = key; store.msg = '';
+  renderStore(); pickChanged();
+}
+function dealsLeft() {
+  const now = new Date(), mid = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+  const left = Math.max(1, Math.round((mid - now) / 60000)), h = Math.floor(left / 60), m = left % 60;
+  return `yenilenmesine ${h ? h + ' sa ' : ''}${m} dk`;
+}
+function buildStoreGrid() {
+  const g = $('storeGrid');
+  g.textContent = '';
+  const head = (text, sub) => {
+    const h = document.createElement('p'); h.className = 'ssec'; h.textContent = text;
+    if (sub) { const s = document.createElement('span'); s.textContent = sub; h.appendChild(s); }
+    g.appendChild(h);
+  };
+  if (store.cat === 'featured') {
+    head('Günün fırsatları', dealsLeft());
+    for (const k of prog.deals.ids) g.appendChild(itemTile(ITEMS.get(k)));
+    if (!prog.deals.ids.length) { const p = document.createElement('p'); p.className = 'sempty'; p.textContent = 'Mağazadaki her şey sende. Koleksiyon tamam! 🎉'; g.appendChild(p); }
+    head('Paketler', `tek tek almaktan %${BUNDLE_OFF} ucuz`);
+    for (const b of BUNDLES) g.appendChild(bundleTile(b));
+  } else {
+    const sh = SHOP[store.cat];
+    head(`${sh.icon} ${sh.name}`, `${sh.list.filter(owns).length}/${sh.list.length} sende`);
+    for (const it of sh.list) g.appendChild(itemTile(it));
+  }
+  store.built = store.cat;
+}
+function tileBase(key, cls) {
+  const b = document.createElement('button');
+  b.type = 'button'; b.className = 'sitem ' + cls; b.dataset.key = key;
+  return b;
+}
+function tileText(b, name) {
+  const n = document.createElement('span'); n.className = 'sn'; n.textContent = name;
+  const p = document.createElement('span'); p.className = 'sp';
+  b.append(n, p);
+}
+function itemTile(it) {
+  const b = tileBase(it.key, 'k-' + it.kind);
+  if (it.kind === 'avatar') { const e = document.createElement('span'); e.className = 'sav'; e.textContent = it.id; e.setAttribute('aria-hidden', 'true'); b.appendChild(e); }
+  else {
+    const cv = document.createElement('canvas');
+    [cv.width, cv.height] = it.kind === 'table' ? [200, 124] : it.kind === 'ball' ? [112, 112] : [168, 112];
+    cv.setAttribute('aria-hidden', 'true');
+    b.appendChild(cv); drawThumb(cv, it);
+  }
+  tileText(b, it.name);
+  const off = dealOff(it);
+  if (off) { const r = document.createElement('span'); r.className = 'soff'; r.textContent = `−%${off}`; b.appendChild(r); }
+  return b;
+}
+function bundleTile(bd) {
+  const b = tileBase('bundle:' + bd.id, 'bundle');
+  const cv = document.createElement('canvas'); cv.width = 200; cv.height = 124; cv.setAttribute('aria-hidden', 'true');
+  b.appendChild(cv); drawBundleThumb(cv, bd);
+  const ic = document.createElement('span'); ic.className = 'sbi'; ic.textContent = bd.icon; ic.setAttribute('aria-hidden', 'true'); b.appendChild(ic);
+  tileText(b, bd.name);
+  return b;
+}
+function renderStore() {
+  rollDeals();
+  $('walletN').textContent = prog.stars;
+  $('walletBtn').setAttribute('aria-label', `${prog.stars} yıldızın var. Daha fazlası için günlük görevler`);
+  for (const b of $('storeCats').children) b.setAttribute('aria-selected', String(b.dataset.cat === store.cat));
+  $('dealDot').hidden = !newDeals();
+  if (store.built !== store.cat) buildStoreGrid();
+  for (const b of $('storeGrid').querySelectorAll('.sitem')) {
+    const key = b.dataset.key, p = b.querySelector('.sp');
+    let own, on, poor, label, aria;
+    if (key.startsWith('bundle:')) {
+      const bd = BUNDLES.find(x => 'bundle:' + x.id === key), left = bundleLeft(bd), price = bundlePrice(bd);
+      own = !left.length; on = false; poor = !own && prog.stars < price;
+      p.innerHTML = own ? 'Hepsi sende' : `<s>${bundleFull(bd)}</s> ${price}⭐`;
+      aria = `${bd.name}: ${bd.items.length} eşya. ${own ? 'Hepsi sende' : price + ' yıldız'}`;
+    } else {
+      const it = ITEMS.get(key), price = priceOf(it);
+      own = owns(it); on = worn(it); poor = !own && prog.stars < price;
+      p.innerHTML = on ? 'Kullanılıyor' : own ? 'Sende' : price < it.price ? `<s>${it.price}</s> ${price}⭐` : `${price}⭐`;
+      aria = `${SHOP[it.kind].name}: ${it.name}. ${on ? 'Kullanılıyor' : own ? 'Sende' : price + ' yıldız'}`;
+    }
+    b.classList.toggle('own', own); b.classList.toggle('on', on); b.classList.toggle('poor', poor);
+    b.setAttribute('aria-pressed', String(key === store.sel)); b.setAttribute('aria-label', aria);
+  }
+  // the chosen thing, big, with its button
+  const buy = $('spBuy'), key = store.sel;
+  let name, kind, desc, text, dis = false, note;
+  if (key.startsWith('bundle:')) {
+    const bd = BUNDLES.find(x => 'bundle:' + x.id === key), left = bundleLeft(bd), price = bundlePrice(bd);
+    name = `${bd.icon} ${bd.name}`; kind = `Paket · ${bd.items.length} eşya`;
+    desc = bd.items.map(k => { const it = ITEMS.get(k); return `${SHOP[it.kind].icon} ${it.name}${owns(it) ? ' ✓' : ''}`; }).join(' · ');
+    if (!left.length) { text = 'Hepsi sende ✓'; dis = true; }
+    else if (prog.stars < price) { text = `${price}⭐ · ${price - prog.stars} eksik`; dis = true; }
+    else text = `Paketi al · ${price}⭐`;
+    note = left.length && left.length < bd.items.length ? `Sende olanlar düşüldü: kalan ${left.length} eşya ${bundleFull(bd)}⭐ yerine ${price}⭐.` : `Tek tek alırsan ${bundleFull(bd)}⭐ tutar. Aldığın her şey hemen kullanılır.`;
+  } else {
+    const it = ITEMS.get(key), price = priceOf(it), off = dealOff(it);
+    name = it.name; kind = SHOP[it.kind].name + (off && !owns(it) ? ` · günün fırsatı −%${off}` : '');
+    desc = it.d;
+    if (worn(it)) { text = 'Kullanılıyor ✓'; dis = true; }
+    else if (owns(it)) text = 'Kullan';
+    else if (prog.stars < price) { text = `${price}⭐ · ${price - prog.stars} eksik`; dis = true; }
+    else text = `Satın al · ${price}⭐`;
+    note = SHOP[it.kind].note + (off && !owns(it) ? ` Normal fiyatı ${it.price}⭐.` : '');
+  }
+  $('spName').textContent = name; $('spKind').textContent = kind; $('spDesc').textContent = desc;
+  buy.textContent = text; buy.disabled = dis;
+  $('spNote').textContent = store.msg || note;
+  sizePreview();                                  // the preview takes the room the words leave
+}
+function storeBuy() {
+  const key = store.sel;
+  if (key.startsWith('bundle:')) {
+    const bd = BUNDLES.find(x => 'bundle:' + x.id === key), left = bundleLeft(bd), price = bundlePrice(bd);
+    if (!left.length) return;
+    if (prog.stars < price) { store.msg = `${bd.name} için ${price - prog.stars} yıldız daha lazım. Günlük görevlerden kazanabilirsin.`; renderStore(); return; }
+    prog.stars -= price;
+    for (const it of left) prog.owned[it.kind].push(it.id);
+    for (const k of bd.items) wear(ITEMS.get(k));
+    return bought(`${bd.name} senin! ${left.length} eşya açıldı ve hepsi kullanılıyor.`);
+  }
+  const it = ITEMS.get(key);
+  if (owns(it)) {
+    if (!worn(it)) { wear(it); saveProg(); store.msg = `${it.name} (${kindName(it)}) kullanılıyor.`; renderStore(); }
     return;
   }
-  if (shop.armed !== kind + ':' + id || performance.now() - shop.armedT > 4000) {
-    shop.armed = kind + ':' + id; shop.armedT = performance.now(); renderShop();
-    shopSay(`${th.name}: ${th.price} yıldız harcanacak. Açmak için bir kez daha dokun.`);
-    return;
-  }
-  shop.armed = '';
-  prog.stars -= th.price; prog.owned[kind].push(id); prog[kind] = id;
+  const price = priceOf(it);
+  if (prog.stars < price) { store.msg = `${it.name} için ${price - prog.stars} yıldız daha lazım. Günlük görevlerden kazanabilirsin.`; renderStore(); return; }
+  prog.stars -= price; prog.owned[it.kind].push(it.id); wear(it);
+  bought(`${it.name} (${kindName(it)}) senin ve kullanılıyor!`);
+}
+function bought(msg) {
   const rew = [];
   checkBadges(rew);
-  saveProg(); drawStatic(); renderGoals();
-  Sound.reward();
-  shopSay(`${th.name} açıldı ve seçildi! ${rew.length ? 'Yeni rozet: ' + rew.map(r => r.text).join(', ') + '.' : ''}`);
+  saveProg(); renderPill(); Sound.reward(); vibrate([20, 30, 40]);
+  store.msg = msg + (rew.length ? ` Yeni rozet: ${rew.map(r => r.text).join(', ')}.` : '');
+  store.built = '';                               // prices and the counts change
+  renderStore(); pickChanged();
+  const tile = $('storeGrid').querySelector(`[data-key="${CSS.escape(store.sel)}"]`);
+  if (tile) tile.classList.add('pop');
+  if (!reduceMotion) spawnFx(pv.parts, 'yildiz', pv.px, pv.py, BLUE);
 }
-$('panelThemes').addEventListener('click', e => { const b = e.target.closest('.theme'); if (b) tapTheme(b.dataset.kind, b.dataset.id); });
+
+/* the preview: the chosen thing in use, drawn every frame while the store is open */
+function sizePreview() {
+  const cv = $('storeCv'), w = Math.round(cv.offsetWidth * dpr), h = Math.round(cv.offsetHeight * dpr);
+  if (w && h && (cv.width !== w || cv.height !== h)) {
+    cv.width = w; cv.height = h; pv.bgKey = '';
+    if (reduceMotion && store.sel) drawPreview(0, true);
+  }
+}
+function previewKind() {
+  const key = store.sel;
+  return key.startsWith('bundle:') ? 'bundle' : ITEMS.get(key).kind;
+}
+function pickChanged() {
+  pv.parts = []; pv.t = 0; pv.nextFx = .5; pv.flash = 0; pv.trail.length = 0; pv.bgKey = '';
+  pv.bx = pv.by = undefined; pv.fired = false; pv.lastPh = 0;
+  if (reduceMotion) drawPreview(0, true);
+  else if (!pv.raf) { pv.last = 0; pv.raf = requestAnimationFrame(previewFrame); }
+}
+function previewFrame(now) {
+  if (!store.open) { pv.raf = 0; return; }
+  const dt = pv.last ? Math.min(.05, (now - pv.last) / 1000) : 0;
+  pv.last = now;
+  drawPreview(dt, false);
+  pv.raf = requestAnimationFrame(previewFrame);
+}
+function drawPreview(dt, still) {
+  const cv = $('storeCv'), c = cv.getContext('2d'), kind = previewKind();
+  if (!cv.width) return;
+  pv.t += dt;
+  if (kind === 'avatar') return drawAvatarPreview(c, cv, store.sel.slice(7));
+  const keys = kind === 'bundle' ? BUNDLES.find(b => 'bundle:' + b.id === store.sel).items : [store.sel];
+  const L = lookWith(keys), cam = CAMS[kind === 'bundle' ? 'table' : kind];
+  const bgKey = `${kind}|${L.table}|${cv.width}x${cv.height}`;
+  if (pv.bgKey !== bgKey) {
+    pv.bg.width = cv.width; pv.bg.height = cv.height;
+    drawTableBg(pv.bg.getContext('2d'), pv.bg, L, cam);
+    pv.bgKey = bgKey;
+  }
+  c.setTransform(1, 0, 0, 1, 0, 0); c.drawImage(pv.bg, 0, 0);
+  camFit(c, cv, cam);
+  const t = pv.t, fxLoop = kind === 'fx' || (kind === 'bundle' && keys.some(k => k.startsWith('fx:')));
+  pv.px = cam.x + cam.w / 2; pv.py = cam.cy;
+  // the ball: a slow loop (up close, faster), into the goal for a goal show
+  let bx, by, show = true;
+  if (kind === 'fx') {
+    const ph = t % 2.8;
+    bx = W - 400 + Math.min(1, ph / .6) * (400 + R * .6); by = CY + 70 - Math.min(1, ph / .6) * 60;
+    show = ph < .6;
+    if (still) { show = false; pv.parts = fxSnapshot(L.fx, FX_SNAP[L.fx]); }
+    else if (ph < pv.lastPh) pv.fired = false;
+    if (!still && !pv.fired && ph >= .6) { pv.fired = true; spawnFx(pv.parts, L.fx, W, by, BLUE); if (L.fx === 'simsek') pv.flash = .3; }
+    pv.lastPh = ph;
+  } else if (kind === 'ball') {
+    bx = 600 + Math.cos(t * 2.2) * 42; by = CY - 40 + Math.sin(t * 4.4) * 62;     // between the two rods
+  } else {
+    bx = 600 + Math.cos(t * .8) * 380; by = CY + Math.sin(t * .8) * 190;
+    if (fxLoop && !still) {
+      pv.nextFx -= dt;
+      if (pv.nextFx <= 0) { pv.nextFx = 2.6; spawnFx(pv.parts, L.fx, W, CY, BLUE); if (L.fx === 'simsek') pv.flash = .3; }
+    }
+    if (fxLoop && still) pv.parts = fxSnapshot(L.fx, FX_SNAP[L.fx]);
+  }
+  const dx = bx - (pv.bx ?? bx), dy = by - (pv.by ?? by);
+  if (Math.hypot(dx, dy) < 200) rotateSpots(dx, dy, pv.spots); else pv.trail.length = 0;
+  pv.bx = bx; pv.by = by;
+  const th = ballOf(L), fast = dt && Math.hypot(dx, dy) / dt > th.trailAt * .45;
+  if (show && fast) { pv.trail.push({ x: bx, y: by }); if (pv.trail.length > 7) pv.trail.shift(); } else if (pv.trail.length) pv.trail.shift();
+  if (show) drawBall(c, { show: true, x: bx, y: by, scale: 1, alpha: 1, superT: 0, trail: pv.trail, drop: 0, spots: pv.spots }, th);
+  const [kits, swing] = kitSwing(L.kit, kind === 'kit' && !still ? t : null);
+  drawRestRods(c, kits, swing);
+  stepParticles(pv.parts, dt);
+  drawParticles(c, pv.parts);
+  if (pv.flash > 0) {
+    pv.flash -= dt;
+    c.setTransform(1, 0, 0, 1, 0, 0); c.fillStyle = `rgba(150,205,255,${Math.max(0, Math.min(pv.flash, .3)).toFixed(3)})`; c.fillRect(0, 0, cv.width, cv.height);
+  }
+}
+function drawAvatarPreview(c, cv, av) {
+  const w = cv.width, h = cv.height, u = h / 100;
+  c.setTransform(1, 0, 0, 1, 0, 0);
+  let g = c.createRadialGradient(w / 2, h * .42, 0, w / 2, h * .42, Math.hypot(w, h) * .6);
+  g.addColorStop(0, '#3a2c20'); g.addColorStop(1, '#0c0907');
+  c.fillStyle = g; c.fillRect(0, 0, w, h);
+  const r = 30 * u, cy = h * .42, bob = reduceMotion ? 0 : Math.sin(pv.t * 2.2) * 2 * u;
+  g = c.createRadialGradient(w / 2 - r * .25, cy - r * .3 + bob, 0, w / 2, cy + bob, r);
+  g.addColorStop(0, 'rgba(214,165,72,.45)'); g.addColorStop(1, 'rgba(214,165,72,.1)');
+  c.fillStyle = g; c.beginPath(); c.arc(w / 2, cy + bob, r, 0, Math.PI * 2); c.fill();
+  c.lineWidth = 1.6 * u; c.strokeStyle = '#d6a548'; c.stroke();
+  c.textAlign = 'center'; c.textBaseline = 'middle';
+  c.font = `${Math.round(34 * u)}px system-ui, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif`;
+  c.fillText(av, w / 2, cy + bob + 2 * u);
+  const lv = levelOf(xpOf(prog.life)).lv, label = `${prog.name} · Sv ${lv}`;
+  c.font = `700 ${Math.round(9 * u)}px ${FONT_U}`;
+  const tw = c.measureText(label).width + 12 * u;
+  c.fillStyle = 'rgba(242,233,216,.08)'; rr(c, w / 2 - tw / 2, h * .8 - 7.5 * u, tw, 15 * u, 7.5 * u); c.fill();
+  c.fillStyle = '#f2e9d8'; c.fillText(label, w / 2, h * .8 + .5 * u);
+  c.textBaseline = 'alphabetic';
+}
+$('storeBtn').addEventListener('click', () => openStore(newDeals() ? 'featured' : store.cat));
+$('storeClose').addEventListener('click', closeStore);
+$('walletBtn').addEventListener('click', () => { closeStore(); openGoals('quests'); });
+$('storeCats').addEventListener('click', e => { const b = e.target.closest('[data-cat]'); if (b) storeCat(b.dataset.cat); });
+$('storeGrid').addEventListener('click', e => { const b = e.target.closest('.sitem'); if (b) storePick(b.dataset.key); });
+$('storeGrid').addEventListener('animationend', e => e.target.classList.remove('pop'));
+$('spBuy').addEventListener('click', storeBuy);
 
 /* ——— Weekly cup and table ———
    The cup is three matches against the computer, Acemi, Kulüp and Usta, under a twist that changes
@@ -3712,7 +4273,7 @@ const NET_TIMEOUT = 6000;     // ms of silence before the match is called off
 const net = { role: null, kind: '', code: '', tr: null, connected: false, lastHeard: 0, joinT: 0, seq: 0, lastN: 0, snaps: [],
   events: [], evId: 0, lastEv: 0, sendAcc: 0, inSeq: 0, inKey: '', inT: 0, cnt: { p: 0, s: 0, g: 0 }, seen: { p: 0, s: 0, g: 0, pending: false },
   again: 0, lastAgain: 0, saved: null, forced: null, peerOpts: null, sfxT: {}, waitT: 0, emN: 0, emId: 0, seenEm: 0,
-  bdGot: -1, bdAck: -1, brdV: -1 };      // table versions: received from the guest / acknowledged by the host / last sent by the host
+  bdGot: -1, bdAck: -1, brdV: -1, oppLook: null };      // table versions: received from the guest / acknowledged by the host / last sent by the host
 let onlineOpen = false;
 const r1 = v => Math.round(v * 10) / 10, r2 = v => Math.round(v * 100) / 100, r3 = v => Math.round(v * 1000) / 1000;
 const lerp = (a, b, q) => a + (b - a) * q;
@@ -3821,7 +4382,7 @@ function closeOnline() { leaveOnline(); onlineOpen = false; setUI(); }
 function leaveOnline() {
   if (net.tr) { try { net.tr.close(); } catch (e) { /* already closed */ } }
   const wasGuest = net.role === 'guest';
-  Object.assign(net, { tr: null, role: null, connected: false, snaps: [], events: [], again: 0, lastAgain: 0, oppName: '' });
+  Object.assign(net, { tr: null, role: null, connected: false, snaps: [], events: [], again: 0, lastAgain: 0, oppName: '', oppLook: null });
   if (wasGuest && net.saved) { Object.assign(settings, net.saved); net.saved = null; syncForm(); }
   me = BLUE;
   if (flip) setFlip(false);
@@ -3861,6 +4422,7 @@ async function hostTable() {
 function hostOnState(d) {
   if (!d || !Array.isArray(d.in)) return;
   if (Array.isArray(d.bd) && Array.isArray(d.bd[0])) net.oppName = cleanName(d.bd[0][1]) || net.oppName;   // their own row comes first
+  if (Array.isArray(d.lk)) net.oppLook = parseLook(d.lk);
   net.lastHeard = performance.now();
   if (!net.connected) { net.connected = true; onlineOpen = false; startMatch('online'); }
   if ((d.ag | 0) > net.lastAgain) { net.lastAgain = d.ag | 0; if (state === 'over') startMatch('online'); }
@@ -3913,7 +4475,7 @@ function sendGuestInput(force) {
   const key = a.join() + '|' + net.again + '|' + net.emN + '|' + board.v + '|' + net.bdAck;
   if (!force && key === net.inKey) return;
   net.inKey = key; net.inT = performance.now();
-  const msg = { in: a, ag: net.again, em: [net.emN, net.emId], n: ++net.inSeq };
+  const msg = { in: a, ag: net.again, em: [net.emN, net.emId], n: ++net.inSeq, lk: [prog.kit, prog.fx] };
   if (net.bdAck !== board.v) { msg.bd = boardPayload(); msg.bv = board.v; }      // our table, until the host has it
   net.tr.send(msg);
 }
@@ -3940,7 +4502,7 @@ function enterGuest(d) {
   resetTable();
   for (const t of teams) { t.ai = null; t.keeper = false; t.together = false; }
   net.lastEv = Math.max(0, ...(d.ev || []).map(e => e.i));      // what happened before we arrived is old news,
-  for (const e of d.ev || []) if (e.k === 'brd') guestEvent(e);   // but the host's table is not news, it is state
+  for (const e of d.ev || []) if (e.k === 'brd' || e.k === 'lk') guestEvent(e);   // but the host's table and kit are state
   state = d.st; paused = false; clearInput(); renderHud(); setUI();
   Sound.unlock(); enterFullscreen(); requestWake();
   spkKickoff();                                                   // the match's kick-off came in the snapshot we skipped
@@ -3951,11 +4513,12 @@ function guestEvent(e) {
     case 'goal': burst(e.x, e.y, e.s); shake(8); goalBanner(e.s, !!e.o, !!e.u); spkGoal(e.s, !!e.o, !!e.u); emoteHint(e.s); vibrate(e.s === me ? [30, 40, 60] : 80); break;
     case 'emo': if (e.t !== me) showEmote(e.t, e.e); break;             // our own was shown when we sent it
     case 'brd': if (Array.isArray(e.b) && Array.isArray(e.b[0])) net.oppName = cleanName(e.b[0][1]) || net.oppName; mergeBoard(e.b); break;
+    case 'lk': net.oppLook = parseLook(e.l); break;
     case 'sv': spkSave(e.t); break;
     case 'gi': spkGiant(e.t); break;
     case 'srv': toast(e.t === me ? 'Servis sende' : 'Servis rakipte'); spkKickoff(); break;
     case 'dead': toast('Ölü top · yeniden servis'); spkDead(); break;
-    case 'sup': shake(7); if (!reduceMotion) flashT = .22; spkSuper(e.t); break;
+    case 'sup': shake(7); flashOn(.22, '255,170,80'); spkSuper(e.t); break;
     case 'end':
       // the host's numbers for the share card (an older host sends none: then the card leaves them out)
       Object.assign(stats, e.st ? { dur: e.st.d | 0, goals: (e.st.g || []).map(v => ({ s: v & 1, o: v >> 1 & 1, u: v >> 2 & 1 })), saves: e.st.sv || [0, 0],
@@ -4031,7 +4594,7 @@ function boot(data) {
 }
 
 // handle for experimenting from the console
-window.langirt = { teams, rods, ball, score, settings, update, startMatch, attract, net, hostTable, joinTable, sendEmote, EMOTES, stats, card, cardStory, drawCard, recordMatch, todayQuests, QUESTS, BADGES, tapTheme, BALLS, TABLES, drawStatic, startCup, cupRule, weekKey, mergeBoard, boardPayload, RULES, cup, FIREBASE, fb, fbPush, fbFetch, fbOn, renderBoard, spk, say, levelOf, xpOf, renderProfile, skillPoints, perksOf, applyPerks, PERK_NODES, get prog() { return prog; }, get state() { return state; }, get mode() { return mode; }, get me() { return me; } };
+window.langirt = { teams, rods, ball, score, settings, update, startMatch, attract, net, hostTable, joinTable, sendEmote, EMOTES, stats, card, cardStory, drawCard, recordMatch, todayQuests, QUESTS, BADGES, BALLS, TABLES, KITS, FXS, ITEMS, BUNDLES, store, openStore, storeBuy, storePick, storeCat, priceOf, bundlePrice, rollDeals, lookOf, spawnFx, particles, pv, drawStatic, startCup, cupRule, weekKey, mergeBoard, boardPayload, RULES, cup, FIREBASE, fb, fbPush, fbFetch, fbOn, renderBoard, spk, say, levelOf, xpOf, renderProfile, skillPoints, perksOf, applyPerks, PERK_NODES, get prog() { return prog; }, get state() { return state; }, get mode() { return mode; }, get me() { return me; } };
 
 const hot = window.claude && window.claude.hot;
 if (hot && typeof hot.snapshot === 'function') {
