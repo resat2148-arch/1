@@ -652,6 +652,12 @@ a.cta{text-decoration:none;display:inline-block}
 /* ——— score board ——— */
 #hud{position:absolute;left:50%;top:var(--hud-top,6px);translate:-50% 0;display:flex;align-items:center;gap:10px;padding:4px 14px;border-radius:999px;background:var(--glass);border:1px solid var(--chalk-3);box-shadow:0 6px 16px rgba(0,0,0,.35);opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap}
 #stage.match #hud{opacity:1}
+#clock{position:absolute;left:50%;top:calc(var(--hud-top,6px) + 40px);translate:-50% 0;padding:3px 10px;border-radius:999px;background:var(--glass);border:1px solid var(--chalk-3);
+  font:900 15px/1 var(--display);letter-spacing:.06em;color:var(--chalk-2);font-variant-numeric:tabular-nums;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap}
+#stage.match #clock{opacity:1}
+#clock.low{color:#fff;border-color:var(--red);background:rgba(207,52,56,.55);animation:clockPulse 1s ease-in-out infinite}
+#clock.gold{color:#1b1206;background:#e2b457;border-color:#e2b457;text-transform:uppercase}
+@keyframes clockPulse{50%{scale:1.1}}
 .team{display:flex;align-items:center;gap:7px}
 .tag{font:700 11px/1 var(--ui);letter-spacing:.16em;text-transform:uppercase}
 .team.b .tag{color:var(--blue-hi)}
@@ -774,6 +780,7 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
 <div id="stage" lang="tr">
   <canvas id="game" aria-label="Langırt masası"></canvas>
 
+  <div id="clock" aria-label="Kalan süre">1:30</div>
   <div id="hud" aria-live="polite">
     <div class="team b"><span class="tag" id="tagB">Sen</span><svg class="bolt" id="boltB" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7z" fill="currentColor"/></svg><svg class="shield" id="shieldB" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 4 5v6c0 5 3.4 9.3 8 11 4.6-1.7 8-6 8-11V5z" fill="currentColor"/></svg><span class="beads" id="beadsB"></span><span class="num" id="numB">0</span></div>
     <span class="colon">:</span>
@@ -830,7 +837,7 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
           </div>
         </fieldset>
         <fieldset>
-          <legend>Maç</legend>
+          <legend>Maç · 90 saniye</legend>
           <div class="seg">
             <input type="radio" name="target" id="tg-3" value="3"><label for="tg-3">3 gol</label>
             <input type="radio" name="target" id="tg-5" value="5"><label for="tg-5">5 gol</label>
@@ -1776,7 +1783,7 @@ function scoreGoal(scorer, side) {
   if (mode === 'cpu' || net.bot) cpuReact(scorer === RED ? (own ? 'own' : 'scored') : own ? '' : 'conceded');
   pushEvent({ k: 'goal', s: scorer, o: own ? 1 : 0, u: superGoal ? 1 : 0, x: side ? W : 0, y: Math.round(ball.y) });
   vibrate(mode === 'duo' ? 60 : scorer === me ? [30, 40, 60] : 80);
-  if (score[scorer] >= settings.target) later(1.7, () => endMatch(scorer));
+  if (score[scorer] >= settings.target || clock.gold) { clock.done = true; later(1.7, () => endMatch(scorer)); }   // the target, or the golden goal
   else queueServe(1 - scorer, 1.7);
 }
 // 2: a foot can play the ball forwards, 1: only a heel can reach it from behind, 0: nobody can
@@ -1795,6 +1802,46 @@ function reachLevel() {
     }
   }
   return lvl;
+}
+/* ——— Match clock: 90 seconds ———
+   The clock runs while the ball is in play (not over goals and serves, nor while a match is paused
+   on this phone). When it runs out the side ahead wins; level, the next goal wins ("altın gol"). The
+   online host keeps the time and sends it to the guests. */
+const MATCH_TIME = 90;
+const clock = { left: MATCH_TIME, gold: false, done: false, shown: '', tick: -1, warned: false };
+function resetClock() { Object.assign(clock, { left: MATCH_TIME, gold: false, done: false, warned: false, tick: -1 }); renderClock(); }
+function runClock(dt) {
+  if (state !== 'play' || !ball.live || clock.gold || clock.done) return;
+  clock.left = Math.max(0, clock.left - dt);
+  if (!clock.warned && clock.left <= 10) { clock.warned = true; say('Son on saniye!', 1); }
+  if (clock.left <= 0) timeUp();
+  renderClock();
+}
+function timeUp() {
+  const d = score[BLUE] - score[RED];
+  if (d) {                                          // someone is ahead: that's the match
+    clock.done = true;
+    const w = d > 0 ? BLUE : RED;
+    ball.live = false; ball.vx *= .2; ball.vy *= .2;
+    Sound.fanfare(false); banner('Süre doldu', `${teamName(w)} kazandı`, PAL[w].hi);
+    pushEvent({ k: 'tu', w });
+    later(1.4, () => { if (state === 'play') endMatch(w); });
+  } else {
+    clock.gold = true;
+    banner('Altın gol', 'Süre doldu · ilk gol kazanır', '#e2b457');
+    say(spkPick('gold', ['Süre doldu ve eşitlik! Altın gol zamanı: ilk atan kazanır!', 'Doksan saniye bitti, skor eşit! Şimdi altın gol!']), 2);
+    pushEvent({ k: 'gold' });
+  }
+  renderClock();
+}
+function renderClock() {
+  const el = $('clock');
+  const sec = Math.ceil(clock.left), txt = clock.gold ? 'Altın gol' : `${Math.floor(sec / 60)}:${String(sec % 60).padStart(2, '0')}`;
+  if (txt === clock.shown) return;
+  clock.shown = txt; el.textContent = txt;
+  el.classList.toggle('low', !clock.gold && clock.left <= 10);
+  el.classList.toggle('gold', clock.gold);
+  if (state === 'play' && !clock.gold && sec <= 5 && sec > 0 && sec !== clock.tick) { clock.tick = sec; Sound.tock(.35); }   // the last seconds tick
 }
 function checkDead(dt) {
   if (!ball.live) { ball.still = 0; return; }
@@ -2521,6 +2568,7 @@ function update(dt) {
   hist.push({ t: simT, x: ball.x, y: ball.y, vx: ball.vx, vy: ball.vy, live: ball.live });
   if (hist.length > 90) hist.shift();
   checkDead(dt);
+  runClock(dt);
   cosmetics(dt, false);
 }
 function cosmetics(dt, guest) {
@@ -3119,6 +3167,7 @@ function startMatch(m) {
   applyPerks();
   for (const t of teams) if (settings.superShot) t.skill = t.perk.opening;
   Object.assign(stats, { t0: simT, dur: 0, goals: [], saves: [0, 0], giants: [0, 0], bigSaves: [0, 0] });
+  resetClock();
   const first = Math.random() < .5 ? BLUE : RED;
   queueServe(first, .9);
   if (!tour.live) toast((mode === 'duo' ? `Servis: ${NAMES.duo[first]}` : first === me ? 'Servis sende' : 'Servis rakipte') + (pair ? ' · ' + PAIR_HINT[pair.role === 'net' ? SEATS[pair.seat][1] : pair.role] : ''), pair ? 2600 : undefined);
@@ -3166,7 +3215,7 @@ function pauseGame() {
   if (mode !== 'online') spkHush();
   $('pauseScore').textContent = mode === 'online'
     ? `Sen ${score[me]} – ${score[1 - me]} Rakip · maç sürüyor`             // an online match does not stop
-    : `${teamName(BLUE)} ${score[BLUE]} – ${score[RED]} ${teamName(RED)} · ${settings.target} gole kadar`;
+    : `${teamName(BLUE)} ${score[BLUE]} – ${score[RED]} ${teamName(RED)} · ${clock.gold ? 'altın gol' : clock.shown + ' kaldı'}`;
   setUI();
 }
 function resumeGame() { if (!paused) return; paused = false; lastT = performance.now(); setUI(); }
@@ -5670,7 +5719,7 @@ function makeSnap() {
   return {
     ...(net.t ? { t: 1, tl: tour.live ? [tour.live.r, tour.live.m, tour.live.blue, tour.live.red] : null, tb: state !== 'play' && net.seq % 6 === 0 ? tbWire(net.tour) : undefined } : {}),
     ...(net.p2 ? { p2: 1, seats: seatWire(), u: UNITS.flat().map(u => [u.active && !u.together ? u.active.i : -1, u.k.phase === 'windup' ? r2(u.k.charge) : 0]) } : { to: net.guestG || undefined }),
-    n: ++net.seq, st: state, sc: [score[0], score[1]], tg: settings.target, sp: settings.superShot ? 1 : 0, gg: settings.giantGoalie ? 1 : 0,
+    n: ++net.seq, st: state, sc: [score[0], score[1]], tg: settings.target, ck: [Math.round(clock.left * 10) / 10, clock.gold ? 1 : 0], sp: settings.superShot ? 1 : 0, gg: settings.giantGoalie ? 1 : 0,
     b: [r1(ball.x), r1(ball.y), Math.round(ball.vx), Math.round(ball.vy), ball.show ? 1 : 0, r2(ball.alpha), r2(ball.scale), ball.superT > 0 ? 1 : 0, ball.superTeam],
     r,
     tm: teams.map(t => [r2(t.skill), t.armed ? 1 : 0, r2(t.giant), r2(t.giantT), t.active && !t.together ? t.active.i : -1, t.k.phase === 'windup' ? r2(t.k.charge) : 0]),
@@ -5729,6 +5778,7 @@ function guestOnState(d) {
     settings.superShot = !!d.sp; settings.giantGoalie = !!d.gg;
     stage.classList.toggle('nosuper', !settings.superShot); stage.classList.toggle('nogiant', !settings.giantGoalie);
   }
+  if (Array.isArray(d.ck)) { clock.left = +d.ck[0] || 0; clock.gold = !!d.ck[1]; renderClock(); }
   if (typeof d.ba === 'number') net.bdAck = d.ba;
   else if (d.ba && typeof d.ba[net.gid] === 'number') net.bdAck = d.ba[net.gid];
   for (const e of d.ev || []) if (e.i > net.lastEv) { net.lastEv = e.i; guestEvent(e); }
@@ -5747,6 +5797,7 @@ function enterGuest(d) {
   for (const e of d.ev || []) if (e.k === 'brd' || e.k === 'lk' || e.k === 'lk2') guestEvent(e);   // but the host's table and kits are state
   state = d.st; paused = false; clearInput(); renderHud(); setUI();
   Sound.unlock(); enterFullscreen(); requestWake();
+  resetClock();
   spkKickoff();                                                   // the match's kick-off came in the snapshot we skipped
 }
 function guestEvent(e) {
@@ -5761,6 +5812,8 @@ function guestEvent(e) {
     case 'gi': spkGiant(e.t); break;
     case 'srv': toast(net.spect ? `Servis: ${teamName(e.t)} · izliyorsun` : e.t === me ? 'Servis sende' : 'Servis rakipte'); spkKickoff(); break;
     case 'dead': toast('Ölü top · yeniden servis'); spkDead(); break;
+    case 'tu': Sound.fanfare(false); banner('Süre doldu', `${teamName(e.w)} kazandı`, PAL[e.w].hi); break;
+    case 'gold': banner('Altın gol', 'Süre doldu · ilk gol kazanır', '#e2b457'); say('Süre doldu ve eşitlik! Altın gol zamanı: ilk atan kazanır!', 2); break;
     case 'sup': shake(7); flashOn(.22, '255,170,80'); spkSuper(e.t); break;
     case 'end':
       // the host's numbers for the share card (an older host sends none: then the card leaves them out)
@@ -5843,7 +5896,7 @@ function boot(data) {
 }
 
 // handle for experimenting from the console
-window.langirt = { teams, rods, ball, score, settings, update, startMatch, attract, net, hostTable, joinTable, sendEmote, EMOTES, stats, card, cardStory, drawCard, recordMatch, todayQuests, QUESTS, BADGES, BALLS, TABLES, PAL, MM, mm, findRival, tour, tourNext, openTour, playTour, tourSim, TEAM_COLORS, CRESTS, resolvePals, teamPal, colorDist, applyTeams, KITS, FXS, ITEMS, BUNDLES, store, openStore, storeBuy, storePick, storeCat, priceOf, bundlePrice, rollDeals, lookOf, spawnFx, particles, pv, drawStatic, startCup, cupRule, weekKey, mergeBoard, boardPayload, RULES, cup, FIREBASE, fb, fbPush, fbFetch, fbOn, renderBoard, spk, say, levelOf, xpOf, renderProfile, skillPoints, perksOf, applyPerks, PERK_NODES, UNITS, setPair, tryGiant, trySkill, press(k, down) { if (down) kbHeld.add(k); else kbHeld.delete(k); syncInput(); }, get pair() { return pair; }, get ctls() { return ctls; }, get prog() { return prog; }, get state() { return state; }, get mode() { return mode; }, get me() { return me; } };
+window.langirt = { teams, rods, ball, score, settings, update, startMatch, attract, net, hostTable, joinTable, sendEmote, EMOTES, stats, card, cardStory, drawCard, recordMatch, todayQuests, QUESTS, BADGES, BALLS, TABLES, PAL, clock, MATCH_TIME, MM, mm, findRival, tour, tourNext, openTour, playTour, tourSim, TEAM_COLORS, CRESTS, resolvePals, teamPal, colorDist, applyTeams, KITS, FXS, ITEMS, BUNDLES, store, openStore, storeBuy, storePick, storeCat, priceOf, bundlePrice, rollDeals, lookOf, spawnFx, particles, pv, drawStatic, startCup, cupRule, weekKey, mergeBoard, boardPayload, RULES, cup, FIREBASE, fb, fbPush, fbFetch, fbOn, renderBoard, spk, say, levelOf, xpOf, renderProfile, skillPoints, perksOf, applyPerks, PERK_NODES, UNITS, setPair, tryGiant, trySkill, press(k, down) { if (down) kbHeld.add(k); else kbHeld.delete(k); syncInput(); }, get pair() { return pair; }, get ctls() { return ctls; }, get prog() { return prog; }, get state() { return state; }, get mode() { return mode; }, get me() { return me; } };
 
 const hot = window.claude && window.claude.hot;
 if (hot && typeof hot.snapshot === 'function') {

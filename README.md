@@ -6,6 +6,12 @@ Telefonda oynanan langırt (kicker) oyunu. Tek bir `index.html` dosyasından olu
 
 Üç mod var: **Bilgisayara karşı** (mavi takım sensin, kırmızıyı bilgisayar oynar), **2 kişi** (aynı telefonda arkadaşınla) ve **Online** (iki ayrı telefonda arkadaşınla). Seçtiğin gol sayısına (3, 5 ya da 7) ilk ulaşan maçı kazanır.
 
+**Süre: 90 saniye.** Skorun altındaki sayaç geri sayar. Sayaç yalnızca top oyundayken işler; gol sonrası ve servis beklerken, bu telefonda mola verilince durur.
+- Son 10 saniyede sayaç kırmızı yanar ve spiker uyarır; son 5 saniyede her saniye tıkırdar.
+- Süre bittiğinde önde olan kazanır ("Süre doldu").
+- Skor eşitse **altın gol** oynanır: ilk atan kazanır.
+- Kural bütün modlarda geçerlidir: bilgisayara karşı, 2 kişi, 2v2, kupa, turnuva ve online. Online'da süreyi masayı açan tutar, diğer telefonlar aynı sayacı görür.
+
 | Kontrol | Ne yapar |
 | --- | --- |
 | **▲ / ▼** (sol başparmak) | Aktif çubuğu (pirinç renkte parlayan çubuk) yukarı / aşağı kaydırır. Parmağını kaldırmadan ▲ ile ▼ arasında kaydırabilirsin. |
