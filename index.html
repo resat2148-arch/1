@@ -101,6 +101,10 @@ button:focus-visible,.seg input:focus-visible+label{outline:2px solid var(--bras
 .pad .skills{display:none;align-self:center;gap:8px;margin-inline:calc(var(--cs) * -.05 - 4px)}
 #stage.duo .pad .skills{display:flex}
 .pad .skill{position:relative;width:calc(var(--cs) * .55);height:calc(var(--cs) * .55);font-size:calc(var(--cs) * .13)}
+/* 2v2: the dev kaleci is the defender's button, the süper şut the attacker's */
+#stage.pair-def .skill.solo:not(.giant),#stage.pair-att .skill.solo.giant,#stage.pair-coop .pad.blue .skill:not(.giant),#stage.pair-coop .pad.red .skill.giant{display:none!important}
+#stage.pair-coop .pad.blue{--edge:#d6a548;--edge-deep:#8f6724}
+#stage.pair-coop .pad.red{--edge:#3cc6a6;--edge-deep:#177a64}
 #stage.duo .skill.solo,#stage.nosuper .skill:not(.giant),#stage.nosuper .bolt,#stage.nogiant .skill.giant,#stage.nogiant .shield{display:none!important}
 .bolt{width:12px;height:12px;color:rgba(242,233,216,.2);transition:color .2s}
 .bolt.ready{color:#f08a2c}
@@ -136,7 +140,7 @@ button:focus-visible,.seg input:focus-visible+label{outline:2px solid var(--bras
 .emo.hot{color:var(--brass);border-color:var(--brass);animation:emoHot .8s ease-in-out infinite}
 @keyframes emoHot{50%{box-shadow:0 0 0 4px rgba(214,165,72,.28),0 0 18px rgba(214,165,72,.6)}}
 .emo.r{left:auto;right:calc(var(--sr) + 12px + 40px + 10px)}
-#stage:not(.duo) .emo.r,#stage.noemo .emo,#stage.noemo .tray{display:none!important}
+#stage:not(.duo) .emo.r,#stage.pair-coop .emo.r,#stage.noemo .emo,#stage.noemo .tray{display:none!important}
 .tray{position:absolute;z-index:3;top:calc(var(--st) + 8px);left:calc(var(--sl) + 12px + min(44px,calc(var(--cs) * .55)) + 8px);
   display:grid;grid-template-columns:repeat(4,60px);gap:5px;padding:7px;border-radius:16px;
   background:rgba(16,11,8,.93);border:1px solid var(--chalk-3);box-shadow:0 14px 34px rgba(0,0,0,.55);animation:trayIn .14s ease-out}
@@ -378,6 +382,29 @@ button:focus-visible,.seg input:focus-visible+label{outline:2px solid var(--bras
   .lrow{padding:5px 10px}
 }
 
+/* ——— 2v2 chooser ——— */
+.card.paircard{width:min(800px,100%)}
+.paircard .big{font-size:clamp(30px,10cqh,60px)}
+.pairs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;width:100%;margin-top:2px}
+.pairopt{appearance:none;display:grid;gap:6px;align-content:start;justify-items:start;text-align:left;min-width:0;padding:10px;border-radius:14px;
+  border:1px solid var(--chalk-3);background:rgba(242,233,216,.05);color:var(--chalk);cursor:pointer;transition:border-color .15s,background .15s}
+.pairopt svg{display:block;width:100%;height:auto;aspect-ratio:1280/740}
+.pairopt b{font:900 20px/1 var(--display);letter-spacing:.05em;text-transform:uppercase}
+.pairopt span{font-size:12.5px;line-height:1.28;color:var(--chalk-2)}
+.pairopt:hover,.pairopt:focus-visible{border-color:var(--brass);background:rgba(214,165,72,.1)}
+@container (max-height:460px){
+  .pairopt{padding:8px;gap:5px}
+  .pairopt b{font-size:18px}
+  .pairopt svg{width:auto;height:74px}
+  .paircard .big{font-size:9cqh}
+  .paircard .sub{font-size:13px;line-height:1.3}
+  legend{display:none}                           /* the choices say what they are */
+}
+@container (max-height:380px){
+  .pairopt svg{height:54px}
+  .pairopt span{font-size:11.5px}
+}
+
 /* ——— store ——— */
 .rw.t{border-color:#3cc6a6;background:rgba(60,198,166,.16)}
 .storepill{position:relative}
@@ -545,7 +572,8 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
 .cta:active,.ghost:active{scale:.98}
 .ghost{appearance:none;border:1px solid var(--chalk-3);background:rgba(242,233,216,.05);color:var(--chalk);border-radius:12px;padding:12px 14px;font:600 15px/1.1 var(--ui);cursor:pointer}
 .kb{margin:0;font-size:12px;color:var(--chalk-2)}
-.starts{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:8px}
+.starts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.starts #startBtn{grid-column:1/-1}                  /* the main button on its own row, the other three below */
 .starts .cta{font-size:17px;padding:13px 8px;letter-spacing:.04em}
 .cta.alt{background:transparent;color:var(--chalk);border:1.5px solid var(--brass);box-shadow:none}
 .switch{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:center;cursor:pointer}
@@ -588,6 +616,9 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
 @container (max-height:380px){
   .how .tip-emo{display:none}             /* the 💬 button explains itself on the smallest screens */
   .pquick{display:none}                   /* the other tabs say the same */
+}
+@container (max-width:700px){
+  .profchip .pn{display:none}                    /* avatar and level only: the pills need the room */
 }
 @container (max-width:700px) and (max-height:460px){   /* a small phone on its side: the two columns get tall */
   h1{font-size:12cqh}
@@ -699,6 +730,7 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
         </div>
         <div class="starts">
           <button class="cta" type="submit" id="startBtn">Bilgisayara karşı</button>
+          <button class="cta alt" type="button" id="pairBtn" aria-label="2v2: rol paylaşımı">2v2</button>
           <button class="cta alt" type="button" id="duoBtn">2 kişi</button>
           <button class="cta alt" type="button" id="onlineBtn" lang="en">Online</button>
         </div>
@@ -722,6 +754,20 @@ legend{padding:0;margin-bottom:8px;font:700 11px/1 var(--ui);letter-spacing:.2em
         <button class="ghost" id="restartBtn">Baştan başlat</button>
         <button class="ghost wide" id="quitBtn">Menüye dön</button>
       </div>
+    </div>
+  </section>
+
+  <section class="overlay" id="pairPick" hidden>
+    <div class="card paircard">
+      <p class="eyebrow">2v2 · Rol paylaşımı</p>
+      <h2 class="big">Takımda iki oyuncu</h2>
+      <p class="sub">Turnuva kuralı: savunmacı kaleciyle 2'li defansı, hücumcu 5'li orta sahayla 3'lü forveti yönetir. Rakip takımda da iki bilgisayar oyuncusu var (<span id="pairLvl">Kulüp</span>).</p>
+      <div class="pairs">
+        <button type="button" class="pairopt" data-role="def"><b>🛡️ Savunma</b><span>Kaleci ve 2'li defans senin. Orta saha ile forveti bilgisayar takım arkadaşın oynar.</span></button>
+        <button type="button" class="pairopt" data-role="att"><b>⚔️ Hücum</b><span>5'li orta saha ve 3'lü forvet senin. Kaleyi ve defansı bilgisayar takım arkadaşın korur.</span></button>
+        <button type="button" class="pairopt" data-role="coop"><b>👥 İki kişi</b><span>Tek telefonda aynı takım: soldaki savunma (sarı), sağdaki hücum (turkuaz).</span></button>
+      </div>
+      <button class="ghost" id="pairBack">Geri</button>
     </div>
   </section>
 
@@ -993,6 +1039,42 @@ const rods = ROD_SPEC.map(([team, n, s, half], i) => ({
   big: 0,                                       // goalie growth, 0 normal … 1 dev kaleci
 }));
 for (const t of teams) t.rods = rods.filter(r => r.team === t.id);
+/* 2v2, rol paylaşımı (the tournament rule): each team is two players, savunma on the goalie and the
+   2-bar, hücum on the 5-bar and the 3-bar. A player is a unit with its own hand on its two rods (its
+   active rod, its kick, its AI); the meters, the perks and the score stay the team's. Otherwise a team
+   is one player holding all four rods. */
+const SHARED = ['skill', 'armed', 'giant', 'giantT', 'perk', 'lastStand'];
+function makeUnit(team, role) {
+  const u = makeTeam(team.id);
+  for (const k of SHARED) { delete u[k]; Object.defineProperty(u, k, { get: () => team[k], set: v => { team[k] = v; }, enumerable: true }); }
+  return Object.assign(u, { team, role, inp: 0, rods: team.rods.filter(r => role === 'def' ? r.n <= 2 : r.n >= 3) });
+}
+const UNITS = teams.map(t => [makeUnit(t, 'def'), makeUnit(t, 'att')]);
+for (const t of teams) Object.assign(t, { team: t, role: '', inp: t.id });
+let pair = null;                    // 2v2: { role: 'def' | 'att' | 'coop' } (coop: two people on one phone, one team)
+let ctls = teams;                   // the players holding rods right now
+for (const r of rods) r.ctl = teams[r.team];
+const coop = () => !!pair && pair.role === 'coop';
+const PAIR_HINT = { def: 'Sen: kaleci + 2\'li defans', att: 'Sen: 5\'li orta saha + 3\'lü forvet', coop: 'Sol: savunma · Sağ: hücum' };
+function setPair(p) {
+  pair = p;
+  ctls = p ? UNITS.flat() : teams;
+  for (const c of ctls) for (const r of c.rods) r.ctl = c;
+  for (const cls of ['def', 'att', 'coop']) stage.classList.toggle('pair-' + cls, !!p && p.role === cls);
+  stage.classList.toggle('duo', twoPads());
+  lastS[0] = lastS[1] = lastG[0] = lastG[1] = '';
+  layout();
+}
+// who plays which half of each team: the computer at the menu's level, you (or the two of you) on blue
+function setupPair() {
+  const L = LEVELS[settings.level];
+  for (const [def, att] of UNITS) for (const u of [def, att]) {
+    const human = u.id === BLUE && (pair.role === 'coop' || pair.role === u.role);
+    u.ai = human ? null : L;
+    u.inp = pair.role === 'coop' && u.role === 'att' ? 1 : 0;
+  }
+}
+const twoPads = () => mode === 'duo' || coop();
 const figY = (rod, j) => CY + rod.offs[j] + rod.p;
 
 // Gentle troughs in the playfield, like a slightly warped real table (about 1.2°): wherever a ball
@@ -1197,6 +1279,7 @@ function updateActive(t, b, dt) {
 }
 function autoKeeper(t) {
   const g = t.rods.find(r => r.n === 1);
+  if (!g) return;                                               // a hücum player has no goalie
   g.auto = 0;
   if (!t.keeper || g === t.active) return;
   const b = perceive(KEEPER.react * t.perk.keeperReact);
@@ -1390,7 +1473,7 @@ function stepBall(h) {
     const dx = ball.x - rod.x;
     const fw = footW(rod), ft = footT(rod);
     if (dx > LC + ft + R + 6 || dx < -(LC + ft + R + 6)) continue;
-    const t = teams[rod.team];
+    const t = rod.ctl;
     if (ball.superT > 0 && rod.team !== ball.superTeam && rod.n !== 1) continue;   // a super shot goes straight through
     if (Math.abs(rod.th) >= THETA_C) continue;   // feet raised: the ball rolls underneath
     const landing = !rod.prevColl;               // feet coming down onto the ball
@@ -1410,7 +1493,7 @@ function stepBall(h) {
         if (rod.n === 1 && inbound > 1800 && state === 'play') {   // the goalie stopped a real shot
           stats.saves[t.id]++;
           spkSave(t.id); pushEvent({ k: 'sv', t: t.id });
-          if (t.ai) cpuReact('save');
+          if (t.ai && t.id !== me) cpuReact('save');
         }
       }
     }
@@ -1449,7 +1532,7 @@ function contact(t, jn, fvx) {
 }
 
 function step(h) {
-  for (const t of teams) { stepKick(t, h); stepRods(t, h); }
+  for (const t of ctls) { stepKick(t, h); stepRods(t, h); }
   if (ball.live) stepBall(h);
 }
 
@@ -1567,7 +1650,7 @@ function aiUpdate(t, dt) {
   } else if (S.holdT >= 0) { S.holdT -= dt; if (S.holdT < 0) { t.releaseQ = true; S.cool = L.cool; } }
 
   if (!b.live) { t.desired = 0; return; }
-  if (settings.giantGoalie && state === 'play' && t.giant >= 1 && t.giantT <= 0) {
+  if (settings.giantGoalie && state === 'play' && t.giant >= 1 && t.giantT <= 0 && t.rods.some(r => r.n === 1)) {
     const opp = teams[1 - t.id], oppFwd = opp.rods.find(r => r.n === 3);
     const fo = (b.x - oppFwd.x) * opp.dir;
     const shotComing = b.vx * t.dir < -700 && (t.dir > 0 ? b.x : W - b.x) < 500;
@@ -1603,7 +1686,7 @@ function aiUpdate(t, dt) {
     const catchable = spd < 650 || b.vx * t.dir < 0;          // slow, or rolling onto the foot
     if (ready && catchable && err < 7 && f > -8 && f < 72) {
       S.kickT = randIn(L.kickDelay); S.heel = false;
-      if (settings.superShot && t.skill >= 1 && rod.n === 3) { if (!t.armed) cpuReact('armed'); t.armed = true; }   // saves the super for its forwards
+      if (settings.superShot && t.skill >= 1 && rod.n === 3) { if (!t.armed && t.id !== me) cpuReact('armed'); t.armed = true; }   // saves the super for its forwards
       S.holdDur = randIn(L.charge) * CHARGE_T + .015;
     }
   } else if (f > -SPIN_BACK + 4 && f < -14 && spd < 300) {
@@ -1643,9 +1726,10 @@ function syncInput() {
     for (const k in keyEls) for (const el of keyEls[k]) el.classList.toggle('on', held.has(k));
     return;
   }
-  for (const t of teams) {
+  for (const t of ctls) {
     if (mode === 'online' && t.id !== me) continue;   // the other team's buttons arrive over the network
-    const pre = t.id === BLUE ? 'b-' : 'r-', inp = inputs[t.id];
+    if (pair && t.ai) continue;                       // a computer team-mate shares the blue slot
+    const pre = t.inp ? 'r-' : 'b-', inp = inputs[t.inp];
     const now = { up: held.has(pre + 'up'), down: held.has(pre + 'down'), shoot: held.has(pre + 'shoot'), skill: held.has(pre + 'skill'), giant: held.has(pre + 'giant') };
     if (now.skill && !inp.skill) trySkill(t);
     if (now.giant && !inp.giant) tryGiant(t);
@@ -1663,7 +1747,7 @@ function clearInput() {
   for (const inp of inputs) if (mode !== 'online' || inp === own) inp.up = inp.down = inp.shoot = inp.skill = inp.giant = false;
   if (net.role === 'guest') sendGuestInput(false);
   for (const k in keyEls) for (const el of keyEls[k]) el.classList.remove('on');
-  for (const t of teams) if (!t.ai && t.k.phase === 'windup') t.k.phase = 'recover';
+  for (const t of ctls) if (!t.ai && t.k.phase === 'windup') t.k.phase = 'recover';
 }
 function startGiant(t) {
   t.giant = 0; t.giantT = GIANT.time + t.perk.giantTime;
@@ -1672,11 +1756,13 @@ function startGiant(t) {
   if (mine(t)) vibrate(25);
 }
 function tryGiant(t) {
+  if (pair && t.role === 'att') return;                       // the dev kaleci is the defender's
   if (!settings.giantGoalie || state !== 'play' || paused || t.ai || t.giantT > 0) return;
   if (t.giant >= 1) startGiant(t);
   else Sound.tock(.15);                                       // not charged yet
 }
 function trySkill(t) {
+  if (pair && t.role === 'def') return;                       // the süper şut is the attacker's
   if (!settings.superShot || state !== 'play' || paused || t.ai || t.armed) return;
   if (t.skill >= 1) { t.armed = true; Sound.arm(); }
   else Sound.tock(.15);                                       // not charged yet
@@ -1717,6 +1803,7 @@ KEYMAP.online = KEYMAP.cpu;
 window.addEventListener('keydown', e => {
   if (e.code === 'Escape' && goalsOpen) { closeGoals(); return; }
   if (e.code === 'Escape' && store.open) { closeStore(); return; }
+  if (e.code === 'Escape' && pairOpen) { pairOpen = false; setUI(); return; }
   if (e.code === 'KeyP' || e.code === 'Escape') {
     if (state === 'play') { e.preventDefault(); paused ? resumeGame() : pauseGame(); }
     return;
@@ -1727,13 +1814,13 @@ window.addEventListener('keydown', e => {
     if (!e.repeat) sendEmote(mode === 'duo' && dg[1] === 'Numpad' ? RED : me, +dg[2] - 1);
     return;
   }
-  const k = KEYMAP[mode][e.code];
+  const k = KEYMAP[twoPads() ? 'duo' : mode][e.code];
   if (!k || state !== 'play' || paused) return;
   e.preventDefault();
   if (e.repeat) return;
   kbHeld.add(k); syncInput(); Sound.unlock();
 });
-window.addEventListener('keyup', e => { const k = KEYMAP[mode][e.code]; if (!k) return; kbHeld.delete(k); syncInput(); });
+window.addEventListener('keyup', e => { const k = KEYMAP[twoPads() ? 'duo' : mode][e.code]; if (!k) return; kbHeld.delete(k); syncInput(); });
 
 /* ——— Emotes: a quick word to the other side ———
    💬 opens a tray of eight taunts; the bubble pops up over the sender's end of the table with a little
@@ -2148,6 +2235,8 @@ function spkKickoff() {
   const n = spkName(me), o = spkName(1 - me), T = SPK_NUM[settings.target];
   let line;
   if (cup.active && mode === 'cpu') line = `${cupRule().name}, ${CUP_ROUNDS[prog.cup.round].name}! ${n}, ${LEVEL_NAME[settings.level]} bilgisayara karşı. Başlıyoruz!`;
+  else if (pair) line = pair.role === 'coop' ? `İkiye iki maç! Mavi takımda iki oyuncu yan yana: solda savunma, sağda hücum. ${T} gole kadar!`
+    : `İkiye iki maç! ${n} ${pair.role === 'def' ? 'kalede ve defansta' : 'orta sahada ve forvette'}, takım arkadaşı bilgisayar. Rakip iki ${LEVEL_NAME[settings.level]} oyuncusu!`;
   else if (mode === 'duo') line = spkPick('ko', [`Mavi ile Kırmızı karşı karşıya! ${T} golde biten maç başlıyor.`, `Hoş geldiniz! Mavi ve Kırmızı, ${T} gole kadar. Başlıyoruz!`]);
   else if (mode === 'online') line = spkPick('ko', [`Online maç başlıyor: ${n} ile ${o} karşı karşıya!`, `Hoş geldiniz! ${n} ve ${o}, ${T} gole kadar. Başlıyoruz!`]);
   else line = spkPick('ko', [`Hoş geldiniz! ${n} ile ${o} karşı karşıya. ${T} golde biten maç başlıyor!`, `Maç başlıyor! Rakip ${o}, hedef ${T} gol.`]);
@@ -2197,13 +2286,13 @@ function update(dt) {
     const due = timers.filter(x => x.t <= simT);
     if (due.length) { timers = timers.filter(x => x.t > simT); due.forEach(x => x.fn()); }
   }
-  if (state === 'play') for (const t of teams) {
+  if (state === 'play') for (const t of ctls) {
     if (t.ai) continue;
-    const inp = inputs[t.id];
+    const inp = inputs[t.inp];
     if (!t.together) updateActive(t, ball, dt);
     t.desired = (inp.down ? 1 : 0) - (inp.up ? 1 : 0); t.speedMul = t.perk.rod;
   }
-  for (const t of teams) { if (t.ai) aiUpdate(t, dt); autoKeeper(t); autoLift(t, dt); }
+  for (const t of ctls) { if (t.ai) aiUpdate(t, dt); autoKeeper(t); autoLift(t, dt); }
 
   acc += dt;
   let n = 0;
@@ -2387,7 +2476,7 @@ function layout() {
   stage.style.setProperty('--cs', cs + 'px');
   const pc = getComputedStyle(probe);
   const insL = parseFloat(pc.paddingLeft) || 0, insR = parseFloat(pc.paddingRight) || 0;
-  const resL = insL + 12 + cs + 8, resR = mode === 'duo' ? insR + 12 + cs + 8 : insR + 14 + cs * 1.22 + 8;
+  const resL = insL + 12 + cs + 8, resR = twoPads() ? insR + 12 + cs + 8 : insR + 14 + cs * 1.22 + 8;
   const sH = (SH - 14) / (H + 2 * FR);
   const sW = (SW - resL - resR) / (W + FR * .7);   // controls may overlap the wooden rails a little
   scale = Math.max(.08, Math.min(sH, sW));
@@ -2549,7 +2638,8 @@ const glowOf = rgb => {
 // brass for the single player; team colours when two people share the phone
 const GLOW = { cpu: [glowOf('214,165,72')], duo: [glowOf('121,166,242'), glowOf('242,134,128')] };
 GLOW.online = [GLOW.cpu[0], GLOW.cpu[0]];              // online each screen lights only its own rod
-const ACTIVE_BUMPER = { cpu: ['#d6a548'], duo: ['#79a6f2', '#f28680'], online: ['#d6a548', '#d6a548'] };
+const ACTIVE_BUMPER = { cpu: ['#d6a548'], duo: ['#79a6f2', '#f28680'], online: ['#d6a548', '#d6a548'], coop: ['#d6a548', '#3cc6a6'] };
+GLOW.coop = [GLOW.cpu[0], glowOf('60,198,166')];         // 2v2 on one phone: savunma gold, hücum teal
 const rodGrads = rods.map(r => {
   const g = ctx.createLinearGradient(r.x - 8, 0, r.x + 8, 0);
   g.addColorStop(0, '#3f454b'); g.addColorStop(.3, '#e9eef2'); g.addColorStop(.55, '#9aa2aa'); g.addColorStop(1, '#353a3f');
@@ -2636,10 +2726,10 @@ function render() {
 
   const kits = [lookOf(BLUE).kit, lookOf(RED).kit];
   // the rod under each player's hand
-  const acts = state === 'play' ? teams.filter(t => !t.ai && !t.together && t.active && (mode !== 'online' || t.id === me)).map(t => t.active) : [];
+  const acts = state === 'play' ? ctls.filter(t => !t.ai && !t.together && t.active && (mode !== 'online' || t.id === me)).map(t => t.active) : [];
   for (const a of acts) {
     ctx.save(); ctx.translate(a.x, 0);
-    ctx.fillStyle = GLOW[mode][a.team] || GLOW[mode][0]; ctx.fillRect(-26, -FR - 16, 52, H + 2 * FR + 32);
+    ctx.fillStyle = coop() ? GLOW.coop[a.ctl.inp] : GLOW[mode][a.team] || GLOW[mode][0]; ctx.fillRect(-26, -FR - 16, 52, H + 2 * FR + 32);
     ctx.restore();
   }
   drawBall();
@@ -2654,7 +2744,8 @@ function render() {
   }
   for (const rod of rods) {
     ctx.fillStyle = rodGrads[rod.i]; ctx.fillRect(rod.x - 8, -FR - 16, 16, H + 2 * FR + 32);
-    ctx.fillStyle = acts.includes(rod) ? ACTIVE_BUMPER[mode][rod.team] || ACTIVE_BUMPER[mode][0] : '#1d1a18';
+    ctx.fillStyle = acts.includes(rod) ? (coop() ? ACTIVE_BUMPER.coop[rod.ctl.inp] : ACTIVE_BUMPER[mode][rod.team] || ACTIVE_BUMPER[mode][0])
+      : pair && state === 'play' && !rod.ctl.ai ? (coop() && rod.ctl.inp ? '#1f5a4c' : '#5c4722') : '#1d1a18';     // 2v2: your rods keep a dim mark
     rr(ctx, rod.x - 11, rod.half + rod.p, 22, 9, 3); ctx.fill();
     rr(ctx, rod.x - 11, H - rod.half + rod.p - 9, 22, 9, 3); ctx.fill();
   }
@@ -2705,10 +2796,11 @@ function toast(msg, ms = 1600) {
 }
 function setUI() {
   if (state === 'play') goalsOpen = store.open = false;
-  $('menu').hidden = state !== 'menu' || onlineOpen || goalsOpen || store.open;
+  $('menu').hidden = state !== 'menu' || onlineOpen || goalsOpen || store.open || pairOpen;
   $('goals').hidden = !goalsOpen;
   $('store').hidden = !store.open;
   $('online').hidden = !onlineOpen;
+  $('pairPick').hidden = !pairOpen || state !== 'menu';
   $('over').hidden = state !== 'over' || goalsOpen || store.open;
   if (state !== 'over') card.open = false;
   $('cardView').hidden = !card.open;
@@ -2724,23 +2816,25 @@ function setUI() {
   $('keeperBtn').textContent = settings.autoKeeper ? 'Oto kaleci: açık' : 'Oto kaleci: kapalı';
   $('keeperBtn').disabled = !settings.activeRod;
 }
-const lastP = [-1, -1], lastS = ['', ''], lastG = ['', ''];
+const lastP = {}, lastS = ['', ''], lastG = ['', ''];
 function syncShootRing() {
+  // the charge ring of each hand on this screen: both columns with two people on the phone, else the left one
+  const P = { 'b-': 0, 'r-': 0 };
+  for (const t of ctls) {
+    if (t.ai || state !== 'play' || t.k.phase !== 'windup' || (mode === 'online' && t.id !== me)) continue;
+    P[twoPads() && t.inp ? 'r-' : 'b-'] = Math.round(t.k.charge * 50) / 50;
+  }
+  for (const pre in P) if (P[pre] !== lastP[pre]) { for (const el of keyEls[pre + 'shoot']) el.style.setProperty('--p', P[pre]); lastP[pre] = P[pre]; }
   for (const t of teams) {
-    // this screen's own buttons: both columns in the two-player mode, otherwise the left ones for its team
-    const k = t.k, pre = mode === 'duo' ? (t.id === BLUE ? 'b-' : 'r-') : t.id === me ? 'b-' : 'r-';
-    const p = state === 'play' && !t.ai && k.phase === 'windup' ? Math.round(k.charge * 50) / 50 : 0;
-    if (p !== lastP[t.id]) {
-      for (const el of keyEls[pre + 'shoot']) el.style.setProperty('--p', p);
-      lastP[t.id] = p;
-    }
+    // the team's meters: in 2v2 on one phone, blue's go to both columns (dev left, süper right)
+    const pres = coop() ? (t.id === BLUE ? ['b-', 'r-'] : []) : [mode === 'duo' ? (t.id === BLUE ? 'b-' : 'r-') : t.id === me ? 'b-' : 'r-'];
     // dev kaleci meter; while it runs the ring shows the seconds left
     const gOn = t.giantT > 0, gReady = t.giant >= 1 && !gOn;
     const gm = Math.round((gOn ? Math.min(1, t.giantT / (GIANT.time + t.perk.giantTime)) : t.giant) * 40) / 40;
     const gk = `${gm}|${gReady}|${gOn}`;
     if (gk !== lastG[t.id]) {
       lastG[t.id] = gk;
-      for (const el of keyEls[pre + 'giant']) { el.style.setProperty('--m', gm); el.classList.toggle('ready', gReady); el.classList.toggle('armed', gOn); }
+      for (const pre of pres) for (const el of keyEls[pre + 'giant']) { el.style.setProperty('--m', gm); el.classList.toggle('ready', gReady); el.classList.toggle('armed', gOn); }
       const sh = $(t.id === BLUE ? 'shieldB' : 'shieldR');
       sh.classList.toggle('ready', gReady); sh.classList.toggle('armed', gOn);
     }
@@ -2749,8 +2843,10 @@ function syncShootRing() {
     const sk = `${m}|${ready}|${t.armed}`;
     if (sk === lastS[t.id]) continue;
     lastS[t.id] = sk;
-    for (const el of keyEls[pre + 'skill']) { el.style.setProperty('--m', m); el.classList.toggle('ready', ready); el.classList.toggle('armed', t.armed); }
-    for (const el of keyEls[pre + 'shoot']) el.classList.toggle('armed', t.armed);
+    for (const pre of pres) {
+      for (const el of keyEls[pre + 'skill']) { el.style.setProperty('--m', m); el.classList.toggle('ready', ready); el.classList.toggle('armed', t.armed); }
+      if (!coop() || pre === 'r-') for (const el of keyEls[pre + 'shoot']) el.classList.toggle('armed', t.armed);
+    }
     const bolt = $(t.id === BLUE ? 'boltB' : 'boltR');
     bolt.classList.toggle('ready', ready); bolt.classList.toggle('armed', t.armed);
   }
@@ -2758,7 +2854,7 @@ function syncShootRing() {
 
 /* ——— Flow ——— */
 function resetTable() {
-  for (const t of teams) {
+  for (const t of [...teams, ...UNITS.flat()]) {
     t.desired = 0; t.pressQ = t.releaseQ = false;
     t.active = t.kickRod = t.cand = null; t.candT = 0; t.flow = 0; t.u = t.du = 0; t.skill = 0; t.armed = false; t.giant = 0; t.giantT = 0;
     Object.assign(t.k, { phase: 'idle', th: 0, w: 0, charge: 0 });
@@ -2770,7 +2866,7 @@ function resetTable() {
 }
 // What the player's settings mean for the human teams right now.
 function applyControls() {
-  for (const t of teams) {
+  for (const t of ctls) {
     const human = state === 'play' && !t.ai;
     const together = human && !settings.activeRod;
     if (together && !t.together) {           // keep the rod you were using where it is
@@ -2783,6 +2879,7 @@ function applyControls() {
 }
 function attract() {
   spkHush();
+  if (pair) setPair(null);
   for (const t of teams) t.perk = NO_PERK;
   if (net.role) leaveOnline();
   if (cup.active) { if (state === 'play') cupForfeit(); endCupContext(); }
@@ -2795,8 +2892,9 @@ function attract() {
 }
 function setMode(m) {
   stage.classList.toggle('online', m === 'online');
-  if (m === mode && stage.classList.contains('duo') === (m === 'duo')) return;
-  mode = m; stage.classList.toggle('duo', m === 'duo');
+  const two = m === 'duo' || coop();
+  if (m === mode && stage.classList.contains('duo') === two) return;
+  mode = m; stage.classList.toggle('duo', two);
   layout();
 }
 function startMatch(m) {
@@ -2804,6 +2902,7 @@ function startMatch(m) {
   score[BLUE] = score[RED] = 0;
   state = 'play'; paused = false;
   teams[BLUE].ai = null; teams[RED].ai = mode === 'cpu' ? LEVELS[settings.level] : null;
+  if (pair) setupPair();
   applyTeams();
   resetTable(); clearInput(); applyControls(); renderHud();
   applyPerks();
@@ -2811,7 +2910,7 @@ function startMatch(m) {
   Object.assign(stats, { t0: simT, dur: 0, goals: [], saves: [0, 0], giants: [0, 0], bigSaves: [0, 0] });
   const first = Math.random() < .5 ? BLUE : RED;
   queueServe(first, .9);
-  toast(mode === 'duo' ? `Servis: ${NAMES.duo[first]}` : first === me ? 'Servis sende' : 'Servis rakipte');
+  toast((mode === 'duo' ? `Servis: ${NAMES.duo[first]}` : first === me ? 'Servis sende' : 'Servis rakipte') + (pair ? ' · ' + PAIR_HINT[pair.role] : ''), pair ? 2600 : undefined);
   pushEvent({ k: 'lk', l: [prog.kit, prog.fx, teamWire()] });                 // the host's kit and goal show, for the guest's screen
   pushEvent({ k: 'srv', t: first });
   setUI();
@@ -4116,6 +4215,7 @@ function mergeBoard(list) {
 
 function startCup() {
   if (net.role) return;
+  setPair(null);                                   // the cup is one against one
   rollWeek();
   const c = prog.cup;
   if (!c.inRun) Object.assign(c, { inRun: true, round: 0, pts: 0, won: [], runs: c.runs + 1 });
@@ -4435,8 +4535,8 @@ $('setup').addEventListener('change', e => {
   if (e.target.name === 'giantGoalie') settings.giantGoalie = e.target.checked;
   saveSettings(); syncForm();
 });
-$('setup').addEventListener('submit', e => { e.preventDefault(); startMatch('cpu'); });
-$('duoBtn').addEventListener('click', () => startMatch('duo'));
+$('setup').addEventListener('submit', e => { e.preventDefault(); setPair(null); startMatch('cpu'); });
+$('duoBtn').addEventListener('click', () => { setPair(null); startMatch('duo'); });
 $('pauseBtn').addEventListener('click', pauseGame);
 $('resumeBtn').addEventListener('click', resumeGame);
 $('restartBtn').addEventListener('click', () => startMatch());
@@ -4487,7 +4587,30 @@ const net = { role: null, kind: '', code: '', tr: null, connected: false, lastHe
   events: [], evId: 0, lastEv: 0, sendAcc: 0, inSeq: 0, inKey: '', inT: 0, cnt: { p: 0, s: 0, g: 0 }, seen: { p: 0, s: 0, g: 0, pending: false },
   again: 0, lastAgain: 0, saved: null, forced: null, peerOpts: null, sfxT: {}, waitT: 0, emN: 0, emId: 0, seenEm: 0,
   bdGot: -1, bdAck: -1, brdV: -1, oppLook: null };      // table versions: received from the guest / acknowledged by the host / last sent by the host
-let onlineOpen = false;
+let onlineOpen = false, pairOpen = false;
+// the 2v2 chooser: a little table for each choice, your rods lit
+function pairSvg(role) {
+  const lit = i => { const [team, n] = ROD_SPEC[i]; if (team !== BLUE) return ''; const r = n <= 2 ? 'def' : 'att'; return role === 'coop' ? r : r === role ? 'me' : 'mate'; };
+  let s = `<svg viewBox="-40 -30 1280 740" aria-hidden="true"><rect x="-30" y="-10" width="1260" height="700" rx="34" fill="#6d4a2b"/><rect x="0" y="0" width="1200" height="680" rx="14" fill="#2c7244"/>`
+    + `<rect x="-26" y="${CY - GH}" width="26" height="${2 * GH}" fill="#140f0b"/><rect x="1200" y="${CY - GH}" width="26" height="${2 * GH}" fill="#140f0b"/><line x1="600" y1="0" x2="600" y2="680" stroke="rgba(255,255,255,.35)" stroke-width="5"/>`;
+  ROD_SPEC.forEach(([team, n, sp], i) => {
+    const x = ROD_X[i], l = lit(i), col = { me: '#f3c55a', def: '#f3c55a', att: '#3cc6a6' }[l];
+    if (col) s += `<rect x="${x - 34}" y="-26" width="68" height="732" rx="18" fill="${col}" opacity=".32"/>`;
+    s += `<line x1="${x}" y1="-26" x2="${x}" y2="706" stroke="${col || '#aeb5bb'}" stroke-width="${col ? 13 : 8}"/>`;
+    for (let j = 0; j < n; j++) s += `<circle cx="${x}" cy="${CY + (j - (n - 1) / 2) * sp}" r="27" fill="${team === BLUE ? '#2d6bd2' : '#cf3438'}" stroke="${col || 'rgba(0,0,0,.35)'}" stroke-width="${col ? 9 : 4}" opacity="${l === 'mate' ? .55 : 1}"/>`;
+  });
+  return s + '</svg>';
+}
+for (const b of document.querySelectorAll('.pairopt')) b.insertAdjacentHTML('afterbegin', pairSvg(b.dataset.role));
+$('pairBtn').addEventListener('click', () => { Sound.unlock(); $('pairLvl').textContent = LEVEL_NAME[settings.level]; pairOpen = true; setUI(); document.querySelector('.pairopt').focus({ preventScroll: true }); });
+$('pairBack').addEventListener('click', () => { pairOpen = false; setUI(); });
+document.querySelector('.pairs').addEventListener('click', e => {
+  const b = e.target.closest('.pairopt');
+  if (!b) return;
+  pairOpen = false;
+  setPair({ role: b.dataset.role });
+  startMatch('cpu');
+});
 const r1 = v => Math.round(v * 10) / 10, r2 = v => Math.round(v * 100) / 100, r3 = v => Math.round(v * 1000) / 1000;
 const lerp = (a, b, q) => a + (b - a) * q;
 const lerpAng = (a, b, q) => a + ((b - a + 3 * Math.PI) % (2 * Math.PI) - Math.PI) * q;
@@ -4807,7 +4930,7 @@ function boot(data) {
 }
 
 // handle for experimenting from the console
-window.langirt = { teams, rods, ball, score, settings, update, startMatch, attract, net, hostTable, joinTable, sendEmote, EMOTES, stats, card, cardStory, drawCard, recordMatch, todayQuests, QUESTS, BADGES, BALLS, TABLES, PAL, TEAM_COLORS, CRESTS, resolvePals, teamPal, colorDist, applyTeams, KITS, FXS, ITEMS, BUNDLES, store, openStore, storeBuy, storePick, storeCat, priceOf, bundlePrice, rollDeals, lookOf, spawnFx, particles, pv, drawStatic, startCup, cupRule, weekKey, mergeBoard, boardPayload, RULES, cup, FIREBASE, fb, fbPush, fbFetch, fbOn, renderBoard, spk, say, levelOf, xpOf, renderProfile, skillPoints, perksOf, applyPerks, PERK_NODES, get prog() { return prog; }, get state() { return state; }, get mode() { return mode; }, get me() { return me; } };
+window.langirt = { teams, rods, ball, score, settings, update, startMatch, attract, net, hostTable, joinTable, sendEmote, EMOTES, stats, card, cardStory, drawCard, recordMatch, todayQuests, QUESTS, BADGES, BALLS, TABLES, PAL, TEAM_COLORS, CRESTS, resolvePals, teamPal, colorDist, applyTeams, KITS, FXS, ITEMS, BUNDLES, store, openStore, storeBuy, storePick, storeCat, priceOf, bundlePrice, rollDeals, lookOf, spawnFx, particles, pv, drawStatic, startCup, cupRule, weekKey, mergeBoard, boardPayload, RULES, cup, FIREBASE, fb, fbPush, fbFetch, fbOn, renderBoard, spk, say, levelOf, xpOf, renderProfile, skillPoints, perksOf, applyPerks, PERK_NODES, UNITS, setPair, tryGiant, trySkill, press(k, down) { if (down) kbHeld.add(k); else kbHeld.delete(k); syncInput(); }, get pair() { return pair; }, get ctls() { return ctls; }, get prog() { return prog; }, get state() { return state; }, get mode() { return mode; }, get me() { return me; } };
 
 const hot = window.claude && window.claude.hot;
 if (hot && typeof hot.snapshot === 'function') {

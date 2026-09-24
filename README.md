@@ -319,6 +319,25 @@ Oyun `ceplangirti` Firebase projesine bağlı; aşağıdaki adımlar bu proje i�
 5. **Proje ayarları** (dişli simgesi) → **Genel → Uygulamalarınız** bölümünde web simgesine (`</>`) basıp bir web uygulaması ekle; hosting gerekmez. Çıkan `firebaseConfig` içindeki **apiKey** ve **projectId** değerleri, `index.html` içindeki `FIREBASE` satırına yazılır. Bu değerler her web uygulamasında herkese açıktır, gizli değildir; verileri koruyan 4. adımdaki kurallardır.
 6. İstersen Google Cloud Console'da **API'ler ve Hizmetler → Kimlik bilgileri** bölümünden bu anahtarı yalnızca `https://resat2148-arch.github.io/*` adresinden kullanılacak şekilde (HTTP referrer) kısıtlayabilirsin.
 
+### 2v2 (rol paylaşımı)
+
+Gerçek turnuvalardaki kural: her takımda iki oyuncu vardır ve takımın dört çubuğu ikiye bölünür.
+1. **Savunma:** Kaleci ve 2'li defans çubuğu.
+2. **Hücum:** 5'li orta saha ve 3'lü forvet çubuğu.
+
+Menüdeki **2v2** düğmesi seçim ekranını açar. Her seçeneğin yanında senin çubuklarının parladığı küçük bir masa görünür. Rakip takımda iki bilgisayar oyuncusu vardır; seviyeleri menüde seçili seviyedir.
+- **🛡️ Savunma:** Kaleci ve 2'li defans senin, orta saha ile forveti bilgisayar takım arkadaşın oynar.
+- **⚔️ Hücum:** 5'li orta saha ve 3'lü forvet senin, kaleyi ve defansı bilgisayar takım arkadaşın korur.
+- **👥 İki kişi:** Tek telefonda iki kişi aynı takımda. Soldaki tuşlar savunmayı (sarı), sağdakiler hücumu (turkuaz) yönetir. Klavyede savunma W S Boşluk R, hücum ↑ ↓ Enter O.
+
+Kurallar:
+- Her oyuncu yalnızca kendi iki çubuğunu yönetir. Aktif çubuk açıkken iki çubuğundan topa en uygun olanı parlar. Kapalıyken iki çubuğu birlikte kayar.
+- Senin çubuklarının tamponları maç boyunca hafifçe renkli kalır.
+- Otomatik kaleci savunma oyuncusunun kalecisini izler.
+- **Dev kaleci** savunmacının, **süper şut** hücumcunun düğmesidir. İki kişilik oyunda DEV soldaki, SÜPER sağdaki sütunda durur. Göstergeler takımındır.
+- Bilgisayar takımlarında da iki ayrı oyuncu vardır. Savunmacı kendi çubuklarını, hücumcu kendi çubuklarını hazırlar; bu yüzden iki çubuk aynı anda hareket edebilir.
+- 2v2 maçları bilgisayara karşı maç sayılır: görevler, rozetler, profil ve yetenekler geçerlidir. Rövanş aynı rollerle oynanır; menüdeki "Bilgisayara karşı" yeniden bire bir başlatır. Kupa hep bire birdir.
+
 ### 2 kişi (aynı telefon)
 
 Telefonu yatay olarak ikinizin arasına koyun. Mavi oyuncu sol uçta, kırmızı oyuncu sağ uçta oturur; herkesin kalesi kendi tarafındadır.
