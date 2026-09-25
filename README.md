@@ -57,6 +57,14 @@ Açıkken her an yalnızca bir çubuğunu kontrol edersin: topa en yakın ve top
 - Top yavaşlarken kontrolün iki çubuk arasında gidip gelmemesi için hız eşiklerinin açılma ve kapanma değerleri farklıdır: ileri pas 700 mm/s'de başlar, 350 mm/s'de biter.
 - Bilgisayar da aynı kuralla oynar: o da aynı anda tek çubuğunu yönetir.
 
+### Şans çarkı
+
+Menüde oyunun adının yanındaki **🎡 Çark** düğmesi. Günde bir kez çevrilir; çevirme hazırken düğme parlar ve döner, oyun açıldığında da "Günün şans çarkı hazır!" hatırlatması çıkar.
+- **Ödüller:** Çarkta 8 dilim var: 2, 3, 4, 5, 8, 12 ve 25 yıldız, bir de 🎁 sürpriz eşya. Sürpriz eşya, mağazada henüz sende olmayan, 30 yıldıza kadar bir eşyadır (top, masa, forma, gol şovu ya da avatar). Hepsine sahipsen yerine 15 yıldız gelir. Küçük ödüller sık, büyükleri seyrek çıkar; ortalaması günde yaklaşık 5 yıldızdır.
+- **Seri:** Art arda her gün çevirirsen serin büyür. Serinin her 7. günü **altın çark** gelir: çark altın rengine döner ve yıldız ödülleri iki katına çıkar (25 yıldızlık dilim 50 olur). Bir gün çevirmezsen seri baştan başlar; çark ekranında bunu da söyler. Yedi daire serinin nerede olduğunu gösterir.
+- **Kural:** Gün gece yarısı telefonun saatiyle değişir; çevirdikten sonra düğme yeni çevirmeye ne kadar kaldığını gösterir. Ödül çark dönmeye başladığı anda seçilip kaydedilir, bu yüzden çark dönerken sayfayı kapatmak ödülü kaybettirmez, ikinci bir çevirme de vermez.
+- **Günlük görevlerle birlikte:** Çark, günlük görevlerin (günde en fazla 8 yıldız) yanında ikinci bir günlük yıldız kaynağıdır.
+
 ### Ölü top
 
 - **Eğimler:** Masanın kenarları ve köşeleri hafif eğimlidir; duran top oynanabilecek bir yere yuvarlanır. Kalecinin önündeki köşe eğimleri kalecinin ayağının yetişemediği bölgeyi de kapsar, bu yüzden oradaki top kalecinin önüne döner.
