@@ -269,6 +269,11 @@ Ana menüdeki arma düğmesi (ilk açılışta **🛡️**) mağaza ekranının 
 - **Takım adı** (en çok 14 harf) ve **kısaltma** (3 harf). Kısaltma kendin yazmadıkça addan çıkar: "Sarı Kartallar" → SAR.
 - **Ana renk:** Formanın rengi. 14 renk var: mavi, lacivert, gök mavisi, turkuaz, fıstık yeşili, sarı, turuncu, kırmızı, bordo, mor, pembe, siyah, beyaz, altın.
 - **İkinci renk:** Adamların kafaları ve desen. Çubuklu formada çizgiler, Yıldızlı formada yıldız bu renkte olur.
+- **Figür tasarımları:** Bazı formalar adamların kendisini değiştirir. Hepsi takımın renginde kalır, böylece iki taraf maçta karışmaz.
+  - **Retro:** İnce çizgili eski usul forma, krem yaka ve omuzlar.
+  - **Piksel:** 8-bit oyunlardaki gibi kare piksellerden adamlar; kafada iki piksel göz rakip kaleye bakar.
+  - **Robot:** Teneke kare kafa, rakip kaleye bakan parlayan LED gözler, antenin ucu ve göğüs paneli takım renginde, köşelerde cıvatalar.
+  - **Şövalye:** Çelik miğfer (vizör yarığı öne bakar), takım renginde sorguç; zırhın üstünde takım renginde arma ve ikinci renkte haç.
 - **Desen:** Mağazadan aldığın formalar. Kilitli bir desene dokununca mağazada o forma açılır.
 - **Arma:** 16 simgeden biri. Ana ve ikinci renkle bir kalkanın içinde görünür.
 - Sağdaki önizlemede armanı ve formanı giymiş adamları görürsün. **Varsayılan takıma dön** her şeyi klasik maviye çevirir.
@@ -299,7 +304,7 @@ Satın almak için eşyaya dokunup **Satın al · 12⭐** düğmesine basmak yet
 | --- | --- | --- |
 | ⚽ Top | Klasik (ücretsiz), Turuncu 5, Futbol 12, Neon 20, Altın 35, Ateş topu 60 | Yalnızca sen; online'da her telefon kendi topunu görür |
 | 🟩 Masa | Klasik (ücretsiz), Gece 8, Çim 15, Bordo 30, Buz 50, Altın Salon 90 | Yalnızca sen |
-| 👕 Forma | Klasik (ücretsiz), Çubuklu 6, Yıldızlı 12, Gece 20, Neon 32, Şampiyon 50 | Sen ve online rakibin |
+| 👕 Forma | Klasik (ücretsiz), Çubuklu 6, Yıldızlı 12, Retro 16, Gece 20, Piksel 28, Neon 32, Robot 40, Şampiyon 50, Şövalye 60 | Sen ve online rakibin |
 | 🎆 Gol şovu | Konfeti (ücretsiz), Yıldız yağmuru 8, Kalpler 14, Havai fişek 24, Alev 36, Şimşek 55 | Sen ve online rakibin |
 | 😎 Avatar | 🦄 4, 🥷 6, 🧙 6, 👽 8, 🦖 8, 🐙 10, 👾 10, 🦸 12 | Profil ve menü |
 
