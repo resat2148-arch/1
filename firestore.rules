@@ -1,6 +1,6 @@
 rules_version = '2';
 
-// Cep Langırtı: the world table and private leagues.
+// Cep Langırtı: the world table, private leagues and invites.
 // One document per player per week: weeks/{2026-H39}/players/{uid}, uid = the player's anonymous
 // Firebase account. Anyone may read the table; a player may write only their own document, with
 // sane values, at most every 10 seconds, and a week's points only ever go up.
@@ -113,6 +113,20 @@ service cloud.firestore {
         && d.n is string && d.n.size() >= 1 && d.n.size() <= 14
         && d.t is int && d.u is int && d.x in [0, 1];
     }
+    function refOwner(code) {
+      return signedIn() && get(/databases/$(database)/documents/refs/$(code)).data.u == request.auth.uid;
+    }
+    function validRef() {
+      let d = request.resource.data;
+      return d.keys().hasOnly(['u', 'n', 't']) && d.keys().hasAll(['u', 'n', 't'])
+        && d.u is string && d.n is string && d.n.size() >= 1 && d.n.size() <= 14 && d.t == request.time;
+    }
+    function validJoin() {
+      let d = request.resource.data;
+      return d.keys().hasOnly(['n', 'm', 'r', 't']) && d.keys().hasAll(['n', 'm', 'r', 't'])
+        && d.n is string && d.n.size() >= 1 && d.n.size() <= 14
+        && d.m is int && d.m >= 0 && d.m <= 3 && d.r is bool && d.t is timestamp;
+    }
     function validResult(rid) {
       let d = request.resource.data;
       return rid.matches('^[0-9]{1,3}[.]([a-z0-9]{6,16}[.][a-z0-9]{6,16}[.][12]|k[0-2][.][0-3])$')
@@ -121,6 +135,46 @@ service cloud.firestore {
         && d.a.size() <= 16 && d.b.size() <= 16
         && d.sa is int && d.sa >= 0 && d.sa <= 30 && d.sb is int && d.sb >= 0 && d.sb <= 30
         && d.u is int && d.h in ['on', 'tel'] && d.d is bool;
+    }
+
+    // Invites: refs/{code} belongs to the player who holds the code (their anonymous account in u);
+    // refs/{code}/joins/{uid} is a friend who came with it, refby/{uid} the one code an account came with.
+    // A friend joins once, never their own code, and only raises their own match count (up to 3);
+    // only the code's owner reads the friends and marks one rewarded, once, after 3 matches.
+    match /refs/{code} {
+      allow get: if signedIn();
+      allow list: if false;
+      allow create: if signedIn() && code.matches('^[A-HJ-NP-Z2-9]{6}$') && validRef()
+        && request.resource.data.u == request.auth.uid;
+      allow update: if signedIn() && resource.data.u == request.auth.uid && validRef()
+        && request.resource.data.u == resource.data.u;
+      allow delete: if false;
+
+      match /joins/{uid} {
+        allow get: if signedIn() && (request.auth.uid == uid || refOwner(code));
+        allow list: if refOwner(code);
+        allow create: if signedIn() && request.auth.uid == uid && validJoin()
+          && request.resource.data.r == false && request.resource.data.t == request.time
+          && exists(/databases/$(database)/documents/refs/$(code)) && !refOwner(code)
+          && getAfter(/databases/$(database)/documents/refby/$(uid)).data.c == code;
+        allow update: if signedIn() && validJoin() && (
+          (request.auth.uid == uid && request.resource.data.r == resource.data.r
+            && request.resource.data.m >= resource.data.m && request.resource.data.t == request.time)
+          || (refOwner(code) && resource.data.r == false && request.resource.data.r == true && resource.data.m >= 3
+            && request.resource.data.m == resource.data.m && request.resource.data.n == resource.data.n
+            && request.resource.data.t == resource.data.t));
+        allow delete: if false;
+      }
+    }
+    match /refby/{uid} {
+      allow get: if signedIn() && request.auth.uid == uid;
+      allow list: if false;
+      allow create: if signedIn() && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['c', 't']) && request.resource.data.keys().hasAll(['c', 't'])
+        && request.resource.data.c is string && request.resource.data.c.matches('^[A-HJ-NP-Z2-9]{6}$')
+        && request.resource.data.t == request.time
+        && existsAfter(/databases/$(database)/documents/refs/$(request.resource.data.c)/joins/$(uid));
+      allow update, delete: if false;
     }
 
     match /{document=**} {

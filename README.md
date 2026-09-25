@@ -65,6 +65,16 @@ Menüde oyunun adının yanındaki **🎡 Çark** düğmesi. Günde bir kez çev
 - **Kural:** Gün gece yarısı telefonun saatiyle değişir; çevirdikten sonra düğme yeni çevirmeye ne kadar kaldığını gösterir. Ödül çark dönmeye başladığı anda seçilip kaydedilir, bu yüzden çark dönerken sayfayı kapatmak ödülü kaybettirmez, ikinci bir çevirme de vermez.
 - **Günlük görevlerle birlikte:** Çark, günlük görevlerin (günde en fazla 8 yıldız) yanında ikinci bir günlük yıldız kaynağıdır.
 
+### Arkadaş davet et
+
+Menüde oyunun adının yanındaki **🤝 Davet** düğmesi. Her oyuncunun 6 harfli bir davet kodu vardır (örneğin `EMSZ7A`).
+- **Paylaşma:** **📨 Davet et** telefonun paylaşma menüsünü açar (WhatsApp, e-posta…); yoksa metni kopyalar. Metinde oyunun bağlantısı (`…#davet=KOD`) ve kod vardır. **Kopyala** yalnızca bağlantıyı (bağlantı yoksa kodu) kopyalar.
+- **Gelen arkadaş:** Bağlantıyla açınca davet kendiliğinden alınır; ya da davet ekranındaki kutuya kodu yazar. Hemen **10 ⭐** hoş geldin hediyesi alır ve ekranda kimin davet ettiği görünür. Kod yalnızca yeni oyuncular içindir: ilk 10 maçta, bir kez girilir; kendi kodun girilemez. Bağlantı yokken açılan davet bekletilir, bağlantı gelince alınır.
+- **Davet eden:** Arkadaşın 3 maç oynayınca **20 ⭐** kazanırsın (en fazla 10 arkadaş, yani 200 ⭐). Ödül davet ekranı açılınca ya da oyun açılıp maç bitince kendiliğinden gelir; bir bildirim çıkar ve 🤝 düğmesinde nokta yanar. Listede her arkadaşın kaç maç oynadığı görünür.
+- **Satılmayan ödüller:** İlk arkadaşın 3 maç oynayınca **🤝 Kanka** avatarı, üçüncüsünde **Dostluk** forması (yarısı takım renginde, yarısı ikinci renkte, göğsünde kalp) açılır. Mağazada ve takım editöründe "🤝 1" / "🤝 3" olarak görünür; dokununca davet ekranı açılır.
+- **Nasıl çalışır:** İki telefon hiç karşılaşmadığı için haber Firebase üzerinden gider (`refs/{kod}`, `refs/{kod}/joins/{hesap}`, `refby/{hesap}`). Kurallar (`firestore.rules`) şunları sağlar: bir hesap yalnızca bir davet koduyla gelir; arkadaş yalnızca kendi maç sayısını artırabilir (en fazla 3); arkadaş listesini yalnızca kodun sahibi okur; bir arkadaşı "ödendi" diye yalnızca kodun sahibi, 3 maçtan sonra ve bir kez işaretler. Böylece her ödül bir kez ödenir, oyunu yeniden kursan bile açılan ödüller geri gelir.
+- **Sınırları:** Hesaplar anonim olduğu için biri çok sayıda sahte hesapla kendini davet edebilir; bu yüzden ödüller 10 arkadaşla sınırlı ve yalnızca görünüş açar. Claude'daki test sayfasında paylaşımda bağlantı yerine yalnızca kod gider.
+
 ### Ölü top
 
 - **Eğimler:** Masanın kenarları ve köşeleri hafif eğimlidir; duran top oynanabilecek bir yere yuvarlanır. Kalecinin önündeki köşe eğimleri kalecinin ayağının yetişemediği bölgeyi de kapsar, bu yüzden oradaki top kalecinin önüne döner.
