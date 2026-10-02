@@ -133,6 +133,7 @@ Gerçek langırt masası 1-2-5-3 dizilir: kaleci, 2'li defans, 5'li orta saha, 3
 | **3-5-2** | Orta saha | Kalabalık orta saha, iki forvet. |
 | **5-3-2** | Kale önü | Beşli defans duvarı, iki forvet. |
 | **4-5-1** | Kontra | Kalabalık orta saha, bütün hattı gezen tek forvet. |
+| **1-1-1** | Tek adam | Her çubukta tek oyuncu: kaleci, bir defans, bir orta saha, bir forvet. Rakip de tek adamla oynar (aşağıya bak). |
 
 - **Seçmek:** Menüde gol sayısının yanındaki **diziliş** düğmesi seçim ekranını açar. Her dizilişin yanında takımının küçük bir masa çizimi görünür. Seçimin hatırlanır.
 - **Maç ortasında:** Moladaki **Diziliş** düğmesiyle taktiği değiştirebilirsin. Yeni diziliş hemen sahaya çıkar.
@@ -141,8 +142,12 @@ Gerçek langırt masası 1-2-5-3 dizilir: kaleci, 2'li defans, 5'li orta saha, 3
   - 4 adam: 15,3 cm aralık, ±8,7 cm
   - 3 adam: 20,5 cm aralık, ±11,1 cm
   - 2 adam: 24 cm aralık, ±19,6 cm
-  - Tek forvet: bütün masayı gezer.
+  - Tek adam: bütün masayı gezer (±30 cm) ve 1,8 kat hızlı kayar, çünkü tek başına bütün genişliği kapatması gerekir. Bu, 4-5-1'in tek forveti için de geçerlidir.
 - **Bilgisayar rakip:** Her maça rastgele bir dizilişle çıkar. Maç başındaki yazıda rakibin dizilişi görünür (ör. "rakip 4-3-3").
+- **Tek adam maçı (1-1-1):** Her çubukta tek oyuncu olur; aktif çubukla her an tek bir oyuncuyu yönetirsin. Taraflardan biri tek adamı seçerse iki taraf da tek adamla oynar, çünkü 4 adamla 11 adama karşı oynamak oyun olmaz. Maç başındaki yazıda "tek adam maçı" yazar.
+  - Bilgisayar tek adamı kendi başına hiç seçmez; yalnızca sen seçersen sana uyar. Maç ortasında başka dizilişe geçersen bilgisayar kendi dizilişine döner.
+  - 2 kişilik modda iki taraf da senin seçtiğin dizilişle oynar. Online'da iki oyuncudan biri tek adamı seçince maç tek adamla oynanır, o oyuncu başka dizilişe geçince herkes kendi dizilişine döner. 2v2'de de geçerlidir.
+  - Simülasyonda (bilgisayar–bilgisayar) tek adam maçlarında dakikada yaklaşık 2 gol çıktı; klasik 2-5-3'te 1,85. Hızlı kayma olmadan tek adam topa yetişemiyordu ve gol sayısı 1,7'ye düşüyordu.
 - **2 kişi:** İki takım da seçili dizilişle oynar.
 - **2v2:** Roller aynı kalır. Savunmacı kaleciyle defans çubuğunu, hücumcu orta sahayla forvet çubuğunu yönetir; kaç adam olursa olsun.
 - **Online:** Her oyuncu kendi dizilişiyle çıkar ve iki telefon da iki takımın dizilişini görür. Maç ortasında moladan yapılan değişiklik rakibin ekranına da yansır. 2v2 masada ve turnuvada takımın dizilişini o takımın ilk oyuncusu seçer. Rakip bulunamayınca gelen rakip de kendi dizilişiyle oynar.
