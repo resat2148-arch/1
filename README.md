@@ -81,6 +81,16 @@ Menüde oyunun adının yanındaki **🤝 Davet** düğmesi. Her oyuncunun 6 har
 - **Yeniden servis:** Top durur ve kimse oynamazsa "Ölü top" denir ve servis yeniden atılır. Bekleme süresi topun yerine göre değişir: hiçbir ayağın yetişemediği yerde 2,2 saniye, yalnızca geriye yatan bir ayağın yetişebildiği yerde (bir çubuğun 6–8 cm arkası) 4 saniye, bir ayağın vurabildiği yerde 12 saniye.
 - **Bilgisayar:** Arkasında kalan topu arka vuruşla oynar. Çubuğu sonuna dayandığı için ayağını topla tam hizalayamasa da top ayağının kenarındaysa vurur. Simülasyonda bilgisayar–bilgisayar maçlarında ölü top dakikada 0,6–1,2'den (seviyeye göre) sıfıra indi.
 
+### Tek oyuncu kontrolü
+
+Diziliş ekranının üstündeki **Kontrol** satırından seçilir: **🎚️ Bütün çubuk** (gerçek langırt, varsayılan) ya da **🎯 Tek oyuncu**. Seçim hatırlanır; menüdeki diziliş düğmesinde "tek oyuncu" yazar. Maç ortasında moladan da değiştirilebilir.
+- **Ne değişir:** Takımlar yine 11 kişidir ve dizilişler aynıdır, ama her adam çubuk üzerinde tek başına kayar ve tek başına vurur. ▲/▼ ve ŞUT yalnızca seçili adamı oynatır; diğerleri bıraktığın yerde durur. Seçili adamın etrafında altın bir halka vardır.
+- **Bölgeler:** Her adamın kendi bölgesi vardır ve kimse yanındakinin bölgesine giremez. Bölge, komşusuyla arasındaki ortaya kadar uzanır (iki adamın ayakları sınırda değebilir ama birbirinin içine geçmez); kenardaki adamlar duvara kadar gider. 2-5-3'te örneğin 5'li orta sahanın ortadaki üç adamı ±4,6 cm, kenardakiler 12 cm'lik bir şeritte kayar; 2'li defansın her adamı masanın yarısını kapatır.
+- **Seçim:** Topa en yakın adam (gelen topta topun geçeceği yerdeki adam) kendiliğinden seçilir. Top iki adamın sınırındaysa ve seçili adam hâlâ ona uzanabiliyorsa seçim değişmez, böylece kontrol titremez.
+- **İstediğin adamı seçmek:** Masada kendi adamlarından birine dokun. O adam, oyun başka bir çubuğa geçene kadar senin kalır; oyun dokunduğun adamın çubuğuna gelirse onu oynamaya devam edersin. Vuruş sürerken dokunursan seçim vuruş bitince geçer. Bütün çubuk kontrolünde de dokunarak çubuk seçebilirsin.
+- **Kimler:** Seçim maçın tamamına uygulanır: bilgisayar da, 2 kişilik modda iki oyuncu da, 2v2'de dört oyuncu da tek oyuncu oynar. Online'da masayı kuranın seçimi geçerlidir; misafirin dokunarak seçtiği adam masayı kurana iletilir. "Aktif çubuk: kapalı" (bütün çubuklar birlikte) tek oyuncuda kullanılmaz.
+- **Simülasyon:** Bilgisayar–bilgisayar maçlarında tek oyuncuda dakikada 1,5 gol çıktı (bütün çubukta 2,1); acemi 1,2, usta 2,7. Ölü top neredeyse hiç olmadı (usta: 18 dakikada 1).
+
 ### Otomatik kaleci
 
 Kontrol başka bir çubuktayken kalecin topu kendiliğinden izler. Böylece sert bir şutta kontrol kaleciye geçtiğinde kaleci boş kalenin kenarında beklemiyor olur. Yardım bilerek sınırlı tutuldu:
